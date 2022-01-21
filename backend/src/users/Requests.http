@@ -1,0 +1,5 @@
+### Ping
+GET http://localhost:3000/users/ping
+
+### Create User
+GET http://localhost:3000/users/create
