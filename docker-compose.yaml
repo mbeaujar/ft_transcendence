@@ -1,0 +1,44 @@
+version: "3"
+
+# postgres: https://geshan.com.np/blog/2021/12/docker-postgres/
+
+networks:
+  frontend:
+  backend:
+
+services: 
+  db:
+    image: postgres:alpine3.15
+    container_name: database
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+    restart: always
+    env_file: .env
+  
+  api:
+    build: ./backend
+    image: backend:v1.0.0
+    container_name: backend
+    ports:
+      - 3000:3000
+    networks: 
+      - backend
+      - frontend
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+
+  app:
+    build: ./frontend
+    image: frontend:v1.0.0
+    container_name: frontend
+    ports:
+      - 8000:8000
+    networks:
+      - frontend
+    restart: always
+    depends_on:
+      - api
