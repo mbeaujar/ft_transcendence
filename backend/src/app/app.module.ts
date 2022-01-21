@@ -6,9 +6,11 @@ import { User } from 'src/users/user.entity';
 
 @Module({
   imports: [
+    /** Setup .env */
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    /** Setup ormconfig.js */
     TypeOrmModule.forRoot(),
     UsersModule,
   ],
