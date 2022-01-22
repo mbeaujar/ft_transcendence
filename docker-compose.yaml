@@ -1,0 +1,50 @@
+version: "3.5"
+
+# postgres: https://geshan.com.np/blog/2021/12/docker-postgres/
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+services: 
+  db:
+    image: postgres:alpine3.15
+    container_name: database
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+    restart: always
+    env_file: .env
+  
+  api:
+    build: ./backend
+    image: backend:v1.0.0
+    container_name: backend
+    volumes:
+      - ./backend:/api
+    ports:
+      - 3000:3000
+    networks: 
+      - backend
+      - frontend
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+
+  app:
+    build: ./frontend
+    image: frontend:v1.0.0
+    container_name: frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 8080:8080
+    networks:
+      - frontend
+    restart: always
+    depends_on:
+      - api
