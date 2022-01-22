@@ -2,8 +2,8 @@ FROM node:alpine3.15
 
 WORKDIR /app
 
+ENV PORT 8080
 EXPOSE 8080
 
-# start app
-# ENTRYPOINT npm ci && npm run start
-ENTRYPOINT sh
+# Download nodes_modules + start 
+ENTRYPOINT npm ci && npm run start
