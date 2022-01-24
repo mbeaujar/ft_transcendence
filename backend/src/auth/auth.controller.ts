@@ -3,30 +3,25 @@ import { FtAuthGuard } from './guards/ft-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { Request } from 'express';
 
-@Controller('login')
+@Controller('api/auth')
 export class AuthController {
-  @Get('42')
+  @Get('login')
   @UseGuards(FtAuthGuard)
-  ftAuth() {
+  login() {
     return;
   }
 
-  @Get('42/return')
+  @Get('login/callback')
   @UseGuards(FtAuthGuard)
   @Redirect('/')
-  ftAuthCallback() {
+  loginCallback() {
     return;
-  }
-
-  @Get('logout')
-  @Redirect('/login/42/profile')
-  logout(@Req() req: Request) {
-    req.logOut();
   }
 
   @UseGuards(AuthenticatedGuard)
-  @Get('42/profile')
-  getprofile() {
-    return 'hello';
+  @Get('logout')
+  @Redirect('/')
+  logout(@Req() req: Request) {
+    req.logOut();
   }
 }
