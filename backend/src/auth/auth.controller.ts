@@ -1,22 +1,27 @@
 import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
 import { FtAuthGuard } from './guards/ft-auth.guard';
+import { AuthService } from './auth.service';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('/api/auth/42')
 export class AuthController {
+  constructor(private authService: AuthService) {}
+
   @UseGuards(FtAuthGuard)
   @Post('/login')
-  login(@Request() req): any {
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
+
+  @UseGuards(FtAuthGuard)
+  @Get('/callback')
+  callback(@Request() req) {
     return req.user;
   }
 
-  @Get('/callback')
-  callback(): string {
-    return 'Hello';
-  }
-
-  @Get('/protect')
-  checkIfProtect(@Request() req): string {
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  getProfile(@Request() req) {
     return req.user;
   }
 }

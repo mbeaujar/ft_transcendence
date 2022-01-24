@@ -10,13 +10,11 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
       clientID: configService.get<string>('FT_CLIENT_ID'),
       clientSecret: configService.get<string>('FT_CLIENT_SECRET'),
       callbackURL: 'http://127.0.0.1:3000/api/auth/42/callback',
-      passReqToCallback: true,
     });
   }
 
   /** Call when the user callback on the url in the constructor */
   async validate(
-    request: { session: { accessToken: string } },
     accessToken: string,
     refreshToken: string,
     profile: Profile,
