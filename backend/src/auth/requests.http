@@ -1,0 +1,11 @@
+### login
+POST http://localhost:3000/api/auth/42/login
+Content-Type: application/json
+
+{
+	"username": "mael",
+	"password": "123"
+}
+
+### Get protected
+GET http://localhost:3000/api/auth/42/protected
