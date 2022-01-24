@@ -9,7 +9,7 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
     super({
       clientID: configService.get<string>('FT_CLIENT_ID'),
       clientSecret: configService.get<string>('FT_CLIENT_SECRET'),
-      callbackURL: '/api/auth/login/callback',
+      callbackURL: '/auth/login/callback',
       passReqToCallback: true,
     });
   }

@@ -3,7 +3,7 @@ import { FtAuthGuard } from './guards/ft-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { Request } from 'express';
 
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   @Get('login')
   @UseGuards(FtAuthGuard)
@@ -23,5 +23,11 @@ export class AuthController {
   @Redirect('/')
   logout(@Req() req: Request) {
     req.logOut();
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Get('protect')
+  protect() {
+    return 'helklo';
   }
 }

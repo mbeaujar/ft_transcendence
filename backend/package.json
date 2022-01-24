@@ -30,6 +30,7 @@
 		"@nestjs/platform-express": "^8.0.0",
 		"@nestjs/swagger": "^5.1.5",
 		"@nestjs/typeorm": "^8.0.3",
+		"connect-typeorm": "^1.1.4",
 		"cross-env": "^7.0.3",
 		"express-session": "^1.17.2",
 		"passport": "^0.5.2",
