@@ -5,6 +5,7 @@ import { Request } from 'express';
 
 @Controller('api/auth')
 export class AuthController {
+
   @Get('login')
   @UseGuards(FtAuthGuard)
   login() {

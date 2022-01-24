@@ -16,7 +16,6 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
 
   /** Call when the user callback on the url in the constructor */
   async validate(
-    request: { session: { accessToken: string } },
     accessToken: string,
     refreshToken: string,
     profile: Profile,
