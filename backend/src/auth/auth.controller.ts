@@ -1,25 +1,22 @@
 import { Controller, Get, Post, UseGuards, Request } from '@nestjs/common';
-import { AuthenticatedGuard } from './guards/authenticated.guard';
+// import { AuthGuard } from '@nestjs/passport';
 import { FtAuthGuard } from './guards/ft-auth.guard';
 
-@Controller('/api/auth')
+@Controller('/api/auth/42')
 export class AuthController {
   @UseGuards(FtAuthGuard)
-  @Post('42/login')
-  login(@Request() req: any): any {
+  @Post('/login')
+  login(@Request() req): any {
     return req.user;
   }
 
-  // Redirect to main page
-  @UseGuards(FtAuthGuard)
-  @Get('42/callback')
+  @Get('/callback')
   callback(): string {
     return 'Hello';
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @Get('42/protected')
-  getHello(@Request() req: any): string {
+  @Get('/protect')
+  checkIfProtect(@Request() req): string {
     return req.user;
   }
 }

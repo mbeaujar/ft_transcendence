@@ -5,10 +5,9 @@ import { UsersService } from '../users/users.service';
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
-    // Todo: Hash password
-    if (user && user.password === password) {
+    if (user && user.password === pass) {
       const { password, ...result } = user;
       return result;
     }
