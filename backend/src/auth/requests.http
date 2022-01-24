@@ -1,5 +1,5 @@
 ### login
-POST http://localhost:3000/api/auth/42/login
+POST http://localhost:3000/login/42
 Content-Type: application/json
 
 {
@@ -7,5 +7,5 @@ Content-Type: application/json
 	"password": "123"
 }
 
-### try to access route without be log
-GET http://localhost:3000/api/auth/42/protect
+### access profile
+GET http://localhost:3000/api/auth/42/profile

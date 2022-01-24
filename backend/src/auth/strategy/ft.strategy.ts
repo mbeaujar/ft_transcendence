@@ -9,7 +9,7 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
     super({
       clientID: configService.get<string>('FT_CLIENT_ID'),
       clientSecret: configService.get<string>('FT_CLIENT_SECRET'),
-      callbackURL: 'http://127.0.0.1:3000/api/auth/42/callback',
+      callbackURL: '/login/42/return',
       passReqToCallback: true,
     });
   }
@@ -22,6 +22,7 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
     profile: Profile,
     cb: VerifyCallback,
   ): Promise<any> {
+    request.session.accessToken = accessToken;
     return cb(null, profile);
   }
 }
