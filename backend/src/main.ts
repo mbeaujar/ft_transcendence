@@ -11,7 +11,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: '*',
+    origin: true,
     credentials: true,
   });
 
@@ -23,7 +23,7 @@ async function bootstrap() {
       app,
       new DocumentBuilder()
         .setTitle('ft_transcendence')
-        .setDescription('ft_transcendence REST API Documentation')
+        .setDescription('REST API Documentation')
         .setVersion('1.0')
         .build(),
     ),
