@@ -1,18 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from 'src/users/user.entity';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from 'src/auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
-    /** Setup .env */
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    /** Setup ormconfig.js */
     TypeOrmModule.forRoot(),
-    UsersModule,
+    PassportModule.register({ session: true }),
+    AuthModule,
   ],
 })
 export class AppModule {}
