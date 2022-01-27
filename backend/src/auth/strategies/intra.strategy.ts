@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { UserDto } from 'src/users/dtos/user.dto';
 
 @Injectable()
-export class IntraStrategy extends PassportStrategy(Strategy) {
+export class IntraStrategy extends PassportStrategy(Strategy, '42') {
   constructor(private authService: AuthService) {
     super({
       clientID: process.env.INTRA_UID,
@@ -18,7 +18,7 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
   async validate(accesToken: string, refreshToken: string, profile: Profile) {
     const user: UserDto = {
       username: profile.username,
-      userId: profile.id,
+      id: profile.id,
       avatar: profile.photos[0].value,
     };
     return this.authService.validateUser(user);

@@ -1,16 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
-
-  @Column({ unique: true })
-  userId: number;
 
   @Column()
   username: string;
 
   @Column()
   avatar: string;
+
+  @Column()
+  friends: number[];
 }

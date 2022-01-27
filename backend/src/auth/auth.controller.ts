@@ -2,12 +2,13 @@ import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { UserDto } from 'src/users/dtos/user.dto';
+import { User } from 'src/users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Intra42 } from './decorators/intra42.decorator';
 
-const mainPage = 'http://localhost:8080';
+export const mainPage = 'http://localhost:8080';
 
 @ApiBasicAuth()
 @ApiTags('Auth')
@@ -25,13 +26,13 @@ export class AuthController {
   @Get('redirect')
   redirect(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
     this.authService.setCookie(res, req);
-    res.status(302).redirect(mainPage);
+    res.redirect(mainPage);
   }
 
   @ApiOperation({ summary: 'Profile of the user authenticated' })
   @Auth()
   @Get('status')
-  status(@CurrentUser() user: UserDto) {
+  status(@CurrentUser() user: User) {
     return user;
   }
 
@@ -40,7 +41,7 @@ export class AuthController {
   @Get('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
-    res.status(302).redirect(mainPage);
+    res.redirect(mainPage);
   }
 }
 

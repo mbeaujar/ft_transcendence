@@ -12,7 +12,7 @@ export class AuthService {
   ) {}
 
   async validateUser(userDetails: UserDto): Promise<UserDto> {
-    const user = await this.usersService.findUser(userDetails.userId);
+    const user = await this.usersService.findUser(userDetails.id);
     if (!user) {
       return await this.usersService.createUser(userDetails);
     }
@@ -20,13 +20,14 @@ export class AuthService {
   }
 
   setCookie(res: Response, req: any) {
-    const payload = { username: req.user.username, sub: req.user.userId };
-    res.cookie('access_token', this.jwtService.sign(payload), {
-      httpOnly: false,
+    const payload = { username: req.user.username, sub: req.user.id };
+    const access_token = this.jwtService.sign(payload);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
     });
   }
 
-  async findUser(userId: number): Promise<UserDto | undefined> {
-    return this.usersService.findUser(userId);
+  async findUser(id: number): Promise<UserDto | undefined> {
+    return this.usersService.findUser(id);
   }
 }
