@@ -19,12 +19,15 @@ export class AuthController {
   @ApiOperation({ summary: 'Login using 42Api' })
   @Intra42()
   @Get('login')
-  login() {}
+  login(): void {}
 
   @ApiOperation({ summary: 'Redirect to main page' })
   @Intra42()
   @Get('redirect')
-  redirect(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
+  redirect(
+    @Res({ passthrough: true }) res: Response,
+    @Req() req: Request,
+  ): void {
     this.authService.setCookie(res, req);
     res.redirect(mainPage);
   }
@@ -32,7 +35,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Profile of the user authenticated' })
   @Auth()
   @Get('status')
-  status(@CurrentUser() user: User) {
+  status(@CurrentUser() user: User): User {
     return user;
   }
 

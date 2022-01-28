@@ -8,21 +8,21 @@ import { User } from './entities/user.entity';
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  async findUser(id: number) {
+  async findUser(id: number): Promise<User> {
     return this.repo.findOne({ id });
   }
 
-  async createUser(userDetails: UserDto) {
-    const user = this.repo.create({ ...userDetails, friends: [] });
+  async createUser(userDetails: UserDto): Promise<User> {
+    const user = this.repo.create(userDetails);
     return this.repo.save(user);
   }
 
-  async updateUser(user: User, attrs: Partial<User>) {
+  async updateUser(user: User, attrs: Partial<User>): Promise<User> {
     Object.assign(user, attrs);
     return this.repo.save(user);
   }
 
-  async deleteUser(user: User) {
+  async deleteUser(user: User): Promise<void> {
     await this.repo.delete({ id: user.id });
   }
 }

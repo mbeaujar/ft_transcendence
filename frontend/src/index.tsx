@@ -18,13 +18,38 @@ const Button = (props: any) => {
   );
 };
 
+// `/users/${searchUser}`
+
+const Input = (props: any) => {
+  const [searchUser, setSearchUser] = useState<string>('');
+
+  return (
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        apiAxios
+          .get(`${props.url}/${searchUser}`)
+          .then(response => console.log(response.data))
+          .catch(reject => console.log('Error:', reject));
+        setSearchUser('');
+      }}
+    >
+      <label>{props.label}: </label>
+      <input
+        type="text"
+        value={searchUser}
+        onChange={e => setSearchUser(e.target.value)}
+      />
+    </form>
+  );
+};
+
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<any>(null);
-  const [searchUser, setSearchUser] = useState<string>('');
   const [friends, setFriends] = useState<any>(null);
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {user != null ? (
         <div
           style={{
@@ -74,9 +99,9 @@ const App: React.FC = (): JSX.Element => {
           text="FRIENDS"
           onClick={() => {
             apiAxios
-              .get('/users/add', { withCredentials: true })
+              .get('/friends/all', { withCredentials: true })
               .then(response => {
-                console.log(response);
+                console.log(response.data);
                 // setFriends(response.data);
               })
               .catch(reject => {
@@ -93,22 +118,17 @@ const App: React.FC = (): JSX.Element => {
               .catch(reject => console.log(reject));
           }}
         />
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            apiAxios
-              .get(`/users/${searchUser}`)
-              .then(response => console.log(response.data))
-              .catch(reject => console.log('Error find user:', reject));
-            setSearchUser('');
-          }}
-        >
-          <input
-            type="text"
-            value={searchUser}
-            onChange={e => setSearchUser(e.target.value)}
-          />
-        </form>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          gap: 10,
+        }}
+      >
+        <Input label="users" url="/users" />
+        <Input label="friends" url="/friends/add" />
       </div>
     </div>
   );

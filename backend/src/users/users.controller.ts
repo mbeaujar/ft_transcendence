@@ -1,12 +1,19 @@
-import { Controller, Delete, Get, Param, Res } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Res,
+} from '@nestjs/common';
+import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { FriendsService } from 'src/friends/friends.service';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
+@ApiBasicAuth()
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
@@ -18,7 +25,7 @@ export class UsersController {
   async deleteUser(
     @CurrentUser() user: User,
     @Res({ passthrough: true }) res: Response,
-  ) {
+  ): Promise<void> {
     await this.usersService.deleteUser(user);
     res.clearCookie('access_token');
   }
@@ -26,7 +33,11 @@ export class UsersController {
   @Auth()
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
-  findUser(@Param('id') id: string) {
-    return this.usersService.findUser(parseInt(id));
+  async findUser(@Param('id') id: string): Promise<User> {
+    const user = await this.usersService.findUser(parseInt(id));
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    return user;
   }
 }

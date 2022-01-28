@@ -24,6 +24,7 @@ import { UsersModule } from 'src/users/users.module';
     //   inject: [ConfigService],
     // }),
     AuthModule,
+    FriendsModule,
   ],
   // providers: [JwtStrategy],
 })

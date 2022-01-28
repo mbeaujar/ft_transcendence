@@ -19,7 +19,4 @@ export class User {
 
   @Column()
   avatar: string;
-
-  @Column()
-  friends: number[];
 }
