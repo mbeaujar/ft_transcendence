@@ -1,19 +1,9 @@
 import { User } from 'src/users/entities/user.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Friends {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
 
   @ManyToMany(() => User, (friend) => friend.friendsReverse, { eager: true })

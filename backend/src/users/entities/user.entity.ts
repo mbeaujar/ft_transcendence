@@ -23,8 +23,8 @@ export class User {
   @Column()
   avatar: string;
 
-  @Column({ default: 0 })
-  friendsId: number;
+  // @Column({ default: 0 })
+  // friendsId: number;
 
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];

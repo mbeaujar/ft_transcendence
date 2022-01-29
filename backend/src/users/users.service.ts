@@ -23,12 +23,12 @@ export class UsersService {
    * @returns Promise<User>
    */
   async createUser(userDetails: UserDto): Promise<User> {
-    const friends = this.friendsRepo.create({ friends: [] });
-    const userFriends = await this.friendsRepo.save(friends);
-    const user = this.usersRepo.create({
-      ...userDetails,
-      friendsId: userFriends.id,
+    const friends = this.friendsRepo.create({
+      id: userDetails.id,
+      friends: [],
     });
+    await this.friendsRepo.save(friends);
+    const user = this.usersRepo.create(userDetails);
     return this.usersRepo.save(user);
   }
 

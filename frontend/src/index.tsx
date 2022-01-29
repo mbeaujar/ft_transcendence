@@ -47,6 +47,7 @@ const Input = (props: any) => {
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<any>(null);
   const [friends, setFriends] = useState<any>(null);
+  const [deleteUser, setDeleteUser] = useState<string>('');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -134,6 +135,23 @@ const App: React.FC = (): JSX.Element => {
       >
         <Input label="users" url="/users" />
         <Input label="friends" url="/friends/add" />
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            apiAxios
+              .delete(`/friends/${deleteUser}`)
+              .then(response => console.log(response.data))
+              .catch(reject => console.log(reject));
+            setDeleteUser('');
+          }}
+        >
+          <label>Delete friends: </label>
+          <input
+            type="text"
+            value={deleteUser}
+            onChange={e => setDeleteUser(e.target.value)}
+          />
+        </form>
       </div>
     </div>
   );

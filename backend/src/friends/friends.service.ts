@@ -26,8 +26,27 @@ export class FriendsService {
     @InjectRepository(User) private usersRepo: Repository<User>,
   ) {}
 
-  async deleteFriendship(user: User, target: number) {
-    // const friends = await this.friendsRepo.findOne({ id: user.friendsId });
+  async getFriendsRequest(id: number): Promise<FriendsRequest[]> {
+    return this.friendsRequestRepo.find({ target: id });
+  }
+
+  RemoveFriendOnFriendsList(user: Friends, target: number): void {
+    for (let i = 0; user.friends && i < user.friends.length; i++) {
+      if (user.friends[i].id === target) {
+        user.friends.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  /** No check it can be called if users are not friends */
+  async deleteFriendship(user: User, target: number): Promise<Friends> {
+    const friendsUser = await this.friendsRepo.findOne({ id: user.id });
+    const friendsTarget = await this.friendsRepo.findOne({ id: target });
+    this.RemoveFriendOnFriendsList(friendsUser, target);
+    this.RemoveFriendOnFriendsList(friendsTarget, user.id);
+    await this.friendsRepo.save(friendsTarget);
+    return this.friendsRepo.save(friendsUser);
   }
 
   async getFriendsList(id: number): Promise<Friends> {
@@ -43,7 +62,7 @@ export class FriendsService {
     return false;
   }
 
-  async addFriendOnList(user: Friends, target: User) {
+  async addFriendOnList(user: Friends, target: User): Promise<Friends> {
     if (!user) {
       throw new NotFoundException('Friends table for user not found');
     }
@@ -60,9 +79,8 @@ export class FriendsService {
     user: User,
     target: number,
   ): Promise<FriendsRequest | Friends> {
-    // Check if he is not already on Friends list
     const friendsUser = await this.friendsRepo.findOne({
-      id: user.friendsId,
+      id: user.id,
     });
     if (this.isAlreadyOnFriendList(friendsUser, target) === true) {
       throw new BadRequestException('Friends already exist on friends list');
@@ -90,7 +108,7 @@ export class FriendsService {
 
         const targetUser = await this.usersRepo.findOne({ id: target });
         const friendsTarget = await this.friendsRepo.findOne({
-          id: targetUser.friendsId,
+          id: targetUser.id,
         });
 
         await this.addFriendOnList(friendsTarget, user);
