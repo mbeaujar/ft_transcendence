@@ -42,7 +42,11 @@ export class AuthController {
   @ApiOperation({ summary: 'Logout of 42Api' })
   @Auth()
   @Get('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
+  async logout(
+    @Res({ passthrough: true }) res: Response,
+    @CurrentUser() user: User,
+  ) {
+    await this.authService.logout(user);
     res.clearCookie('access_token');
     res.redirect(mainPage);
   }

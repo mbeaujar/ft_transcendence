@@ -11,6 +11,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum State {
+  online,
+  offline,
+  inGame,
+}
+
 @Entity()
 export class User {
   /** id Api42 */
@@ -23,8 +29,8 @@ export class User {
   @Column()
   avatar: string;
 
-  // @Column({ default: 0 })
-  // friendsId: number;
+  @Column({ default: State.online })
+  state: State;
 
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];

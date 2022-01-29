@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { identity } from 'rxjs';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { FriendsRequest } from './entities/friends-request.entity';
@@ -63,9 +62,6 @@ export class FriendsService {
   }
 
   async addFriendOnList(user: Friends, target: User): Promise<Friends> {
-    if (!user) {
-      throw new NotFoundException('Friends table for user not found');
-    }
     if (!user.friends) {
       throw new InternalServerErrorException(
         "Array friends in friends table doesn't exist",
@@ -75,26 +71,44 @@ export class FriendsService {
     return this.friendsRepo.save(user);
   }
 
+  async findFriends(id: number) {
+    const friends = await this.friendsRepo.findOne({ id });
+    if (!friends) {
+      throw new NotFoundException('Friends table for user not found');
+    }
+    return friends;
+  }
+
+  async findFriendsRequest(user: number, target: number) {
+    return this.friendsRequestRepo.findOne({
+      user,
+      target,
+    });
+  }
+
   async createFriendRequest(
     user: User,
     target: number,
   ): Promise<FriendsRequest | Friends> {
-    const friendsUser = await this.friendsRepo.findOne({
-      id: user.id,
-    });
+    if (user.id === target) {
+      throw new BadRequestException("can't add yourself");
+    }
+    const friendsUser = await this.findFriends(user.id);
+    const targetUser = await this.usersRepo.findOne({ id: target });
+
+    if (!targetUser) {
+      throw new NotFoundException('user not found');
+    }
+
     if (this.isAlreadyOnFriendList(friendsUser, target) === true) {
       throw new BadRequestException('Friends already exist on friends list');
     }
-    const requestExist = await this.friendsRequestRepo.findOne({
-      user: user.id,
-      target,
-    });
+    const requestExist = await this.findFriendsRequest(user.id, target);
+
     if (!requestExist) {
       /** friends request doesn't exist */
-      const targetRequest = await this.friendsRequestRepo.findOne({
-        user: target,
-        target: user.id,
-      });
+      const targetRequest = await this.findFriendsRequest(target, user.id);
+
       if (!targetRequest) {
         /** target did not send us a friend request */
         const request = this.friendsRequestRepo.create({
@@ -105,11 +119,7 @@ export class FriendsService {
       } else {
         /** tagret has already sent a friend request -> create friendship */
         await this.friendsRequestRepo.delete({ user: target, target: user.id }); // delete tagret request
-
-        const targetUser = await this.usersRepo.findOne({ id: target });
-        const friendsTarget = await this.friendsRepo.findOne({
-          id: targetUser.id,
-        });
+        const friendsTarget = await this.findFriends(target);
 
         await this.addFriendOnList(friendsTarget, user);
         return this.addFriendOnList(friendsUser, targetUser);

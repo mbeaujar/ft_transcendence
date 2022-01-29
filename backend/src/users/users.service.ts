@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from './dtos/user.dto';
-import { User } from './entities/user.entity';
+import { User, State } from './entities/user.entity';
 import { Friends } from 'src/friends/entities/friends.entity';
 
 @Injectable()
@@ -39,5 +39,15 @@ export class UsersService {
 
   async deleteUser(user: User): Promise<void> {
     await this.usersRepo.delete({ id: user.id });
+  }
+
+  async login(user: User): Promise<User> {
+    user.state = State.online;
+    return this.usersRepo.save(user);
+  }
+
+  async logout(user: User): Promise<User> {
+    user.state = State.offline;
+    return this.usersRepo.save(user);
   }
 }
