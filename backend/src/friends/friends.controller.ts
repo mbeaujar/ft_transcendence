@@ -1,4 +1,10 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
@@ -12,24 +18,20 @@ export class FriendsController {
   constructor(private friendsService: FriendsService) {}
 
   @Auth()
-  @ApiOperation({ summary: 'send friends request' })
+  @ApiOperation({ summary: 'Send a friend request' })
   @Get('/add/:id')
   async addFriends(@Param('id') id: string, @CurrentUser() user: User) {
-    return this.friendsService.sendFriendsRequest(user, parseInt(id));
+    return this.friendsService.createFriendRequest(user, parseInt(id));
   }
 
   @Auth()
-  @ApiOperation({ summary: 'Delete friends or friends request' })
-  @Delete('/:id')
-  async deleteFriends(@Param('id') id: string, @CurrentUser() user: User) {
-    return this.friendsService.deleteTicket(user.id, parseInt(id));
-  }
-
-  @Auth()
-  @ApiOperation({ summary: 'Friends list' })
+  @ApiOperation({ summary: 'list of friends' })
   @Get('/all')
   async getAllFriends(@CurrentUser() user: User) {
-    const list = await this.friendsService.getAllFriends(user);
-    return list;
+    return this.friendsService.getFriendsList(user.friendsId);
   }
+
+  @Auth()
+  @Delete('/:id')
+  async deleteFriendship(@Param('id') id: string, @CurrentUser() user: User) {}
 }

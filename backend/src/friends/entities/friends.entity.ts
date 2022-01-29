@@ -1,13 +1,22 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
-export class FriendsTicket {
+export class Friends {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  ownerId: number;
-
-  @Column()
-  cibleId: number;
+  @ManyToMany(() => User, (friend) => friend.friendsReverse, { eager: true })
+  @JoinTable()
+  friends: User[];
 }

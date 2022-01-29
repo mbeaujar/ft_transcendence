@@ -5,11 +5,13 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { forwardRef } from '@nestjs/common';
-import { FriendsModule } from 'src/friends/friends.module';
-import { FriendsService } from 'src/friends/friends.service';
+import { Friends } from 'src/friends/entities/friends.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
+  imports: [
+    TypeOrmModule.forFeature([User, Friends]),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService],

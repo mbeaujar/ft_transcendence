@@ -50,6 +50,11 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div>
+        mael: 74632
+        <br />
+        ramzi: 74728
+      </div>
       {user != null ? (
         <div
           style={{
