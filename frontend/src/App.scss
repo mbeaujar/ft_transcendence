@@ -1,3 +1,5 @@
+@import 'utils.scss';
+
 .App {
   text-align: center;
 }
@@ -14,7 +16,7 @@
 }
 
 .App-header {
-  background-color: #1e58ca;
+  background-color: $blue1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
