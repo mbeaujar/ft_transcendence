@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM, { unstable_renderSubtreeIntoContainer } from 'react-dom';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { useCookies, CookiesProvider } from 'react-cookie';
+import Socket from './Socket';
 
 const apiAxios = axios.create({
   baseURL: 'http://localhost:3000/api',
   withCredentials: true,
 });
-
-//localhost:3000/api/auth/login'
 
 const Button = (props: any) => {
   return (
@@ -17,8 +15,6 @@ const Button = (props: any) => {
     </div>
   );
 };
-
-// `/users/${searchUser}`
 
 const Input = (props: any) => {
   const [searchUser, setSearchUser] = useState<string>('');
@@ -159,9 +155,8 @@ const App: React.FC = (): JSX.Element => {
 
 ReactDOM.render(
   <React.StrictMode>
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
+    <App />
+    <Socket />
   </React.StrictMode>,
   document.querySelector('#root')
 );

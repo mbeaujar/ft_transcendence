@@ -25,7 +25,7 @@ export class AuthService {
     const payload = { username: req.user.username, sub: req.user.id };
     const access_token = this.jwtService.sign(payload);
     res.cookie('access_token', access_token, {
-      httpOnly: true,
+      httpOnly: false,
     });
   }
 
@@ -35,5 +35,9 @@ export class AuthService {
 
   async logout(user: User) {
     return this.usersService.logout(user);
+  }
+
+  async verifyJwt(jwt: string): Promise<any> {
+    return this.jwtService.verify(jwt);
   }
 }

@@ -28,8 +28,10 @@
 		"@nestjs/jwt": "^8.0.0",
 		"@nestjs/passport": "^8.1.0",
 		"@nestjs/platform-express": "^8.0.0",
+		"@nestjs/platform-socket.io": "^8.2.6",
 		"@nestjs/swagger": "^5.1.5",
 		"@nestjs/typeorm": "^8.0.3",
+		"@nestjs/websockets": "^8.2.6",
 		"cookie-parser": "^1.4.6",
 		"cross-env": "^7.0.3",
 		"passport": "^0.5.2",
@@ -39,6 +41,7 @@
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",
 		"rxjs": "^7.2.0",
+		"socket.io": "^4.4.1",
 		"sqlite3": "^5.0.2",
 		"swagger-ui-express": "^4.3.0",
 		"typeorm": "^0.2.41"

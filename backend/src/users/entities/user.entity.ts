@@ -1,15 +1,5 @@
 import { Friends } from 'src/friends/entities/friends.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 export enum State {
   online,
@@ -31,6 +21,18 @@ export class User {
 
   @Column({ default: State.online })
   state: State;
+
+  @Column({ default: 1000 })
+  elo: number;
+
+  @Column({ default: 0 })
+  wins: number;
+
+  @Column({ default: 0 })
+  losses: number;
+
+  // @OneToMany()
+  // channels:
 
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];

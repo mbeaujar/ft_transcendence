@@ -16,6 +16,9 @@ export class UsersService {
     return this.usersRepo.findOne({ id });
   }
 
+  // ATTENTION -> https://typeorm.io/#/repository-api
+  // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de précision sur la doc)
+
   /**
    *	Create a User and a Friends table + link
    *
