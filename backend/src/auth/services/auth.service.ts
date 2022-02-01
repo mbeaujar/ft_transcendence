@@ -8,8 +8,8 @@ import { User } from '../../users/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(userDetails: UserDto): Promise<User> {

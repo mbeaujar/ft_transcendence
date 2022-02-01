@@ -17,7 +17,7 @@ import { UsersService } from '../services/users.service';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Auth()
   @ApiOperation({ summary: 'Delete user account' })

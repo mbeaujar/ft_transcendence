@@ -9,9 +9,14 @@ import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/services/users.service';
 import { ChatGateway } from './gateway/chat.gateway';
 import { ChatService } from './services/chat.service';
+import { Channel } from './entities/channel.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Friends]), AuthModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([User, Friends, Channel]),
+    AuthModule,
+    UsersModule,
+  ],
   providers: [ChatGateway, AuthService, UsersService, ChatService],
 })
 export class ChatModule {}

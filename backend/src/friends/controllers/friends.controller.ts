@@ -11,7 +11,7 @@ import { FriendsService } from '../services/friends.service';
 @ApiTags('friends')
 @Controller('friends')
 export class FriendsController {
-  constructor(private friendsService: FriendsService) {}
+  constructor(private readonly friendsService: FriendsService) {}
 
   @Auth()
   @ApiOperation({ summary: 'Send a friend request' })

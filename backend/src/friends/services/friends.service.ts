@@ -19,10 +19,11 @@ import { Friends } from '../entities/friends.entity';
 @Injectable()
 export class FriendsService {
   constructor(
-    @InjectRepository(Friends) private friendsRepo: Repository<Friends>,
+    @InjectRepository(Friends)
+    private readonly friendsRepo: Repository<Friends>,
     @InjectRepository(FriendsRequest)
-    private friendsRequestRepo: Repository<FriendsRequest>,
-    @InjectRepository(User) private usersRepo: Repository<User>,
+    private readonly friendsRequestRepo: Repository<FriendsRequest>,
+    @InjectRepository(User) private readonly usersRepo: Repository<User>,
   ) {}
 
   async getFriendsRequest(id: number): Promise<FriendsRequest[]> {

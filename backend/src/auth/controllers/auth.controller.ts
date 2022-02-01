@@ -14,7 +14,7 @@ export const mainPage = 'http://localhost:8080';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({ summary: 'Login using 42Api' })
   @Intra42()
