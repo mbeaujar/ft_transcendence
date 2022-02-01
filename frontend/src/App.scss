@@ -1,6 +1,12 @@
 @import 'utils.scss';
 
+body 
+{
+  background-color: $blue1;
+}
+
 .App {
+  margin-top: 0;
   text-align: center;
 }
 

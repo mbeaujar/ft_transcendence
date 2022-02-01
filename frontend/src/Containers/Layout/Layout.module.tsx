@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Layout.module.scss';
+import Header from '../Header/Header.module'
 
 type Props = 
 { 
@@ -9,7 +10,7 @@ type Props =
 const Layout: React.FC<Props> = ({children}) => {
   return (
     <div className={classes.Layout}>
-        <h1>Ok</h1>
+        <Header/>
         {children}
     </div>
   );
