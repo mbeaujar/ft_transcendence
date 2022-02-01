@@ -1,24 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.scss';
-import { Route, Switch } from 'react-router';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
+
 
 import Layout from './Containers/Layout/Layout.module';
+import Game from './Containers/Game/Game.module';
+import Chat from './Containers/Chat/Chat.module';
+import Profile from './Containers/Profile/Profile.module';
+
+
 
 function App() {
   return (
     <div className="App">
       <Layout>
-        <Switch>
-          {/*<Route exact path="/Mercury" component={Mercury}/>
-          <Route exact path="/Venus" component={Venus}/>
-          <Route exact path="/" component={Earth}/>
-          <Route exact path="/Mars" component={Mars}/>
-          <Route exact path="/Jupiter" component={Jupiter}/>
-          <Route exact path="/Saturn" component={Saturn}/>
-          <Route exact path="/Uranus" component={Uranus}/>
-  <Route exact path="/Neptune" component={Neptune}/>*/}
-        </Switch>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Game/>} />
+            <Route path="/Game" element={<Game/>} />
+            <Route path="/Chat" element={<Chat/>} />
+            <Route path="/Profile" element={<Profile/>} />
+          </Routes>
+        </Router>
       </Layout>
     </div>
   );

@@ -1,14 +1,20 @@
 import React from 'react';
-import classes from './Layout.module.css';
+import classes from './Layout.module.scss';
 
+type Props = 
+{ 
+    children: React.ReactNode;
+};
 
-function Layout(props) {
-    return (
-        <div className={classes.Layout}>
-            <header/>
-            {props.children}
-        </div>
-    );
+const Layout: React.FC<Props> = ({children}) => {
+  return (
+    <div className={classes.Layout}>
+        <h1>Ok</h1>
+        {children}
+    </div>
+  );
 }
 
 export default Layout;
+
+
