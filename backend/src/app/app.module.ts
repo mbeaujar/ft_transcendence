@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from 'src/auth/auth.module';
-import { FriendsModule } from 'src/friends/friends.module';
-import { ChatModule } from 'src/chat/chat.module';
+import { AuthModule } from '../auth/auth.module';
+import { FriendsModule } from '../friends/friends.module';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
   imports: [

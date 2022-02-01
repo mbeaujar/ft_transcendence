@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FriendsService } from './friends.service';
-import { FriendsController } from './friends.controller';
+import { FriendsService } from './services/friends.service';
+import { FriendsController } from './controllers/friends.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from 'src/users/users.module';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities/user.entity';
+import { UsersModule } from '../users/users.module';
+import { UsersService } from '../users/services/users.service';
+import { User } from '../users/entities/user.entity';
 import { Friends } from './entities/friends.entity';
 import { FriendsRequest } from './entities/friends-request.entity';
 

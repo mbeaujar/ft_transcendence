@@ -1,11 +1,11 @@
 import { Controller, Delete, Get, Param } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/users/entities/user.entity';
-import { FriendsRequest } from './entities/friends-request.entity';
-import { Friends } from './entities/friends.entity';
-import { FriendsService } from './friends.service';
+import { Auth } from '../../auth/decorators/auth.decorator';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../users/entities/user.entity';
+import { FriendsRequest } from '../entities/friends-request.entity';
+import { Friends } from '../entities/friends.entity';
+import { FriendsService } from '../services/friends.service';
 
 @ApiBasicAuth()
 @ApiTags('friends')

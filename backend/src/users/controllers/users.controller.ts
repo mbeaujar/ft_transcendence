@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from './entities/user.entity';
-import { UsersService } from './users.service';
+import { Auth } from '../../auth/decorators/auth.decorator';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../entities/user.entity';
+import { UsersService } from '../services/users.service';
 
 @ApiBasicAuth()
 @ApiTags('users')

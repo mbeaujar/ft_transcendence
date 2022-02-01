@@ -1,12 +1,12 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { UserDto } from 'src/users/dtos/user.dto';
-import { User } from 'src/users/entities/user.entity';
-import { AuthService } from './auth.service';
-import { Auth } from './decorators/auth.decorator';
-import { CurrentUser } from './decorators/current-user.decorator';
-import { Intra42 } from './decorators/intra42.decorator';
+import { UserDto } from '../../users/dtos/user.dto';
+import { User } from '../../users/entities/user.entity';
+import { AuthService } from '../services/auth.service';
+import { Auth } from '../decorators/auth.decorator';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { Intra42 } from '../decorators/intra42.decorator';
 
 export const mainPage = 'http://localhost:8080';
 

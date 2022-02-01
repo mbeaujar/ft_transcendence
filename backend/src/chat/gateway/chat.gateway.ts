@@ -7,9 +7,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { AuthService } from 'src/auth/auth.service';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities/user.entity';
+import { AuthService } from '../../auth/services/auth.service';
+import { UsersService } from '../../users/services/users.service';
+import { User } from '../../users/entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 
 @WebSocketGateway({
@@ -38,23 +38,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const decodedToken = await this.authService.verifyJwt(
         socket.handshake.headers.authorization,
       );
-      console.log('decodedToken', decodedToken);
       const user: User = await this.usersService.findUser(decodedToken.sub);
-      console.log('user', user);
       if (!user) {
-        // disconnect
         return this.disconnect(socket);
       }
       // connect
-      console.log('On Connect');
     } catch {
-      // disconnect
       return this.disconnect(socket);
     }
   }
 
-  handleDisconnect() {
-    console.log('On Disconnect');
+  handleDisconnect(socket: Socket) {
+    socket.disconnect();
   }
 
   private disconnect(socket: Socket) {

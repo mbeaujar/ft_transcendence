@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { FriendsRequest } from './entities/friends-request.entity';
-import { Friends } from './entities/friends.entity';
+import { FriendsRequest } from '../entities/friends-request.entity';
+import { Friends } from '../entities/friends.entity';
 
 // ---------------------
 // a want to be friends
