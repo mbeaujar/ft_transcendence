@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Socket from './Socket';
+import Chat from './Chat';
 
 const apiAxios = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -156,7 +156,9 @@ const App: React.FC = (): JSX.Element => {
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <Socket />
+    <br />
+    <br />
+    <Chat />
   </React.StrictMode>,
   document.querySelector('#root')
 );

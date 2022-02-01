@@ -11,6 +11,8 @@ import { AuthService } from '../../auth/services/auth.service';
 import { UsersService } from '../../users/services/users.service';
 import { User } from '../../users/entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
+import { ChatService } from '../services/chat.service';
+import { IChannel } from '../interface/channel.interface';
 
 @WebSocketGateway({
   cors: {
@@ -23,14 +25,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   constructor(
-    private authService: AuthService,
-    private usersService: UsersService,
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
+    private readonly chatService: ChatService,
   ) {}
 
   // @Auth()
   @SubscribeMessage('message')
   async sendMessages(@MessageBody() message: string) {
     this.server.emit('message', message);
+  }
+
+  @SubscribeMessage('createChannel')
+  async onCreateChannel(socket: Socket, channel: IChannel): Promise<IChannel> {
+    return this.chatService.createChannel(channel, socket.data.user);
   }
 
   async handleConnection(socket: Socket) {
@@ -41,8 +49,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const user: User = await this.usersService.findUser(decodedToken.sub);
       if (!user) {
         return this.disconnect(socket);
+      } else {
+        // connect
+        socket.data.user = user;
+        const channels = await this.chatService.getChannelForUser(user.id, {
+          page: 1,
+          limit: 10,
+        });
+        // Only emit channels to specific connected client
+        return this.server.to(socket.id).emit('channels', channels);
       }
-      // connect
     } catch {
       return this.disconnect(socket);
     }
