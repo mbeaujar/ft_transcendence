@@ -18,6 +18,10 @@
 
     .Navigation
     {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
         a
         {
             text-decoration: none;
@@ -33,12 +37,19 @@
             color: $blue3;
         }
 
-        .showLogin 
+        .showLogin , .showLogout
         {
+            cursor: pointer;
             display: block;
+            padding: 10px;
+            background-color: $blue2;
+            border: 0.05px solid $blue3;
+            border-radius: 10px;
+            font-size: 20px;
+            color: $blue1;
         }
 
-        .hideLogin 
+        .hideLogin , .hideLogout
         {
             display: none;
         }

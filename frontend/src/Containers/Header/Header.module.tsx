@@ -22,14 +22,26 @@ function Header() {
 
     function ftShowLogin(user:any)
     {
-        console.log("user == " + user);
         if (user==null)
         {
-            console.log("ok");
             return (classes.showLogin);
         }
         return (classes.hideLogin);
     }
+
+    function ftShowLogout(user:any)
+    {
+        if (user==null)
+        {
+            return (classes.hideLogout);
+        }
+        return (classes.showLogout);
+    }
+
+    useEffect(() => {
+        apiAxios.get('/auth/status', 
+                { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
+      });
 
     return (
         <div className={classes.Header}>
@@ -40,13 +52,8 @@ function Header() {
                     <Link onClick={window.location.reload} to="/Chat">CHAT</Link>
                     <Link onClick={window.location.reload} to="/Profile">PROFILE</Link>
                 </Router>
-                <Button className={ftShowLogin(user)} text="LOGIN" onClick={() => {window.location.href = 'http://localhost:3000/api/auth/login';apiAxios.get('/auth/status', 
-                { withCredentials: true }).then(response => {console.log(response.data);
-                        setUser(response.data);}).catch(() => setUser(null));}}/>
-                <Button text="LOGOUT" onClick={() => {window.location.href = 'http://localhost:3000/api/auth/logout';}}/>
-                <Button text="STATUS" onClick={() => {apiAxios.get('/auth/status', 
-                { withCredentials: true }).then(response => {console.log(response.data);
-                        setUser(response.data);}).catch(() => setUser(null));}}/>
+                <Button className={ftShowLogin(user)} text="LOGIN" onClick={() => {window.location.href = 'http://localhost:3000/api/auth/login';}}/>
+                <Button className={ftShowLogout(user)} text="LOGOUT" onClick={() => {window.location.href = 'http://localhost:3000/api/auth/logout';}}/>
             </div>
         </div>
     );
