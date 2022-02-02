@@ -39,7 +39,10 @@ function Profile(/*props:any*/) {
         <>
 
         <div className={clsx(classes.Profile, ftShowProfile(user))}>
-            <h1>Profile</h1>
+            <div className={classes.User}>
+                <img src={user?.avatar}/>
+                <h1>{user?.username}</h1>    
+            </div>
         </div>
 
 
