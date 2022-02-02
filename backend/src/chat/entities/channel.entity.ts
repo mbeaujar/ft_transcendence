@@ -1,3 +1,4 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -6,7 +7,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { Member } from './member.entity';
+
+export enum State {
+  public,
+  private,
+  protected,
+}
 
 @Entity()
 export class Channel {
@@ -16,14 +23,18 @@ export class Channel {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (owner) => owner.channelsOwner)
-  owner: User;
+  @Column({ default: State.private })
+  state: State;
 
-  @ManyToMany(() => User)
-  @JoinTable()
-  administrators: User[];
+  @Column({ nullable: true })
+  password: string;
 
-  @ManyToMany(() => User)
+  @Column()
+  ownerId: number;
+
+  // relations
+
+  @ManyToMany(() => Member)
   @JoinTable()
-  users: User[];
+  users: Member[];
 }

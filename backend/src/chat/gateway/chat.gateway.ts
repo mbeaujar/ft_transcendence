@@ -13,6 +13,8 @@ import { User } from '../../users/entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 import { ChatService } from '../services/chat.service';
 import { IChannel } from '../interface/channel.interface';
+import { Channel } from '../entities/channel.entity';
+import { IPage } from '../interface/page.interface';
 
 @WebSocketGateway({
   cors: {
@@ -30,17 +32,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly chatService: ChatService,
   ) {}
 
-  // @Auth()
-  @SubscribeMessage('message')
-  async sendMessages(@MessageBody() message: string) {
-    this.server.emit('message', message);
-  }
-
-  @SubscribeMessage('createChannel')
-  async onCreateChannel(socket: Socket, channel: IChannel): Promise<IChannel> {
-    return this.chatService.createChannel(channel, socket.data.user);
-  }
-
   async handleConnection(socket: Socket) {
     try {
       const decodedToken = await this.authService.verifyJwt(
@@ -57,6 +48,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           limit: 10,
         });
         // Only emit channels to specific connected client
+        // console.log('socket id', socket.id);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch {
@@ -71,5 +63,28 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private disconnect(socket: Socket) {
     socket.emit('Error', new UnauthorizedException());
     socket.disconnect();
+  }
+
+  @SubscribeMessage('message')
+  async sendMessages(@MessageBody() message: string) {
+    this.server.emit('message', message);
+  }
+
+  @SubscribeMessage('createChannel')
+  async onCreateChannel(socket: Socket, channel: IChannel): Promise<Channel> {
+    // console.log('channel:', channel);
+    return this.chatService.createChannel(channel, socket.data.user);
+  }
+
+  @SubscribeMessage('paginateChannels')
+  async onPaginateChannel(socket: Socket, { data }: any) {
+    // console.log('page', data);
+    data.limit = data.limit > 100 ? 100 : data.limit;
+    const channels = await this.chatService.getChannelForUser(
+      socket.data.user.id,
+      data,
+    );
+    // console.log('channels paginate', channels);
+    return this.server.to(socket.id).emit('channels', channels);
   }
 }

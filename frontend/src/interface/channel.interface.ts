@@ -1,7 +1,6 @@
-import { IUser } from './user.interface';
+import { Member } from './member.interface';
 
 export interface IChannel {
   name: string;
-  owner: IUser;
-  users?: IUser[];
+  users: Member[];
 }

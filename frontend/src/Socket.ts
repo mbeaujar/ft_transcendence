@@ -2,6 +2,7 @@ import { io, Socket } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import { IUser } from './interface/user.interface';
 import { IChannel } from './interface/channel.interface';
+import { Member } from './interface/member.interface';
 
 type handleFunction = (...args: any[]) => void;
 
@@ -22,17 +23,21 @@ export class SocketHandler {
   }
 
   connect() {
-    this.socket.on('connect', () => {});
+    this.socket.on('connect', () => {
+      console.log('connect', this.socket.id);
+    });
   }
 
   disconnect() {
-    this.socket.on('disconnect', () => {});
+    this.socket.on('disconnect', () => {
+      console.log('disconnect', this.socket.id);
+    });
   }
 
-  addChannel(name: string, creator: IUser) {
+  addChannel(name: string, creator: Member) {
     const channel: IChannel = {
       name,
-      owner: creator,
+      users: [creator],
     };
     this.socket.emit('createChannel', channel);
   }

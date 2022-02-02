@@ -1,9 +1,10 @@
 import { User } from 'src/users/entities/user.entity';
+import { State } from '../entities/channel.entity';
 
 export class IChannel {
   id?: number;
   name?: string;
-  owner?: User;
-  administrators?: User[];
+  state?: State;
+  ownerId?: number;
   users: User[];
 }

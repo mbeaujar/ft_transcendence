@@ -112,16 +112,16 @@ const App: React.FC = (): JSX.Element => {
               });
           }}
         />
-        <Button
+        {/* <Button
           text="DELETE"
           onClick={() => {
             apiAxios
               .delete('/users/delete', { withCredentials: true })
               .catch(reject => console.log(reject));
           }}
-        />
+        /> */}
       </div>
-      <div
+      {/* <div
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -129,9 +129,9 @@ const App: React.FC = (): JSX.Element => {
           gap: 10,
         }}
       >
-        <Input label="users" url="/users" />
-        <Input label="friends" url="/friends/add" />
-        <form
+			<Input label="users" url="/users" />*/}
+      {/* <Input label="friends" url="/friends/add" /> */}
+      {/*<form
           onSubmit={e => {
             e.preventDefault();
             apiAxios
@@ -148,7 +148,7 @@ const App: React.FC = (): JSX.Element => {
             onChange={e => setDeleteUser(e.target.value)}
           />
         </form>
-      </div>
+      </div> */}
     </div>
   );
 };
