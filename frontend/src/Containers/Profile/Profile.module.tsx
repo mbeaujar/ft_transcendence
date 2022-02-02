@@ -37,12 +37,18 @@ function Profile(/*props:any*/) {
 
     return (
         <>
+
         <div className={clsx(classes.Profile, ftShowProfile(user))}>
             <h1>Profile</h1>
         </div>
+
+
+
+
         <div className={clsx(classes.unauthorized, ftShowUnauthorized(user))}>
             <h1>You must log in to access this feature</h1>
         </div>
+
         </>
     );
 }
