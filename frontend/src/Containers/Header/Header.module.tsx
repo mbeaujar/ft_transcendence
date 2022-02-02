@@ -11,7 +11,7 @@ const apiAxios = axios.create({
 const Button = (props: any) => {
     return (
         <div>
-        <button className={props.className} onClick={props.onClick}>{props.text}</button>
+            <button className={props.className} onClick={props.onClick}>{props.text}</button>
         </div>
     );
 };

@@ -2,3 +2,20 @@
 {
     padding-top: 40px;
 }
+
+.unauthorized 
+{
+    font-size: 30px;
+    margin-top: 250px;
+    align-self: center;
+}
+
+.showProfile, .showUnauthorized
+{
+    display: block;
+}
+
+.hideProfile, .hideUnauthorized
+{
+    display: none;
+}

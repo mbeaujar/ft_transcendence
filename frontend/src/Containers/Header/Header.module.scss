@@ -49,6 +49,13 @@
             color: $blue1;
         }
 
+        .showLogin:hover , .showLogout:hover
+        {
+            background-color: $blue3;
+            border: 0.05px solid $blue2;
+            color: $blue2;
+        }
+
         .hideLogin , .hideLogout
         {
             display: none;
