@@ -14,39 +14,38 @@ import {
 export class ChatService {
   constructor(
     @InjectRepository(Channel)
-    private readonly channelRepo: Repository<Channel>,
+    private readonly channelRepository: Repository<Channel>,
   ) {}
 
+  /**
+   * Create a channel
+   *
+   * @param channel
+   * @param creator
+   * @returns channel save in the db
+   */
   async createChannel(channel: IChannel, creator: User): Promise<Channel> {
-    // const newChannel = await this.addOwnerToChannel(channel, creator);
-    const newChannel = this.channelRepo.create({
-      ...channel,
-      ownerId: creator.id,
-    });
     channel.users = [creator];
-    const chan = await this.channelRepo.save(newChannel);
-    console.log('channel save', chan);
-    return chan;
-    // return this.channelRepo.save(newChannel);
+    return this.channelRepository.save(channel);
   }
 
+  /**
+   * Find the channel with the user
+   *
+   * @param userId
+   * @param options
+   * @returns pagination
+   */
   async getChannelForUser(
     userId: number,
     options: IPaginationOptions,
   ): Promise<Pagination<Channel>> {
-    console.log('userid', userId);
-    const query = this.channelRepo
+    const query = this.channelRepository
       .createQueryBuilder('channel')
-      .where('channel.ownerId = :userId', { userId });
-    // .leftJoinAndSelect('channel.users', 'all_users');
-    //   .where('owner.id = :userId', { userId })
+      .leftJoin('channel.users', 'users')
+      .where('users.id = :userId', { userId })
+      .leftJoinAndSelect('channel.users', 'all_users');
 
-    // console.log('query', query);
     return paginate(query, options);
-  }
-
-  async addOwnerToChannel(channel: IChannel, creator: User): Promise<IChannel> {
-    channel.users.push(creator);
-    return channel;
   }
 }

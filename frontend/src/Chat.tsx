@@ -7,16 +7,17 @@ const socket = new SocketHandler('http://localhost:3000');
 const Chat: React.FC = (): JSX.Element => {
   const [text, setText] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const [page, setPage] = useState<string>('');
   const [listMessage, setListMessage] = useState<string[]>([]);
 
   useEffect(() => {
     socket.connect();
 
-    socket.handleEvent('message', ({ data }) => {
-      setListMessage(prevArray => [...prevArray, data?.data]);
+    socket.receiveEvent('message', data => {
+      setListMessage(prevArray => [...prevArray, data]);
     });
 
-    socket.handleEvent('channels', data => {
+    socket.receiveEvent('channels', data => {
       console.log('data channels', data);
     });
 
@@ -40,13 +41,9 @@ const Chat: React.FC = (): JSX.Element => {
         <button
           onClick={() => {
             socket.addChannel(name, {
-              admin: false,
-              owner: true,
-              user: {
-                username: 'mbeaujar',
-                id: 74632,
-                avatar: 'https://cdn.intra.42.fr/users/mbeaujar.jpg',
-              },
+              username: 'mbeaujar',
+              id: 74632,
+              avatar: 'https://cdn.intra.42.fr/users/mbeaujar.jpg',
             });
             setName('');
           }}
@@ -56,10 +53,29 @@ const Chat: React.FC = (): JSX.Element => {
       </div>
       <br />
       <div>
+        <label> page: </label>
+        <input
+          type="text"
+          value={page}
+          onChange={e => setPage(e.target.value)}
+        />
+        <button
+          onClick={() => {
+            socket.sendEvent('paginateChannels', {
+              page: parseInt(page),
+              limit: 10,
+            });
+          }}
+        >
+          Get page info
+        </button>
+      </div>
+      <br />
+      <div>
         <form
           onSubmit={e => {
             e.preventDefault();
-            socket.emitEvent('message', { data: text });
+            socket.sendEvent('message', text);
             setText('');
           }}
         >
@@ -70,17 +86,7 @@ const Chat: React.FC = (): JSX.Element => {
             onChange={e => setText(e.target.value)}
           />
         </form>
-        {/* <ul>{renderedList}</ul> */}
-      </div>
-      <br />
-      <div>
-        <button
-          onClick={() => {
-            socket.emitEvent('paginateChannels', { page: 1, limit: 10 });
-          }}
-        >
-          Channel List
-        </button>
+        <ul>{renderedList}</ul>
       </div>
     </div>
   );

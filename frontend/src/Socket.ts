@@ -34,7 +34,7 @@ export class SocketHandler {
     });
   }
 
-  addChannel(name: string, creator: Member) {
+  addChannel(name: string, creator: IUser) {
     const channel: IChannel = {
       name,
       users: [creator],
@@ -42,11 +42,11 @@ export class SocketHandler {
     this.socket.emit('createChannel', channel);
   }
 
-  handleEvent(type: string, fct: handleFunction) {
+  receiveEvent(type: string, fct: handleFunction) {
     this.socket.on(type, fct);
   }
 
-  emitEvent(type: string, data: any) {
-    this.socket.emit(type, { data });
+  sendEvent(type: string, data: any) {
+    this.socket.emit(type, data);
   }
 }

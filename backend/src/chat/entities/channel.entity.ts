@@ -7,7 +7,6 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Member } from './member.entity';
 
 export enum State {
   public,
@@ -23,18 +22,18 @@ export class Channel {
   @Column()
   name: string;
 
-  @Column({ default: State.private })
-  state: State;
+  // @Column({ default: State.private })
+  // state: State;
 
-  @Column({ nullable: true })
-  password: string;
+  // @Column({ nullable: true })
+  // password: string;
 
-  @Column()
-  ownerId: number;
+  // @Column({ nullable: true })
+  // ownerId: number;
 
   // relations
 
-  @ManyToMany(() => Member)
+  @ManyToMany(() => User)
   @JoinTable()
-  users: Member[];
+  users: User[];
 }

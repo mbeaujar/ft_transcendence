@@ -20,14 +20,14 @@ import { Friends } from '../entities/friends.entity';
 export class FriendsService {
   constructor(
     @InjectRepository(Friends)
-    private readonly friendsRepo: Repository<Friends>,
+    private readonly friendsRepository: Repository<Friends>,
     @InjectRepository(FriendsRequest)
-    private readonly friendsRequestRepo: Repository<FriendsRequest>,
-    @InjectRepository(User) private readonly usersRepo: Repository<User>,
+    private readonly friendsRequestRepository: Repository<FriendsRequest>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
   ) {}
 
   async getFriendsRequest(id: number): Promise<FriendsRequest[]> {
-    return this.friendsRequestRepo.find({ target: id });
+    return this.friendsRequestRepository.find({ target: id });
   }
 
   RemoveFriendOnFriendsList(user: Friends, target: number): void {
@@ -41,16 +41,16 @@ export class FriendsService {
 
   /** No check it can be called if users are not friends */
   async deleteFriendship(user: User, target: number): Promise<Friends> {
-    const friendsUser = await this.friendsRepo.findOne({ id: user.id });
-    const friendsTarget = await this.friendsRepo.findOne({ id: target });
+    const friendsUser = await this.friendsRepository.findOne({ id: user.id });
+    const friendsTarget = await this.friendsRepository.findOne({ id: target });
     this.RemoveFriendOnFriendsList(friendsUser, target);
     this.RemoveFriendOnFriendsList(friendsTarget, user.id);
-    await this.friendsRepo.save(friendsTarget);
-    return this.friendsRepo.save(friendsUser);
+    await this.friendsRepository.save(friendsTarget);
+    return this.friendsRepository.save(friendsUser);
   }
 
   async getFriendsList(id: number): Promise<Friends> {
-    return this.friendsRepo.findOne({ id });
+    return this.friendsRepository.findOne({ id });
   }
 
   isAlreadyOnFriendList(user: Friends, target: number): boolean {
@@ -69,11 +69,11 @@ export class FriendsService {
       );
     }
     user.friends.push(target);
-    return this.friendsRepo.save(user);
+    return this.friendsRepository.save(user);
   }
 
   async findFriends(id: number) {
-    const friends = await this.friendsRepo.findOne({ id });
+    const friends = await this.friendsRepository.findOne({ id });
     if (!friends) {
       throw new NotFoundException('Friends table for user not found');
     }
@@ -81,7 +81,7 @@ export class FriendsService {
   }
 
   async findFriendsRequest(user: number, target: number) {
-    return this.friendsRequestRepo.findOne({
+    return this.friendsRequestRepository.findOne({
       user,
       target,
     });
@@ -95,7 +95,7 @@ export class FriendsService {
       throw new BadRequestException("can't add yourself");
     }
     const friendsUser = await this.findFriends(user.id);
-    const targetUser = await this.usersRepo.findOne({ id: target });
+    const targetUser = await this.usersRepository.findOne({ id: target });
 
     if (!targetUser) {
       throw new NotFoundException('user not found');
@@ -112,14 +112,17 @@ export class FriendsService {
 
       if (!targetRequest) {
         /** target did not send us a friend request */
-        const request = this.friendsRequestRepo.create({
+        const request = this.friendsRequestRepository.create({
           user: user.id,
           target,
         });
-        return this.friendsRequestRepo.save(request);
+        return this.friendsRequestRepository.save(request);
       } else {
         /** tagret has already sent a friend request -> create friendship */
-        await this.friendsRequestRepo.delete({ user: target, target: user.id }); // delete tagret request
+        await this.friendsRequestRepository.delete({
+          user: target,
+          target: user.id,
+        }); // delete tagret request
         const friendsTarget = await this.findFriends(target);
 
         await this.addFriendOnList(friendsTarget, user);

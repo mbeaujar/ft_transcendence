@@ -1,7 +1,6 @@
 import { Channel } from '../../chat/entities/channel.entity';
 import { Friends } from '../../friends/entities/friends.entity';
 import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
-import { Member } from 'src/chat/entities/member.entity';
 
 export enum State {
   online,
@@ -36,8 +35,8 @@ export class User {
   // relations
 
   /** list of members of channel */
-  @OneToMany(() => Member, (member) => member.user)
-  member: Member;
+  @ManyToMany(() => Channel, (channel) => channel.users)
+  channels: Channel[];
 
   /** list of friends */
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)

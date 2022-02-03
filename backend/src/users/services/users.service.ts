@@ -8,13 +8,13 @@ import { Friends } from '../../friends/entities/friends.entity';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly usersRepo: Repository<User>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Friends)
-    private readonly friendsRepo: Repository<Friends>,
+    private readonly friendsRepository: Repository<Friends>,
   ) {}
 
   async findUser(id: number): Promise<User> {
-    return this.usersRepo.findOne({ id });
+    return this.usersRepository.findOne({ id });
   }
 
   // ATTENTION -> https://typeorm.io/#/repository-api
@@ -27,31 +27,31 @@ export class UsersService {
    * @returns Promise<User>
    */
   async createUser(userDetails: UserDto): Promise<User> {
-    const friends = this.friendsRepo.create({
+    const friends = this.friendsRepository.create({
       id: userDetails.id,
       friends: [],
     });
-    await this.friendsRepo.save(friends);
-    const user = this.usersRepo.create(userDetails);
-    return this.usersRepo.save(user);
+    await this.friendsRepository.save(friends);
+    const user = this.usersRepository.create(userDetails);
+    return this.usersRepository.save(user);
   }
 
   async updateUser(user: User, attrs: Partial<User>): Promise<User> {
     Object.assign(user, attrs);
-    return this.usersRepo.save(user);
+    return this.usersRepository.save(user);
   }
 
   async deleteUser(user: User): Promise<void> {
-    await this.usersRepo.delete({ id: user.id });
+    await this.usersRepository.delete({ id: user.id });
   }
 
   async login(user: User): Promise<User> {
     user.state = State.online;
-    return this.usersRepo.save(user);
+    return this.usersRepository.save(user);
   }
 
   async logout(user: User): Promise<User> {
     user.state = State.offline;
-    return this.usersRepo.save(user);
+    return this.usersRepository.save(user);
   }
 }

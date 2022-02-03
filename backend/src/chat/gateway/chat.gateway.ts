@@ -47,8 +47,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           page: 1,
           limit: 10,
         });
+        channels.meta.currentPage -= 1;
         // Only emit channels to specific connected client
-        // console.log('socket id', socket.id);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch {
@@ -72,19 +72,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel): Promise<Channel> {
-    // console.log('channel:', channel);
     return this.chatService.createChannel(channel, socket.data.user);
   }
 
   @SubscribeMessage('paginateChannels')
-  async onPaginateChannel(socket: Socket, { data }: any) {
-    // console.log('page', data);
-    data.limit = data.limit > 100 ? 100 : data.limit;
+  async onPaginateChannel(socket: Socket, page: IPage) {
+    page.limit = page.limit > 100 ? 100 : page.limit;
+    page.page += 1;
     const channels = await this.chatService.getChannelForUser(
       socket.data.user.id,
-      data,
+      page,
     );
-    // console.log('channels paginate', channels);
     return this.server.to(socket.id).emit('channels', channels);
   }
 }
