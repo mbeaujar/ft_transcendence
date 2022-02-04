@@ -11,6 +11,7 @@ const apiAxios = axios.create({
 
 function Profile(/*props:any*/) {
     const [user, setUser] = useState<any>(null);
+    const [activeMenu, setActiveMenu] = useState<string>("Stats"); 
 
     function ftShowProfile(user:any)
     {
@@ -35,6 +36,16 @@ function Profile(/*props:any*/) {
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
       });
 
+    const ftIsActiveMenu:any = (menuName:string) =>
+    {
+        /*console.log(activeMenu);*/
+        if (menuName == activeMenu)
+        {
+            return (classes.activeMenu);
+        }
+        return (classes.disactiveMenu);
+    }
+
     return (
         <>
 
@@ -42,6 +53,11 @@ function Profile(/*props:any*/) {
             <div className={classes.User}>
                 <img src={user?.avatar}/>
                 <h1>{user?.username}</h1>    
+            </div>
+            <div className={classes.Menu}>
+                <p className={clsx(classes.History, ftIsActiveMenu("History"))} onClick={()=>setActiveMenu("History")}>History</p>
+                <p className={clsx(classes.Stats, ftIsActiveMenu("Stats"))} onClick={() => setActiveMenu("Stats")}>Stats</p>
+                <p className={clsx(classes.Friends, ftIsActiveMenu("Friends"))} onClick={() => setActiveMenu("Friends")}>Friends</p>
             </div>
         </div>
 
