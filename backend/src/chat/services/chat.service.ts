@@ -26,7 +26,8 @@ export class ChatService {
    */
   async createChannel(channel: IChannel, creator: User): Promise<Channel> {
     channel.users = [creator];
-    return this.channelRepository.save(channel);
+    const newChannel = this.channelRepository.create(channel);
+    return this.channelRepository.save(newChannel);
   }
 
   /**

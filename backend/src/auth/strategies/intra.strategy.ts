@@ -2,7 +2,7 @@ import { Strategy, Profile } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { UserDto } from '../../users/dtos/user.dto';
+import { IUser } from 'src/users/interface/user.interface';
 
 @Injectable()
 export class IntraStrategy extends PassportStrategy(Strategy, '42') {
@@ -16,7 +16,7 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
   }
 
   async validate(accesToken: string, refreshToken: string, profile: Profile) {
-    const user: UserDto = {
+    const user: IUser = {
       username: profile.username,
       id: profile.id,
       avatar: profile.photos[0].value,

@@ -15,6 +15,9 @@ import { ChatService } from '../services/chat.service';
 import { IChannel } from '../interface/channel.interface';
 import { Channel } from '../entities/channel.entity';
 import { IPage } from '../interface/page.interface';
+import { ConnectedUserService } from '../services/connected-user.service';
+import { ConnectedUser } from '../entities/connected-user.entity';
+import { IConnectedUser } from '../interface/connected-user.interface';
 
 @WebSocketGateway({
   cors: {
@@ -30,6 +33,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
     private readonly chatService: ChatService,
+    private readonly connectedUserService: ConnectedUserService,
   ) {}
 
   async handleConnection(socket: Socket) {
@@ -47,16 +51,25 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           page: 1,
           limit: 10,
         });
-        channels.meta.currentPage -= 1;
+        // channels.meta.currentPage -= 1;
+
+        //  Save connection to database
+        await this.connectedUserService.create({ socketId: socket.id, user });
+
+        console.log('connect', socket.id);
         // Only emit channels to specific connected client
         return this.server.to(socket.id).emit('channels', channels);
       }
-    } catch {
+    } catch (e) {
+      console.log(e);
       return this.disconnect(socket);
     }
   }
 
-  handleDisconnect(socket: Socket) {
+  async handleDisconnect(socket: Socket) {
+    // remove connection from DB
+    console.log('disconnect', socket.id);
+    await this.connectedUserService.deleteBySocketId(socket.id);
     socket.disconnect();
   }
 
@@ -71,14 +84,27 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('createChannel')
-  async onCreateChannel(socket: Socket, channel: IChannel): Promise<Channel> {
-    return this.chatService.createChannel(channel, socket.data.user);
+  async onCreateChannel(socket: Socket, channel: IChannel) {
+    const createdChannel: IChannel = await this.chatService.createChannel(
+      channel,
+      socket.data.user,
+    );
+    for (const user of createdChannel.users) {
+      const connections = await this.connectedUserService.findByUser(user);
+      const channels = await this.chatService.getChannelForUser(user.id, {
+        page: 1,
+        limit: 10,
+      });
+      for (const connection of connections) {
+        await this.server.to(connection.socketId).emit('channels', channels);
+      }
+    }
   }
 
   @SubscribeMessage('paginateChannels')
   async onPaginateChannel(socket: Socket, page: IPage) {
     page.limit = page.limit > 100 ? 100 : page.limit;
-    page.page += 1;
+    // page.page += 1;
     const channels = await this.chatService.getChannelForUser(
       socket.data.user.id,
       page,

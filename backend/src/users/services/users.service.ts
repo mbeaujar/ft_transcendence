@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto } from '../dtos/user.dto';
 import { User, State } from '../entities/user.entity';
 import { Friends } from '../../friends/entities/friends.entity';
+import { IUser } from '../interface/user.interface';
 
 @Injectable()
 export class UsersService {
@@ -26,7 +26,7 @@ export class UsersService {
    * @param userDetails Partial<User>
    * @returns Promise<User>
    */
-  async createUser(userDetails: UserDto): Promise<User> {
+  async createUser(userDetails: IUser): Promise<User> {
     const friends = this.friendsRepository.create({
       id: userDetails.id,
       friends: [],

@@ -10,8 +10,12 @@ const Chat: React.FC = (): JSX.Element => {
   const [page, setPage] = useState<string>('');
   const [listMessage, setListMessage] = useState<string[]>([]);
 
+  const renderedList = listMessage.map((message, index) => {
+    return <li key={index}>{message}</li>;
+  });
+
   useEffect(() => {
-    socket.connect();
+    // socket.connect();
 
     socket.receiveEvent('message', data => {
       setListMessage(prevArray => [...prevArray, data]);
@@ -21,15 +25,21 @@ const Chat: React.FC = (): JSX.Element => {
       console.log('data channels', data);
     });
 
-    return () => socket.disconnect();
+    // return () => {
+    // socket.disconnect();
+    // };
   }, []);
-
-  const renderedList = listMessage.map((message, index) => {
-    return <li key={index}>{message}</li>;
-  });
 
   return (
     <div>
+      <button
+        onClick={() => {
+          socket.connect();
+        }}
+      >
+        Connect socket
+      </button>
+      <button onClick={() => socket.disconnect()}>Disconnect socket</button>
       <div>
         <p>Create channel</p>
         <label>name: </label>
@@ -53,25 +63,27 @@ const Chat: React.FC = (): JSX.Element => {
       </div>
       <br />
       <div>
-        <label> page: </label>
+        <p>Find Channel</p>
+        {/* <label> number: </label>
         <input
           type="text"
           value={page}
           onChange={e => setPage(e.target.value)}
-        />
+        /> */}
         <button
           onClick={() => {
             socket.sendEvent('paginateChannels', {
-              page: parseInt(page),
+              page: 1,
               limit: 10,
             });
           }}
         >
-          Get page info
+          Get channel
         </button>
       </div>
       <br />
       <div>
+        <p>Discussion</p>
         <form
           onSubmit={e => {
             e.preventDefault();

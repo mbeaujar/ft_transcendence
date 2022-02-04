@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserDto } from '../../users/dtos/user.dto';
 import { UsersService } from '../../users/services/users.service';
 import { Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../../users/entities/user.entity';
+import { IUser } from 'src/users/interface/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(userDetails: UserDto): Promise<User> {
+  async validateUser(userDetails: IUser): Promise<User> {
     const user = await this.usersService.findUser(userDetails.id);
     if (!user) {
       return this.usersService.createUser(userDetails);

@@ -1,7 +1,6 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { UserDto } from '../../users/dtos/user.dto';
 import { User } from '../../users/entities/user.entity';
 import { AuthService } from '../services/auth.service';
 import { Auth } from '../decorators/auth.decorator';
