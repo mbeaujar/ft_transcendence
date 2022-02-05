@@ -1,5 +1,4 @@
 import {
-  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
@@ -24,7 +23,7 @@ import { JoinedChannel } from '../entities/joined-channel.entity';
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:8080', 'https://hoppscotch.io'],
+    origin: ['http://localhost:8080'],
     credentials: true,
   },
 })
@@ -57,19 +56,10 @@ export class ChatGateway
       if (!user) {
         return this.disconnect(socket);
       } else {
-        // connect
         socket.data.user = user;
-        const channels = await this.channelService.getChannelForUser(user.id, {
-          page: 1,
-          limit: 10,
-        });
-        // channels.meta.currentPage -= 1;
-
-        //  Save connection to database
+        const channels = await this.channelService.getChannelForUser(user.id);
         await this.connectedUserService.create({ socketId: socket.id, user });
-
-        console.log('connect', socket.id);
-        // Only emit channels to specific connected client
+        console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
@@ -79,7 +69,6 @@ export class ChatGateway
   }
 
   async handleDisconnect(socket: Socket) {
-    // remove connection from DB
     console.log('disconnect', socket.id);
     await this.connectedUserService.deleteBySocketId(socket.id);
     socket.disconnect();
@@ -92,16 +81,14 @@ export class ChatGateway
 
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
+    console.log('oui');
     const createdChannel: IChannel = await this.channelService.createChannel(
       channel,
       socket.data.user,
     );
     for (const user of createdChannel.users) {
       const connections = await this.connectedUserService.findByUser(user);
-      const channels = await this.channelService.getChannelForUser(user.id, {
-        page: 1,
-        limit: 10,
-      });
+      const channels = await this.channelService.getChannelForUser(user.id);
       for (const connection of connections) {
         await this.server.to(connection.socketId).emit('channels', channels);
       }
@@ -110,10 +97,7 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, channel: IChannel) {
-    const messages = await this.messageService.findMessageByChannel(channel, {
-      page: 1,
-      limit: 10,
-    });
+    const messages = await this.messageService.findMessageByChannel(channel);
 
     await this.joinedChannelService.create({
       socketId: socket.id,
@@ -143,12 +127,9 @@ export class ChatGateway
   }
 
   @SubscribeMessage('paginateChannels')
-  async onPaginateChannel(socket: Socket, page: IPage) {
-    page.limit = page.limit > 100 ? 100 : page.limit;
-    // page.page += 1;
+  async onPaginateChannel(socket: Socket) {
     const channels = await this.channelService.getChannelForUser(
-      socket.data.user.id,
-      page,
+      socket.data?.user?.id,
     );
     return this.server.to(socket.id).emit('channels', channels);
   }

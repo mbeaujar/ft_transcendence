@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
 import { Message } from 'src/chat/entities/message.entity';
 import { IChannel } from 'src/chat/interface/channel.interface';
 import { IMessage } from 'src/chat/interface/message.interface';
@@ -22,17 +17,13 @@ export class MessageService {
     return this.messageRepository.save(newMessage);
   }
 
-  async findMessageByChannel(
-    channel: IChannel,
-    options: IPaginationOptions,
-  ): Promise<Pagination<IMessage>> {
-    const query = this.messageRepository
+  async findMessageByChannel(channel: IChannel) {
+    return this.messageRepository
       .createQueryBuilder('message')
       .leftJoin('message.channel', 'channel')
       .where('channel.id = :channelId', { channelId: channel.id })
       .leftJoinAndSelect('message.user', 'user')
-      .orderBy('message.created_at', 'ASC');
-
-    return paginate(query, options);
+      .orderBy('message.created_at', 'ASC')
+      .getMany();
   }
 }

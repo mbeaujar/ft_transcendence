@@ -4,11 +4,6 @@ import { Repository } from 'typeorm';
 import { Channel } from 'src/chat/entities/channel.entity';
 import { IChannel } from 'src/chat/interface/channel.interface';
 import { User } from 'src/users/entities/user.entity';
-import {
-  IPaginationOptions,
-  Pagination,
-  paginate,
-} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ChannelService {
@@ -17,13 +12,6 @@ export class ChannelService {
     private readonly channelRepository: Repository<Channel>,
   ) {}
 
-  /**
-   * Create a channel
-   *
-   * @param channel
-   * @param creator
-   * @returns channel save in the db
-   */
   async createChannel(channel: IChannel, creator: User): Promise<Channel> {
     channel.users = [creator];
     const newChannel = this.channelRepository.create(channel);
@@ -36,23 +24,12 @@ export class ChannelService {
     });
   }
 
-  /**
-   * Find the channel with the user
-   *
-   * @param userId
-   * @param options
-   * @returns pagination
-   */
-  async getChannelForUser(
-    userId: number,
-    options: IPaginationOptions,
-  ): Promise<Pagination<Channel>> {
-    const query = this.channelRepository
+  async getChannelForUser(userId: number) {
+    return this.channelRepository
       .createQueryBuilder('channel')
       .leftJoin('channel.users', 'users')
       .where('users.id = :userId', { userId })
-      .leftJoinAndSelect('channel.users', 'all_users');
-
-    return paginate(query, options);
+      .leftJoinAndSelect('channel.users', 'all_users')
+      .getMany();
   }
 }

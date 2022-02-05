@@ -3,8 +3,6 @@ import { State } from '../entities/channel.entity';
 
 export class IChannel {
   id?: number;
-  name?: string;
-  state?: State;
-  ownerId?: number;
+  name: string;
   users: User[];
 }
