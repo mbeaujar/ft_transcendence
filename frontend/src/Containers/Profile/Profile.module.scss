@@ -77,8 +77,51 @@
         {
             background-color: $blue1;
         }
+
     }
+
+    .activeInfo 
+    {
+        display: block;
+    }
+
+    .disactiveInfo 
+    {
+        display: none;
+    }
+
+    .StatsInfo
+    {
+        flex-direction: column;
+        font-weight: bold;
+    
+        .Victory 
+        {
+            color: $green1;
+        }
+
+        .Defeats
+        {
+            color: $red1;
+        }
+    }
+
+    .FriendsInfo
+    {
+        
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
 
 .unauthorized 
 {

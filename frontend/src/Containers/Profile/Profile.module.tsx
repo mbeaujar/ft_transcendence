@@ -3,6 +3,7 @@ import axios from 'axios';
 import clsx from  'clsx';
 
 import classes from './Profile.module.scss';
+import { ClassExpression } from 'typescript';
 
 const apiAxios = axios.create({
     baseURL: 'http://localhost:3000/api',
@@ -38,12 +39,20 @@ function Profile(/*props:any*/) {
 
     const ftIsActiveMenu:any = (menuName:string) =>
     {
-        /*console.log(activeMenu);*/
-        if (menuName == activeMenu)
+        if (menuName === activeMenu)
         {
             return (classes.activeMenu);
         }
         return (classes.disactiveMenu);
+    }
+
+    const ftIsActiveInfo:any = (infoName:string) =>
+    {
+        if (infoName === activeMenu)
+        {
+            return (classes.activeInfo);
+        }
+        return (classes.disactiveInfo);
     }
 
     return (
@@ -51,7 +60,7 @@ function Profile(/*props:any*/) {
 
         <div className={clsx(classes.Profile, ftShowProfile(user))}>
             <div className={classes.User}>
-                <img src={user?.avatar}/>
+                <img src={user?.avatar} alt={user?.username}/>
                 <h1>{user?.username}</h1>    
             </div>
             <div className={classes.Menu}>
@@ -59,6 +68,23 @@ function Profile(/*props:any*/) {
                 <p className={clsx(classes.Stats, ftIsActiveMenu("Stats"))} onClick={() => setActiveMenu("Stats")}>Stats</p>
                 <p className={clsx(classes.Friends, ftIsActiveMenu("Friends"))} onClick={() => setActiveMenu("Friends")}>Friends</p>
             </div>
+
+            <div className={clsx(classes.HistoryInfo, ftIsActiveInfo("History"))}>
+                <h1>History</h1>
+            </div>
+
+            <div className={clsx(classes.StatsInfo, ftIsActiveInfo("Stats"))}>
+                <p className={classes.Victory}>{user?.wins} victory</p>
+                <p className={classes.Defeats}>{user?.losses} defeats</p>
+                <p className={classes.Rank}>Rank : 2{/*user?.rank*/} </p>
+                <p className={classes.Level}>Level : 1{/*user?.level*/} </p>
+                {/*<div className={classes.facts}>{user?.facts}</p>*/}
+            </div>
+
+            <div className={clsx(classes.FriendsInfo, ftIsActiveInfo("Friends"))}>
+                <h1>Friends</h1>
+            </div>
+
         </div>
 
 
