@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../auth/auth.module';
 import { AuthService } from '../auth/services/auth.service';
@@ -8,14 +7,25 @@ import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/services/users.service';
 import { ChatGateway } from './gateway/chat.gateway';
-import { ChatService } from './services/chat.service';
 import { Channel } from './entities/channel.entity';
-import { ConnectedUserService } from './services/connected-user.service';
+import { ConnectedUserService } from './services/connected-user/connected-user.service';
 import { ConnectedUser } from './entities/connected-user.entity';
+import { ChannelService } from './services/channel/channel.service';
+import { Message } from './entities/message.entity';
+import { JoinedChannel } from './entities/joined-channel.entity';
+import { JoinedChannelService } from './services/joined-channel/joined-channel.service';
+import { MessageService } from './services/message/message.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Friends, Channel, ConnectedUser]),
+    TypeOrmModule.forFeature([
+      User,
+      Friends,
+      Channel,
+      ConnectedUser,
+      Message,
+      JoinedChannel,
+    ]),
     AuthModule,
     UsersModule,
   ],
@@ -23,8 +33,10 @@ import { ConnectedUser } from './entities/connected-user.entity';
     ChatGateway,
     AuthService,
     UsersService,
-    ChatService,
     ConnectedUserService,
+    ChannelService,
+    JoinedChannelService,
+    MessageService,
   ],
 })
 export class ChatModule {}

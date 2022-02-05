@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { Channel } from '../entities/channel.entity';
-import { IChannel } from '../interface/channel.interface';
+import { Channel } from 'src/chat/entities/channel.entity';
+import { IChannel } from 'src/chat/interface/channel.interface';
+import { User } from 'src/users/entities/user.entity';
 import {
   IPaginationOptions,
   Pagination,
@@ -11,7 +11,7 @@ import {
 } from 'nestjs-typeorm-paginate';
 
 @Injectable()
-export class ChatService {
+export class ChannelService {
   constructor(
     @InjectRepository(Channel)
     private readonly channelRepository: Repository<Channel>,
@@ -28,6 +28,12 @@ export class ChatService {
     channel.users = [creator];
     const newChannel = this.channelRepository.create(channel);
     return this.channelRepository.save(newChannel);
+  }
+
+  async getChannel(channelId: number): Promise<Channel> {
+    return this.channelRepository.findOne(channelId, {
+      relations: ['users'],
+    });
   }
 
   /**

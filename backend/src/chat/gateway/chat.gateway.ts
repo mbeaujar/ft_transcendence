@@ -10,14 +10,17 @@ import { Socket, Server } from 'socket.io';
 import { AuthService } from '../../auth/services/auth.service';
 import { UsersService } from '../../users/services/users.service';
 import { User } from '../../users/entities/user.entity';
-import { UnauthorizedException } from '@nestjs/common';
-import { ChatService } from '../services/chat.service';
+import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import { IChannel } from '../interface/channel.interface';
-import { Channel } from '../entities/channel.entity';
 import { IPage } from '../interface/page.interface';
-import { ConnectedUserService } from '../services/connected-user.service';
-import { ConnectedUser } from '../entities/connected-user.entity';
-import { IConnectedUser } from '../interface/connected-user.interface';
+import { ConnectedUserService } from '../services/connected-user/connected-user.service';
+import { ChannelService } from '../services/channel/channel.service';
+import { JoinedChannelService } from '../services/joined-channel/joined-channel.service';
+import { MessageService } from '../services/message/message.service';
+import { IMessage } from '../interface/message.interface';
+import { Message } from '../entities/message.entity';
+import { Channel } from '../entities/channel.entity';
+import { JoinedChannel } from '../entities/joined-channel.entity';
 
 @WebSocketGateway({
   cors: {
@@ -25,16 +28,25 @@ import { IConnectedUser } from '../interface/connected-user.interface';
     credentials: true,
   },
 })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+{
   @WebSocketServer()
   server: Server;
 
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
-    private readonly chatService: ChatService,
+    private readonly channelService: ChannelService,
     private readonly connectedUserService: ConnectedUserService,
+    private readonly joinedChannelService: JoinedChannelService,
+    private readonly messageService: MessageService,
   ) {}
+
+  async onModuleInit() {
+    await this.connectedUserService.deleteAll();
+    await this.joinedChannelService.deleteAll();
+  }
 
   async handleConnection(socket: Socket) {
     try {
@@ -47,7 +59,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       } else {
         // connect
         socket.data.user = user;
-        const channels = await this.chatService.getChannelForUser(user.id, {
+        const channels = await this.channelService.getChannelForUser(user.id, {
           page: 1,
           limit: 10,
         });
@@ -78,20 +90,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     socket.disconnect();
   }
 
-  @SubscribeMessage('message')
-  async sendMessages(@MessageBody() message: string) {
-    this.server.emit('message', message);
-  }
-
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
-    const createdChannel: IChannel = await this.chatService.createChannel(
+    const createdChannel: IChannel = await this.channelService.createChannel(
       channel,
       socket.data.user,
     );
     for (const user of createdChannel.users) {
       const connections = await this.connectedUserService.findByUser(user);
-      const channels = await this.chatService.getChannelForUser(user.id, {
+      const channels = await this.channelService.getChannelForUser(user.id, {
         page: 1,
         limit: 10,
       });
@@ -101,11 +108,45 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
+  @SubscribeMessage('joinChannel')
+  async onJoinChannel(socket: Socket, channel: IChannel) {
+    const messages = await this.messageService.findMessageByChannel(channel, {
+      page: 1,
+      limit: 10,
+    });
+
+    await this.joinedChannelService.create({
+      socketId: socket.id,
+      user: socket.data.user,
+      channel,
+    });
+
+    this.server.to(socket.id).emit('messages', messages);
+  }
+
+  @SubscribeMessage('leaveChannel')
+  async onLeaveChannel(socket: Socket) {
+    await this.joinedChannelService.deleteBySocketId(socket.id);
+  }
+
+  @SubscribeMessage('addMessage')
+  async onAddMessage(socket: Socket, message: IMessage) {
+    const createdMessage: Message = await this.messageService.create({
+      ...message,
+      user: socket.data.user,
+    });
+    const channel: Channel = await this.channelService.getChannel(
+      createdMessage.channel.id,
+    );
+    const joinedUser: JoinedChannel[] =
+      await this.joinedChannelService.findByChannel(channel);
+  }
+
   @SubscribeMessage('paginateChannels')
   async onPaginateChannel(socket: Socket, page: IPage) {
     page.limit = page.limit > 100 ? 100 : page.limit;
     // page.page += 1;
-    const channels = await this.chatService.getChannelForUser(
+    const channels = await this.channelService.getChannelForUser(
       socket.data.user.id,
       page,
     );

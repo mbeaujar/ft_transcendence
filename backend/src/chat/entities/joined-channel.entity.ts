@@ -6,19 +6,21 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Channel } from './channel.entity';
 
-/**
- * Which user is connected to the gateway
- */
 @Entity()
-export class ConnectedUser {
+export class JoinedChannel {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   socketId: string;
 
-  @ManyToOne(() => User, (user) => user.connections)
+  @ManyToOne(() => User, (user) => user.joinedChannels)
   @JoinColumn()
   user: User;
+
+  @ManyToOne(() => Channel, (channel) => channel.joinedUsers)
+  @JoinColumn()
+  channel: Channel;
 }

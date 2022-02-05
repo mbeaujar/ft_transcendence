@@ -4,9 +4,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { JoinedChannel } from './joined-channel.entity';
+import { Message } from './message.entity';
 
 export enum State {
   public,
@@ -22,18 +24,15 @@ export class Channel {
   @Column()
   name: string;
 
-  // @Column({ default: State.private })
-  // state: State;
-
-  // @Column({ nullable: true })
-  // password: string;
-
-  // @Column({ nullable: true })
-  // ownerId: number;
-
-  // relations
+  /** relations */
 
   @ManyToMany(() => User)
   @JoinTable()
   users: User[];
+
+  @OneToMany(() => JoinedChannel, (joinedUser) => joinedUser.channel)
+  joinedUsers: JoinedChannel[];
+
+  @OneToMany(() => Message, (message) => message.channel)
+  messages: Message[];
 }

@@ -2,6 +2,8 @@ import { Channel } from '../../chat/entities/channel.entity';
 import { Friends } from '../../friends/entities/friends.entity';
 import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { ConnectedUser } from 'src/chat/entities/connected-user.entity';
+import { JoinedChannel } from 'src/chat/entities/joined-channel.entity';
+import { Message } from 'src/chat/entities/message.entity';
 
 export enum State {
   online,
@@ -33,16 +35,24 @@ export class User {
   @Column({ default: 0 })
   losses: number;
 
-  // relations
+  /** relations */
+
+  // ------------- chat
 
   @OneToMany(() => ConnectedUser, (connection) => connection.user)
   connections: ConnectedUser[];
 
-  /** list of members of channel */
+  @OneToMany(() => JoinedChannel, (joinChannel) => joinChannel.user)
+  joinedChannels: JoinedChannel[];
+
   @ManyToMany(() => Channel, (channel) => channel.users)
   channels: Channel[];
 
-  /** list of friends */
+  @OneToMany(() => Message, (message) => message.user)
+  messages: Message[];
+
+  // -------------  friends
+
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];
 }
