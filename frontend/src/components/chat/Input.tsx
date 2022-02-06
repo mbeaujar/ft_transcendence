@@ -18,7 +18,7 @@ const Input: React.FC<Props> = (props: Props): JSX.Element => {
           setText('');
         }}
       >
-        <label>{props?.label}</label>
+        <label>{props?.label} </label>
         <input
           type="text"
           value={text}

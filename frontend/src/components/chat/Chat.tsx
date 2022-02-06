@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../apis/api';
 import Input from './Input';
 import { WebSocket } from './Socket';
 import { IUser } from '../interface/user.interface';
 import { IChannel } from '../interface/channel.interface';
-
-import './Chat.css';
 import { IMessage } from '../interface/message.interface';
+import './Chat.css';
 
 const ws = new WebSocket('http://localhost:3000');
 
@@ -29,6 +27,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       console.log('messages', data);
       setMessages(data);
     });
+
+    ws.socket.on('messageAdded', data => {
+      setMessages(prev => [...prev, data]);
+    });
+
+    ws.socket.emit('getAllChannels');
   }, []);
 
   useEffect(() => {
@@ -40,6 +44,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <div key={channel.id}>
         <button
           onClick={() => {
+            ws.socket.emit('leaveChannel');
             ws.socket.emit('joinChannel', channel);
             setChannelChoose(channel);
           }}
@@ -51,9 +56,15 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   });
 
   const renderedMessages = messages.map(message => {
+    const isUserMessage =
+      message.user.id === props.user.id ? 'message-right' : 'message-left';
     return (
-      <div key={message.id}>
-        <p>{message.text}</p>
+      <div key={message.id} className={`message ${isUserMessage}`}>
+        <p style={{ marginLeft: 10 }}>
+          {message.user.username}
+          <br />
+          {message.text}
+        </p>
       </div>
     );
   });
@@ -61,7 +72,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div>
       <Input
-        label="Create channel "
+        label="Create channel"
         onSubmit={(text: string) => {
           const channel: IChannel = {
             name: text,
@@ -70,6 +81,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           ws.socket.emit('createChannel', channel);
         }}
       />
+      <br />
       <Input
         label="send Message"
         onSubmit={(text: string) => {

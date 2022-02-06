@@ -24,6 +24,15 @@ export class ChannelService {
     });
   }
 
+  async addUser(channel: IChannel, user: User): Promise<Channel> {
+    channel.users.push(user);
+    return this.channelRepository.save(channel);
+  }
+
+  async getAllChannels(): Promise<Channel[]> {
+    return this.channelRepository.createQueryBuilder().getMany();
+  }
+
   async getChannelForUser(userId: number) {
     return this.channelRepository
       .createQueryBuilder('channel')

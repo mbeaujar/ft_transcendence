@@ -7,9 +7,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-/**
- * Which user is connected to the gateway
- */
 @Entity()
 export class ConnectedUser {
   @PrimaryGeneratedColumn()

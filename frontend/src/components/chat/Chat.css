@@ -12,13 +12,26 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	/* background-color: coral; */
 	width: 20vw;
 	height: 50vh;
 }
 
 .block-right {
-	/* background-color: coral; */
 	width: 80vw;
 	height: 50vh;
+	display: block;
+}
+
+.message {
+	border-radius: 3%;
+	width: 10em;
+}
+
+.message-left {
+	background-color: aliceblue;
+}
+
+.message-right {
+	background-color: grey;
+	margin-left: 300px;
 }

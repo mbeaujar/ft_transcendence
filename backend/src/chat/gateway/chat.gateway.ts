@@ -20,6 +20,7 @@ import { IMessage } from '../interface/message.interface';
 import { Message } from '../entities/message.entity';
 import { Channel } from '../entities/channel.entity';
 import { JoinedChannel } from '../entities/joined-channel.entity';
+import { INewUser } from '../interface/new-user.interface';
 
 @WebSocketGateway({
   cors: {
@@ -46,6 +47,8 @@ export class ChatGateway
     await this.connectedUserService.deleteAll();
     await this.joinedChannelService.deleteAll();
   }
+
+  /** ---------------------------  CONNECTION  -------------------------------- */
 
   async handleConnection(socket: Socket) {
     try {
@@ -79,9 +82,10 @@ export class ChatGateway
     socket.disconnect();
   }
 
+  /** ---------------------------  CHANNEL -------------------------------- */
+
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
-    console.log('oui');
     const createdChannel: IChannel = await this.channelService.createChannel(
       channel,
       socket.data.user,
@@ -90,7 +94,7 @@ export class ChatGateway
       const connections = await this.connectedUserService.findByUser(user);
       const channels = await this.channelService.getChannelForUser(user.id);
       for (const connection of connections) {
-        await this.server.to(connection.socketId).emit('channels', channels);
+        this.server.to(connection.socketId).emit('channels', channels);
       }
     }
   }
@@ -113,6 +117,22 @@ export class ChatGateway
     await this.joinedChannelService.deleteBySocketId(socket.id);
   }
 
+  @SubscribeMessage('getAllChannels')
+  async getAllChannels(socket: Socket) {
+    const channels = await this.channelService.getAllChannels();
+    return this.server.to(socket.id).emit('channels', channels);
+  }
+
+  @SubscribeMessage('getChannels')
+  async getChannels(socket: Socket) {
+    const channels = await this.channelService.getChannelForUser(
+      socket.data?.user?.id,
+    );
+    return this.server.to(socket.id).emit('channels', channels);
+  }
+
+  /** ---------------------------  MESSAGE  -------------------------------- */
+
   @SubscribeMessage('addMessage')
   async onAddMessage(socket: Socket, message: IMessage) {
     const createdMessage: Message = await this.messageService.create({
@@ -122,15 +142,11 @@ export class ChatGateway
     const channel: Channel = await this.channelService.getChannel(
       createdMessage.channel.id,
     );
-    const joinedUser: JoinedChannel[] =
+    const joinedUsers: JoinedChannel[] =
       await this.joinedChannelService.findByChannel(channel);
-  }
-
-  @SubscribeMessage('paginateChannels')
-  async onPaginateChannel(socket: Socket) {
-    const channels = await this.channelService.getChannelForUser(
-      socket.data?.user?.id,
-    );
-    return this.server.to(socket.id).emit('channels', channels);
+    /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */
+    for (const user of joinedUsers) {
+      this.server.to(user.socketId).emit('messageAdded', createdMessage);
+    }
   }
 }
