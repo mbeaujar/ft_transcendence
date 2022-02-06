@@ -48,7 +48,7 @@ function Game(/*props:any*/) {
                 <div className={classes.player_score}>0</div>
                 <div className={classes.computer_score}>0</div>
             </div>
-            <div className={classes.ball} id="ball"></div>
+            <div className={classes.ball}></div>
             <div className={clsx(classes.paddle, classes.left, classes.player_paddle)}></div>
             <div className={clsx(classes.paddle, classes.right, classes.computer_paddle)}></div>
         </div>
