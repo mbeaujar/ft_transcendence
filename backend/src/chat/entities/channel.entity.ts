@@ -10,16 +10,18 @@ import {
 import { JoinedChannel } from './joined-channel.entity';
 import { Message } from './message.entity';
 
-export enum State {
-  public,
-  private,
-  protected,
-}
-
 @Entity()
 export class Channel {
   @PrimaryGeneratedColumn()
   id: number;
+
+  // @Column('number', { default: 0 })
+  @Column()
+  state: number;
+
+  // @Column('string', { default: '' })
+  @Column({ select: false })
+  password: string;
 
   @Column()
   name: string;

@@ -11,7 +11,6 @@ import { UsersService } from '../../users/services/users.service';
 import { User } from '../../users/entities/user.entity';
 import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import { IChannel } from '../interface/channel.interface';
-import { IPage } from '../interface/page.interface';
 import { ConnectedUserService } from '../services/connected-user/connected-user.service';
 import { ChannelService } from '../services/channel/channel.service';
 import { JoinedChannelService } from '../services/joined-channel/joined-channel.service';
@@ -20,7 +19,6 @@ import { IMessage } from '../interface/message.interface';
 import { Message } from '../entities/message.entity';
 import { Channel } from '../entities/channel.entity';
 import { JoinedChannel } from '../entities/joined-channel.entity';
-import { INewUser } from '../interface/new-user.interface';
 
 @WebSocketGateway({
   cors: {
@@ -90,24 +88,28 @@ export class ChatGateway
       channel,
       socket.data.user,
     );
-    for (const user of createdChannel.users) {
-      const connections = await this.connectedUserService.findByUser(user);
-      const channels = await this.channelService.getChannelForUser(user.id);
-      for (const connection of connections) {
-        this.server.to(connection.socketId).emit('channels', channels);
-      }
-    }
+    const channels = await this.channelService.getAllChannels();
+    this.server.to(socket.id).emit('channels', channels);
   }
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, channel: IChannel) {
+    console.log('channel', channel);
+
+    if (channel.state === 2) {
+      await this.channelService.verifyPassword(channel.id, channel.password);
+    }
+
     const messages = await this.messageService.findMessageByChannel(channel);
 
+    // console.log('channel', channel);
     await this.joinedChannelService.create({
       socketId: socket.id,
       user: socket.data.user,
       channel,
     });
+
+    await this.channelService.addUser(channel, socket.data.user);
 
     this.server.to(socket.id).emit('messages', messages);
   }

@@ -45,7 +45,15 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         <button
           onClick={() => {
             ws.socket.emit('leaveChannel');
-            ws.socket.emit('joinChannel', channel);
+            const password = prompt('password') || '';
+            const joinChannel: IChannel = {
+              id: channel.id,
+              name: channel.name,
+              state: channel.state,
+              password,
+              users: channel.users,
+            };
+            ws.socket.emit('joinChannel', joinChannel);
             setChannelChoose(channel);
           }}
         >
@@ -74,9 +82,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <Input
         label="Create channel"
         onSubmit={(text: string) => {
+          const state = parseInt(prompt('state') || '0');
+          const password = prompt('password') || '';
           const channel: IChannel = {
             name: text,
             users: [],
+            state,
+            password,
           };
           ws.socket.emit('createChannel', channel);
         }}
