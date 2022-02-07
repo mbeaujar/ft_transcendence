@@ -22,14 +22,10 @@ export class ChannelService {
     return salt + '.' + hash.toString('hex');
   }
 
-  async verifyPassword(id: number, password: string) {
-    const channel = await this.channelRepository.findOne(id, {
-      select: ['password'],
-    });
+  async verifyPassword(channel: IChannel, password: string) {
     if (!channel) {
       throw new WsException('channel not found');
     }
-    console.log('channel find', channel);
     const [salt, storedHash] = channel.password.split('.');
     const hash = (await scrypt(password, salt, 64)) as Buffer;
     if (hash.toString('hex') !== storedHash) {
@@ -49,6 +45,7 @@ export class ChannelService {
   async getChannel(channelId: number): Promise<Channel> {
     return this.channelRepository.findOne(channelId, {
       relations: ['users'],
+      select: ['password'],
     });
   }
 

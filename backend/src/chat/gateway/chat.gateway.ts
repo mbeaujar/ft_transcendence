@@ -4,6 +4,7 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { AuthService } from '../../auth/services/auth.service';
@@ -94,23 +95,23 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, channel: IChannel) {
-    console.log('channel', channel);
-
-    if (channel.state === 2) {
-      await this.channelService.verifyPassword(channel.id, channel.password);
+    if (channel.state === 1) {
+      throw new WsException('channel is private');
     }
-
+    const channelDB = await this.channelService.getChannel(channel.id);
+    if (channelDB.users.includes(socket.data.user)) {
+      throw new WsException('user already in the channel');
+    }
+    if (channel.state === 2) {
+      await this.channelService.verifyPassword(channelDB, channel.password);
+    }
     const messages = await this.messageService.findMessageByChannel(channel);
-
-    // console.log('channel', channel);
     await this.joinedChannelService.create({
       socketId: socket.id,
       user: socket.data.user,
       channel,
     });
-
     await this.channelService.addUser(channel, socket.data.user);
-
     this.server.to(socket.id).emit('messages', messages);
   }
 
