@@ -39,27 +39,54 @@ function Game(/*props:any*/) {
 
       
     var canvas : any = document.getElementById(styles.canvas);
+    var x = 50;
+    var y = 50;
+    var dx = 2;
+    var dy = 4;
+    var ctx:any;
+    var WIDTH:any;
+    var HEIGHT:any;
 
-
-        var x = 50;
-        var y = 50;
-        var dx = 2;
-        var dy = 4;
-        var ctx:any;
-
-    function init() {
+    function init() 
+    {
         ctx = canvas.getContext("2d");
+        var style = window.getComputedStyle(canvas),
+        WIDTH = style.getPropertyValue('width');
+        HEIGHT = style.getPropertyValue('height');
         return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
 
-    function draw() {
-    ctx.clearRect(0,0,300,300);
-    ctx.beginPath();
-    ctx.arc(x, y, 10, 0, Math.PI*2, true); 
-    ctx.closePath();
-    ctx.fill();
-    x += dx; // On déplace la balle
-    y += dy;
+
+    function circle(x:any,y:any,r:any) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI*2, true);
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    function rect(x:any,y:any,w:any,h:any) {
+        ctx.beginPath();
+        ctx.rect(x,y,w,h);
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    function clear() {
+        ctx.clearRect(0, 0, 800, 400);
+    }
+
+    function draw() 
+    {
+        clear();
+        circle(x, y, 10);
+
+        if (x + dx > 800 || x + dx < 0) // Dépassement à droite ou à gauche
+            dx = -dx;
+        if (y + dy > 400 || y + dy < 0) // Dépassement en bas ou en haut
+            dy = -dy;
+       
+        x += dx;
+        y += dy;
     }
 
 
@@ -76,10 +103,10 @@ function Game(/*props:any*/) {
     
     return (
         <>
-        {/*https://www.youtube.com/watch?v=PeY6lXPrPaA*/}
+        {/*https://jill-jenn.net/conferences/cassebriques/move.html*/}
 
         <div className={clsx(classes.Game, ftShowGame(user))}>
-            <canvas id={styles.canvas} onClick={()=>play()}></canvas>
+            <canvas id={styles.canvas} width="800" height="400" onClick={()=>play()}></canvas>
         </div>
 
 
