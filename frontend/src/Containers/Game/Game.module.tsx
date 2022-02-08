@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import clsx from  'clsx';
 import classes from './Game.module.scss';
-import './Game.module.scss'
+import styles from './Game.module.scss'
 
 
 const apiAxios = axios.create({
@@ -34,23 +34,59 @@ function Game(/*props:any*/) {
     useEffect(() => {
         apiAxios.get('/auth/status', 
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
+
       });
 
+      
+    var canvas : any = document.getElementById(styles.canvas);
+/*
+        var ctx : any = canvas.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(75, 75, 10, 0, Math.PI*2, true); // Centre (75, 75), rayon 10, de 0 à 2π
+        ctx.closePath();
+        ctx.fill();*/
+
+        var x = 50;
+        var y = 50;
+        var dx = 0.2;
+        var dy = 0.4;
+        var ctx:any;
+
+    function init() {
+        ctx = canvas.getContext("2d");
+        return setInterval(draw, 100); // Exécuter draw() toutes les 10 ms
+    }
+
+    function draw() {
+    ctx.clearRect(0,0,300,300);
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI*2, true); 
+    ctx.closePath();
+    ctx.fill();
+    x += dx; // On déplace la balle
+    y += dy;
+    }
+
+    if (canvas != null)
+    {
+        init();
+    }
+
+    
+    
 
 
 
+
+
+
+    
     return (
         <>
         {/*https://www.youtube.com/watch?v=PeY6lXPrPaA*/}
 
         <div className={clsx(classes.Game, ftShowGame(user))}>
-            <div className={classes.score}>
-                <div className={classes.player_score}>0</div>
-                <div className={classes.computer_score}>0</div>
-            </div>
-            <div className={classes.ball}></div>
-            <div className={clsx(classes.paddle, classes.left, classes.player_paddle)}></div>
-            <div className={clsx(classes.paddle, classes.right, classes.computer_paddle)}></div>
+            <canvas id={styles.canvas}></canvas>
         </div>
 
 
