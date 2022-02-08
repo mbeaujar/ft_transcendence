@@ -39,22 +39,17 @@ function Game(/*props:any*/) {
 
       
     var canvas : any = document.getElementById(styles.canvas);
-/*
-        var ctx : any = canvas.getContext("2d");
-        ctx.beginPath();
-        ctx.arc(75, 75, 10, 0, Math.PI*2, true); // Centre (75, 75), rayon 10, de 0 à 2π
-        ctx.closePath();
-        ctx.fill();*/
+
 
         var x = 50;
         var y = 50;
-        var dx = 0.2;
-        var dy = 0.4;
+        var dx = 2;
+        var dy = 4;
         var ctx:any;
 
     function init() {
         ctx = canvas.getContext("2d");
-        return setInterval(draw, 100); // Exécuter draw() toutes les 10 ms
+        return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
 
     function draw() {
@@ -67,18 +62,16 @@ function Game(/*props:any*/) {
     y += dy;
     }
 
-    if (canvas != null)
+
+    const play:any = () =>
     {
-        init();
+        if (canvas != null)
+        {
+            init();
+        }
     }
 
     
-    
-
-
-
-
-
 
     
     return (
@@ -86,7 +79,7 @@ function Game(/*props:any*/) {
         {/*https://www.youtube.com/watch?v=PeY6lXPrPaA*/}
 
         <div className={clsx(classes.Game, ftShowGame(user))}>
-            <canvas id={styles.canvas}></canvas>
+            <canvas id={styles.canvas} onClick={()=>play()}></canvas>
         </div>
 
 
