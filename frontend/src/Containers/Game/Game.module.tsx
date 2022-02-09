@@ -21,9 +21,12 @@ function Game(/*props:any*/) {
 
 
     const stateGame = useRef<any>({
-        canvas:new HTMLCanvasElement(),
         arrowLeft:Boolean(false),
         arrowRight:Boolean(false),
+        ballX:Number(0),
+        ballY:Number(0),
+        ballDx:Number(0),
+        ballDy:Number(0)
     });
 
     function ftShowGame(user:any)
@@ -50,9 +53,8 @@ function Game(/*props:any*/) {
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
     });
 
-      
     var canvas : any = document.getElementById(styles.canvas);
-    var x = 800/2;
+    /*var x = 800/2;*/
     var y = 400/2;
     var dx = 4;
     var dy = 2;
@@ -129,7 +131,7 @@ function Game(/*props:any*/) {
     {
         clear();
         ctx.fillStyle = "#FFFFFF";
-        circle(x, y, 10); 
+        circle(stateGame.current.ballX, y, 10); 
 
         
         if (stateGame.current.arrowLeft === true && paddleY.current > 0)
@@ -145,11 +147,11 @@ function Game(/*props:any*/) {
             dy = -dy;
         }
 
-        if (x + dx + 10 > 800)
+        if (stateGame.current.ballX + dx + 10 > 800)
         {
             dx = -dx;
         }
-        else if (x + dx - 10 < paddlew) 
+        else if (stateGame.current.ballX + dx - 10 < paddlew) 
         {
             if (y >= paddleY.current - 10 && y <= paddleY.current + paddleh + 10)//10 = securite
             {
@@ -160,12 +162,12 @@ function Game(/*props:any*/) {
             else
             {
                 // Sinon la balle revient au centre
-                x = 800/2;
+                stateGame.current.ballX = 800/2;
                 y = 400/2;
             }
         }
        
-        x += dx;
+        stateGame.current.ballX += dx;
         y += dy;
     }
 
