@@ -17,7 +17,7 @@ function Game(/*props:any*/) {
 
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
-    const paddleY= useRef<number>(175);
+    /*const paddleY= useRef<number>(175);*/
 
 
     const stateGame = useRef<any>({
@@ -26,7 +26,8 @@ function Game(/*props:any*/) {
         ballX:Number(0),
         ballY:Number(0),
         ballDx:Number(0),
-        ballDy:Number(0)
+        ballDy:Number(0),
+        player1PaddleY:Number(0)
     });
 
     function ftShowGame(user:any)
@@ -54,16 +55,11 @@ function Game(/*props:any*/) {
     });
 
     var canvas : any = document.getElementById(styles.canvas);
-    /*var x = 800/2;
-    var y = 400/2;*/
-    var dx = 4;
-    var dy = 2;
+
     var ctx:any;
     var WIDTH:any;
     var HEIGHT:any;
-    /*var paddleY:any;*/
-    var paddleh:any;
-    var paddlew:any;
+
 
     function init() 
     {
@@ -71,15 +67,20 @@ function Game(/*props:any*/) {
         var style = window.getComputedStyle(canvas),
         WIDTH = style.getPropertyValue('width');
         HEIGHT = style.getPropertyValue('height');
+        
+        stateGame.current.ballX = 800/2;
+        stateGame.current.ballY = 400/2;
+        stateGame.current.ballDx = 4;
+        stateGame.current.ballDy = 2;
+
+        stateGame.current.player1PaddleY = 175/2;
+        stateGame.current.player1PaddleW = 10;
+        stateGame.current.player1PaddleH = 75;
+        
         return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
 
-    function init_paddle() 
-    {
-        /*paddleY = 350 / 2;*/
-        paddleh = 75;
-        paddlew = 10;
-    }
+    
 
 
     function circle(x:any,y:any,r:any) {
@@ -134,30 +135,30 @@ function Game(/*props:any*/) {
         circle(stateGame.current.ballX, stateGame.current.ballY, 10); 
 
         
-        if (stateGame.current.arrowLeft === true && paddleY.current > 0)
-            paddleY.current = paddleY.current - 5;
-        else if (stateGame.current.arrowRight === true && paddleY.current < 400 - paddleh)
-            paddleY.current = paddleY.current + 5;
+        if (stateGame.current.arrowLeft === true && stateGame.current.player1PaddleY > 0)
+            stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - 5;
+        else if (stateGame.current.arrowRight === true && stateGame.current.player1PaddleY < 400 - stateGame.current.player1PaddleH)
+        stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + 5;
         
         ctx.fillStyle = "#00A308";
-        rect(0, paddleY.current, paddlew, paddleh);
+        rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
 
-        if (stateGame.current.ballY + dy + 10 > 400 || stateGame.current.ballY + dy - 10 < 0) // Dépassement à droite ou à gauche
+        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > 400 || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Dépassement à droite ou à gauche
         {
-            dy = -dy;
+            stateGame.current.ballDy = -stateGame.current.ballDy;
         }
 
-        if (stateGame.current.ballX + dx + 10 > 800)
+        if (stateGame.current.ballX + stateGame.current.ballDx + 10 > 800)
         {
-            dx = -dx;
+            stateGame.current.ballDx = -stateGame.current.ballDx;
         }
-        else if (stateGame.current.ballX + dx - 10 < paddlew) 
+        else if (stateGame.current.ballX + stateGame.current.ballDx - 10 < stateGame.current.player1PaddleW) 
         {
-            if (stateGame.current.ballY >= paddleY.current - 10 && stateGame.current.ballY <= paddleY.current + paddleh + 10)//10 = securite
+            if (stateGame.current.ballY >= stateGame.current.player1PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player1PaddleY + stateGame.current.player1PaddleH + 10)//10 = securite
             {
                 // Si la balle rentre en collision avec la raquette, la balle rebondit
-                dx = -dx;
-                dy = 8 * ((stateGame.current.ballY-(paddleY.current + paddleh/2))/paddleh);
+                stateGame.current.ballDx = -stateGame.current.ballDx;
+                stateGame.current.ballDy = 8 * ((stateGame.current.ballY-(stateGame.current.player1PaddleY + stateGame.current.player1PaddleH/2))/stateGame.current.player1PaddleH);
             }
             else
             {
@@ -167,18 +168,17 @@ function Game(/*props:any*/) {
             }
         }
        
-        stateGame.current.ballX += dx;
-        stateGame.current.ballY += dy;
+        stateGame.current.ballX += stateGame.current.ballDx;
+        stateGame.current.ballY += stateGame.current.ballDy;
     }
 
 
     const play:any = () =>
     {
-        if (canvas != null && activeGame == false)
+        if (canvas != null && activeGame === false)
         {
             setActiveGame(true);
             init();
-            init_paddle();
         }
     }
 
