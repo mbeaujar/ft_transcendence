@@ -39,10 +39,8 @@ function Game(/*props:any*/) {
         player2PaddleY:Number(0)
     });
     
-    var canvas : any = document.getElementById(styles.canvas);
+    var canvas:any = document.getElementById(styles.canvas);
     var ctx:any;
-    var WIDTH:any;
-    var HEIGHT:any;
 
     
     function ftShowGame(user:any)
@@ -69,23 +67,12 @@ function Game(/*props:any*/) {
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
     });
 
-    function ftCut()
-    {
-        let i:number = 0;
-        while (stateGame.current.widthStrUnit[i])
-        {
-            if (stateGame.current.widthStrUnit >= "0" || stateGame.current.widthStrUnit <= "9" )
-                stateGame.current.widthStr[i] = stateGame.current.widthStrUnit[i];
-            else
-                break;
-            i++;
-        }
-    }
 
     function init() 
     {
         ctx = canvas.getContext("2d");
         var style = window.getComputedStyle(canvas);
+
         stateGame.current.width = parseInt(style.getPropertyValue('width'));
         stateGame.current.height = parseInt(style.getPropertyValue('height'));
         
@@ -97,6 +84,10 @@ function Game(/*props:any*/) {
         stateGame.current.player1PaddleW = 10;
         stateGame.current.player1PaddleH = 75;
         stateGame.current.player1PaddleY = stateGame.current.height/2 - stateGame.current.player1PaddleH/2;
+
+        stateGame.current.player2PaddleW = 10;
+        stateGame.current.player2PaddleH = 75;
+        stateGame.current.player2PaddleY = stateGame.current.height/2 - stateGame.current.player1PaddleH/2;
         
         return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
@@ -163,6 +154,9 @@ function Game(/*props:any*/) {
         
         ctx.fillStyle = "#00A308";
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
+
+        ctx.fillStyle = "#2ddff3";
+        rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
 
         if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Dépassement à droite ou à gauche
         {
