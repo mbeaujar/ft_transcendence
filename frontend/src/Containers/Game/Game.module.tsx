@@ -18,18 +18,33 @@ function Game(/*props:any*/) {
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
     /*const paddleY= useRef<number>(175);*/
-
-
+    
+    
     const stateGame = useRef<any>({
-        arrowLeft:Boolean(false),
-        arrowRight:Boolean(false),
+        width:Number(0),
+        height:Number(0),
         ballX:Number(0),
         ballY:Number(0),
         ballDx:Number(0),
         ballDy:Number(0),
-        player1PaddleY:Number(0)
+        player1Top:Boolean(false),
+        player1Bottom:Boolean(false),
+        player1PaddleW:Number(0),
+        player1PaddleH:Number(0),
+        player1PaddleY:Number(0),
+        player2Top:Boolean(false),
+        player2Bottom:Boolean(false),
+        player2PaddleW:Number(0),
+        player2PaddleH:Number(0),
+        player2PaddleY:Number(0)
     });
+    
+    var canvas : any = document.getElementById(styles.canvas);
+    var ctx:any;
+    var WIDTH:any;
+    var HEIGHT:any;
 
+    
     function ftShowGame(user:any)
     {
         if (user==null)
@@ -54,28 +69,34 @@ function Game(/*props:any*/) {
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
     });
 
-    var canvas : any = document.getElementById(styles.canvas);
-
-    var ctx:any;
-    var WIDTH:any;
-    var HEIGHT:any;
-
+    function ftCut()
+    {
+        let i:number = 0;
+        while (stateGame.current.widthStrUnit[i])
+        {
+            if (stateGame.current.widthStrUnit >= "0" || stateGame.current.widthStrUnit <= "9" )
+                stateGame.current.widthStr[i] = stateGame.current.widthStrUnit[i];
+            else
+                break;
+            i++;
+        }
+    }
 
     function init() 
     {
         ctx = canvas.getContext("2d");
-        var style = window.getComputedStyle(canvas),
-        WIDTH = style.getPropertyValue('width');
-        HEIGHT = style.getPropertyValue('height');
+        var style = window.getComputedStyle(canvas);
+        stateGame.current.width = parseInt(style.getPropertyValue('width'));
+        stateGame.current.height = parseInt(style.getPropertyValue('height'));
         
-        stateGame.current.ballX = 800/2;
-        stateGame.current.ballY = 400/2;
+        stateGame.current.ballX = stateGame.current.width/2;
+        stateGame.current.ballY = stateGame.current.height/2;
         stateGame.current.ballDx = 4;
         stateGame.current.ballDy = 2;
 
-        stateGame.current.player1PaddleY = 175/2;
         stateGame.current.player1PaddleW = 10;
         stateGame.current.player1PaddleH = 75;
+        stateGame.current.player1PaddleY = stateGame.current.height/2 - stateGame.current.player1PaddleH/2;
         
         return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
@@ -98,31 +119,31 @@ function Game(/*props:any*/) {
     }
     
     function clear() {
-        ctx.clearRect(0, 0, 800, 400);
+        ctx.clearRect(0, 0, stateGame.current.width, stateGame.current.height);
     }
 
 
     const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            stateGame.current.arrowLeft = true;
+            stateGame.current.player1Top = true;
         }
         
         if (event.code === "ArrowRight") 
         {
-            stateGame.current.arrowRight = true;
+            stateGame.current.player1Bottom = true;
         }
     };
 
     const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            stateGame.current.arrowLeft = false;
+            stateGame.current.player1Top = false;
         }
         
         if (event.code === "ArrowRight") 
         {
-            stateGame.current.arrowRight = false;
+            stateGame.current.player1Bottom = false;
         }
     };
     
@@ -135,20 +156,20 @@ function Game(/*props:any*/) {
         circle(stateGame.current.ballX, stateGame.current.ballY, 10); 
 
         
-        if (stateGame.current.arrowLeft === true && stateGame.current.player1PaddleY > 0)
+        if (stateGame.current.player1Top === true && stateGame.current.player1PaddleY > 0)
             stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - 5;
-        else if (stateGame.current.arrowRight === true && stateGame.current.player1PaddleY < 400 - stateGame.current.player1PaddleH)
+        else if (stateGame.current.player1Bottom === true && stateGame.current.player1PaddleY < stateGame.current.height - stateGame.current.player1PaddleH)
         stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + 5;
         
         ctx.fillStyle = "#00A308";
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
 
-        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > 400 || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Dépassement à droite ou à gauche
+        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Dépassement à droite ou à gauche
         {
             stateGame.current.ballDy = -stateGame.current.ballDy;
         }
 
-        if (stateGame.current.ballX + stateGame.current.ballDx + 10 > 800)
+        if (stateGame.current.ballX + stateGame.current.ballDx + 10 > stateGame.current.width)
         {
             stateGame.current.ballDx = -stateGame.current.ballDx;
         }
@@ -163,8 +184,8 @@ function Game(/*props:any*/) {
             else
             {
                 // Sinon la balle revient au centre
-                stateGame.current.ballX = 800/2;
-                stateGame.current.ballY = 400/2;
+                stateGame.current.ballX = stateGame.current.width/2;
+                stateGame.current.ballY = stateGame.current.height/2;
             }
         }
        
