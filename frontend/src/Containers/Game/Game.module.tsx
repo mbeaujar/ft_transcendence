@@ -163,11 +163,12 @@ function Game(/*props:any*/) {
 
     function draw() 
     {
+        //mise a jour balle 
         clear();
         ctx.fillStyle = "#FFFFFF";
         circle(stateGame.current.ballX, stateGame.current.ballY, 10); 
 
-        
+        //mise a jour player 1 si appuis sur une touche
         if (stateGame.current.player1Top === true && stateGame.current.player1PaddleY > 0)
             stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - 5;
         else if (stateGame.current.player1Bottom === true && stateGame.current.player1PaddleY < stateGame.current.height - stateGame.current.player1PaddleH)
@@ -175,6 +176,7 @@ function Game(/*props:any*/) {
         ctx.fillStyle = "#00A308";
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
 
+        //mise a jour player 2 si appuis sur une touche
         if (stateGame.current.player2Top === true && stateGame.current.player2PaddleY > 0)
             stateGame.current.player2PaddleY = stateGame.current.player2PaddleY - 5;
         else if (stateGame.current.player2Bottom === true && stateGame.current.player2PaddleY < stateGame.current.height - stateGame.current.player2PaddleH)
@@ -182,27 +184,25 @@ function Game(/*props:any*/) {
         ctx.fillStyle = "#2ddff3";
         rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
 
-        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Collision haut et bas
+        // Collision haut et bas
+        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) 
         {
             stateGame.current.ballDy = -stateGame.current.ballDy;
         }
 
-        if (stateGame.current.ballX + stateGame.current.ballDx + 10 > stateGame.current.width)
+
+        if (stateGame.current.ballX + stateGame.current.ballDx - 10 <= stateGame.current.player1PaddleW || 
+            stateGame.current.ballX + stateGame.current.ballDx + 10 >= stateGame.current.width - stateGame.current.player2PaddleW) 
         {
-            stateGame.current.ballDx = -stateGame.current.ballDx;
-        }
-        else if (stateGame.current.ballX + stateGame.current.ballDx - 10 < stateGame.current.player1PaddleW || 
-            stateGame.current.ballX + stateGame.current.ballDx + 10 > stateGame.current.width - stateGame.current.player2PaddleW) 
-        {
-            if (stateGame.current.ballY >= stateGame.current.player1PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player1PaddleY + stateGame.current.player1PaddleH + 10)//10 = securite
-            {
+            if ((stateGame.current.ballX + stateGame.current.ballDx - 10 <= stateGame.current.player1PaddleW) && (stateGame.current.ballY >= stateGame.current.player1PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player1PaddleY + stateGame.current.player1PaddleH + 10))//10 = securite
+            {         
                 // Si la balle rentre en collision avec la raquette du joueur 1 , la balle rebondit
                 stateGame.current.ballDx = -stateGame.current.ballDx;
                 stateGame.current.ballDy = 8 * ((stateGame.current.ballY-(stateGame.current.player1PaddleY + stateGame.current.player1PaddleH/2))/stateGame.current.player1PaddleH);
             }
-            else if (stateGame.current.ballY >= stateGame.current.player2PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player2PaddleY + stateGame.current.player2PaddleH + 10)
+            else if ((stateGame.current.ballX + stateGame.current.ballDx + 10 >= stateGame.current.width - stateGame.current.player2PaddleW) && (stateGame.current.ballY >= stateGame.current.player2PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player2PaddleY + stateGame.current.player2PaddleH + 10))
             {
-                // Si la balle rentre en collision avec la raquette du joueur 1 , la balle rebondit
+                // Si la balle rentre en collision avec la raquette du joueur 2 , la balle rebondit
                 stateGame.current.ballDx = -stateGame.current.ballDx;
                 stateGame.current.ballDy = 8 * ((stateGame.current.ballY-(stateGame.current.player2PaddleY + stateGame.current.player2PaddleH/2))/stateGame.current.player2PaddleH);
             }
