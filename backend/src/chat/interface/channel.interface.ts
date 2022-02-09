@@ -1,9 +1,9 @@
-import { User } from 'src/users/entities/user.entity';
+import { ChannelUser } from '../entities/channel-user.entity';
 
-export class IChannel {
+export interface IChannel {
   id?: number;
-  name: string;
   state?: number;
   password?: string;
-  users: User[];
+  name: string;
+  users: ChannelUser[];
 }

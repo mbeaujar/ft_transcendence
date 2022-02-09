@@ -44,7 +44,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <div key={channel.id}>
         <button
           onClick={() => {
-            ws.socket.emit('leaveChannel');
+            // ws.socket.emit('leaveChannel');
             const password = prompt('password') || '';
             const joinChannel: IChannel = {
               id: channel.id,

@@ -3,22 +3,30 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Channel } from './channel.entity';
 
 @Entity()
-export class JoinedChannel {
+export class ChannelUser {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  socketId: string;
+  administrator: boolean;
+
+  @Column()
+  creator: boolean;
 
   @Column()
   channelId: number;
 
-  @ManyToOne(() => User, (user) => user.joinedChannels)
+  @ManyToOne(() => User, (user) => user.channelUsers)
   @JoinColumn()
   user: User;
+
+  @ManyToMany(() => Channel, (channel) => channel.users)
+  channels: Channel[];
 }

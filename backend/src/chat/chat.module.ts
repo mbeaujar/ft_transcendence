@@ -15,6 +15,8 @@ import { Message } from './entities/message.entity';
 import { JoinedChannel } from './entities/joined-channel.entity';
 import { JoinedChannelService } from './services/joined-channel/joined-channel.service';
 import { MessageService } from './services/message/message.service';
+import { ChannelUserService } from './services/channel-user/channel-user.service';
+import { ChannelUser } from './entities/channel-user.entity';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { MessageService } from './services/message/message.service';
       Friends,
       Channel,
       ConnectedUser,
+      ChannelUser,
       Message,
       JoinedChannel,
     ]),
@@ -37,6 +40,7 @@ import { MessageService } from './services/message/message.service';
     ChannelService,
     JoinedChannelService,
     MessageService,
+    ChannelUserService,
   ],
 })
 export class ChatModule {}

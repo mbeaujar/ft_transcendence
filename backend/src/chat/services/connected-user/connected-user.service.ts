@@ -21,6 +21,10 @@ export class ConnectedUserService {
     return this.connetedUserRepository.find({ user });
   }
 
+  async getAll() {
+    return this.connetedUserRepository.createQueryBuilder().getMany();
+  }
+
   async deleteBySocketId(socketId: string): Promise<any> {
     return this.connetedUserRepository.delete({ socketId });
   }

@@ -23,7 +23,7 @@ export class JoinedChannelService {
   }
 
   async findByChannel(channel: IChannel): Promise<JoinedChannel[]> {
-    return this.joinedChannelRepository.find({ channel });
+    return this.joinedChannelRepository.find({ channelId: channel.id });
   }
 
   async deleteBySocketId(socketId: string): Promise<any> {

@@ -4,6 +4,7 @@ import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 import { ConnectedUser } from 'src/chat/entities/connected-user.entity';
 import { JoinedChannel } from 'src/chat/entities/joined-channel.entity';
 import { Message } from 'src/chat/entities/message.entity';
+import { ChannelUser } from 'src/chat/entities/channel-user.entity';
 
 export enum State {
   online,
@@ -45,8 +46,8 @@ export class User {
   @OneToMany(() => JoinedChannel, (joinChannel) => joinChannel.user)
   joinedChannels: JoinedChannel[];
 
-  @ManyToMany(() => Channel, (channel) => channel.users)
-  channels: Channel[];
+  @OneToMany(() => ChannelUser, (channelUser) => channelUser.user)
+  channelUsers: ChannelUser[];
 
   @OneToMany(() => Message, (message) => message.user)
   messages: Message[];

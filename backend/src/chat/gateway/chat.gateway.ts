@@ -18,8 +18,9 @@ import { JoinedChannelService } from '../services/joined-channel/joined-channel.
 import { MessageService } from '../services/message/message.service';
 import { IMessage } from '../interface/message.interface';
 import { Message } from '../entities/message.entity';
-import { Channel } from '../entities/channel.entity';
 import { JoinedChannel } from '../entities/joined-channel.entity';
+import { IUser } from 'src/users/interface/user.interface';
+import { ChannelUserService } from '../services/channel-user/channel-user.service';
 
 @WebSocketGateway({
   cors: {
@@ -40,6 +41,7 @@ export class ChatGateway
     private readonly connectedUserService: ConnectedUserService,
     private readonly joinedChannelService: JoinedChannelService,
     private readonly messageService: MessageService,
+    private readonly channelUserService: ChannelUserService,
   ) {}
 
   async onModuleInit() {
@@ -85,39 +87,68 @@ export class ChatGateway
 
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
+    const channelUser = await this.channelUserService.create({
+      administrator: true,
+      creator: true,
+      channelId: 0,
+      user: socket.data.user,
+    });
     const createdChannel: IChannel = await this.channelService.createChannel(
       channel,
-      socket.data.user,
+      channelUser,
     );
+    channelUser.channelId = createdChannel.id;
+    await this.channelUserService.save(channelUser);
+
     const channels = await this.channelService.getAllChannels();
-    this.server.to(socket.id).emit('channels', channels);
+    const connectedUsers = await this.connectedUserService.getAll();
+    for (const user of connectedUsers) {
+      this.server.to(user.socketId).emit('channels', channels);
+    }
   }
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, channel: IChannel) {
-    if (channel.state === 1) {
-      throw new WsException('channel is private');
-    }
     const channelDB = await this.channelService.getChannel(channel.id);
-    if (channelDB.users.includes(socket.data.user)) {
-      throw new WsException('user already in the channel');
+    if (!channelDB) {
+      throw new WsException('channel not found');
     }
-    if (channel.state === 2) {
-      await this.channelService.verifyPassword(channelDB, channel.password);
+    // if user is not already in the channel
+    const user = await this.channelUserService.findByUser(socket.data.user);
+    if (!user) {
+      if (channel.state === 1) {
+        throw new WsException('private channel');
+      }
+      if (channel.state === 2) {
+        await this.channelService.verifyPassword(channelDB, channel.password);
+      }
+      const newUser = await this.channelUserService.create({
+        administrator: false,
+        creator: false,
+        channelId: channelDB.id,
+        user: socket.data.user,
+      });
+      await this.channelService.addUser(channel, newUser);
     }
+    // Leave channel before join another (make nothing if the user is not already in a channel)
+    await this.joinedChannelService.deleteBySocketId(socket.id);
+
     const messages = await this.messageService.findMessageByChannel(channel);
     await this.joinedChannelService.create({
       socketId: socket.id,
       user: socket.data.user,
-      channel,
+      channelId: channelDB.id,
     });
-    await this.channelService.addUser(channel, socket.data.user);
     this.server.to(socket.id).emit('messages', messages);
   }
 
   @SubscribeMessage('leaveChannel')
-  async onLeaveChannel(socket: Socket) {
-    await this.joinedChannelService.deleteBySocketId(socket.id);
+  async onLeaveChannel(socket: Socket, channel: IChannel) {
+    await this.channelUserService.deleteByChannelAndUser(
+      channel.id,
+      socket.data.user,
+    );
+    // await this.joinedChannelService.deleteBySocketId(socket.id);
   }
 
   @SubscribeMessage('getAllChannels')
@@ -142,7 +173,7 @@ export class ChatGateway
       ...message,
       user: socket.data.user,
     });
-    const channel: Channel = await this.channelService.getChannel(
+    const channel = await this.channelService.getChannel(
       createdMessage.channel.id,
     );
     const joinedUsers: JoinedChannel[] =

@@ -18,7 +18,6 @@ export class AuthService {
       return this.usersService.createUser(userDetails);
     }
     return this.usersService.login(user);
-    // return user;
   }
 
   setCookie(res: Response, req: any): void {
