@@ -18,6 +18,8 @@ function Game(/*props:any*/) {
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
     const paddlex= useRef<number>(175);
+    const arrowLeft= useRef<boolean>(false);
+    const arrowRight= useRef<boolean>(false);
 
     function ftShowGame(user:any)
     {
@@ -41,14 +43,12 @@ function Game(/*props:any*/) {
         apiAxios.get('/auth/status', 
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
 
-        console.log("attaching listener")
+        /*
         const keyListener = (e:any) => {
-          console.log("increasing selection")
-          let tmp = paddlex.current + 1
           paddlex.current = paddlex.current - 5;
         };
         document.addEventListener("keydown", keyListener) 
-      }, []);
+      }, []*/});
 
       
     var canvas : any = document.getElementById(styles.canvas);
@@ -77,7 +77,6 @@ function Game(/*props:any*/) {
         /*paddlex = 350 / 2;*/
         paddleh = 10;
         paddlew = 75;
-        console.log("paddlex = " + paddlex)
     }
 
 
@@ -99,52 +98,42 @@ function Game(/*props:any*/) {
         ctx.clearRect(0, 0, 800, 400);
     }
 
-    var rightDown = false;
-    var leftDown = false;
 
-    const keyDownHandler = (event: React.KeyboardEvent<Element>, paddlex:any) => {
+    const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            leftDown = true;
-            /*setPaddlex(paddlex - 5);*/
-            /*rect(paddlex, 400-paddleh, paddlew, paddleh);*/
+            arrowLeft.current = true;
         }
         
         if (event.code === "ArrowRight") 
         {
-            rightDown = true;
-            console.log(rightDown);
-            /*rect(paddlex, 400-paddleh, paddlew, paddleh);*/
+            arrowRight.current = true;
         }
     };
-
 
     const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            leftDown = false;
+            arrowLeft.current = false;
         }
-
+        
         if (event.code === "ArrowRight") 
         {
-            rightDown = false;
+            arrowRight.current = false;
         }
     };
-
     
     
 
     function draw() 
     {
         clear();
-        circle(x, y, 10);
-
-        // Déplacer la raquette selon si gauche ou droite est actuellement enfoncée
-
+        circle(x, y, 10); 
         
-        console.log("paddlex3= " + paddlex.current);
-
-        
+        if (arrowLeft.current == true)
+            paddlex.current = paddlex.current - 5;
+        else if (arrowRight.current == true)
+            paddlex.current = paddlex.current + 5;
         rect(paddlex.current, 400-paddleh, paddlew, paddleh);
 
         if (x + dx > 800 || x + dx < 0) // Dépassement à droite ou à gauche
@@ -196,7 +185,7 @@ function Game(/*props:any*/) {
         {/*https://jill-jenn.net/conferences/cassebriques/move.html*/}
 
         <div className={clsx(classes.Game, ftShowGame(user))}>
-            <canvas id={styles.canvas} width="800" height="400" onClick={()=>play()}></canvas>
+            <canvas id={styles.canvas} width="800" height="400" onClick={()=>play()} tabIndex={0} onKeyDown={(event)=>keyDownHandler(event)} onKeyUp={(event)=>keyUpHandler(event)}></canvas>
         </div>
 
 
