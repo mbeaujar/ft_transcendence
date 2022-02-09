@@ -17,7 +17,7 @@ function Game(/*props:any*/) {
 
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
-    const paddlex= useRef<number>(175);
+    const paddleY= useRef<number>(175);
     const arrowLeft= useRef<boolean>(false);
     const arrowRight= useRef<boolean>(false);
 
@@ -47,14 +47,14 @@ function Game(/*props:any*/) {
 
       
     var canvas : any = document.getElementById(styles.canvas);
-    var x = 50;
-    var y = 50;
-    var dx = 2;
-    var dy = 4;
+    var x = 800/2;
+    var y = 400/2;
+    var dx = 4;
+    var dy = 2;
     var ctx:any;
     var WIDTH:any;
     var HEIGHT:any;
-    /*var paddlex:any;*/
+    /*var paddleY:any;*/
     var paddleh:any;
     var paddlew:any;
 
@@ -69,9 +69,9 @@ function Game(/*props:any*/) {
 
     function init_paddle() 
     {
-        /*paddlex = 350 / 2;*/
-        paddleh = 10;
-        paddlew = 75;
+        /*paddleY = 350 / 2;*/
+        paddleh = 75;
+        paddlew = 10;
     }
 
 
@@ -127,30 +127,30 @@ function Game(/*props:any*/) {
         circle(x, y, 10); 
 
         
-        if (arrowLeft.current === true && paddlex.current > 0)
-            paddlex.current = paddlex.current - 5;
-        else if (arrowRight.current === true && paddlex.current < 800 - paddlew)
-            paddlex.current = paddlex.current + 5;
+        if (arrowLeft.current === true && paddleY.current > 0)
+            paddleY.current = paddleY.current - 5;
+        else if (arrowRight.current === true && paddleY.current < 400 - paddleh)
+            paddleY.current = paddleY.current + 5;
         
         ctx.fillStyle = "#00A308";
-        rect(paddlex.current, 400-paddleh, paddlew, paddleh);
+        rect(0, paddleY.current, paddlew, paddleh);
 
-        if (x + dx + 10 > 800 || x + dx - 10 < 0) // Dépassement à droite ou à gauche
-        {
-            dx = -dx;
-        }
-
-        if (y + dy - 10 < 0)
+        if (y + dy + 10 > 400 || y + dy - 10 < 0) // Dépassement à droite ou à gauche
         {
             dy = -dy;
         }
-        else if (y + dy + 10 > 400 - paddleh) 
+
+        if (x + dx + 10 > 800)
         {
-            if (x > paddlex.current && x < paddlex.current + paddlew)
+            dx = -dx;
+        }
+        else if (x + dx - 10 < paddlew) 
+        {
+            if (y >= paddleY.current - 10 && y <= paddleY.current + paddleh + 10)//10 = securite
             {
                 // Si la balle rentre en collision avec la raquette, la balle rebondit
-                dx = 8 * ((x-(paddlex.current + paddlew/2))/paddlew);
-                dy = -dy;
+                dx = -dx;
+                dy = 8 * ((y-(paddleY.current + paddleh/2))/paddleh);
             }
             else
             {
