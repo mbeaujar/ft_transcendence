@@ -54,8 +54,8 @@ function Game(/*props:any*/) {
     });
 
     var canvas : any = document.getElementById(styles.canvas);
-    /*var x = 800/2;*/
-    var y = 400/2;
+    /*var x = 800/2;
+    var y = 400/2;*/
     var dx = 4;
     var dy = 2;
     var ctx:any;
@@ -131,7 +131,7 @@ function Game(/*props:any*/) {
     {
         clear();
         ctx.fillStyle = "#FFFFFF";
-        circle(stateGame.current.ballX, y, 10); 
+        circle(stateGame.current.ballX, stateGame.current.ballY, 10); 
 
         
         if (stateGame.current.arrowLeft === true && paddleY.current > 0)
@@ -142,7 +142,7 @@ function Game(/*props:any*/) {
         ctx.fillStyle = "#00A308";
         rect(0, paddleY.current, paddlew, paddleh);
 
-        if (y + dy + 10 > 400 || y + dy - 10 < 0) // Dépassement à droite ou à gauche
+        if (stateGame.current.ballY + dy + 10 > 400 || stateGame.current.ballY + dy - 10 < 0) // Dépassement à droite ou à gauche
         {
             dy = -dy;
         }
@@ -153,22 +153,22 @@ function Game(/*props:any*/) {
         }
         else if (stateGame.current.ballX + dx - 10 < paddlew) 
         {
-            if (y >= paddleY.current - 10 && y <= paddleY.current + paddleh + 10)//10 = securite
+            if (stateGame.current.ballY >= paddleY.current - 10 && stateGame.current.ballY <= paddleY.current + paddleh + 10)//10 = securite
             {
                 // Si la balle rentre en collision avec la raquette, la balle rebondit
                 dx = -dx;
-                dy = 8 * ((y-(paddleY.current + paddleh/2))/paddleh);
+                dy = 8 * ((stateGame.current.ballY-(paddleY.current + paddleh/2))/paddleh);
             }
             else
             {
                 // Sinon la balle revient au centre
                 stateGame.current.ballX = 800/2;
-                y = 400/2;
+                stateGame.current.ballY = 400/2;
             }
         }
        
         stateGame.current.ballX += dx;
-        y += dy;
+        stateGame.current.ballY += dy;
     }
 
 
