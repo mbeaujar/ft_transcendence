@@ -130,26 +130,27 @@ function Game(/*props:any*/) {
         clear();
         circle(x, y, 10); 
         
-        if (arrowLeft.current == true)
+        if (arrowLeft.current == true && paddlex.current > 0)
             paddlex.current = paddlex.current - 5;
-        else if (arrowRight.current == true)
+        else if (arrowRight.current == true && paddlex.current < 800 - paddlew)
             paddlex.current = paddlex.current + 5;
         rect(paddlex.current, 400-paddleh, paddlew, paddleh);
 
-        if (x + dx > 800 || x + dx < 0) // Dépassement à droite ou à gauche
+        if (x + dx + 10 > 800 || x + dx - 10 < 0) // Dépassement à droite ou à gauche
         {
             dx = -dx;
         }
 
-        if (y + dy < 0)
+        if (y + dy - 10 < 0)
         {
             dy = -dy;
         }
-        else if (y + dy > 400) 
+        else if (y + dy + 10 > 400 - paddleh) 
         {
             if (x > paddlex.current && x < paddlex.current + paddlew)
             {
                 // Si la balle rentre en collision avec la raquette, la balle rebondit
+                dx = 8 * ((x-(paddlex.current + paddlew/2))/paddlew);
                 dy = -dy;
             }
             else
