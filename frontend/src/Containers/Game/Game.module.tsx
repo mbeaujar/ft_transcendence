@@ -124,6 +124,17 @@ function Game(/*props:any*/) {
         {
             stateGame.current.player1Bottom = true;
         }
+
+        if (event.code === "KeyA") 
+        {
+            stateGame.current.player2Top = true;
+        }
+
+        if (event.code === "KeyD") 
+        {
+            stateGame.current.player2Bottom = true;
+        }
+        
     };
 
     const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
@@ -135,6 +146,16 @@ function Game(/*props:any*/) {
         if (event.code === "ArrowRight") 
         {
             stateGame.current.player1Bottom = false;
+        }
+
+        if (event.code === "KeyA") 
+        {
+            stateGame.current.player2Top = false;
+        }
+
+        if (event.code === "KeyD") 
+        {
+            stateGame.current.player2Bottom = false;
         }
     };
     
@@ -150,10 +171,15 @@ function Game(/*props:any*/) {
         if (stateGame.current.player1Top === true && stateGame.current.player1PaddleY > 0)
             stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - 5;
         else if (stateGame.current.player1Bottom === true && stateGame.current.player1PaddleY < stateGame.current.height - stateGame.current.player1PaddleH)
-        stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + 5;
+            stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + 5;
         
         ctx.fillStyle = "#00A308";
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
+
+        if (stateGame.current.player2Top === true && stateGame.current.player2PaddleY > 0)
+            stateGame.current.player2PaddleY = stateGame.current.player2PaddleY - 5;
+        else if (stateGame.current.player2Bottom === true && stateGame.current.player2PaddleY < stateGame.current.height - stateGame.current.player2PaddleH)
+            stateGame.current.player2PaddleY = stateGame.current.player2PaddleY + 5;
 
         ctx.fillStyle = "#2ddff3";
         rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
