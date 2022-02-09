@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import clsx from  'clsx';
@@ -39,16 +39,11 @@ function Game(/*props:any*/) {
         return (classes.hideUnauthorized);
     }
 
-    useEffect(() => {
+    useEffect(() => 
+    {
         apiAxios.get('/auth/status', 
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
-
-        /*
-        const keyListener = (e:any) => {
-          paddlex.current = paddlex.current - 5;
-        };
-        document.addEventListener("keydown", keyListener) 
-      }, []*/});
+    });
 
       
     var canvas : any = document.getElementById(styles.canvas);
@@ -128,12 +123,16 @@ function Game(/*props:any*/) {
     function draw() 
     {
         clear();
+        ctx.fillStyle = "#FFFFFF";
         circle(x, y, 10); 
+
         
-        if (arrowLeft.current == true && paddlex.current > 0)
+        if (arrowLeft.current === true && paddlex.current > 0)
             paddlex.current = paddlex.current - 5;
-        else if (arrowRight.current == true && paddlex.current < 800 - paddlew)
+        else if (arrowRight.current === true && paddlex.current < 800 - paddlew)
             paddlex.current = paddlex.current + 5;
+        
+        ctx.fillStyle = "#00A308";
         rect(paddlex.current, 400-paddleh, paddlew, paddleh);
 
         if (x + dx + 10 > 800 || x + dx - 10 < 0) // Dépassement à droite ou à gauche
@@ -199,5 +198,3 @@ function Game(/*props:any*/) {
 }
 
 export default Game;
-
-{/*tabIndex={0} onKeyDown={(event)=>keyDownHandler(event, paddlex)} onKeyUp={(event)=>keyUpHandler(event)*/}
