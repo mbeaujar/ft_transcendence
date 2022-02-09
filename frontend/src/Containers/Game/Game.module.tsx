@@ -18,8 +18,13 @@ function Game(/*props:any*/) {
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
     const paddleY= useRef<number>(175);
-    const arrowLeft= useRef<boolean>(false);
-    const arrowRight= useRef<boolean>(false);
+
+
+    const stateGame = useRef<any>({
+        canvas:new HTMLCanvasElement(),
+        arrowLeft:Boolean(false),
+        arrowRight:Boolean(false),
+    });
 
     function ftShowGame(user:any)
     {
@@ -97,24 +102,24 @@ function Game(/*props:any*/) {
     const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            arrowLeft.current = true;
+            stateGame.current.arrowLeft = true;
         }
         
         if (event.code === "ArrowRight") 
         {
-            arrowRight.current = true;
+            stateGame.current.arrowRight = true;
         }
     };
 
     const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
         if (event.code === "ArrowLeft") 
         {
-            arrowLeft.current = false;
+            stateGame.current.arrowLeft = false;
         }
         
         if (event.code === "ArrowRight") 
         {
-            arrowRight.current = false;
+            stateGame.current.arrowRight = false;
         }
     };
     
@@ -127,9 +132,9 @@ function Game(/*props:any*/) {
         circle(x, y, 10); 
 
         
-        if (arrowLeft.current === true && paddleY.current > 0)
+        if (stateGame.current.arrowLeft === true && paddleY.current > 0)
             paddleY.current = paddleY.current - 5;
-        else if (arrowRight.current === true && paddleY.current < 400 - paddleh)
+        else if (stateGame.current.arrowRight === true && paddleY.current < 400 - paddleh)
             paddleY.current = paddleY.current + 5;
         
         ctx.fillStyle = "#00A308";
