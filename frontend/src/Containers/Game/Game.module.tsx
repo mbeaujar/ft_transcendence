@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { KeyboardEvent, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import clsx from  'clsx';
 import classes from './Game.module.scss';
-import styles from './Game.module.scss'
+import styles from './Game.module.scss';
 
 
 const apiAxios = axios.create({
@@ -10,8 +11,13 @@ const apiAxios = axios.create({
     withCredentials: true,
   });
 
+
+
 function Game(/*props:any*/) {
+
     const [user, setUser] = useState<any>(null);
+    const [activeGame, setActiveGame] = useState<boolean>(false);
+    const paddlex= useRef<number>(175);
 
     function ftShowGame(user:any)
     {
@@ -35,7 +41,14 @@ function Game(/*props:any*/) {
         apiAxios.get('/auth/status', 
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
 
-      });
+        console.log("attaching listener")
+        const keyListener = (e:any) => {
+          console.log("increasing selection")
+          let tmp = paddlex.current + 1
+          paddlex.current = paddlex.current - 5;
+        };
+        document.addEventListener("keydown", keyListener) 
+      }, []);
 
       
     var canvas : any = document.getElementById(styles.canvas);
@@ -46,7 +59,7 @@ function Game(/*props:any*/) {
     var ctx:any;
     var WIDTH:any;
     var HEIGHT:any;
-    var paddlex:any;
+    /*var paddlex:any;*/
     var paddleh:any;
     var paddlew:any;
 
@@ -61,9 +74,10 @@ function Game(/*props:any*/) {
 
     function init_paddle() 
     {
-        paddlex = 350 / 2;
+        /*paddlex = 350 / 2;*/
         paddleh = 10;
         paddlew = 75;
+        console.log("paddlex = " + paddlex)
     }
 
 
@@ -85,11 +99,53 @@ function Game(/*props:any*/) {
         ctx.clearRect(0, 0, 800, 400);
     }
 
+    var rightDown = false;
+    var leftDown = false;
+
+    const keyDownHandler = (event: React.KeyboardEvent<Element>, paddlex:any) => {
+        if (event.code === "ArrowLeft") 
+        {
+            leftDown = true;
+            /*setPaddlex(paddlex - 5);*/
+            /*rect(paddlex, 400-paddleh, paddlew, paddleh);*/
+        }
+        
+        if (event.code === "ArrowRight") 
+        {
+            rightDown = true;
+            console.log(rightDown);
+            /*rect(paddlex, 400-paddleh, paddlew, paddleh);*/
+        }
+    };
+
+
+    const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
+        if (event.code === "ArrowLeft") 
+        {
+            leftDown = false;
+        }
+
+        if (event.code === "ArrowRight") 
+        {
+            rightDown = false;
+        }
+    };
+
+    
+    
+
     function draw() 
     {
         clear();
         circle(x, y, 10);
-        rect(paddlex, 400-paddleh, paddlew, paddleh);
+
+        // Déplacer la raquette selon si gauche ou droite est actuellement enfoncée
+
+        
+        console.log("paddlex3= " + paddlex.current);
+
+        
+        rect(paddlex.current, 400-paddleh, paddlew, paddleh);
 
         if (x + dx > 800 || x + dx < 0) // Dépassement à droite ou à gauche
         {
@@ -102,16 +158,16 @@ function Game(/*props:any*/) {
         }
         else if (y + dy > 400) 
         {
-            if (x > paddlex && x < paddlex + paddlew)
+            if (x > paddlex.current && x < paddlex.current + paddlew)
             {
                 // Si la balle rentre en collision avec la raquette, la balle rebondit
                 dy = -dy;
             }
             else
             {
+                // Sinon la balle revient au centre
                 x = 800/2;
                 y = 400/2;
-                // Sinon la balle revient au centre
             }
         }
        
@@ -122,12 +178,15 @@ function Game(/*props:any*/) {
 
     const play:any = () =>
     {
-        if (canvas != null)
+        if (canvas != null && activeGame == false)
         {
+            setActiveGame(true);
             init();
             init_paddle();
         }
     }
+
+
 
     
 
@@ -150,3 +209,5 @@ function Game(/*props:any*/) {
 }
 
 export default Game;
+
+{/*tabIndex={0} onKeyDown={(event)=>keyDownHandler(event, paddlex)} onKeyUp={(event)=>keyUpHandler(event)*/}
