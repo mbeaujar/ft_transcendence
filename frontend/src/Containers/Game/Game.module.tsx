@@ -172,7 +172,6 @@ function Game(/*props:any*/) {
             stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - 5;
         else if (stateGame.current.player1Bottom === true && stateGame.current.player1PaddleY < stateGame.current.height - stateGame.current.player1PaddleH)
             stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + 5;
-        
         ctx.fillStyle = "#00A308";
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
 
@@ -180,11 +179,10 @@ function Game(/*props:any*/) {
             stateGame.current.player2PaddleY = stateGame.current.player2PaddleY - 5;
         else if (stateGame.current.player2Bottom === true && stateGame.current.player2PaddleY < stateGame.current.height - stateGame.current.player2PaddleH)
             stateGame.current.player2PaddleY = stateGame.current.player2PaddleY + 5;
-
         ctx.fillStyle = "#2ddff3";
         rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
 
-        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Dépassement à droite ou à gauche
+        if (stateGame.current.ballY + stateGame.current.ballDy + 10 > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - 10 < 0) // Collision haut et bas
         {
             stateGame.current.ballDy = -stateGame.current.ballDy;
         }
@@ -193,13 +191,20 @@ function Game(/*props:any*/) {
         {
             stateGame.current.ballDx = -stateGame.current.ballDx;
         }
-        else if (stateGame.current.ballX + stateGame.current.ballDx - 10 < stateGame.current.player1PaddleW) 
+        else if (stateGame.current.ballX + stateGame.current.ballDx - 10 < stateGame.current.player1PaddleW || 
+            stateGame.current.ballX + stateGame.current.ballDx + 10 > stateGame.current.width - stateGame.current.player2PaddleW) 
         {
             if (stateGame.current.ballY >= stateGame.current.player1PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player1PaddleY + stateGame.current.player1PaddleH + 10)//10 = securite
             {
-                // Si la balle rentre en collision avec la raquette, la balle rebondit
+                // Si la balle rentre en collision avec la raquette du joueur 1 , la balle rebondit
                 stateGame.current.ballDx = -stateGame.current.ballDx;
                 stateGame.current.ballDy = 8 * ((stateGame.current.ballY-(stateGame.current.player1PaddleY + stateGame.current.player1PaddleH/2))/stateGame.current.player1PaddleH);
+            }
+            else if (stateGame.current.ballY >= stateGame.current.player2PaddleY - 10 && stateGame.current.ballY <= stateGame.current.player2PaddleY + stateGame.current.player2PaddleH + 10)
+            {
+                // Si la balle rentre en collision avec la raquette du joueur 1 , la balle rebondit
+                stateGame.current.ballDx = -stateGame.current.ballDx;
+                stateGame.current.ballDy = 8 * ((stateGame.current.ballY-(stateGame.current.player2PaddleY + stateGame.current.player2PaddleH/2))/stateGame.current.player2PaddleH);
             }
             else
             {
