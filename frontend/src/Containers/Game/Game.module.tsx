@@ -73,7 +73,7 @@ function Game() {
     {
         apiAxios.get('/auth/status', 
         { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
-    });
+    }, []);
 
 
     function init() 
@@ -294,27 +294,25 @@ function Game() {
             </div>
 
             <div className={clsx(classes.chooseGameType, ftShowGameVue("chooseGameType"))}>
-                <button className={clsx(classes.butttonGame)} onClick={()=>setActiveGameVue("chooseCustomization")}>Create a custom game</button>
-                <button className={clsx(classes.butttonGame)}>Join a customize game</button>
-                <button className={clsx(classes.butttonGame)}>Join a classic game</button>
+                <button className={clsx(classes.butttonGame)} onClick={()=>setActiveGameVue("chooseCustomization")}>Room</button>
                 <button className={clsx(classes.butttonGame)}>Current game invites</button>
             </div>
 
             <div className={clsx(classes.chooseCustomization, ftShowGameVue("chooseCustomization"))}>
                 <div className={classes.customizationTop}>
-                    <button className={clsx(classes.butttonGame)}>Score limit</button>
-                    <button className={clsx(classes.butttonGame)}>Ball speed</button>
-                    <button className={clsx(classes.butttonGame)}>Field color</button>
+                    <button className={clsx(classes.butttonGame, classes.scoreLimit)}>Score limit</button>
+                    <button className={clsx(classes.butttonGame, classes.ballSpeed)}>Ball speed</button>
+                    <button className={clsx(classes.butttonGame, classes.fieldColor)}>Field color</button>
                 </div>
                 <div className={classes.customizationMiddle}>
-                    <button className={clsx(classes.butttonGame)}>Ball color</button>
-                    <button className={clsx(classes.butttonGame)}>Your color</button>
-                    <button className={clsx(classes.butttonGame)}>Opponent's color</button>
+                    <button className={clsx(classes.butttonGame, classes.ballColor)}>Ball color</button>
+                    <button className={clsx(classes.butttonGame, classes.yourColor)}>Your color</button>
+                    <button className={clsx(classes.butttonGame, classes.opponentColor)}>Opponent's color</button>
                 </div>
                 <div className={classes.customizationBottom}>
-                    <button className={clsx(classes.butttonGame)}>Type of opponent</button>
-                    <button className={clsx(classes.butttonGame)}>Opponent's name</button>
-                    <button className={clsx(classes.butttonGame)}>Kind of game</button>
+                    <button className={clsx(classes.butttonGame, classes.opponent)}>Opponent</button>
+                    <button className={clsx(classes.butttonGame, classes.createJoin)}>Create/Join</button>
+                    <button className={clsx(classes.butttonGame, classes.gameType)}>Default/Customized</button>
                 </div>
                 <button onClick={()=>setActiveGameVue("pong")}>PLAY</button>
             </div>

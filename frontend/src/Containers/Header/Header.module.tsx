@@ -41,7 +41,8 @@ function Header() {
     useEffect(() => {
         apiAxios.get('/auth/status', 
                 { withCredentials: true }).then(response => {setUser(response.data);}).catch(() => setUser(null));
-      });
+      }, []);
+
 
     return (
         <div className={classes.Header}>
