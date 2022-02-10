@@ -21,6 +21,8 @@ function Game() {
     const stateGame = useRef<any>({
         width:Number(0),
         height:Number(0),
+        commitment:Boolean(true),
+        intervalId:Number(),
         ballX:Number(0),
         ballY:Number(0),
         ballDx:Number(0),
@@ -82,7 +84,7 @@ function Game() {
         stateGame.current.ballX = stateGame.current.width/2;
         stateGame.current.ballY = stateGame.current.height/2;
         stateGame.current.ballDx = 4;
-        stateGame.current.ballDy = 2;
+        stateGame.current.ballDy = 0;
         stateGame.current.ballR = 10;
         stateGame.current.ballColor = "#ff861d";
 
@@ -98,7 +100,7 @@ function Game() {
 
         stateGame.current.paddleSpeed = 5;
         
-        return setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
+        stateGame.current.intervalId = setInterval(draw, 10); // Exécuter draw() toutes les 10 ms
     }
 
     
@@ -172,34 +174,42 @@ function Game() {
 
     function draw() 
     {
+        
         //mise a jour balle 
         clear();
         ctx.fillStyle = stateGame.current.ballColor;
         circle(stateGame.current.ballX, stateGame.current.ballY, stateGame.current.ballR); 
-
+        
         //mise a jour player 1 si appuis sur une touche
         if (stateGame.current.player1Top === true && stateGame.current.player1PaddleY > 0)
-            stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - stateGame.current.paddleSpeed;
+        stateGame.current.player1PaddleY = stateGame.current.player1PaddleY - stateGame.current.paddleSpeed;
         else if (stateGame.current.player1Bottom === true && stateGame.current.player1PaddleY < stateGame.current.height - stateGame.current.player1PaddleH)
-            stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + stateGame.current.paddleSpeed;
+        stateGame.current.player1PaddleY = stateGame.current.player1PaddleY + stateGame.current.paddleSpeed;
         ctx.fillStyle = stateGame.current.player1Color;
         rect(0, stateGame.current.player1PaddleY, stateGame.current.player1PaddleW, stateGame.current.player1PaddleH);
-
+        
         //mise a jour player 2 si appuis sur une touche
         if (stateGame.current.player2Top === true && stateGame.current.player2PaddleY > 0)
-            stateGame.current.player2PaddleY = stateGame.current.player2PaddleY - stateGame.current.paddleSpeed;
+        stateGame.current.player2PaddleY = stateGame.current.player2PaddleY - stateGame.current.paddleSpeed;
         else if (stateGame.current.player2Bottom === true && stateGame.current.player2PaddleY < stateGame.current.height - stateGame.current.player2PaddleH)
-            stateGame.current.player2PaddleY = stateGame.current.player2PaddleY + stateGame.current.paddleSpeed;
+        stateGame.current.player2PaddleY = stateGame.current.player2PaddleY + stateGame.current.paddleSpeed;
         ctx.fillStyle = stateGame.current.player2Color;
         rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
+        
+        if (stateGame.current.commitment === true)
+        {
+            clearInterval(stateGame.current.intervalId);
+            setTimeout(init, 1000);
+        }
 
+        stateGame.current.commitment = false;
         // Collision haut et bas
         if (stateGame.current.ballY + stateGame.current.ballDy + stateGame.current.ballR > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - stateGame.current.ballR < 0) 
         {
             stateGame.current.ballDy = -stateGame.current.ballDy;
         }
 
-
+        //Collision gauche et droite
         if (stateGame.current.ballX + stateGame.current.ballDx - stateGame.current.ballR <= stateGame.current.player1PaddleW || 
             stateGame.current.ballX + stateGame.current.ballDx + stateGame.current.ballR >= stateGame.current.width - stateGame.current.player2PaddleW) 
         {
@@ -220,11 +230,18 @@ function Game() {
                 // Sinon la balle revient au centre
                 stateGame.current.ballX = stateGame.current.width/2;
                 stateGame.current.ballY = stateGame.current.height/2;
+                stateGame.current.ballDy = 0;
+                stateGame.current.player1PaddleY = stateGame.current.height/2 - stateGame.current.player1PaddleH/2;
+                stateGame.current.player2PaddleY = stateGame.current.height/2 - stateGame.current.player1PaddleH/2;
+                stateGame.current.commitment = true;
             }
         }
        
         stateGame.current.ballX += stateGame.current.ballDx;
         stateGame.current.ballY += stateGame.current.ballDy;
+
+        console.log(stateGame.current.pauseGame);
+
     }
 
 
