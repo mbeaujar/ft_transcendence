@@ -17,6 +17,7 @@ function Game() {
 
     const [user, setUser] = useState<any>(null);
     const [activeGame, setActiveGame] = useState<boolean>(false);
+    const [activeGameVue, setActiveGameVue] = useState<string>("choosePlayOrWatch");
 
     const stateGame = useRef<any>({
         width:Number(0),
@@ -235,13 +236,11 @@ function Game() {
             {
                 if (stateGame.current.ballX + stateGame.current.ballDx - stateGame.current.ballR <= stateGame.current.player1PaddleW)
                 {
-                    console.log("player 2 won the point");
                     stateGame.current.player1PointWon = false;
                     stateGame.current.player2PointWon = true;
                 }
                 else 
                 {
-                    console.log("player 1 won the point");
                     stateGame.current.player1PointWon = true;
                     stateGame.current.player2PointWon = false;
                 }
@@ -274,6 +273,13 @@ function Game() {
 
 
 
+    const ftShowGameVue:any = (divName:string) => 
+    {
+        if (divName == activeGameVue)
+            return (classes.showGameVue);
+        else
+            return (classes.hideGameVue);
+    };
     
 
     
@@ -281,7 +287,42 @@ function Game() {
         <>
 
         <div className={clsx(classes.Game, ftShowGame(user))}>
-            <canvas id={styles.canvas} width="800" height="400" onClick={()=>play()} tabIndex={0} onKeyDown={(event)=>keyDownHandler(event)} onKeyUp={(event)=>keyUpHandler(event)}></canvas>
+
+            <div className={clsx(classes.playOrWatch, ftShowGameVue("choosePlayOrWatch"))}>
+                <button className={clsx(classes.butttonGame)} onClick={()=>setActiveGameVue("chooseGameType")}>Play a game</button>
+                <button className={clsx(classes.butttonGame)}>Watch other users play</button>
+            </div>
+
+            <div className={clsx(classes.chooseGameType, ftShowGameVue("chooseGameType"))}>
+                <button className={clsx(classes.butttonGame)} onClick={()=>setActiveGameVue("chooseCustomization")}>Create a custom game</button>
+                <button className={clsx(classes.butttonGame)}>Join a customize game</button>
+                <button className={clsx(classes.butttonGame)}>Join a classic game</button>
+                <button className={clsx(classes.butttonGame)}>Current game invites</button>
+            </div>
+
+            <div className={clsx(classes.chooseCustomization, ftShowGameVue("chooseCustomization"))}>
+                <div className={classes.customizationTop}>
+                    <button className={clsx(classes.butttonGame)}>Score limit</button>
+                    <button className={clsx(classes.butttonGame)}>Ball speed</button>
+                    <button className={clsx(classes.butttonGame)}>Field color</button>
+                </div>
+                <div className={classes.customizationMiddle}>
+                    <button className={clsx(classes.butttonGame)}>Ball color</button>
+                    <button className={clsx(classes.butttonGame)}>Your color</button>
+                    <button className={clsx(classes.butttonGame)}>Opponent's color</button>
+                </div>
+                <div className={classes.customizationBottom}>
+                    <button className={clsx(classes.butttonGame)}>Type of opponent</button>
+                    <button className={clsx(classes.butttonGame)}>Opponent's name</button>
+                    <button className={clsx(classes.butttonGame)}>Kind of game</button>
+                </div>
+                <button onClick={()=>setActiveGameVue("pong")}>PLAY</button>
+            </div>
+
+            <div className={clsx(classes.pong, ftShowGameVue("pong"))}>
+                <p className={classes.score}>3 | 2</p>
+                <canvas id={styles.canvas} width="800" height="400" onClick={()=>play()} tabIndex={0} onKeyDown={(event)=>keyDownHandler(event)} onKeyUp={(event)=>keyUpHandler(event)}></canvas>
+            </div>
         </div>
 
 
