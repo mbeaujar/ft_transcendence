@@ -34,12 +34,14 @@ function Game() {
         player1PaddleW:Number(0),
         player1PaddleH:Number(0),
         player1PaddleY:Number(0),
+        player1PointWon:Boolean(false),
         player1Color:String(),
         player2Top:Boolean(false),
         player2Bottom:Boolean(false),
         player2PaddleW:Number(0),
         player2PaddleH:Number(0),
         player2PaddleY:Number(0),
+        player2PointWon:Boolean(true),
         player2Color:String(),
         paddleSpeed:Number(0)
     });
@@ -83,7 +85,10 @@ function Game() {
         
         stateGame.current.ballX = stateGame.current.width/2;
         stateGame.current.ballY = stateGame.current.height/2;
-        stateGame.current.ballDx = 4;
+        if (stateGame.current.player1PointWon === true)
+            stateGame.current.ballDx = 4;
+        else if (stateGame.current.player2PointWon === true)
+            stateGame.current.ballDx = -4;
         stateGame.current.ballDy = 0;
         stateGame.current.ballR = 10;
         stateGame.current.ballColor = "#ff861d";
@@ -196,13 +201,14 @@ function Game() {
         ctx.fillStyle = stateGame.current.player2Color;
         rect(stateGame.current.width - stateGame.current.player2PaddleW, stateGame.current.player2PaddleY, stateGame.current.player2PaddleW, stateGame.current.player2PaddleH);
         
+        //verifie si il y a engagement
         if (stateGame.current.commitment === true)
         {
             clearInterval(stateGame.current.intervalId);
             setTimeout(init, 1000);
         }
-
         stateGame.current.commitment = false;
+
         // Collision haut et bas
         if (stateGame.current.ballY + stateGame.current.ballDy + stateGame.current.ballR > stateGame.current.height || stateGame.current.ballY + stateGame.current.ballDy - stateGame.current.ballR < 0) 
         {
@@ -227,6 +233,19 @@ function Game() {
             }
             else
             {
+                if (stateGame.current.ballX + stateGame.current.ballDx - stateGame.current.ballR <= stateGame.current.player1PaddleW)
+                {
+                    console.log("player 2 won the point");
+                    stateGame.current.player1PointWon = false;
+                    stateGame.current.player2PointWon = true;
+                }
+                else 
+                {
+                    console.log("player 1 won the point");
+                    stateGame.current.player1PointWon = true;
+                    stateGame.current.player2PointWon = false;
+                }
+
                 // Sinon la balle revient au centre
                 stateGame.current.ballX = stateGame.current.width/2;
                 stateGame.current.ballY = stateGame.current.height/2;
@@ -240,7 +259,6 @@ function Game() {
         stateGame.current.ballX += stateGame.current.ballDx;
         stateGame.current.ballY += stateGame.current.ballDy;
 
-        console.log(stateGame.current.pauseGame);
 
     }
 
