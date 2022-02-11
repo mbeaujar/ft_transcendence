@@ -30,6 +30,10 @@ export class JoinedChannelService {
     return this.joinedChannelRepository.delete({ socketId });
   }
 
+  async deleteByChannel(channel: IChannel): Promise<any> {
+    return this.joinedChannelRepository.delete({ channelId: channel.id });
+  }
+
   async deleteAll() {
     await this.joinedChannelRepository.createQueryBuilder().delete().execute();
   }

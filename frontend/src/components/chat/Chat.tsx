@@ -17,7 +17,7 @@ interface Props {
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
-  const [channelChoose, setChannelChoose] = useState<IChannel>(channels[0]);
+  const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
 
   /** Listen event from backend socket */
@@ -90,6 +90,15 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         all channels
       </button>
+      <button
+        onClick={() => {
+          ws.socket.emit('leaveChannel', channelChoose);
+          setChannelChoose(null);
+          // setChannelChoose()
+        }}
+      >
+        leave channel
+      </button>
       <CreateChannel
         user={props.user}
         socketEmit={(channel: IChannel) => {
@@ -106,8 +115,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const message: IMessage = {
             text,
             user: props.user,
-            channel: channelChoose,
           };
+          if (channelChoose !== null) {
+            Object.assign(message, { channel: channelChoose });
+          }
           ws.socket.emit('addMessage', message);
         }}
       />

@@ -50,6 +50,14 @@ export class ChannelService {
     return this.channelRepository.save(channel);
   }
 
+  async deleteChannelById(id: number): Promise<any> {
+    return this.channelRepository.delete({ id });
+  }
+
+  async deleteChannel(channel: IChannel): Promise<any> {
+    return this.channelRepository.delete(channel);
+  }
+
   async addUser(channelI: IChannel, user: ChannelUser): Promise<Channel> {
     const channel = await this.channelRepository.findOne(channelI.id, {
       relations: ['users'],
@@ -70,6 +78,7 @@ export class ChannelService {
       .createQueryBuilder('channel')
       .leftJoin('channel.users', 'users')
       .leftJoinAndSelect('channel.users', 'all_users')
+      .leftJoinAndSelect('all_users.user', 'all_users_info')
       .getMany();
   }
 

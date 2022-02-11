@@ -23,6 +23,9 @@ import { ChannelUserService } from '../services/channel-user/channel-user.servic
 import { Channel } from '../model/channel/channel.entity';
 import { IJoinChannel } from '../interface/join-channel.interface';
 import { State } from '../interface/state.enum';
+import { IUpdateAdmin } from '../interface/update-admin.interface';
+import { IUser } from 'src/users/interface/user.interface';
+import { IChannelUser } from '../model/channel-user/channel-user.interface';
 
 // Server emit:
 // channels 					-> list of channels
@@ -152,6 +155,22 @@ export class ChatGateway
     this.switchToChannel(socket, updatedChannel);
   }
 
+  @SubscribeMessage('removeChannel')
+  async onRemoveChannel(socket: Socket, channel: IChannel) {
+    const channelDB = await this.channelService.getChannel(channel.id);
+    if (!channelDB) {
+      throw new WsException('channel not found');
+    }
+    // Delete all users
+    await this.channelUserService.deleteAllUsersInChannel(channelDB);
+    // Delete users who are connected in the channel
+    await this.joinedChannelService.deleteByChannel(channelDB);
+    // Delete channel
+    await this.channelService.deleteChannel(channelDB);
+    // Prevent everyone that a channel as been deleted
+    this.sendChannelToEveryone();
+  }
+
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: IJoinChannel) {
     const channelDB = await this.channelService.getChannel(
@@ -164,7 +183,7 @@ export class ChatGateway
       channelDB,
       socket.data.user,
     );
-    // User already exist in the channel ?
+    // Check if user is already in the channel
     if (!user) {
       if (channelDB.state === State.private) {
         throw new WsException('private channel');
@@ -190,13 +209,43 @@ export class ChatGateway
 
   @SubscribeMessage('leaveChannel')
   async onLeaveChannel(socket: Socket, channel: IChannel) {
+    const channelDB = await this.channelService.getChannel(channel.id);
+    if (!channelDB) {
+      throw new WsException('channel not found');
+    }
     // Quit channel
     await this.joinedChannelService.deleteBySocketId(socket.id);
-    // Delete user in the channel
-    await this.channelUserService.deleteUserInChannel(
-      channel,
+
+    const channelUser = await this.channelUserService.findUserInChannel(
+      channelDB,
       socket.data.user,
     );
+
+    // Delete user in the channel
+    await this.channelUserService.deleteUser(channelUser);
+    // if there is no more user anymore in the channel we delete it
+    if (channelDB.users.length === 1) {
+      await this.channelService.deleteChannel(channelDB);
+    } else if (channelUser.creator === true) {
+      // if the deleted user was the owner we make a new user the owner of the channel
+      const admins: IChannelUser[] =
+        await this.channelUserService.getAdminsInChannel(channelDB);
+      // give it to a random admin user
+      if (admins.length > 0) {
+        await this.channelUserService.updateUser(admins[0], { creator: true });
+      } else {
+        // give it to a random user
+        const users: IChannelUser[] =
+          await this.channelUserService.getUsersInChannel(channelDB);
+        await this.channelUserService.updateUser(users[0], {
+          creator: true,
+          administrator: true,
+        });
+      }
+      console.log('admins', admins);
+    }
+    // Prevent everyone that a channel as been deleted
+    this.sendChannelToEveryone();
   }
 
   @SubscribeMessage('getAllChannels')
@@ -232,17 +281,57 @@ export class ChatGateway
     }
   }
 
-  /** ---------------------------  OPTIONS  -------------------------------- */
+  /** ---------------------------  ADMINISTRATOR  -------------------------------- */
 
-  // @SubscribeMessage('administrator')
-  // async addUserToAdmin(socket: Socket, newAdmin: INewAdmin) {
-  //   const user = await this.channelUserService.findByChannelAndUser(
-  //     newAdmin.channel,
-  //     newAdmin.user,
-  //   );
-  //   if (!user) {
-  //     throw new WsException('user not found');
-  //   }
-  //   return this.channelUserService.update(user, { administrator: true });
-  // }
+  private async checkRightsAndFindUser(
+    user: IUser,
+    channelId: number,
+    target: IUser,
+  ): Promise<IChannelUser> {
+    // Get channel
+    const channel: IChannel = await this.channelService.getChannel(channelId);
+    if (!channel) {
+      throw new WsException('channel not found');
+    }
+    // Get user
+    const userDB: IChannelUser =
+      await this.channelUserService.findUserInChannel(channel, user);
+    if (!userDB) {
+      throw new WsException('user not found');
+    }
+    if (userDB.creator === false) {
+      throw new WsException('user does not have the rights');
+    }
+    // Get target
+    const newAdminUser = await this.channelUserService.findUserInChannel(
+      channel,
+      target,
+    );
+    if (!newAdminUser) {
+      throw new WsException('user target not found');
+    }
+    return newAdminUser;
+  }
+
+  @SubscribeMessage('addAdministrator')
+  async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
+    const target = await this.checkRightsAndFindUser(
+      socket.data.user,
+      newAdmin.channel.id,
+      newAdmin.user.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      administrator: true,
+    });
+  }
+
+  @SubscribeMessage('removeAdministrator')
+  async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
+    const target = await this.checkRightsAndFindUser(
+      socket.data.user,
+      removeAdmin.channel.id,
+      removeAdmin.user.user,
+    );
+    await this.channelUserService.updateUser(target, { administrator: false });
+  }
 }

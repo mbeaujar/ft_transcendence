@@ -26,6 +26,21 @@ export class ChannelUserService {
     return this.channelUserRepository.save(userDetails);
   }
 
+  async deleteUser(user: IChannelUser): Promise<any> {
+    return this.channelUserRepository.delete(user);
+  }
+
+  async getAdminsInChannel(channel: IChannel): Promise<IChannelUser[]> {
+    return this.channelUserRepository.find({
+      channelId: channel.id,
+      administrator: true,
+    });
+  }
+
+  async getUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
+    return this.channelUserRepository.find({ channelId: channel.id });
+  }
+
   async findUserInChannel(
     channel: IChannel,
     user: IUser,
@@ -38,6 +53,10 @@ export class ChannelUserService {
 
   async deleteUserInChannel(channel: IChannel, user: IUser) {
     return this.channelUserRepository.delete({ channelId: channel.id, user });
+  }
+
+  async deleteAllUsersInChannel(channel: IChannel) {
+    return this.channelUserRepository.delete({ channelId: channel.id });
   }
 
   async delete(id: number) {
