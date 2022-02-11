@@ -27,6 +27,7 @@ import { IUpdateAdmin } from '../interface/update-admin.interface';
 import { IUser } from 'src/users/interface/user.interface';
 import { IChannelUser } from '../model/channel-user/channel-user.interface';
 import { IUpdateChannel } from '../interface/update-channel.interface';
+import { IBanUser } from '../interface/ban-user.interface';
 
 // Server emit:
 // channels 					-> list of channels
@@ -116,7 +117,6 @@ export class ChatGateway
       user: socket.data.user,
       channelId: channel.id,
     });
-
     // Get the message history
     const messages = await this.messageService.findMessageByChannel(channel);
     this.server.to(socket.id).emit('messages', messages);
@@ -130,6 +130,21 @@ export class ChatGateway
     this.server.to(socket.id).emit('currentChannel', currentChannel);
   }
 
+  private async getChannelAndUser(
+    channel: IChannel,
+    user: IUser,
+  ): Promise<[IChannel, IChannelUser]> {
+    const channelDB = await this.channelService.getChannel(channel.id);
+    if (!channelDB) {
+      throw new WsException('channel not found');
+    }
+    const channelUser = await this.channelUserService.findUserInChannel(
+      channelDB,
+      user,
+    );
+    return [channelDB, channelUser];
+  }
+
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
     // Create channel
@@ -140,6 +155,8 @@ export class ChatGateway
     const channelUser = await this.channelUserService.createUser({
       administrator: true,
       creator: true,
+      ban: true,
+      mute: false,
       user: socket.data.user,
       channelId: createdChannel.id,
       channel: createdChannel,
@@ -174,14 +191,8 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: IJoinChannel) {
-    const channelDB = await this.channelService.getChannel(
-      joinChannel.channel.id,
-    );
-    if (!channelDB) {
-      throw new WsException('channel not found');
-    }
-    const user = await this.channelUserService.findUserInChannel(
-      channelDB,
+    const [channelDB, user] = await this.getChannelAndUser(
+      joinChannel.channel,
       socket.data.user,
     );
     // Check if user is already in the channel
@@ -199,6 +210,8 @@ export class ChatGateway
       const newUser = await this.channelUserService.createUser({
         administrator: false,
         creator: false,
+        ban: false,
+        mute: false,
         user: socket.data.user,
         channelId: channelDB.id,
         channel: channelDB,
@@ -210,17 +223,12 @@ export class ChatGateway
 
   @SubscribeMessage('leaveChannel')
   async onLeaveChannel(socket: Socket, channel: IChannel) {
-    const channelDB = await this.channelService.getChannel(channel.id);
-    if (!channelDB) {
-      throw new WsException('channel not found');
-    }
-    // Quit channel
-    await this.joinedChannelService.deleteBySocketId(socket.id);
-
-    const channelUser = await this.channelUserService.findUserInChannel(
-      channelDB,
+    const [channelDB, channelUser] = await this.getChannelAndUser(
+      channel,
       socket.data.user,
     );
+    // Quit channel
+    await this.joinedChannelService.deleteBySocketId(socket.id);
 
     // Delete user in the channel
     await this.channelUserService.deleteUser(channelUser);
@@ -311,26 +319,20 @@ export class ChatGateway
 
   private async checkRightsAndFindUser(
     user: IUser,
-    channelId: number,
+    channel: IChannel,
     target: IUser,
   ): Promise<IChannelUser> {
-    // Get channel
-    const channel: IChannel = await this.channelService.getChannel(channelId);
-    if (!channel) {
-      throw new WsException('channel not found');
-    }
-    // Get user
-    const userDB: IChannelUser =
-      await this.channelUserService.findUserInChannel(channel, user);
+    const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
+
     if (!userDB) {
       throw new WsException('user not found');
     }
-    if (userDB.creator === false) {
+    if (userDB.administrator === false) {
       throw new WsException('user does not have the rights');
     }
     // Get target
     const newAdminUser = await this.channelUserService.findUserInChannel(
-      channel,
+      channelDB,
       target,
     );
     if (!newAdminUser) {
@@ -343,7 +345,7 @@ export class ChatGateway
   async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
     const target = await this.checkRightsAndFindUser(
       socket.data.user,
-      newAdmin.channel.id,
+      newAdmin.channel,
       newAdmin.user.user,
     );
     await this.channelUserService.updateUser(target, {
@@ -355,9 +357,32 @@ export class ChatGateway
   async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
     const target = await this.checkRightsAndFindUser(
       socket.data.user,
-      removeAdmin.channel.id,
+      removeAdmin.channel,
       removeAdmin.user.user,
     );
     await this.channelUserService.updateUser(target, { administrator: false });
+  }
+
+  /** ---------------------------  BAN / MUTE  -------------------------------- */
+
+  @SubscribeMessage('banUser')
+  async onBanUser(socket: Socket, banUser: IBanUser) {
+    const [channel, user] = await this.getChannelAndUser(
+      banUser.channel,
+      socket.data.user,
+    );
+    if (!user) {
+      throw new WsException('user not found');
+    }
+    if (user.administrator === false) {
+      throw new WsException('user does not have the rights');
+    }
+    const target = await this.channelUserService.findUserInChannel(
+      channel,
+      banUser.user,
+    );
+    if (!target) {
+      throw new WsException('user target not found');
+    }
   }
 }

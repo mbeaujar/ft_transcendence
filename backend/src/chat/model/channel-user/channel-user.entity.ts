@@ -4,7 +4,6 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -21,8 +20,20 @@ export class ChannelUser {
   @Column()
   creator: boolean;
 
+  @Column({ default: false })
+  ban: boolean;
+
+  @Column({ default: false })
+  mute: boolean;
+
   @Column()
   channelId: number;
+
+  @Column({ nullable: true })
+  unban_at: Date;
+
+  @Column({ nullable: true })
+  unmute_at: Date;
 
   @ManyToOne(() => User, (user) => user.channelUsers)
   @JoinColumn()
