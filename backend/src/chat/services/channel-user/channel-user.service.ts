@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChannelUser } from 'src/chat/entities/channel-user.entity';
-import { IChannelUser } from 'src/chat/interface/channel-user.interface';
+import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
+import { IChannelUser } from 'src/chat/model/channel-user/channel-user.interface';
+import { IChannel } from 'src/chat/model/channel/channel.interface';
 import { IUser } from 'src/users/interface/user.interface';
 import { Repository } from 'typeorm';
 
@@ -12,28 +13,34 @@ export class ChannelUserService {
     private readonly channelUserRepository: Repository<ChannelUser>,
   ) {}
 
-  async create(channelUser: IChannelUser): Promise<ChannelUser> {
-    const createdChannelUser = this.channelUserRepository.create(channelUser);
-    return this.channelUserRepository.save(createdChannelUser);
+  async createUser(user: IChannelUser): Promise<ChannelUser> {
+    const createdUser = this.channelUserRepository.create(user);
+    return this.channelUserRepository.save(createdUser);
   }
 
-  async save(channelUser: IChannelUser): Promise<ChannelUser> {
-    return this.channelUserRepository.save(channelUser);
+  async updateUser(
+    userDetails: IChannelUser,
+    attrs: Partial<ChannelUser>,
+  ): Promise<ChannelUser> {
+    Object.assign(userDetails, attrs);
+    return this.channelUserRepository.save(userDetails);
   }
 
-  async findByUser(user: IUser) {
-    return this.channelUserRepository.find({ user });
+  async findUserInChannel(
+    channel: IChannel,
+    user: IUser,
+  ): Promise<ChannelUser> {
+    return this.channelUserRepository.findOne(
+      { channelId: channel.id, user },
+      { relations: ['user', 'channel'] }, // can add channel if needed
+    );
   }
 
-  async findByChannelId(channelId: number) {
-    return this.channelUserRepository.find({ channelId });
+  async deleteUserInChannel(channel: IChannel, user: IUser) {
+    return this.channelUserRepository.delete({ channelId: channel.id, user });
   }
 
   async delete(id: number) {
     return this.channelUserRepository.delete({ id });
-  }
-
-  async deleteByChannelAndUser(channelId: number, user: IUser) {
-    return this.channelUserRepository.delete({ channelId, user });
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JoinedChannel } from 'src/chat/entities/joined-channel.entity';
-import { IChannel } from 'src/chat/interface/channel.interface';
-import { IJoinedChannel } from 'src/chat/interface/joined-channel.interface';
+import { JoinedChannel } from 'src/chat/model/joined-channel/joined-channel.entity';
+import { IChannel } from 'src/chat/model/channel/channel.interface';
+import { IJoinedChannel } from 'src/chat/model/joined-channel/joined-channel.interface';
 import { IUser } from 'src/users/interface/user.interface';
 import { Repository } from 'typeorm';
 

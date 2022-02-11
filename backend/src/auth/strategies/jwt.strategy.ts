@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 
-interface payloadDto {
+interface IPayload {
   username: string;
   sub: number;
 }
@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: payloadDto) {
+  async validate(payload: IPayload) {
     const user = await this.authService.findUser(payload.sub);
     if (!user) {
       throw new UnauthorizedException();

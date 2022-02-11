@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Channel } from 'src/chat/entities/channel.entity';
-import { IChannel } from 'src/chat/interface/channel.interface';
+import { Channel } from 'src/chat/model/channel/channel.entity';
+import { IChannel } from 'src/chat/model/channel/channel.interface';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { WsException } from '@nestjs/websockets';
-import { IChannelUser } from 'src/chat/interface/channel-user.interface';
-import { ChannelUser } from 'src/chat/entities/channel-user.entity';
+import { IChannelUser } from 'src/chat/model/channel-user/channel-user.interface';
+import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -34,16 +34,20 @@ export class ChannelService {
     }
   }
 
-  async createChannel(
-    channel: IChannel,
-    creator: ChannelUser,
-  ): Promise<Channel> {
+  async createChannel(channel: IChannel): Promise<Channel> {
     if (channel.state === 2) {
       channel.password = await this.hashPassword(channel.password);
     }
-    channel.users = [creator];
     const newChannel = this.channelRepository.create(channel);
     return this.channelRepository.save(newChannel);
+  }
+
+  async updateChannel(
+    channel: IChannel,
+    attrs: Partial<Channel>,
+  ): Promise<Channel> {
+    Object.assign(channel, attrs);
+    return this.channelRepository.save(channel);
   }
 
   async addUser(channelI: IChannel, user: ChannelUser): Promise<Channel> {
@@ -55,10 +59,13 @@ export class ChannelService {
   }
 
   async getChannel(channelId: number): Promise<Channel> {
-    return this.channelRepository.findOne(channelId);
+    return this.channelRepository.findOne(channelId, {
+      relations: ['users'],
+      select: ['id', 'state', 'password', 'users', 'name'],
+    });
   }
 
-  async getAllChannels(): Promise<Channel[]> {
+  async getChannels(): Promise<Channel[]> {
     return this.channelRepository
       .createQueryBuilder('channel')
       .leftJoin('channel.users', 'users')
@@ -66,7 +73,7 @@ export class ChannelService {
       .getMany();
   }
 
-  async getChannelForUser(userId: number) {
+  async getChannelsForUser(userId: number) {
     return this.channelRepository
       .createQueryBuilder('channel')
       .leftJoin('channel.users', 'users')

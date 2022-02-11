@@ -1,5 +1,5 @@
 import { IUser } from 'src/users/interface/user.interface';
-import { IChannel } from './channel.interface';
+import { IChannel } from '../channel/channel.interface';
 
 export interface IMessage {
   id?: number;

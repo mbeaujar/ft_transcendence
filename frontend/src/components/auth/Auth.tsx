@@ -17,7 +17,7 @@ const Auth: React.FC<Props> = (props: Props): JSX.Element => {
       .get('/auth/status')
       .then(response => props.setUser(response.data))
       .catch(reject => console.log('user not found', reject));
-  });
+  }, []);
 
   return (
     <div className="container">

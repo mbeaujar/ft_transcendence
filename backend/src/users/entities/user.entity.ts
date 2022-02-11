@@ -1,10 +1,9 @@
-import { Channel } from '../../chat/entities/channel.entity';
 import { Friends } from '../../friends/entities/friends.entity';
 import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
-import { ConnectedUser } from 'src/chat/entities/connected-user.entity';
-import { JoinedChannel } from 'src/chat/entities/joined-channel.entity';
-import { Message } from 'src/chat/entities/message.entity';
-import { ChannelUser } from 'src/chat/entities/channel-user.entity';
+import { ConnectedUser } from 'src/chat/model/connected-user/connected-user.entity';
+import { JoinedChannel } from 'src/chat/model/joined-channel/joined-channel.entity';
+import { Message } from 'src/chat/model/message/message.entity';
+import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 
 export enum State {
   online,

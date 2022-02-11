@@ -4,6 +4,9 @@ import { WebSocket } from './Socket';
 import { IUser } from '../interface/user.interface';
 import { IChannel } from '../interface/channel.interface';
 import { IMessage } from '../interface/message.interface';
+import CreateChannel from './CreateChannel';
+import { Scope } from '../interface/scope.enum';
+import { IJoinChannel } from '../interface/join-channel.interface';
 import './Chat.css';
 
 const ws = new WebSocket('http://localhost:3000');
@@ -32,6 +35,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setMessages(prev => [...prev, data]);
     });
 
+    ws.socket.on('currentChannel', data => {
+      setChannelChoose(data);
+    });
+
     ws.socket.emit('getAllChannels');
   }, []);
 
@@ -44,17 +51,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <div key={channel.id}>
         <button
           onClick={() => {
-            // ws.socket.emit('leaveChannel');
-            const password = prompt('password') || '';
-            const joinChannel: IChannel = {
-              id: channel.id,
-              name: channel.name,
-              state: channel.state,
-              password,
-              users: channel.users,
+            const joinChannel: IJoinChannel = {
+              channel,
             };
+            console.log('users', channel.users);
+            if (channel.state === Scope.protected) {
+              Object.assign(joinChannel, { password: prompt('password') });
+            }
             ws.socket.emit('joinChannel', joinChannel);
-            setChannelChoose(channel);
           }}
         >
           {channel.name}
@@ -79,21 +83,23 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>
-      <Input
-        label="Create channel"
-        onSubmit={(text: string) => {
-          const state = parseInt(prompt('state') || '0');
-          const password = prompt('password') || '';
-          const channel: IChannel = {
-            name: text,
-            users: [],
-            state,
-            password,
-          };
+      <button
+        onClick={() => {
+          ws.socket.emit('getAllChannels');
+        }}
+      >
+        all channels
+      </button>
+      <CreateChannel
+        user={props.user}
+        socketEmit={(channel: IChannel) => {
           ws.socket.emit('createChannel', channel);
         }}
       />
       <br />
+      <p>
+        Current channel: {channelChoose?.name ? channelChoose.name : 'none'}
+      </p>
       <Input
         label="send Message"
         onSubmit={(text: string) => {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Message } from 'src/chat/entities/message.entity';
-import { IChannel } from 'src/chat/interface/channel.interface';
-import { IMessage } from 'src/chat/interface/message.interface';
+import { Message } from 'src/chat/model/message/message.entity';
+import { IChannel } from 'src/chat/model/channel/channel.interface';
+import { IMessage } from 'src/chat/model/message/message.interface';
 import { Repository } from 'typeorm';
 
 @Injectable()

@@ -1,13 +1,14 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ChannelUser } from './channel-user.entity';
-import { Message } from './message.entity';
+import { ChannelUser } from '../channel-user/channel-user.entity';
+import { Message } from '../message/message.entity';
 
 @Entity()
 export class Channel {
@@ -23,10 +24,7 @@ export class Channel {
   @Column()
   name: string;
 
-  /** relations */
-
-  @ManyToMany(() => ChannelUser, (user) => user.channels)
-  @JoinTable()
+  @OneToMany(() => ChannelUser, (user) => user.channel)
   users: ChannelUser[];
 
   @OneToMany(() => Message, (message) => message.channel)

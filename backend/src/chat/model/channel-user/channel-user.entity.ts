@@ -3,11 +3,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Channel } from './channel.entity';
+import { Channel } from '../channel/channel.entity';
 
 @Entity()
 export class ChannelUser {
@@ -27,6 +28,7 @@ export class ChannelUser {
   @JoinColumn()
   user: User;
 
-  @ManyToMany(() => Channel, (channel) => channel.users)
-  channels: Channel[];
+  @ManyToOne(() => Channel, (channel) => channel.users)
+  @JoinTable()
+  channel: Channel;
 }

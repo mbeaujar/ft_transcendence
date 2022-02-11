@@ -20,12 +20,6 @@ export class UsersService {
   // ATTENTION -> https://typeorm.io/#/repository-api
   // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de précision sur la doc)
 
-  /**
-   *	Create a User and a Friends table + link
-   *
-   * @param userDetails Partial<User>
-   * @returns Promise<User>
-   */
   async createUser(userDetails: IUser): Promise<User> {
     const friends = this.friendsRepository.create({
       id: userDetails.id,

@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Channel } from './channel.entity';
+import { Channel } from '../channel/channel.entity';
 
 @Entity()
 export class Message {
