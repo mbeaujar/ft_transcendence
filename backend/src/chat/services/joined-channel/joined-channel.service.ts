@@ -23,7 +23,12 @@ export class JoinedChannelService {
   }
 
   async findByChannel(channel: IChannel): Promise<JoinedChannel[]> {
-    return this.joinedChannelRepository.find({ channelId: channel.id });
+    return this.joinedChannelRepository
+      .createQueryBuilder('joinChannel')
+      .leftJoinAndSelect('joinChannel.user', 'join_user')
+      .where('joinChannel.channelId = :channelId', { channelId: channel.id })
+      .leftJoinAndSelect('join_user.blockedUsers', 'blocked_users')
+      .getMany();
   }
 
   async deleteBySocketId(socketId: string): Promise<any> {

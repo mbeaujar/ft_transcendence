@@ -26,6 +26,9 @@ export class UsersService {
       friends: [],
     });
     await this.friendsRepository.save(friends);
+    if (userDetails.blockedUsers === undefined) {
+      userDetails.blockedUsers = [];
+    }
     const user = this.usersRepository.create(userDetails);
     return this.usersRepository.save(user);
   }

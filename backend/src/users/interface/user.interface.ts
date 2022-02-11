@@ -8,4 +8,5 @@ export class IUser {
   elo?: number;
   wins?: number;
   losses?: number;
+  blockedUsers?: IUser[];
 }

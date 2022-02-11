@@ -20,6 +20,7 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
       username: profile.username,
       id: profile.id,
       avatar: profile.photos[0].value,
+      blockedUsers: [],
     };
     return this.authService.validateUser(user);
   }

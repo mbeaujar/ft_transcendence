@@ -23,6 +23,7 @@ export class MessageService {
       .leftJoin('message.channel', 'channel')
       .where('channel.id = :channelId', { channelId: channel.id })
       .leftJoinAndSelect('message.user', 'user')
+      .leftJoinAndSelect('user.blockedUsers', 'message_blocked_users')
       .orderBy('message.created_at', 'ASC')
       .getMany();
   }

@@ -27,7 +27,7 @@ import { IUpdateAdmin } from '../interface/update-admin.interface';
 import { IUser } from 'src/users/interface/user.interface';
 import { IChannelUser } from '../model/channel-user/channel-user.interface';
 import { IUpdateChannel } from '../interface/update-channel.interface';
-import { IBanUser } from '../interface/ban-user.interface';
+import { IUpdateUser } from '../interface/update-user.interface';
 
 // Server emit:
 // channels 					-> list of channels
@@ -119,7 +119,20 @@ export class ChatGateway
     });
     // Get the message history
     const messages = await this.messageService.findMessageByChannel(channel);
-    this.server.to(socket.id).emit('messages', messages);
+
+    console.log('message', messages);
+    // BIG OVERKILL (when we get the message history we see the messages of the users blocked)
+    const messagesWithoutBlockedUsers = messages.map((message) => {
+      const userBlockedMe = message.user.blockedUsers.find(
+        (blockedUser) => blockedUser.id === socket.data.user.id,
+      );
+      if (!userBlockedMe) {
+        return message;
+      }
+    });
+    // console.log('message', messagesWithoutBlockedUsers);
+
+    this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
 
     // Send the current channel of the user
     const currentChannel: IChannel = {
@@ -218,6 +231,15 @@ export class ChatGateway
       });
       await this.channelService.addUser(channelDB, newUser);
     }
+    if (user.ban === true) {
+      if (this.countdownIsDown(user.unban_at)) {
+        throw new WsException('user is banned');
+      }
+      await this.channelUserService.updateUser(user, {
+        ban: false,
+        unban_at: null,
+      });
+    }
     await this.switchToChannel(socket, channelDB);
   }
 
@@ -300,18 +322,41 @@ export class ChatGateway
 
   @SubscribeMessage('addMessage')
   async onAddMessage(socket: Socket, message: IMessage) {
+    const [channel, user] = await this.getChannelAndUser(
+      message.channel,
+      socket.data.user,
+    );
+    if (!user) {
+      throw new WsException('user not found');
+    }
+    if (user.mute === true) {
+      if (this.countdownIsDown(user.unmute_at) === false) {
+        throw new WsException('user is muted');
+      }
+      await this.channelUserService.updateUser(user, {
+        mute: false,
+        unmute_at: null,
+      });
+    }
     const createdMessage: Message = await this.messageService.create({
       ...message,
       user: socket.data.user,
     });
-    const channel = await this.channelService.getChannel(
-      createdMessage.channel.id,
-    );
+    // const channel = await this.channelService.getChannel(
+    //   createdMessage.channel.id,
+    // );
     const joinedUsers: JoinedChannel[] =
       await this.joinedChannelService.findByChannel(channel);
+    console.log('list', joinedUsers);
     /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */
     for (const user of joinedUsers) {
-      this.server.to(user.socketId).emit('messageAdded', createdMessage);
+      // if the user is blocked we don't send the message
+      const userBlockedMe = user.user.blockedUsers.find(
+        (blockedUser) => blockedUser.id === user.id,
+      );
+      if (!userBlockedMe) {
+        this.server.to(user.socketId).emit('messageAdded', createdMessage);
+      }
     }
   }
 
@@ -365,24 +410,84 @@ export class ChatGateway
 
   /** ---------------------------  BAN / MUTE  -------------------------------- */
 
-  @SubscribeMessage('banUser')
-  async onBanUser(socket: Socket, banUser: IBanUser) {
-    const [channel, user] = await this.getChannelAndUser(
-      banUser.channel,
-      socket.data.user,
-    );
-    if (!user) {
+  private countdownIsDown(countdown: Date): boolean {
+    const now = new Date();
+    return now >= countdown;
+  }
+
+  private async getTargetAndSecureRights(
+    channel: IChannel,
+    target: IUser,
+    user: IUser,
+  ) {
+    const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
+    if (!userDB) {
       throw new WsException('user not found');
     }
-    if (user.administrator === false) {
+    if (userDB.administrator === false) {
       throw new WsException('user does not have the rights');
     }
-    const target = await this.channelUserService.findUserInChannel(
+    const targetDB = await this.channelUserService.findUserInChannel(
       channel,
-      banUser.user,
+      target,
     );
-    if (!target) {
+    if (!targetDB) {
       throw new WsException('user target not found');
     }
+    return targetDB;
+  }
+
+  @SubscribeMessage('banUser')
+  async onBanUser(socket: Socket, banUser: IUpdateUser) {
+    const target = await this.getTargetAndSecureRights(
+      banUser.channel,
+      banUser.user,
+      socket.data.user,
+    );
+    const now = new Date();
+    await this.channelUserService.updateUser(target, {
+      ban: true,
+      unban_at: new Date(now.getTime() + banUser.milliseconds),
+    });
+  }
+
+  @SubscribeMessage('unbanUser')
+  async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
+    const target = await this.getTargetAndSecureRights(
+      unbanUser.channel,
+      unbanUser.user,
+      socket.data.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      ban: false,
+      unban_at: null,
+    });
+  }
+
+  @SubscribeMessage('muteUser')
+  async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
+    const target = await this.getTargetAndSecureRights(
+      muteUser.channel,
+      muteUser.user,
+      socket.data.user,
+    );
+    const now = new Date();
+    await this.channelUserService.updateUser(target, {
+      mute: true,
+      unmute_at: new Date(now.getTime() + muteUser.milliseconds),
+    });
+  }
+
+  @SubscribeMessage('unmuteUser')
+  async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
+    const target = await this.getTargetAndSecureRights(
+      unmuteUser.channel,
+      unmuteUser.user,
+      socket.data.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      mute: false,
+      unmute_at: null,
+    });
   }
 }

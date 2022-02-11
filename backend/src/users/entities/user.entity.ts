@@ -1,5 +1,12 @@
 import { Friends } from '../../friends/entities/friends.entity';
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryColumn,
+} from 'typeorm';
 import { ConnectedUser } from 'src/chat/model/connected-user/connected-user.entity';
 import { JoinedChannel } from 'src/chat/model/joined-channel/joined-channel.entity';
 import { Message } from 'src/chat/model/message/message.entity';
@@ -50,6 +57,10 @@ export class User {
 
   @OneToMany(() => Message, (message) => message.user)
   messages: Message[];
+
+  @ManyToMany(() => User)
+  @JoinTable({ joinColumn: { name: 'users_id_1' } })
+  blockedUsers: User[];
 
   // -------------  friends
 

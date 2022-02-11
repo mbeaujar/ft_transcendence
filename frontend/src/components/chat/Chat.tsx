@@ -90,6 +90,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         all channels
       </button>
+      <button onClick={() => {}}>block mael</button>
       <button
         onClick={() => {
           ws.socket.emit('leaveChannel', channelChoose);
