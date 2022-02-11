@@ -26,6 +26,7 @@ import { State } from '../interface/state.enum';
 import { IUpdateAdmin } from '../interface/update-admin.interface';
 import { IUser } from 'src/users/interface/user.interface';
 import { IChannelUser } from '../model/channel-user/channel-user.interface';
+import { IUpdateChannel } from '../interface/update-channel.interface';
 
 // Server emit:
 // channels 					-> list of channels
@@ -260,6 +261,31 @@ export class ChatGateway
       socket.data?.user?.id,
     );
     return this.server.to(socket.id).emit('channels', channels);
+  }
+
+  @SubscribeMessage('changeChannelState')
+  async onChangeChannelState(socket: Socket, updateChannel: IUpdateChannel) {
+    const channel = await this.channelService.getChannel(updateChannel.id);
+    if (!channel) {
+      throw new WsException('channel not found');
+    }
+    const user = await this.channelUserService.findUserInChannel(
+      channel,
+      socket.data.user,
+    );
+    if (!user) {
+      throw new WsException('user not found');
+    }
+    if (user.administrator === false) {
+      throw new WsException('user does not have the rights');
+    }
+    if (
+      updateChannel.state === State.protected &&
+      updateChannel.password === undefined
+    ) {
+      throw new WsException('protected channel without password');
+    }
+    await this.channelService.updateChannel(channel, updateChannel);
   }
 
   /** ---------------------------  MESSAGE  -------------------------------- */
