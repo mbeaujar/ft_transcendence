@@ -20,7 +20,7 @@ function Dropdown(props:any)
     {
         if (selection === item.value) 
         {
-            return true;
+            return (<span className="material-icons">done</span>);
         }
         return false;
     }
@@ -48,7 +48,7 @@ function Dropdown(props:any)
             <li className={classes.dd_list_item} key={item.id}>
               <button type="button" onClick={() => handleOnClick(item, props.multiselect)}>
                 <span>{item.value}</span>
-                <span>{isItemInSelection(item) && 'Selected'}</span>
+                <span className={classes.checkLogo}>{isItemInSelection(item)}</span>
               </button>
             </li>
           ))}

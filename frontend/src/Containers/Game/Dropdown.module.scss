@@ -13,7 +13,7 @@
 .Dropdown 
 {
     display: flex;
-    width: 25%;
+    width: 28%;
     height: 38px;
     flex-wrap: wrap;
   
@@ -64,6 +64,7 @@
                 display: flex;
                 justify-content: space-between;
                 background-color: $blue2;
+                color: $blue1;
                 font-size: 16px;
                 padding: 15px 20px 15px 20px;
                 border: 0;
@@ -73,11 +74,17 @@
                 border-left: 1px solid $blue3;
                 border-right: 1px solid $blue3;
     
-                &:hover, &:focus 
+                &:hover
                 {
                     cursor: pointer;
-                    font-weight: bold;
                     background-color: $blue3;
+                    color: $blue2;
+                }
+
+                .checkLogo
+                {
+                    font-weight: bold;
+                    height: 0.3px;
                 }
             }
         }   
