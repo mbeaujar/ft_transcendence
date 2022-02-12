@@ -3,7 +3,6 @@ import axios from 'axios';
 import clsx from  'clsx';
 
 import classes from './Profile.module.scss';
-import { ClassExpression } from 'typescript';
 
 const apiAxios = axios.create({
     baseURL: 'http://localhost:3000/api',
