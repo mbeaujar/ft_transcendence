@@ -393,9 +393,19 @@ export class ChatGateway
       newAdmin.channel,
       newAdmin.user.user,
     );
+    // Ban user
     await this.channelUserService.updateUser(target, {
       administrator: true,
     });
+    // Search if the user is connected to the channel
+    const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
+      newAdmin.channel,
+      target.user,
+    );
+    // Kick user of the channel
+    if (joinedChannel) {
+      await this.joinedChannelService.delete(joinedChannel);
+    }
   }
 
   @SubscribeMessage('removeAdministrator')

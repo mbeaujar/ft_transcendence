@@ -1,8 +1,9 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../users/entities/user.entity';
+import { AddFriendsDto } from '../dtos/add-friends.dto';
 import { FriendsRequest } from '../entities/friends-request.entity';
 import { Friends } from '../entities/friends.entity';
 import { FriendsService } from '../services/friends.service';
@@ -15,12 +16,12 @@ export class FriendsController {
 
   @Auth()
   @ApiOperation({ summary: 'Send a friend request' })
-  @Get('/add/:id')
+  @Post('/add')
   async addFriends(
-    @Param('id') id: string,
+    @Body() body: AddFriendsDto,
     @CurrentUser() user: User,
   ): Promise<FriendsRequest | Friends> {
-    return this.friendsService.createFriendRequest(user, parseInt(id));
+    return this.friendsService.createFriendRequest(user, body.id);
   }
 
   @Auth()

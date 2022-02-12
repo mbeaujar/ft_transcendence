@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, State } from '../entities/user.entity';
@@ -33,21 +33,25 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async updateUser(user: User, attrs: Partial<User>): Promise<User> {
+  async updateUser(user: IUser, attrs: Partial<User>): Promise<User> {
     Object.assign(user, attrs);
     return this.usersRepository.save(user);
   }
 
-  async deleteUser(user: User): Promise<void> {
+  async saveUser(user: IUser): Promise<User> {
+    return this.usersRepository.save(user);
+  }
+
+  async deleteUser(user: IUser): Promise<void> {
     await this.usersRepository.delete({ id: user.id });
   }
 
-  async login(user: User): Promise<User> {
+  async login(user: IUser): Promise<User> {
     user.state = State.online;
     return this.usersRepository.save(user);
   }
 
-  async logout(user: User): Promise<User> {
+  async logout(user: IUser): Promise<User> {
     user.state = State.offline;
     return this.usersRepository.save(user);
   }

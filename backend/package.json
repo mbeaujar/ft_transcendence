@@ -32,6 +32,8 @@
 		"@nestjs/swagger": "^5.1.5",
 		"@nestjs/typeorm": "^8.0.3",
 		"@nestjs/websockets": "^8.2.6",
+		"class-transformer": "^0.4.0",
+		"class-validator": "^0.13.2",
 		"cookie-parser": "^1.4.6",
 		"cross-env": "^7.0.3",
 		"crypto": "^1.0.1",

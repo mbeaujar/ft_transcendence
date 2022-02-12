@@ -18,8 +18,18 @@ export class JoinedChannelService {
     return this.joinedChannelRepository.save(newJoinedChannel);
   }
 
-  async findByUser(user: IUser): Promise<JoinedChannel[]> {
-    return this.joinedChannelRepository.find({ user });
+  async findByUser(user: IUser): Promise<JoinedChannel> {
+    return this.joinedChannelRepository.findOne({ user });
+  }
+
+  async findByUserAndChannel(
+    channel: IChannel,
+    user: IUser,
+  ): Promise<JoinedChannel> {
+    return this.joinedChannelRepository.findOne({
+      user,
+      channelId: channel.id,
+    });
   }
 
   async findByChannel(channel: IChannel): Promise<JoinedChannel[]> {
@@ -33,6 +43,10 @@ export class JoinedChannelService {
 
   async deleteBySocketId(socketId: string): Promise<any> {
     return this.joinedChannelRepository.delete({ socketId });
+  }
+
+  async delete(joinedChannel: IJoinedChannel) {
+    return this.joinedChannelRepository.delete(joinedChannel);
   }
 
   async deleteByChannel(channel: IChannel): Promise<any> {
