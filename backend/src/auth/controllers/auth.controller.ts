@@ -27,6 +27,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
   ): void {
+    console.log('redirect');
     this.authService.setCookie(res, req);
     res.redirect(mainPage);
   }

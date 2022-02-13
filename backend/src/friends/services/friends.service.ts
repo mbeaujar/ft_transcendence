@@ -39,6 +39,10 @@ export class FriendsService {
     }
   }
 
+  async deleteFriendsRequest(user: number, target: number) {
+    await this.friendsRequestRepository.delete({ user, target });
+  }
+
   /** No check it can be called if users are not friends */
   async deleteFriendship(user: User, target: number): Promise<Friends> {
     const friendsUser = await this.friendsRepository.findOne({ id: user.id });

@@ -11,12 +11,7 @@ import { ConnectedUser } from 'src/chat/model/connected-user/connected-user.enti
 import { JoinedChannel } from 'src/chat/model/joined-channel/joined-channel.entity';
 import { Message } from 'src/chat/model/message/message.entity';
 import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
-
-export enum State {
-  online,
-  offline,
-  inGame,
-}
+import { State } from './state.enum';
 
 @Entity()
 export class User {

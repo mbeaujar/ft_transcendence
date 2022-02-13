@@ -16,6 +16,7 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
   }
 
   async validate(accesToken: string, refreshToken: string, profile: Profile) {
+    console.log('validate intra');
     const user: IUser = {
       username: profile.username,
       id: profile.id,

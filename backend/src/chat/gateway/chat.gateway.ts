@@ -120,7 +120,6 @@ export class ChatGateway
     // Get the message history
     const messages = await this.messageService.findMessageByChannel(channel);
 
-    console.log('message', messages);
     // BIG OVERKILL (when we get the message history we see the messages of the users blocked)
     const messagesWithoutBlockedUsers = messages.map((message) => {
       const userBlockedMe = message.user.blockedUsers.find(
@@ -273,7 +272,6 @@ export class ChatGateway
           administrator: true,
         });
       }
-      console.log('admins', admins);
     }
     // Prevent everyone that a channel as been deleted
     this.sendChannelToEveryone();
@@ -347,7 +345,6 @@ export class ChatGateway
     // );
     const joinedUsers: JoinedChannel[] =
       await this.joinedChannelService.findByChannel(channel);
-    console.log('list', joinedUsers);
     /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */
     for (const user of joinedUsers) {
       // if the user is blocked we don't send the message

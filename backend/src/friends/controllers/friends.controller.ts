@@ -3,7 +3,7 @@ import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../users/entities/user.entity';
-import { AddFriendsDto } from '../dtos/add-friends.dto';
+import { UpdateFriendsDto } from '../dtos/add-friends.dto';
 import { FriendsRequest } from '../entities/friends-request.entity';
 import { Friends } from '../entities/friends.entity';
 import { FriendsService } from '../services/friends.service';
@@ -18,7 +18,7 @@ export class FriendsController {
   @ApiOperation({ summary: 'Send a friend request' })
   @Post('/add')
   async addFriends(
-    @Body() body: AddFriendsDto,
+    @Body() body: UpdateFriendsDto,
     @CurrentUser() user: User,
   ): Promise<FriendsRequest | Friends> {
     return this.friendsService.createFriendRequest(user, body.id);
@@ -38,6 +38,16 @@ export class FriendsController {
     @CurrentUser() user: User,
   ): Promise<FriendsRequest[]> {
     return this.friendsService.getFriendsRequest(user.id);
+  }
+
+  @Auth()
+  @ApiOperation({ summary: 'Delete / Decline friends request' })
+  @Post('/request/refuse')
+  async onRequestRefuse(
+    @Body() body: UpdateFriendsDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.friendsService.deleteFriendsRequest(body.id, user.id);
   }
 
   @Auth()
