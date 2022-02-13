@@ -167,7 +167,7 @@ export class ChatGateway
     const channelUser = await this.channelUserService.createUser({
       administrator: true,
       creator: true,
-      ban: true,
+      ban: false,
       mute: false,
       user: socket.data.user,
       channelId: createdChannel.id,

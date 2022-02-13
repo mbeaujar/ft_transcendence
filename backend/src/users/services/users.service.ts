@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User, State } from '../entities/user.entity';
+import { User } from '../entities/user.entity';
 import { Friends } from '../../friends/entities/friends.entity';
 import { IUser } from '../interface/user.interface';
+import { State } from '../entities/state.enum';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,18 @@ export class UsersService {
     @InjectRepository(Friends)
     private readonly friendsRepository: Repository<Friends>,
   ) {}
+
+  async turnOnTwoFactorAuthentication(userId: number) {
+    return this.usersRepository.update(userId, {
+      isTwoFactorEnabled: true,
+    });
+  }
+
+  async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
+    return this.usersRepository.update(userId, {
+      twoFactorAuthenticationSecret: secret,
+    });
+  }
 
   async findUser(id: number): Promise<User> {
     return this.usersRepository.findOne({ id });

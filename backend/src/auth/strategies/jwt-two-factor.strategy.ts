@@ -1,13 +1,16 @@
-import { Strategy, ExtractJwt } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
-import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { IPayload } from '../interface/payload.interface';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtTwoFactorStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-two-factor',
+) {
   constructor(
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
@@ -27,6 +30,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     const user = await this.authService.findUser(payload.sub);
     if (!user) {
       throw new UnauthorizedException();
+    }
+    if (
+      user.isTwoFactorEnabled === true &&
+      payload.twoFactorAuthenticatedEnabled === false
+    ) {
+      throw new UnauthorizedException('2FA not authenticated');
     }
     return user;
   }

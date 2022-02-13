@@ -19,7 +19,13 @@ export class User {
   @PrimaryColumn()
   id: number;
 
-  @Column()
+  @Column({ default: false })
+  isTwoFactorEnabled: boolean;
+
+  @Column({ nullable: true })
+  twoFactorAuthenticationSecret: string;
+
+  @Column({ unique: true })
   username: string;
 
   @Column()

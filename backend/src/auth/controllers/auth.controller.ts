@@ -1,4 +1,13 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { User } from '../../users/entities/user.entity';
@@ -6,14 +15,29 @@ import { AuthService } from '../services/auth.service';
 import { Auth } from '../decorators/auth.decorator';
 import { CurrentUser } from '../decorators/current-user.decorator';
 import { Intra42 } from '../decorators/intra42.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { TwoFactorAuthenticationDto } from '../dtos/2fa.dto';
+import { JwtService } from '@nestjs/jwt';
+import { AuthTwoFactor } from '../decorators/auth-two-factor.decorator';
 
 export const mainPage = 'http://localhost:8080';
+
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user?: User;
+//     }
+//   }
+// }
 
 @ApiBasicAuth()
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @ApiOperation({ summary: 'Login using 42Api' })
   @Intra42()
@@ -25,11 +49,52 @@ export class AuthController {
   @Get('redirect')
   redirect(
     @Res({ passthrough: true }) res: Response,
-    @Req() req: Request,
+    @CurrentUser() user: User,
   ): void {
-    console.log('redirect');
-    this.authService.setCookie(res, req);
+    this.authService.getCookieWithJwtAcessToken(res, user);
     res.redirect(mainPage);
+  }
+
+  @Auth()
+  @Post('2fa/generate')
+  async register(@Res() res: Response, @CurrentUser() user: User) {
+    const { otpauthUrl } =
+      await this.authService.generateTwoFactorAuthenticationSecret(user);
+    return this.authService.pipeQrCodeStream(res, otpauthUrl);
+  }
+
+  @Auth()
+  @Post('2fa/enable')
+  async turnOnTwoFactorAuthentication(
+    @Body() body: TwoFactorAuthenticationDto,
+    @CurrentUser() user: User,
+  ) {
+    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+      body.code,
+      user,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    await this.authService.turnOnTwoFactorAuthentication(user);
+  }
+
+  // @Auth()
+  @AuthTwoFactor()
+  @Post('2fa/authenticate')
+  async authenticate(
+    @Body() body: TwoFactorAuthenticationDto,
+    @Res({ passthrough: true }) res: Response,
+    @CurrentUser() user: User,
+  ) {
+    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+      body.code,
+      user,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    this.authService.getCookieWithJwtAcessToken(res, user, true);
   }
 
   @ApiOperation({ summary: 'Profile of the user authenticated' })
