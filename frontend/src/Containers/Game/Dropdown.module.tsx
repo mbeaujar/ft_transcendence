@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState , useEffect , useRef} from 'react';
 import classes from './Dropdown.module.scss'
 
 function Dropdown(props:any) 
@@ -7,6 +7,18 @@ function Dropdown(props:any)
     const [open, setOpen] = useState(false);
     const [selection, setSelection] = useState<string>(props.items[0].value);
     const close = () => setOpen(!open);
+    const ref = useRef<any>();
+
+    useEffect(() => {
+      const onBodyClick = (event:any) => {
+        if (ref.current.contains(event.target)) return;
+        setOpen(false);
+      };
+      document.addEventListener('click', onBodyClick, { capture: true });
+      return () => {
+        document.removeEventListener('click', onBodyClick, { capture: true });
+      };
+    }, []);
     
     function handleOnClick(item:any, multiSelect:boolean) 
     {
@@ -27,7 +39,7 @@ function Dropdown(props:any)
 
 
     return (
-        <div className={classes.Dropdown}>
+        <div className={classes.Dropdown} ref={ref}>
           <div
             tabIndex={0}
             className={classes.header}

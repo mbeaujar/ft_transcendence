@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import clsx from  'clsx';
 
 import classes from './Friends.module.scss';
@@ -9,11 +10,10 @@ function Friends()
     return (
         <div className={classes.Friends}>
 
-            <div className={classes.addFriends}>
-                <p>Search User</p>
-                <form></form>
-                <button>Send friend request</button>
-            </div>
+        <form>
+            <label>Search user<input type="text" name="name" /></label>
+            <input type="submit" value="Add Friends" />
+        </form>
         
         </div>
     );
