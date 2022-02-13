@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import clsx from  'clsx';
-
+import Friends from './Friends.module';
 import classes from './Profile.module.scss';
+
+
 
 const apiAxios = axios.create({
     baseURL: 'http://localhost:3000/api',
@@ -81,7 +83,7 @@ function Profile(/*props:any*/) {
             </div>
 
             <div className={clsx(classes.FriendsInfo, ftIsActiveInfo("Friends"))}>
-                <h1>Friends</h1>
+                <Friends/>
             </div>
 
         </div>

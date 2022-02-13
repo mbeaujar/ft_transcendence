@@ -63,8 +63,8 @@
             {
                 display: flex;
                 justify-content: space-between;
-                background-color: $blue2;
-                color: $blue1;
+                background-color: $blue4;
+                color: $blue2;
                 font-size: 16px;
                 padding: 15px 20px 15px 20px;
                 border: 0;
@@ -77,8 +77,8 @@
                 &:hover
                 {
                     cursor: pointer;
-                    background-color: $blue3;
-                    color: $blue2;
+                    background-color: $blue2;
+                    color: $blue4;
                 }
 
                 .checkLogo
