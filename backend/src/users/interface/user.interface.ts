@@ -1,9 +1,11 @@
-import { State } from '../entities/state.enum';
+import { LocalFileDto } from '../dtos/local-file.dto';
+import { State } from './state.enum';
 
 export class IUser {
   id: number;
   username: string;
-  avatar: string;
+  avatarDefault?: string;
+  avatar?: LocalFileDto;
   isTwoFactorEnabled?: boolean;
   state?: State;
   elo?: number;

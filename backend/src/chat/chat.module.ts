@@ -5,7 +5,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { Friends } from '../friends/entities/friends.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
-import { UsersService } from '../users/services/users.service';
+import { UsersService } from '../users/services/user/users.service';
 import { ChatGateway } from './gateway/chat.gateway';
 import { Channel } from './model/channel/channel.entity';
 import { ConnectedUserService } from './services/connected-user/connected-user.service';
@@ -17,6 +17,8 @@ import { JoinedChannelService } from './services/joined-channel/joined-channel.s
 import { MessageService } from './services/message/message.service';
 import { ChannelUserService } from './services/channel-user/channel-user.service';
 import { ChannelUser } from './model/channel-user/channel-user.entity';
+import { LocalFileService } from 'src/users/services/local-file/local-file.service';
+import { LocalFile } from 'src/users/entities/localFile.entity';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { ChannelUser } from './model/channel-user/channel-user.entity';
       ChannelUser,
       Message,
       JoinedChannel,
+      LocalFile,
     ]),
     AuthModule,
     UsersModule,
@@ -41,6 +44,7 @@ import { ChannelUser } from './model/channel-user/channel-user.entity';
     JoinedChannelService,
     MessageService,
     ChannelUserService,
+    LocalFileService,
   ],
 })
 export class ChatModule {}

@@ -8,7 +8,7 @@ import {
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { AuthService } from '../../auth/services/auth.service';
-import { UsersService } from '../../users/services/users.service';
+import { UsersService } from '../../users/services/user/users.service';
 import { User } from '../../users/entities/user.entity';
 import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import { IChannel } from '../model/channel/channel.interface';

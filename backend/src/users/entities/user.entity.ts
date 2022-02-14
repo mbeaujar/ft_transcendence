@@ -2,16 +2,19 @@ import { Friends } from '../../friends/entities/friends.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryColumn,
 } from 'typeorm';
 import { ConnectedUser } from 'src/chat/model/connected-user/connected-user.entity';
 import { JoinedChannel } from 'src/chat/model/joined-channel/joined-channel.entity';
 import { Message } from 'src/chat/model/message/message.entity';
 import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
-import { State } from './state.enum';
+import { State } from '../interface/state.enum';
+import { LocalFile } from './localFile.entity';
 
 @Entity()
 export class User {
@@ -29,7 +32,14 @@ export class User {
   username: string;
 
   @Column()
-  avatar: string;
+  avatarDefault: string;
+
+  @OneToOne(() => LocalFile, { nullable: true })
+  @JoinColumn({ name: 'avatarId' })
+  avatar: LocalFile;
+
+  @Column({ nullable: true })
+  avatarId: number;
 
   @Column({ default: State.online })
   state: State;

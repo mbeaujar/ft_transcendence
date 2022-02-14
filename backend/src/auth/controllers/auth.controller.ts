@@ -6,7 +6,6 @@ import {
   Req,
   Res,
   UnauthorizedException,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -19,16 +18,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { TwoFactorAuthenticationDto } from '../dtos/2fa.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthTwoFactor } from '../decorators/auth-two-factor.decorator';
+import { IPayload } from '../interface/payload.interface';
 
 export const mainPage = 'http://localhost:8080';
-
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       user?: User;
-//     }
-//   }
-// }
 
 @ApiBasicAuth()
 @ApiTags('Auth')
@@ -39,13 +31,13 @@ export class AuthController {
     private readonly jwtService: JwtService,
   ) {}
 
-  @ApiOperation({ summary: 'Login using 42Api' })
   @Intra42()
+  @ApiOperation({ summary: 'Login using 42Api' })
   @Get('login')
   login(): void {}
 
-  @ApiOperation({ summary: 'Redirect to main page' })
   @Intra42()
+  @ApiOperation({ summary: 'Redirect to main page' })
   @Get('redirect')
   redirect(
     @Res({ passthrough: true }) res: Response,
@@ -56,6 +48,7 @@ export class AuthController {
   }
 
   @Auth()
+  @ApiOperation({ summary: 'Generate QR code 2FA' })
   @Post('2fa/generate')
   async register(@Res() res: Response, @CurrentUser() user: User) {
     const { otpauthUrl } =
@@ -64,6 +57,7 @@ export class AuthController {
   }
 
   @Auth()
+  @ApiOperation({ summary: 'enable 2FA' })
   @Post('2fa/enable')
   async turnOnTwoFactorAuthentication(
     @Body() body: TwoFactorAuthenticationDto,
@@ -79,8 +73,8 @@ export class AuthController {
     await this.authService.turnOnTwoFactorAuthentication(user);
   }
 
-  // @Auth()
   @AuthTwoFactor()
+  @ApiOperation({ summary: 'Authenticate user with 2FA' })
   @Post('2fa/authenticate')
   async authenticate(
     @Body() body: TwoFactorAuthenticationDto,
@@ -97,15 +91,25 @@ export class AuthController {
     this.authService.getCookieWithJwtAcessToken(res, user, true);
   }
 
-  @ApiOperation({ summary: 'Profile of the user authenticated' })
+  @AuthTwoFactor()
+  @ApiOperation({ summary: 'user is 2FA authenticated' })
+  @Get('authenticated')
+  async isTwoFactorAuthenticated(@Req() req: Request): Promise<boolean> {
+    const decodedToken: IPayload = await this.authService.verifyJwt(
+      req.cookies.access_token,
+    );
+    return decodedToken.twoFactorAuthenticatedEnabled;
+  }
+
   @Auth()
+  @ApiOperation({ summary: 'Profile of the user authenticated' })
   @Get('status')
   status(@CurrentUser() user: User): User {
     return user;
   }
 
+  @AuthTwoFactor()
   @ApiOperation({ summary: 'Logout of 42Api' })
-  @Auth()
   @Get('logout')
   async logout(
     @Res({ passthrough: true }) res: Response,

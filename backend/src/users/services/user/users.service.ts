@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
-import { Friends } from '../../friends/entities/friends.entity';
-import { IUser } from '../interface/user.interface';
-import { State } from '../entities/state.enum';
+import { User } from '../../entities/user.entity';
+import { Friends } from '../../../friends/entities/friends.entity';
+import { IUser } from '../../interface/user.interface';
+import { State } from '../../interface/state.enum';
+import { LocalFileService } from '../local-file/local-file.service';
+import { LocalFileDto } from 'src/users/dtos/local-file.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +14,7 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Friends)
     private readonly friendsRepository: Repository<Friends>,
+    private readonly localFilesService: LocalFileService,
   ) {}
 
   async turnOnTwoFactorAuthentication(userId: number) {
@@ -67,5 +70,20 @@ export class UsersService {
   async logout(user: IUser): Promise<User> {
     user.state = State.offline;
     return this.usersRepository.save(user);
+  }
+
+  async deleteAvatar(userId: number) {
+    return this.localFilesService.deleteFileById(userId);
+  }
+
+  async findAvatar(userId: number) {
+    return this.localFilesService.getAvatarById(userId);
+  }
+
+  async addAvatar(userId: number, fileData: LocalFileDto) {
+    const avatar = await this.localFilesService.saveLocalFileData(fileData);
+    await this.usersRepository.update(userId, {
+      avatarId: avatar.id,
+    });
   }
 }
