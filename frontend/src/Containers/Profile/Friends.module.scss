@@ -1,14 +1,54 @@
+@import '../../utils.scss';
+
 .Friends 
 {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    .addFriends
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100vw;
+
+    h2 
+    {
+        color: $white1;
+    }
+
+    .FriendsLeft
     {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        width: 45%;
+        border-right: 1px solid $grey1;
+
+    }
+
+    .FriendsRight
+    {
+        display: flex;
+        flex-direction: column;
+        width: 45%;
+
+
+        .AddFriends
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid $grey1;
+            padding-bottom: 20px;
+
+
+            form 
+            {
+                display: flex;
+                flex-direction: row;
+                margin: 30px 0;
+
+                input 
+                {
+                    margin-left: 10px;
+                    margin-right: 20px;
+                }
+            }
+        }
     }
 }
