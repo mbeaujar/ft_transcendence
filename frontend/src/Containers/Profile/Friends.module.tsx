@@ -12,15 +12,15 @@ const apiAxios = axios.create({
 function Friends()
 {
     const [stateAddFriends, setStateAddFriends] = useState('');
-    const [stateFriendsRequests, setStateFriendsRequests] = useState<[any]>();
+    const [stateFriendsRequests, setStateFriendsRequests] = useState<any>(null);
 
     const [stateFriendRequestName, setStateFriendRequestName] = useState<any>(null);
     const [stateFriendRequestAvatar, setStateFriendRequestAvatar] = useState<any>(null);
 
     useEffect(() => {
         let url = "/friends/request";
-        apiAxios.get(`${url}`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(reject));
-      }, []);
+        apiAxios.get(`${url}`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(null));
+      }, [/*stateFriendsRequests*/]);
 
 
     const getFriendsRequests = (friendsRequests:any, type: string) => 
@@ -39,27 +39,47 @@ function Friends()
     {
         let url = "/auth/status";
         //apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
-        //url = "/friends/add";
-        //apiAxios.post(`${url}`, {id:parseInt(stateAddFriends)}).then(response => console.log(response.data)).catch(reject => console.log(reject));
-        url = "/friends/request";
+        url = "/friends/add";
+        apiAxios.post(`/friends/add`, {id:parseInt(stateAddFriends)}).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        //url = "/friends/request";
         //apiAxios.get(`${url}`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(reject));
-        apiAxios.get(`${url}`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(reject));
+        //apiAxios.get(`${url}`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(reject));
         
-        url = "/users";
-        if (stateFriendsRequests)
-            console.log("id = " + stateFriendsRequests[0].user);
+        //url = "/users";
+        //if (stateFriendsRequests)
+        //    console.log("id = " + stateFriendsRequests[0].user);
         /*stateFriendsRequests.map((object:any) =>{
             console.log(object);
         });*/
-        if (stateFriendsRequests)
-            apiAxios.get(`${url}/${stateFriendsRequests[0].user}`).then(response => console.log(response.data.username)).catch(reject => console.log(reject));
-        //url = "/friends/all";
-        //apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        //if (stateFriendsRequests)
+        //    apiAxios.get(`${url}/${stateFriendsRequests[0].user}`).then(response => console.log(response.data.username)).catch(reject => console.log(reject));
+        url = "/friends/all";
+        apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
         //url = "/friends";
         //apiAxios.delete(`${url}/${stateAddFriends}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
         //url = "/friends/all";
         //apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
         setStateAddFriends('');
+    }
+
+    const acceptRequest = (friendsRequests:any) => 
+    {
+        let url = "/friends/all";
+        apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        apiAxios.post(`/friends/add`, {id:parseInt(friendsRequests.user)}).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        url = "/friends/all";
+        apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        apiAxios.get(`/friends/request`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(null));
+    }
+
+    const refuseRequest = (friendsRequests:any) => 
+    {
+        let url = "/friends/all";
+        apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        apiAxios.post(`/friends/request/refuse`, {id:parseInt(friendsRequests.user)}).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        url = "/friends/all";
+        apiAxios.get(`${url}`).then(response => console.log(response.data)).catch(reject => console.log(reject));
+        apiAxios.get(`/friends/request`).then(response => setStateFriendsRequests(response.data)).catch(reject => setStateFriendsRequests(null));
     }
 
 
@@ -86,9 +106,11 @@ function Friends()
                     {stateFriendsRequests && (
                         <div className={classes.request}>
                             {stateFriendsRequests.map((friendsRequests:any) => (
-                                <div key={friendsRequests.id} className={classes.friendsRequestsElement}>
-                                    <p>{getFriendsRequests(friendsRequests, "username")}</p>
+                                <div className={classes.friendsRequestsElement} key={friendsRequests.id}>
                                     <img src={getFriendsRequests(friendsRequests, "avatar")}/>
+                                    <p>{getFriendsRequests(friendsRequests, "username")}</p>
+                                    <button className={classes.accept} onClick={() => acceptRequest(friendsRequests)}>Accept</button>
+                                    <button className={classes.refuse} onClick={() => refuseRequest(friendsRequests)}>Refuse</button>
                                 </div>
                             ))}
                         </div>

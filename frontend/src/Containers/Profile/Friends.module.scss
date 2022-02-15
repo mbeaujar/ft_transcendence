@@ -88,6 +88,52 @@
         {
             padding-left: 1vw;
             padding-top: 15px;
+            width: 100%;
+
+            .request 
+            {
+
+                .friendsRequestsElement
+                {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    width: 80%;
+                    padding-right: 10% !important;
+                    padding: 10px;
+                    border-bottom: 1px solid $grey1;
+
+                    img 
+                    {
+                        margin-right: 3%;
+                        width: 45px;
+                        border-radius: 100%;
+                        border: 3px solid $blue4;
+                    }
+
+                    button 
+                    {
+                        font-size: 15px;
+                        border-radius: 10px;
+                        border: 1px solid black;
+                        height: 30px;
+                        color: $white1;
+                        cursor: pointer;
+                    }
+
+                    .accept 
+                    {
+                        margin-left: 50%;
+                        background-color: $green1;
+                    }
+
+                    .refuse 
+                    {
+                        margin-left: 1%;
+                        background-color: $red1;
+                    }
+                }
+            }
         }
     }
 }
