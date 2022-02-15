@@ -26,7 +26,7 @@ export class FriendsController {
 
   @Auth()
   @ApiOperation({ summary: 'list of friends' })
-  @Get('/all')
+  @Get('/list')
   async getAllFriends(@CurrentUser() user: User): Promise<Friends> {
     return this.friendsService.getFriendsList(user.id);
   }
@@ -42,7 +42,7 @@ export class FriendsController {
 
   @Auth()
   @ApiOperation({ summary: 'Delete / Decline friends request' })
-  @Post('/request/refuse')
+  @Post('/refuse')
   async onRequestRefuse(
     @Body() body: UpdateFriendsDto,
     @CurrentUser() user: User,
