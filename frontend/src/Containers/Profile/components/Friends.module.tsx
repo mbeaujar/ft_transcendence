@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../apis/api';
-// import clsx from 'clsx';
+import Avatar from './Avatar.module';
 
 import classes from './Friends.module.scss';
 import { IFriends } from '../interface/friends.interface';
@@ -49,7 +49,8 @@ function Friends() {
           <div className={classes.list}>
             {friendsList.friends.map((friend: IUser) => (
               <div className={classes.friendsListElement} key={friend.id}>
-                <img src={avatar} />
+                {/* <img src={avatar} /> */}
+                <Avatar user={friend} />
                 <p>{friend.username}</p>
               </div>
             ))}
@@ -83,7 +84,8 @@ function Friends() {
                   className={classes.friendsRequestsElement}
                   key={friendRequest.user}
                 >
-                  <img src={avatar} />
+                  {/* <img src={avatar} /> */}
+                  <Avatar user={friendRequest.userInfo} />
                   <p>{friendRequest.userInfo?.username}</p>
                   <button
                     className={classes.accept}

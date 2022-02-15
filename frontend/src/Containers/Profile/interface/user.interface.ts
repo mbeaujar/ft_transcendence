@@ -1,5 +1,6 @@
 export interface IUser {
   id: number;
   username: string;
-  avatar?: string;
+  avatarDefault?: string;
+  avatarId?: number;
 }
