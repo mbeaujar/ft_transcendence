@@ -1,21 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UsersService } from './services/user/users.service';
-import { UsersController } from './controllers/users.controller';
 import { AuthModule } from '../auth/auth.module';
-import { forwardRef } from '@nestjs/common';
 import { Friends } from '../friends/entities/friends.entity';
-import { LocalFileService } from './services/local-file/local-file.service';
 import { LocalFile } from './entities/localFile.entity';
+import { LocalFilesController } from './controllers/local-files/local-files.controller';
+import { UsersController } from './controllers/users/users.controller';
+import { LocalFilesService } from './services/local-files/local-files.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Friends, LocalFile]),
     forwardRef(() => AuthModule),
   ],
-  controllers: [UsersController],
-  providers: [UsersService, LocalFileService],
+  controllers: [UsersController, LocalFilesController],
+  providers: [UsersService, LocalFilesService],
   exports: [UsersService],
 })
 export class UsersModule {}

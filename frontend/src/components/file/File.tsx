@@ -20,7 +20,7 @@ const File: React.FC<Props> = (props: Props): JSX.Element => {
           formData.append('file', file, file.name);
           console.log('file', file);
           api
-            .post('/users/avatar', formData)
+            .post('/local-files/avatar', formData)
             .then(response => console.log(response.data))
             .catch(reject => console.log(reject));
         }}
@@ -36,14 +36,14 @@ const File: React.FC<Props> = (props: Props): JSX.Element => {
           console.log('id', props.user.avatarId);
           if (props.user.avatarId) {
             api
-              .get(`/users/avatar/${props.user.avatarId}`, {
+              .get(`/local-files/${props.user.avatarId}`, {
                 responseType: 'blob',
               })
               .then(response => setAvatar(response.data))
               .catch(reject => console.log(reject));
           } else {
             api
-              .get('/users/avatar/default')
+              .get('/local-files/default')
               .then(response => setAvatar(response.data))
               .catch(reject => console.log(reject));
           }

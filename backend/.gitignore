@@ -1,6 +1,7 @@
 # Database 
 db.sqlite
 test.sqlite
+uploadedFiles
 
 # compiled output
 /dist

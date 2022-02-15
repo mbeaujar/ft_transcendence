@@ -17,8 +17,6 @@ import { JoinedChannelService } from './services/joined-channel/joined-channel.s
 import { MessageService } from './services/message/message.service';
 import { ChannelUserService } from './services/channel-user/channel-user.service';
 import { ChannelUser } from './model/channel-user/channel-user.entity';
-import { LocalFileService } from 'src/users/services/local-file/local-file.service';
-import { LocalFile } from 'src/users/entities/localFile.entity';
 
 @Module({
   imports: [
@@ -30,7 +28,6 @@ import { LocalFile } from 'src/users/entities/localFile.entity';
       ChannelUser,
       Message,
       JoinedChannel,
-      LocalFile,
     ]),
     AuthModule,
     UsersModule,
@@ -44,7 +41,6 @@ import { LocalFile } from 'src/users/entities/localFile.entity';
     JoinedChannelService,
     MessageService,
     ChannelUserService,
-    LocalFileService,
   ],
 })
 export class ChatModule {}

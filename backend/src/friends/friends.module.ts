@@ -7,15 +7,13 @@ import { UsersService } from '../users/services/user/users.service';
 import { User } from '../users/entities/user.entity';
 import { Friends } from './entities/friends.entity';
 import { FriendsRequest } from './entities/friends-request.entity';
-import { LocalFileService } from 'src/users/services/local-file/local-file.service';
-import { LocalFile } from 'src/users/entities/localFile.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Friends, FriendsRequest, LocalFile]),
+    TypeOrmModule.forFeature([User, Friends, FriendsRequest]),
     UsersModule,
   ],
   controllers: [FriendsController],
-  providers: [FriendsService, UsersService, LocalFileService],
+  providers: [FriendsService, UsersService],
 })
 export class FriendsModule {}

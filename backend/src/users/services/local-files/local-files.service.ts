@@ -1,21 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocalFileDto } from 'src/users/dtos/local-file.dto';
 import { LocalFile } from 'src/users/entities/localFile.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class LocalFileService {
+export class LocalFilesService {
   constructor(
     @InjectRepository(LocalFile)
     private readonly localFilesRepository: Repository<LocalFile>,
   ) {}
 
   async getFileById(fileId: number) {
-    return this.localFilesRepository.findOne(fileId);
-  }
-
-  async getAvatarById(fileId: number) {
     return this.localFilesRepository.findOne(fileId);
   }
 
