@@ -17,7 +17,7 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
         .catch(reject => console.error(reject));
     } else {
       api
-        .get('/local-files/default')
+        .get(`/local-files/default/${props.user.id}`)
         .then(response => setAvatar(response.data))
         .catch(reject => console.error(reject));
     }
