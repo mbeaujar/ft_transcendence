@@ -6,20 +6,40 @@ import classes from './Friends.module.scss';
 import { IFriends } from '../interface/friends.interface';
 import Input from './Input.module';
 import { IUser } from '../interface/user.interface';
+import { IFriendsRequest } from '../interface/friends-request.interface';
 
 const avatar = 'https://cdn.intra.42.fr/users/mbeaujar.jpg';
 
 function Friends() {
   const [friendsList, setFriendsList] = useState<IFriends>();
-  // const [friendsRequest, setFriendsRequest] = useState<>();
-  const [refresh, setRefresh] = useState<any>(0);
+  const [friendsRequest, setFriendsRequest] = useState<IFriendsRequest[]>([]);
+  const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
+    console.log('refresh');
     api
       .get('/friends/list')
       .then(response => setFriendsList(response.data))
-      .catch(reject => console.log(reject));
+      .catch(reject => console.error(reject));
+    api
+      .get('/friends/request')
+      .then(response => setFriendsRequest(response.data))
+      .catch(reject => console.error(reject));
   }, [refresh]);
+
+  const acceptRequest = (id: number) => {
+    api
+      .post('/friends/add', { id })
+      .then(response => setRefresh(1))
+      .catch(reject => console.error(reject));
+  };
+
+  const refuseRequest = (id: number) => {
+    api
+      .post('/friends/refuse', { id })
+      .then(response => setRefresh(1))
+      .catch(reject => console.error(reject));
+  };
 
   return (
     <div className={classes.Friends}>
@@ -43,34 +63,37 @@ function Friends() {
           <Input
             label="Search user : "
             onSubmit={(text: string) => {
+              if (text === undefined || text === null) {
+                return;
+              }
               api
                 .post('/friends/add', { id: parseInt(text) })
-                .then(response => setRefresh(0))
+                .then(response => setRefresh(1))
                 .catch(reject => console.log(reject));
             }}
           />
         </div>
 
-        {/* <div className={classes.FriendsRequest}>
+        <div className={classes.FriendsRequest}>
           <h2>Friends Request</h2>
-          {stateFriendsRequests && (
+          {friendsRequest && (
             <div className={classes.request}>
-              {stateFriendsRequests.map((friendsRequests: any) => (
+              {friendsRequest.map((friendRequest: IFriendsRequest) => (
                 <div
                   className={classes.friendsRequestsElement}
-                  key={friendsRequests.user}
+                  key={friendRequest.user}
                 >
-                  <img src={getFriendsRequests(friendsRequests, 'avatar')} />
-                  <p>{getFriendsRequests(friendsRequests, 'username')}</p>
+                  <img src={avatar} />
+                  <p>{friendRequest.userInfo?.username}</p>
                   <button
                     className={classes.accept}
-                    onClick={() => acceptRequest(friendsRequests)}
+                    onClick={() => acceptRequest(friendRequest.user)}
                   >
                     Accept
                   </button>
                   <button
                     className={classes.refuse}
-                    onClick={() => refuseRequest(friendsRequests)}
+                    onClick={() => refuseRequest(friendRequest.user)}
                   >
                     Refuse
                   </button>
@@ -78,7 +101,7 @@ function Friends() {
               ))}
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );
