@@ -19,6 +19,30 @@
         width: 45%;
         border-right: 1px solid $grey1;
 
+        .list
+        {
+            padding-left: 1vw;
+            padding-top: 15px;
+            width: 100%;
+
+            .friendsListElement 
+            {
+                display: flex;
+                flex-direction: row;
+                width: 80%;
+                padding-right: 10% !important;
+                padding: 10px;
+                border-bottom: 1px solid $grey1;
+
+                img 
+                {
+                    margin-right: 3%;
+                    width: 45px;
+                    border-radius: 100%;
+                    border: 3px solid $blue4;
+                }
+            }
+        }
     }
 
     .FriendsRight
@@ -83,6 +107,7 @@
                 }
             }
         }
+
 
         .FriendsRequest
         {
