@@ -27,7 +27,9 @@ export class UsersController {
 
   @Auth()
   @Post('/search')
-  async searchListOfFriends(@Body() body: SearchUserDto) {}
+  async searchListOfFriends(@Body() body: SearchUserDto) {
+    return this.usersService.findUserALIKEWithUsername(body.query);
+  }
 
   @Auth()
   @ApiOperation({ summary: 'block a user' })

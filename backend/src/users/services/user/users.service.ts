@@ -34,7 +34,7 @@ export class UsersService {
     return this.usersRepository.find({
       where: [
         {
-          username: Like(`%${username}%`),
+          username: Like(`${username}%`),
         },
       ],
     });

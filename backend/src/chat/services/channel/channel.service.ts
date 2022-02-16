@@ -27,6 +27,9 @@ export class ChannelService {
     if (!channel) {
       throw new WsException('channel not found');
     }
+    if (password === undefined || password === null) {
+      throw new WsException('password not found');
+    }
     const [salt, storedHash] = channel.password.split('.');
     const hash = (await scrypt(password, salt, 64)) as Buffer;
     if (hash.toString('hex') !== storedHash) {
