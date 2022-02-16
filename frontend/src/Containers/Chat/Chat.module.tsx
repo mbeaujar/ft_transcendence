@@ -7,24 +7,10 @@ import classes from './Chat.module.scss';
 function Chat(/*props:any*/) {
   const [user, setUser] = useState<any>(null);
 
-  function ftShowChat(user: any) {
-    if (user == null) {
-      return classes.hideChat;
-    }
-    return classes.showChat;
-  }
-
-  function ftShowUnauthorized(user: any) {
-    if (user == null) {
-      return classes.showUnauthorized;
-    }
-    return classes.hideUnauthorized;
-  }
-
   useEffect(() => {
     api
       .get('/auth/status')
-      .then(response => {
+      .then((response) => {
         setUser(response.data);
       })
       .catch(() => setUser(null));
@@ -32,11 +18,8 @@ function Chat(/*props:any*/) {
 
   return (
     <>
-      <div className={clsx(classes.Chat, ftShowChat(user))}>
+      <div className={clsx(classes.Chat)}>
         <h1>Chat</h1>
-      </div>
-      <div className={clsx(classes.unauthorized, ftShowUnauthorized(user))}>
-        <h1>You must log in to access this feature</h1>
       </div>
     </>
   );

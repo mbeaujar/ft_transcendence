@@ -1,0 +1,11 @@
+@import '../../../../utils.scss';
+
+#canvas {
+  background-color: $black;
+  /*width: 800px;
+      height: 400px;*/
+}
+
+#canvas:focus {
+  outline: none;
+}

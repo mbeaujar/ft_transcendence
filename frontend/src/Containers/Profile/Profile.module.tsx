@@ -11,22 +11,7 @@ interface Props {
 }
 
 const Profile: React.FC<Props> = (props: Props): JSX.Element => {
-  const [user, setUser] = useState<any>(null);
   const [activeMenu, setActiveMenu] = useState<string>('Stats');
-
-  function ftShowProfile(user: any) {
-    // if (user === null) {
-    //   return classes.hideProfile;
-    // }
-    return classes.showProfile;
-  }
-
-  function ftShowUnauthorized(user: any) {
-    // if (user === null) {
-    //   return classes.showUnauthorized;
-    // }
-    return classes.hideUnauthorized;
-  }
 
   // useEffect(() => {
   //   api
@@ -53,7 +38,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   return (
-    <div className={clsx(classes.Profile, ftShowProfile(props.user))}>
+    <div className={clsx(classes.Profile)}>
       <div className={classes.User}>
         <Avatar user={props.user} />
         <h1>{props.user?.username}</h1>

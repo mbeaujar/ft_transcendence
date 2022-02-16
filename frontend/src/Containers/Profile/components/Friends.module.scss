@@ -26,7 +26,6 @@
         flex-direction: row;
         align-items: center;
         width: 80%;
-        /*padding-right: 10% !important;*/
         padding-left: 3%;
         padding-bottom: 10px;
         border-bottom: 1px solid $grey1;
@@ -125,7 +124,6 @@
           flex-direction: row;
           align-items: center;
           width: 80%;
-          /*padding-right: 10% !important;*/
           padding: 10px;
           border-bottom: 1px solid $grey1;
 
@@ -141,7 +139,7 @@
           }
 
           button {
-            font-size: 15px;
+            font-size: 12px;
             border-radius: 10px;
             border: 1px solid black;
             height: 30px;

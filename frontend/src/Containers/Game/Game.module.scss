@@ -1,128 +1,82 @@
 @import '../../utils.scss';
 
-.showGame
-{
-    margin-top: 50px;
+.Game {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .showGameVue {
+    width: 90vw;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    
+  }
 
-    .showGameVue 
-    {
-        width: 90vw;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hideGameVue 
-    {
-        display: none;
-    }
-
-    .configButton
-    {
-        background-color: $blue3;
-        color: $blue2;
-        cursor: pointer;
-        font-family: 'Roboto Slab', serif;
-        font-weight: bold;
-        font-size: 20px;
-        border: 1px solid $blue2;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 30px;
-        width: 40%;
-    }
-
-    .configButton:hover
-    {
-        background-color: $blue2;
-        border: 1px solid $blue3;
-        color: $blue1;
-    }
-
-   
-    .chooseCustomization
-    {
-        position: relative;
-
-        .customizationSection
-        {
-            position: absolute;
-            width: 80%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-
-        .customizationSectionTop
-        {
-            margin-top: 20px;
-            z-index: 3;
-        }
-
-        .customizationSectionMiddle
-        {
-            margin-top: 100px;
-            z-index: 2;
-        }
-
-        .customizationSectionBottom
-        {
-            margin-top: 180px;
-            z-index: 1;
-        }
-
-        .playButton
-        {
-            margin-top: 280px;
-            font-size: 30px;
-        }
-    }
-
-
-
-
-
-    #canvas
-    {
-        background-color: $black;
-        /*width: 800px;
-        height: 400px;*/
-    }
-
-   #canvas:focus
-    {
-        outline: none;
-    }
-    
-}
-
-
-
-
-
-
-
-
-
-
-.unauthorized 
-{
-    font-size: 30px;
-    margin-top: 250px;
-    align-self: center;
-}
-
-.showUnauthorized
-{
-    display: block;
-}
-
-.hideGame, .hideUnauthorized
-{
+  .hideGameVue {
     display: none;
+  }
+
+  .configButton {
+    background-color: $blue3;
+    color: $blue2;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid $blue2;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    width: 40%;
+  }
+
+  .configButton:hover {
+    background-color: $blue2;
+    border: 1px solid $blue3;
+    color: $blue1;
+  }
+
+  .chooseCustomization {
+    position: relative;
+
+    .customizationSection {
+      position: absolute;
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .customizationSectionTop {
+      margin-top: 20px;
+      z-index: 3;
+    }
+
+    .customizationSectionMiddle {
+      margin-top: 100px;
+      z-index: 2;
+    }
+
+    .customizationSectionBottom {
+      margin-top: 180px;
+      z-index: 1;
+    }
+
+    .playButton {
+      margin-top: 280px;
+      font-size: 30px;
+    }
+  }
+
+  #canvas {
+    background-color: $black;
+    /*width: 800px;
+        height: 400px;*/
+  }
+
+  #canvas:focus {
+    outline: none;
+  }
 }
