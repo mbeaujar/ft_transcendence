@@ -21,7 +21,7 @@ export class FriendsController {
     @Body() body: UpdateFriendsDto,
     @CurrentUser() user: User,
   ): Promise<FriendsRequest | Friends> {
-    return this.friendsService.createFriendRequest(user, body.id);
+    return this.friendsService.createFriendRequest(user, body.username);
   }
 
   @Auth()

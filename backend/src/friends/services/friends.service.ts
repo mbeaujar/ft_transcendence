@@ -98,43 +98,46 @@ export class FriendsService {
 
   async createFriendRequest(
     user: User,
-    target: number,
+    target: string,
   ): Promise<FriendsRequest | Friends> {
-    if (user.id === target) {
+    if (user.username === target) {
       throw new BadRequestException("can't add yourself");
     }
     const friendsUser = await this.findFriends(user.id);
-    const targetUser = await this.usersRepository.findOne({ id: target });
+    const targetUser = await this.usersRepository.findOne({ username: target });
 
     if (!targetUser) {
       throw new NotFoundException('user not found');
     }
 
-    if (this.isAlreadyOnFriendList(friendsUser, target) === true) {
+    if (this.isAlreadyOnFriendList(friendsUser, targetUser.id) === true) {
       throw new BadRequestException('Friends already exist on friends list');
     }
-    const requestExist = await this.findFriendsRequest(user.id, target);
+    const requestExist = await this.findFriendsRequest(user.id, targetUser.id);
 
     if (!requestExist) {
       /** friends request doesn't exist */
-      const targetRequest = await this.findFriendsRequest(target, user.id);
+      const targetRequest = await this.findFriendsRequest(
+        targetUser.id,
+        user.id,
+      );
 
       if (!targetRequest) {
         /** target did not send us a friend request */
-        console.log('user', user);
+        // console.log('user', user);
         const request = this.friendsRequestRepository.create({
           user: user.id,
           userInfo: user,
-          target,
+          target: targetUser.id,
         });
         return this.friendsRequestRepository.save(request);
       } else {
         /** tagret has already sent a friend request -> create friendship */
         await this.friendsRequestRepository.delete({
-          user: target,
+          user: targetUser.id,
           target: user.id,
         }); // delete tagret request
-        const friendsTarget = await this.findFriends(target);
+        const friendsTarget = await this.findFriends(targetUser.id);
 
         await this.addFriendOnList(friendsTarget, user);
         return this.addFriendOnList(friendsUser, targetUser);

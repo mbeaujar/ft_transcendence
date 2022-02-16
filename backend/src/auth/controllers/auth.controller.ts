@@ -105,6 +105,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Profile of the user authenticated' })
   @Get('status')
   status(@CurrentUser() user: User): User {
+    console.log('user', user);
     return user;
   }
 
