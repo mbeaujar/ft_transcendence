@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { IUser } from 'src/users/interface/user.interface';
 import { Auth } from '../../auth/decorators/auth.decorator';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../users/entities/user.entity';
-import { UpdateFriendsDto } from '../dtos/add-friends.dto';
+import { DeleteFriendsDto } from '../dtos/delete-friends.dto';
+import { UpdateFriendsDto } from '../dtos/update-friends.dto';
 import { FriendsRequest } from '../model/friends-request.entity';
 import { Friends } from '../model/friends.entity';
 import { FriendsService } from '../services/friends.service';
@@ -44,7 +46,7 @@ export class FriendsController {
   @ApiOperation({ summary: 'Delete / Decline friends request' })
   @Post('/refuse')
   async onRequestRefuse(
-    @Body() body: UpdateFriendsDto,
+    @Body() body: DeleteFriendsDto,
     @CurrentUser() user: User,
   ) {
     return this.friendsService.deleteFriendsRequest(body.id, user.id);

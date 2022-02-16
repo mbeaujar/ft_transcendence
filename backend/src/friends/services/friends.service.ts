@@ -32,7 +32,6 @@ export class FriendsService {
       .where('friends.target = :id', { id })
       .leftJoinAndSelect('friends.userInfo', 'user_info')
       .getMany();
-    // return this.friendsRequestRepository.find({ target: id });
   }
 
   RemoveFriendOnFriendsList(user: Friends, target: number): void {

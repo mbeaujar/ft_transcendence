@@ -7,6 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { SearchUserDto } from 'src/users/dtos/search-user.dto';
 import { Auth } from '../../../auth/decorators/auth.decorator';
 import { CurrentUser } from '../../../auth/decorators/current-user.decorator';
 import { BlockUserDto } from '../../../users/dtos/block-user.dto';
@@ -23,6 +24,10 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly localFilesService: LocalFilesService,
   ) {}
+
+  @Auth()
+  @Post('/search')
+  async searchListOfFriends(@Body() body: SearchUserDto) {}
 
   @Auth()
   @ApiOperation({ summary: 'block a user' })

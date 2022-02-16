@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
 import { Friends } from '../../../friends/model/friends.entity';
 import { IUser } from '../../interface/user.interface';
@@ -28,6 +28,16 @@ export class UsersService {
 
   async findUser(id: number): Promise<User> {
     return this.usersRepository.findOne({ id });
+  }
+
+  async findUserALIKEWithUsername(username: string) {
+    return this.usersRepository.find({
+      where: [
+        {
+          username: Like(`%${username}%`),
+        },
+      ],
+    });
   }
 
   // ATTENTION -> https://typeorm.io/#/repository-api
