@@ -17,31 +17,35 @@ const Friends: React.FC = (): JSX.Element => {
     console.log('refresh');
     api
       .get('/friends/list')
-      .then(response => setFriendsList(response.data))
-      .catch(reject => console.error(reject));
+      .then((response) => setFriendsList(response.data))
+      .catch((reject) => console.error(reject));
     api
       .get('/friends/request')
-      .then(response => setFriendsRequest(response.data))
-      .catch(reject => console.error(reject));
+      .then((response) => setFriendsRequest(response.data))
+      .catch((reject) => console.error(reject));
   }, [refresh]);
 
-
-  const acceptRequest = (id: number) => {
+  const acceptRequest = (username: string) => {
     api
-      .post('/friends/add', { id })
-      .then(response => setRefresh(1))
-      .catch(reject => console.error(reject));
+      .post('/friends/add', { username })
+      .then((response) => setRefresh(refresh + 1))
+      .catch((reject) => console.error(reject));
   };
-
 
   const refuseRequest = (id: number) => {
     api
       .post('/friends/refuse', { id })
-      .then(response => setRefresh(1))
-      .catch(reject => console.error(reject));
+      .then((response) => setRefresh(refresh + 1))
+      .catch((reject) => console.error(reject));
   };
 
-  
+  const deleteFriend = (friendsList: any) => {
+    api
+      .delete(`/friends/${friendsList.id}`)
+      .then((response) => setRefresh(refresh + 1))
+      .catch((reject) => console.error(reject));
+  };
+
   return (
     <div className={classes.Friends}>
       <div className={classes.FriendsLeft}>
@@ -52,6 +56,12 @@ const Friends: React.FC = (): JSX.Element => {
               <div className={classes.friendsListElement} key={friend.id}>
                 <Avatar user={friend} />
                 <p>{friend.username}</p>
+                <button
+                  className={classes.delete}
+                  onClick={() => deleteFriend(friend)}
+                >
+                  Delete
+                </button>
               </div>
             ))}
           </div>
@@ -68,9 +78,9 @@ const Friends: React.FC = (): JSX.Element => {
                 return;
               }
               api
-                .post('/friends/add', { id: parseInt(text) })
-                .then(response => setRefresh(1))
-                .catch(reject => console.log(reject));
+                .post('/friends/add', { username: text })
+                .then((response) => setRefresh(refresh + 1))
+                .catch((reject) => console.log(reject));
             }}
           />
         </div>
@@ -88,7 +98,9 @@ const Friends: React.FC = (): JSX.Element => {
                   <p>{friendRequest.userInfo?.username}</p>
                   <button
                     className={classes.accept}
-                    onClick={() => acceptRequest(friendRequest.user)}
+                    onClick={() =>
+                      acceptRequest(friendRequest.userInfo.username)
+                    }
                   >
                     Accept
                   </button>
