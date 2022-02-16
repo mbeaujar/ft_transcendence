@@ -10,6 +10,7 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
   const [avatar, setAvatar] = useState<any>(); // Blob | string
 
   useEffect(() => {
+    if (!props.user) return;
     if (props.user.avatarId) {
       api
         .get(`/local-files/${props.user.avatarId}`, { responseType: 'blob' })
@@ -25,11 +26,13 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>
-      {props.user.avatarId ? (
-        <img src={URL.createObjectURL(avatar)} alt="profile" />
-      ) : (
-        <img src={avatar} alt="default profile" />
-      )}
+      {props.user ? (
+        props.user?.avatarId ? (
+          <img src={URL.createObjectURL(avatar)} alt="profile" />
+        ) : (
+          <img src={avatar} alt="default profile" />
+        )
+      ) : null}
     </div>
   );
 };

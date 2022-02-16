@@ -3,4 +3,6 @@ export interface IUser {
   username: string;
   avatarDefault?: string;
   avatarId?: number;
+  wins?: number;
+  losses?: number;
 }
