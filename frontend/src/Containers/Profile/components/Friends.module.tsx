@@ -8,9 +8,7 @@ import Input from './Input.module';
 import { IUser } from '../interface/user.interface';
 import { IFriendsRequest } from '../interface/friends-request.interface';
 
-const avatar = 'https://cdn.intra.42.fr/users/mbeaujar.jpg';
-
-function Friends() {
+const Friends: React.FC = (): JSX.Element => {
   const [friendsList, setFriendsList] = useState<IFriends>();
   const [friendsRequest, setFriendsRequest] = useState<IFriendsRequest[]>([]);
   const [refresh, setRefresh] = useState<number>(0);
@@ -49,7 +47,6 @@ function Friends() {
           <div className={classes.list}>
             {friendsList.friends.map((friend: IUser) => (
               <div className={classes.friendsListElement} key={friend.id}>
-                {/* <img src={avatar} /> */}
                 <Avatar user={friend} />
                 <p>{friend.username}</p>
               </div>
@@ -84,7 +81,6 @@ function Friends() {
                   className={classes.friendsRequestsElement}
                   key={friendRequest.user}
                 >
-                  {/* <img src={avatar} /> */}
                   <Avatar user={friendRequest.userInfo} />
                   <p>{friendRequest.userInfo?.username}</p>
                   <button
@@ -107,6 +103,6 @@ function Friends() {
       </div>
     </div>
   );
-}
+};
 
 export default Friends;

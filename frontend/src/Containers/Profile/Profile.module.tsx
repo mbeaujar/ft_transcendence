@@ -1,35 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../apis/api';
 import clsx from 'clsx';
 import Friends from './components/Friends.module';
 import classes from './Profile.module.scss';
-
-const apiAxios = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  withCredentials: true,
-});
 
 function Profile(/*props:any*/) {
   const [user, setUser] = useState<any>(null);
   const [activeMenu, setActiveMenu] = useState<string>('Stats');
 
   function ftShowProfile(user: any) {
-    if (user == null) {
+    if (user === null) {
       return classes.hideProfile;
     }
     return classes.showProfile;
   }
 
   function ftShowUnauthorized(user: any) {
-    if (user == null) {
+    if (user === null) {
       return classes.showUnauthorized;
     }
     return classes.hideUnauthorized;
   }
 
   useEffect(() => {
-    apiAxios
-      .get('/auth/status', { withCredentials: true })
+    api
+      .get('/auth/status')
       .then(response => {
         setUser(response.data);
       })
