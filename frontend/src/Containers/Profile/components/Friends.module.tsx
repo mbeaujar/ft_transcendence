@@ -25,12 +25,14 @@ const Friends: React.FC = (): JSX.Element => {
       .catch(reject => console.error(reject));
   }, [refresh]);
 
+
   const acceptRequest = (id: number) => {
     api
       .post('/friends/add', { id })
       .then(response => setRefresh(1))
       .catch(reject => console.error(reject));
   };
+
 
   const refuseRequest = (id: number) => {
     api
@@ -39,6 +41,7 @@ const Friends: React.FC = (): JSX.Element => {
       .catch(reject => console.error(reject));
   };
 
+  
   return (
     <div className={classes.Friends}>
       <div className={classes.FriendsLeft}>
