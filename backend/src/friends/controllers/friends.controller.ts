@@ -4,8 +4,8 @@ import { Auth } from '../../auth/decorators/auth.decorator';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../../users/entities/user.entity';
 import { UpdateFriendsDto } from '../dtos/add-friends.dto';
-import { FriendsRequest } from '../entities/friends-request.entity';
-import { Friends } from '../entities/friends.entity';
+import { FriendsRequest } from '../model/friends-request.entity';
+import { Friends } from '../model/friends.entity';
 import { FriendsService } from '../services/friends.service';
 
 @ApiBasicAuth()

@@ -1,4 +1,4 @@
-import { Friends } from '../../friends/entities/friends.entity';
+import { Friends } from '../../friends/model/friends.entity';
 import {
   Column,
   Entity,
@@ -15,6 +15,7 @@ import { Message } from 'src/chat/model/message/message.entity';
 import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 import { State } from '../interface/state.enum';
 import { LocalFile } from './localFile.entity';
+import { FriendsRequest } from 'src/friends/model/friends-request.entity';
 
 @Entity()
 export class User {
@@ -72,6 +73,9 @@ export class User {
   @ManyToMany(() => User)
   @JoinTable({ joinColumn: { name: 'users_id_1' } })
   blockedUsers: User[];
+
+  @OneToMany(() => FriendsRequest, (friendsRequest) => friendsRequest.userInfo)
+  friendsRequest: FriendsRequest[];
 
   // -------------  friends
 

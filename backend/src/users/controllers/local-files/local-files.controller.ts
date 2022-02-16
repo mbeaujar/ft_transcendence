@@ -68,8 +68,10 @@ export class LocalFilesController {
   }
 
   @Auth()
-  @Get('/default')
-  async getDefaultAvatar(@CurrentUser() user: IUser) {
+  @Get('/default/:id')
+  async getDefaultAvatar(@Param('id') id: string) {
+    if (id === undefined || id === null) return;
+    const user = await this.usersService.findUser(parseInt(id));
     return user.avatarDefault;
   }
 

@@ -7,8 +7,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { FriendsRequest } from '../entities/friends-request.entity';
-import { Friends } from '../entities/friends.entity';
+import { FriendsRequest } from '../model/friends-request.entity';
+import { Friends } from '../model/friends.entity';
 
 // ---------------------
 // a want to be friends
@@ -27,7 +27,12 @@ export class FriendsService {
   ) {}
 
   async getFriendsRequest(id: number): Promise<FriendsRequest[]> {
-    return this.friendsRequestRepository.find({ target: id });
+    return this.friendsRequestRepository
+      .createQueryBuilder('friends')
+      .where('friends.target = :id', { id })
+      .leftJoinAndSelect('friends.userInfo', 'user_info')
+      .getMany();
+    // return this.friendsRequestRepository.find({ target: id });
   }
 
   RemoveFriendOnFriendsList(user: Friends, target: number): void {
@@ -116,8 +121,10 @@ export class FriendsService {
 
       if (!targetRequest) {
         /** target did not send us a friend request */
+        console.log('user', user);
         const request = this.friendsRequestRepository.create({
           user: user.id,
+          userInfo: user,
           target,
         });
         return this.friendsRequestRepository.save(request);

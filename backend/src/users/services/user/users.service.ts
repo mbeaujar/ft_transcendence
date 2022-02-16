@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../entities/user.entity';
-import { Friends } from '../../../friends/entities/friends.entity';
+import { Friends } from '../../../friends/model/friends.entity';
 import { IUser } from '../../interface/user.interface';
 import { State } from '../../interface/state.enum';
 

@@ -1,7 +1,7 @@
 import { LocalFileDto } from '../dtos/local-file.dto';
 import { State } from './state.enum';
 
-export class IUser {
+export interface IUser {
   id: number;
   username: string;
   avatarDefault?: string;

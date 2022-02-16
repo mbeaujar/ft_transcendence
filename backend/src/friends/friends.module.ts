@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/services/user/users.service';
 import { User } from '../users/entities/user.entity';
-import { Friends } from './entities/friends.entity';
-import { FriendsRequest } from './entities/friends-request.entity';
+import { Friends } from './model/friends.entity';
+import { FriendsRequest } from './model/friends-request.entity';
 
 @Module({
   imports: [
