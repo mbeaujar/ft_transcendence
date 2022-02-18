@@ -9,7 +9,7 @@ import { Scope } from '../interface/scope.enum';
 import { IJoinChannel } from '../interface/join-channel.interface';
 import './Chat.css';
 
-const ws = new WebSocket('http://localhost:3000');
+const ws = new WebSocket('http://localhost:3000/chat');
 
 interface Props {
   user: IUser;
@@ -36,7 +36,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.on('currentChannel', data => {
+      console.log('users channel', data.users);
       setChannelChoose(data);
+    });
+
+    ws.socket.on('memberChannel', data => {
+      console.log('member', data);
     });
 
     ws.socket.emit('getAllChannels');
@@ -59,6 +64,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
               Object.assign(joinChannel, { password: prompt('password') });
             }
             ws.socket.emit('joinChannel', joinChannel);
+            ws.socket.emit('memberChannel', channel);
           }}
         >
           {channel.name}

@@ -36,6 +36,7 @@ import { IUpdateUser } from '../interface/update-user.interface';
 // currentChannel 		-> current channel of the user
 
 @WebSocketGateway({
+  namespace: '/chat',
   cors: {
     origin: ['http://localhost:8080'],
     credentials: true,
@@ -76,7 +77,7 @@ export class ChatGateway
         socket.data.user = user;
         const channels = await this.channelService.getChannels();
         await this.connectedUserService.create({ socketId: socket.id, user });
-        console.log('connect', socket.id, user.username);
+        // console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
@@ -86,7 +87,7 @@ export class ChatGateway
   }
 
   async handleDisconnect(socket: Socket) {
-    console.log('disconnect', socket.id);
+    // console.log('disconnect', socket.id);
     await this.connectedUserService.deleteBySocketId(socket.id);
     await this.joinedChannelService.deleteBySocketId(socket.id);
     socket.disconnect();
@@ -129,7 +130,6 @@ export class ChatGateway
         return message;
       }
     });
-    // console.log('message', messagesWithoutBlockedUsers);
 
     this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
 

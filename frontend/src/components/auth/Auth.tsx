@@ -9,17 +9,10 @@ const logoutPath = 'http://localhost:3000/api/auth/logout';
 
 interface Props {
   user?: IUser;
-  setUser: any;
+  setUser?: any;
 }
 
 const Auth: React.FC<Props> = (props: Props): JSX.Element => {
-  useEffect(() => {
-    api
-      .get('/auth/status')
-      .then(response => props.setUser(response.data))
-      .catch(reject => console.log('user not found', reject));
-  }, []);
-
   return (
     <div>
       <div className="container">
