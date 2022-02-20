@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../apis/api';
-import { IUser } from '../interface/user.interface';
+import api from '../../../apis/api';
+import { IUser } from '../../../interface/user.interface';
 
 interface Props {
   user: IUser;

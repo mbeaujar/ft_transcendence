@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../apis/api';
+import api from '../../../apis/api';
 import Avatar from './Avatar.module';
 
 import classes from './Friends.module.scss';
-import { IFriends } from '../interface/friends.interface';
+import { IFriends } from '../../../interface/friends.interface';
 import Input from './Input.module';
-import { IUser } from '../interface/user.interface';
-import { IFriendsRequest } from '../interface/friends-request.interface';
+import { IUser } from '../../../interface/user.interface';
+import { IFriendsRequest } from '../../../interface/friends-request.interface';
 
 const Friends: React.FC = (): JSX.Element => {
   const [friendsList, setFriendsList] = useState<IFriends>();

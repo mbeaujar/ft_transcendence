@@ -6,8 +6,8 @@ import Game from './Containers/Game/Game.module';
 import Chat from './Containers/Chat/Chat.module';
 import Profile from './Containers/Profile/Profile.module';
 import Header from './Containers/Header/Header.module';
-import { IUser } from './Containers/Profile/interface/user.interface';
-import api from './Containers/apis/api';
+import { IUser } from './interface/user.interface';
+import api from './apis/api';
 
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
@@ -27,7 +27,7 @@ const App: React.FC = (): JSX.Element => {
           <Routes>
             <Route path="/" element={<Game />} />
             <Route path="/Game" element={<Game />} />
-            <Route path="/Chat" element={<Chat />} />
+            <Route path="/Chat" element={<Chat user={user} />} />
             <Route path="/Profile" element={<Profile user={user} />} />
           </Routes>
         ) : (

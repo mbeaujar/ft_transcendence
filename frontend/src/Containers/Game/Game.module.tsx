@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import api from '../apis/api';
+import api from '../../apis/api';
 import clsx from 'clsx';
 import classes from './Game.module.scss';
 import styles from './Game.module.scss';

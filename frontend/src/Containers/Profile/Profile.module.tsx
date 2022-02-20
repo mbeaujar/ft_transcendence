@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import api from '../apis/api';
+import api from '../../apis/api';
 import clsx from 'clsx';
 import Friends from './components/Friends.module';
 import classes from './Profile.module.scss';
 import Avatar from './components/Avatar.module';
-import { IUser } from './interface/user.interface';
+import { IUser } from '../../interface/user.interface';
 
 interface Props {
   user: IUser;
@@ -12,16 +12,6 @@ interface Props {
 
 const Profile: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeMenu, setActiveMenu] = useState<string>('Stats');
-
-  // useEffect(() => {
-  //   api
-  //     .get('/auth/status')
-  //     .then(response => {
-  //       console.log('user', response.data);
-  //       setUser(response.data);
-  //     })
-  //     .catch(reject => console.error(reject));
-  // }, []);
 
   const ftIsActiveMenu: any = (menuName: string) => {
     if (menuName === activeMenu) {
