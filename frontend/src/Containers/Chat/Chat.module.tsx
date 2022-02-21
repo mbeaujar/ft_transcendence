@@ -11,6 +11,7 @@ import { IJoinChannel } from '../../interface/join-channel.interface';
 import SearchUser from './Components/SearchUser/SearchUser.module';
 import JoinChannel from './Components/JoinChannel/JoinChannel.module';
 import CreateChannel from './Components/CreateChannel/CreateChannel.module';
+import { channel } from 'diagnostics_channel';
 
 const ws = new WebSocket('http://localhost:3000');
 
@@ -20,9 +21,11 @@ interface Props {
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
+  const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
+  let channelsJoin2 = channelsJoin;
 
   useEffect(() => {
     ws.socket.on('channels', (data) => {
@@ -47,14 +50,36 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   useEffect(() => {
     console.log('list of channels', channels);
-    console.log('list of channels', activeChatMenu);
+    setChannelsJoin(channelsJoin2);
   }, [channels, activeChatMenu]);
+
+  function ftChannelJoin() {
+    channelsJoin2 = [];
+    channels.map((channel: IChannel) => {
+      channel.users.map((userList: any) => {
+        if (userList.user.username === props.user.username) {
+          channelsJoin2.push(channel);
+        }
+      });
+    });
+  }
 
   const ftActiveChatMenu = () => {
     if (activeChatMenu == null) return <p></p>;
-    else if (activeChatMenu == 'SearchUser') return <SearchUser />;
-    else if (activeChatMenu == 'JoinChannel') return <JoinChannel />;
-    else if (activeChatMenu == 'CreateChannel')
+    else if (activeChatMenu === 'SearchUser') return <SearchUser />;
+    else if (activeChatMenu === 'JoinChannel') {
+      ftChannelJoin();
+      return (
+        <JoinChannel
+          user={props.user}
+          socketEmit={
+            /*(channel: IChannel) => {
+            ws.socket.emit('joinChannel', channel);
+          }*/ null
+          }
+        />
+      );
+    } else if (activeChatMenu === 'CreateChannel')
       return (
         <CreateChannel
           user={props.user}
@@ -63,6 +88,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           }}
         />
       );
+  };
+
+  const ftDisplayJoinChannel = () => {
+    ftChannelJoin();
+    return channelsJoin2.map((channel: IChannel) => (
+      <p key={channel.id}>{channel.name}</p>
+    ));
   };
 
   return (
@@ -92,9 +124,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           </button>
 
           <h3 className={clsx(classes.Channels)}>Channels</h3>
-          <p>Channel-1</p>
-          <p>Channel-2</p>
-          <p>Channel-3</p>
+          {ftDisplayJoinChannel()}
           <h3 className={clsx(classes.Messages)}>Messages</h3>
           <p>Sommecaise</p>
           <p>Ramzi</p>
