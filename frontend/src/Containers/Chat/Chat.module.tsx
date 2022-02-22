@@ -22,10 +22,12 @@ interface Props {
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
   const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
+  const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
   let channelsJoin2 = channelsJoin;
+  let channelsNotJoin2 = channelsNotJoin;
 
   useEffect(() => {
     ws.socket.on('channels', (data) => {
@@ -51,15 +53,21 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     console.log('list of channels', channels);
     setChannelsJoin(channelsJoin2);
+    setChannelsNotJoin(channelsNotJoin2);
   }, [channels, activeChatMenu]);
 
   function ftChannelJoin() {
     channelsJoin2 = [];
+    channelsNotJoin2 = [];
+    let i = 0;
     channels.map((channel: IChannel) => {
+      i = 0;
       channel.users.map((userList: any) => {
         if (userList.user.username === props.user.username) {
           channelsJoin2.push(channel);
+          i = 1;
         }
+        if (i == 0) channelsNotJoin2.push(channel);
       });
     });
   }
@@ -69,6 +77,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
     else if (activeChatMenu === 'JoinChannel') {
       ftChannelJoin();
+      console.log("notjoin2:",channelsNotJoin2);
       return (
         <JoinChannel
           user={props.user}
@@ -77,7 +86,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             ws.socket.emit('joinChannel', channel);
           }*/ null
           }
+          channelNotJoin={channelsNotJoin2}
         />
+
       );
     } else if (activeChatMenu === 'CreateChannel')
       return (
@@ -93,6 +104,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayJoinChannel = () => {
     ftChannelJoin();
     return channelsJoin2.map((channel: IChannel) => (
+      <p key={channel.id}>{channel.name}</p>
+    ));
+  };
+
+  const ftDisplayJoinChannelNot = () => {
+    ftChannelJoin();
+    return channelsNotJoin2.map((channel: IChannel) => (
       <p key={channel.id}>{channel.name}</p>
     ));
   };
