@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../apis/api';
 import clsx from 'clsx';
 import classes from './Chat.module.scss';
 import { WebSocket } from './Socket.module';
 import { IUser } from '../../interface/user.interface';
-import { Scope } from '../../interface/scope.enum';
 import { IChannel } from '../../interface/channel.interface';
-import { IMessage } from '../../interface/message.interface';
-import { IJoinChannel } from '../../interface/join-channel.interface';
 import SearchUser from './Components/SearchUser/SearchUser.module';
 import JoinChannel from './Components/JoinChannel/JoinChannel.module';
 import CreateChannel from './Components/CreateChannel/CreateChannel.module';
-import { channel } from 'diagnostics_channel';
+import Discussion from './Components/Discussion/Discussion.module';
+import { IMessage } from '../../interface/message.interface';
+import { Scope } from '../../interface/scope.enum';
+import { IJoinChannel } from '../../interface/join-channel.interface';
 
 const ws = new WebSocket('http://localhost:3000');
 
@@ -24,8 +23,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
   const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
-  const [messages, setMessages] = useState<IMessage[]>([]);
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   let channelsJoin2 = channelsJoin;
   let channelsNotJoin2 = channelsNotJoin;
 
@@ -74,9 +73,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
   }
 
-
   const ftActiveChatMenu = () => {
-    if (activeChatMenu == null) return <p></p>;
+    if (activeChatMenu == null || channelChoose)
+      if (channelChoose)
+      {
+        /*console.log(messages);*/
+        return (<Discussion user={props.user} channel={channelChoose} ws={ws} messages={messages}/>);
+      }
+      else return <p>Choose a menu</p>;
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
     else if (activeChatMenu === 'JoinChannel') {
       return (
@@ -100,7 +104,20 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayJoinChannel = () => {
     ftChannelJoin();
     return channelsJoin2.map((channel: IChannel) => (
-      <p key={channel.id}>{channel.name}</p>
+      <p
+        key={channel.id}
+        onClick={() => {
+          const joinChannel: IJoinChannel = {
+            channel,
+          };
+          if (channel.state === Scope.protected) {
+            Object.assign(joinChannel, { password: prompt('password') });
+          }
+          ws.socket.emit('joinChannel', joinChannel);
+        }}
+      >
+        {channel.name}
+      </p>
     ));
   };
 
@@ -110,13 +127,19 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         <div className={classes.ChatLeft}>
           <button
             className={clsx(classes.ChatLeftButton, classes.SearchUserButton)}
-            onClick={() => setActiveChatMenu('SearchUser')}
+            onClick={() => {
+              setActiveChatMenu('SearchUser');
+              setChannelChoose(null);
+            }}
           >
             Search user
           </button>
           <button
             className={clsx(classes.ChatLeftButton, classes.JoinChannelButton)}
-            onClick={() => setActiveChatMenu('JoinChannel')}
+            onClick={() => {
+              setActiveChatMenu('JoinChannel');
+              setChannelChoose(null);
+            }}
           >
             Join channel
           </button>
@@ -125,7 +148,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
               classes.ChatLeftButton,
               classes.CreateChannelButton
             )}
-            onClick={() => setActiveChatMenu('CreateChannel')}
+            onClick={() => {
+              setActiveChatMenu('CreateChannel');
+              setChannelChoose(null);
+            }}
           >
             Create channel
           </button>
