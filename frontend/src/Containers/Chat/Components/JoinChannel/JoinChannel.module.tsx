@@ -33,7 +33,7 @@ const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
               Object.assign(joinChannel, { password: prompt('password') });
             }
             props.ws.socket.emit('joinChannel', joinChannel);
-            /*props.socketEmit(channel);*/
+            props.ws.socket.emit('getAllChannels');
             console.log('users2', channel.users);
           }}>Join channel</button>
               </div>

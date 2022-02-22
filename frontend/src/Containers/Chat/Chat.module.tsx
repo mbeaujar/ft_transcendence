@@ -74,6 +74,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
   }
 
+
   const ftActiveChatMenu = () => {
     if (activeChatMenu == null) return <p></p>;
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
