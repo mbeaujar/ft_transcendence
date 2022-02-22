@@ -26,11 +26,25 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
     );
   });
+  var messageBody = document.querySelector('#msg');
+
+  useEffect(() =>
+  {
+    if (messageBody)
+    {
+      console.log('ok');
+      messageBody.scrollTop = 10000000;
+    }
+  },[props.messages]);
+  
+
 
   return (
     <div className={classes.Discussion}>
       <h1>{props.channel.name}</h1>
-      <div className={classes.Messages}>{renderedMessages}</div>
+      <div className={classes.Messages} id='msg'>
+        {renderedMessages}
+      </div>
       <div className={classes.InputDiv}>
         <Input
           onSubmit={(text: string) => {
@@ -43,6 +57,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               Object.assign(message, { channel: props.channel });
             }
             props.ws.socket.emit('addMessage', message);
+            /*ftScrollbar();*/
           }}
         />
       </div>
