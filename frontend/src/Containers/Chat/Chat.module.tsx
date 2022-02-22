@@ -29,12 +29,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   let channelsNotJoin2 = channelsNotJoin;
 
   useEffect(() => {
+
     ws.socket.on('channels', (data) => {
       setChannels(data);
     });
 
     ws.socket.on('messages', (data) => {
-      console.log('messages', data);
       setMessages(data);
     });
 
@@ -50,7 +50,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log('list of channels', channels);
     setChannelsJoin(channelsJoin2);
     setChannelsNotJoin(channelsNotJoin2);
   }, [channels, activeChatMenu]);
@@ -77,7 +76,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     if (activeChatMenu == null || channelChoose)
       if (channelChoose)
       {
-        /*console.log(messages);*/
         return (<Discussion user={props.user} channel={channelChoose} ws={ws} messages={messages}/>);
       }
       else return <p>Choose a menu</p>;

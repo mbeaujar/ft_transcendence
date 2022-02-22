@@ -18,6 +18,10 @@ interface Props {
 }
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
+  var messageBody = document.querySelector('#msg');
+
+
+
   const renderedMessages = props.messages.map((message: any) => {
     return (
       <div key={message.id} className={classes.Message}>
@@ -26,16 +30,16 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
     );
   });
-  var messageBody = document.querySelector('#msg');
 
   useEffect(() =>
   {
     if (messageBody)
     {
-      console.log('ok');
       messageBody.scrollTop = 10000000;
     }
   },[props.messages]);
+
+  
   
 
 
