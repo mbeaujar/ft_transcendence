@@ -67,8 +67,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           channelsJoin2.push(channel);
           i = 1;
         }
-        if (i == 0) channelsNotJoin2.push(channel);
       });
+      if (i == 0) {
+        channelsNotJoin2.push(channel);
+      }
     });
   }
 
@@ -76,19 +78,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     if (activeChatMenu == null) return <p></p>;
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
     else if (activeChatMenu === 'JoinChannel') {
-      ftChannelJoin();
-      console.log("notjoin2:",channelsNotJoin2);
       return (
         <JoinChannel
           user={props.user}
-          socketEmit={
-            /*(channel: IChannel) => {
-            ws.socket.emit('joinChannel', channel);
-          }*/ null
-          }
           channelNotJoin={channelsNotJoin2}
+          ws={ws}
         />
-
       );
     } else if (activeChatMenu === 'CreateChannel')
       return (
@@ -104,13 +99,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayJoinChannel = () => {
     ftChannelJoin();
     return channelsJoin2.map((channel: IChannel) => (
-      <p key={channel.id}>{channel.name}</p>
-    ));
-  };
-
-  const ftDisplayJoinChannelNot = () => {
-    ftChannelJoin();
-    return channelsNotJoin2.map((channel: IChannel) => (
       <p key={channel.id}>{channel.name}</p>
     ));
   };

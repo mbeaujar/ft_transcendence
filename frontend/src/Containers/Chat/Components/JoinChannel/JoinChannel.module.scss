@@ -1,11 +1,52 @@
 @import '../../../../utils.scss';
 
 .JoinChannel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   h1 {
+    width: 100%;
     margin-top: 0;
     padding: 15px 0;
     color: $blue1;
     background-color: $grey5;
     background-color: $grey5;
   }
+
+  .ChannelToJoin
+  {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    border: 1px solid $grey2;
+    margin-bottom: 20px;
+    border-radius: 20px;
+
+    p 
+    {
+      color: $white1;
+    }
+    
+    button 
+    {
+      background-color: $green1;
+      border: 1px solid $green2;
+      color: $white1;
+      border-radius: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    button:hover
+    {
+      background-color: $green2;
+      border: 1px solid $green1;
+    }
+  }
+
 }

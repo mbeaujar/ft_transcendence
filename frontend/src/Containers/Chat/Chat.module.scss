@@ -90,6 +90,8 @@
     width: 40vw;
     height: 500px;
     background-color: $grey4;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   .ChatRight {
