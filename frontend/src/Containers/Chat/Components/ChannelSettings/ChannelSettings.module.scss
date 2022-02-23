@@ -33,4 +33,21 @@
       width: 35px;
     }
   }
+
+  .UserSettings
+  {
+    width: 100%;
+    button {
+      background-color: $grey3;
+      border: none;
+      color: $white1;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      padding: 5px;
+      border-radius: 5px;
+      width: 70%;
+      cursor: pointer;
+      background-color: $red1;
+    }
+  }
 }

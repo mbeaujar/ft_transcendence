@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
-  let actualChannel : any = ftGetActualChannel();
+  let actualChannel: any = ftGetActualChannel();
   useEffect(() => {
     actualChannel = ftGetActualChannel();
   }, [props.channel]);
@@ -21,9 +21,8 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ftGetActualChannel() {
     let i = 0;
     while (i < props.channels.length) {
-      if (props.channels[i].name == props.channel.name)
-      {
-        return(props.channels[i]);
+      if (props.channels[i].name == props.channel.name) {
+        return props.channels[i];
       }
       i++;
     }
@@ -38,6 +37,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>{user.user.username}</p>
         </div>
       ))}
+
+      <div className={classes.UserSettings}>
+        <h3>User settings</h3>
+        <button
+          onClick={() => {
+            props.ws.socket.emit('leaveChannel', props.channel);
+          }}
+        >
+          Leave channel
+        </button>
+      </div>
     </div>
   );
 };
