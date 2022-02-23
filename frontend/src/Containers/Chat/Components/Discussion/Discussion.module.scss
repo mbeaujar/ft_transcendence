@@ -43,6 +43,11 @@
       color: white;
       padding: 0 5%;
       border-top: 0.8px solid $grey8;
+
+      &:first-child
+      {
+        border-top: 0;
+      }
       
       h4 
       {

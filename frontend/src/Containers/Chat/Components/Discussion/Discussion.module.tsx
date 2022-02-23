@@ -20,7 +20,13 @@ interface Props {
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector('#msg');
 
-
+  
+  useEffect(() => {
+    messageBody = document.querySelector('#msg');
+    if (messageBody) {
+      messageBody.scrollTop = messageBody.scrollHeight;
+    }
+  }, [props.messages]);
 
   const renderedMessages = props.messages.map((message: any) => {
     return (
@@ -31,22 +37,11 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     );
   });
 
-  useEffect(() =>
-  {
-    if (messageBody)
-    {
-      messageBody.scrollTop = 10000000;
-    }
-  },[props.messages]);
-
-  
-  
-
 
   return (
     <div className={classes.Discussion}>
       <h1>{props.channel.name}</h1>
-      <div className={classes.Messages} id='msg'>
+      <div className={classes.Messages} id="msg">
         {renderedMessages}
       </div>
       <div className={classes.InputDiv}>
@@ -61,7 +56,6 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               Object.assign(message, { channel: props.channel });
             }
             props.ws.socket.emit('addMessage', message);
-            /*ftScrollbar();*/
           }}
         />
       </div>
