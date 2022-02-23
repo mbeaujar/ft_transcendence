@@ -1,0 +1,14 @@
+@import '../../../../utils.scss';
+
+.ChannelSettings {
+  h3 {
+    margin-top: 15px;
+    background-color: $grey5;
+    width: 95%;
+    padding: 5px;
+    margin-bottom: 0;
+    color: $grey2;
+    margin-top: 0;
+    border-top-right-radius: 10px;
+  }
+}

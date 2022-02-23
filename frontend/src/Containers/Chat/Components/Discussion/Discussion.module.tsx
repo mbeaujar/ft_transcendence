@@ -1,7 +1,6 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import classes from './Discussion.module.scss';
-import clsx from 'clsx';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
 import { IMessage } from '../../../../interface/message.interface';
@@ -20,7 +19,6 @@ interface Props {
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector('#msg');
 
-  
   useEffect(() => {
     messageBody = document.querySelector('#msg');
     if (messageBody) {
@@ -31,12 +29,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   const renderedMessages = props.messages.map((message: any) => {
     return (
       <div key={message.id} className={classes.Message}>
-        <h4>{message.user.username}:</h4>
+        <Avatar user={message.user} />
+        <h4>{message.user.username}</h4>
         <p> {message.text}</p>
       </div>
     );
   });
-
 
   return (
     <div className={classes.Discussion}>

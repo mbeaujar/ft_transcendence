@@ -11,6 +11,7 @@ import Discussion from './Components/Discussion/Discussion.module';
 import { IMessage } from '../../interface/message.interface';
 import { Scope } from '../../interface/scope.enum';
 import { IJoinChannel } from '../../interface/join-channel.interface';
+import ChannelSettings from './Components/ChannelSettings/ChannelSettings.module';
 
 const ws = new WebSocket('http://localhost:3000');
 
@@ -105,6 +106,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       );
   };
 
+  const ftActiveChatMenuRight = () => {
+    if (channelChoose) {
+      return (
+        <ChannelSettings user={props.user} channel={channelChoose} ws={ws} channels={channels}/>
+      );
+    }
+  };
+
   const ftDisplayJoinChannel = () => {
     ftChannelJoin();
     return channelsJoin2.map((channel: IChannel) => (
@@ -169,7 +178,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
 
-        <div className={classes.ChatRight}></div>
+        <div className={classes.ChatRight}>{ftActiveChatMenuRight()}</div>
       </div>
     </>
   );

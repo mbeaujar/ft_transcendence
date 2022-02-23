@@ -1,6 +1,5 @@
 @import '../../../../utils.scss';
 
-
 .Discussion {
   height: 100%;
   position: relative;
@@ -13,21 +12,19 @@
     margin-bottom: 0px;
   }
   ::-webkit-scrollbar {
-    width: 5px; 
+    width: 5px;
   }
-  
+
   ::-webkit-scrollbar-track {
-    background: $grey5; 
+    background: $grey5;
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    background-color: $grey2; 
+    background-color: $grey2;
     border-radius: 20px;
   }
 
-  .Messages
-  {
-    
+  .Messages {
     overflow-y: scroll;
     overflow-x: hidden;
     min-height: 75.6%;
@@ -36,8 +33,7 @@
     flex-direction: column;
     align-items: center;
 
-    .Message
-    {
+    .Message {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -46,29 +42,39 @@
       padding: 0 5%;
       border-top: 0.8px solid $grey8;
 
-      &:first-child
-      {
+      &:first-child {
         border-top: 0;
       }
-      
-      h4 
-      {
+
+      h4 {
         margin-right: 20px;
       }
 
-      p 
-      {
+      img {
+        border-radius: 100%;
+        margin-top: 7px;
+        margin-right: 5px;
+        width: 25px;
+      }
+
+      p {
         padding: 1px !important;
-        width: 76%;
-        word-wrap:break-word;
+        width: 80%;
+        word-wrap: break-word;
         text-align: left;
+
+        @media screen and (max-width: 1200px) {
+          width: 70%;
+        }
+
+        @media screen and (max-width: 900px) {
+          width: 60%;
+        }
       }
     }
   }
 
-  .InputDiv
-  {
+  .InputDiv {
     margin-top: 10px;
-
   }
 }
