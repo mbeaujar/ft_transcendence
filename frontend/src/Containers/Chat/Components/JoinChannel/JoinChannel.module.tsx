@@ -10,11 +10,16 @@ import { IJoinChannel } from '../../../../interface/join-channel.interface';
 
 interface Props {
   user: IUser;
+  channels: IChannel[];
   channelNotJoin: IChannel[];
   ws: any;
+  action: any;
 }
 
 const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
+  useEffect(() => {
+  }, []);
+
   return (
     <div className={classes.JoinChannel}>
       <h1>Join Channel</h1>
@@ -26,13 +31,11 @@ const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
               const joinChannel: IJoinChannel = {
                 channel,
               };
-              console.log('users1', channel.users);
               if (channel.state === Scope.protected) {
                 Object.assign(joinChannel, { password: prompt('password') });
               }
               props.ws.socket.emit('joinChannel', joinChannel);
               props.ws.socket.emit('getAllChannels');
-              console.log('users2', channel.users);
             }}
           >
             Join channel

@@ -10,6 +10,7 @@
     color: $blue1;
     background-color: $grey5;
     background-color: $grey5;
+    margin-bottom: 0px;
   }
   ::-webkit-scrollbar {
     width: 5px; 
@@ -26,10 +27,11 @@
 
   .Messages
   {
+    
     overflow-y: scroll;
     overflow-x: hidden;
-    min-height: 71%;
-    max-height: 71%;
+    min-height: 75.6%;
+    max-height: 75.6%;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -29,7 +29,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   let channelsNotJoin2 = channelsNotJoin;
 
   useEffect(() => {
-
     ws.socket.on('channels', (data) => {
       setChannels(data);
     });
@@ -72,13 +71,18 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
   }
 
-  const ftActiveChatMenu = () => {
+  const ftActiveChatMenuCenter = () => {
     if (activeChatMenu == null || channelChoose)
-      if (channelChoose)
-      {
-        return (<Discussion user={props.user} channel={channelChoose} ws={ws} messages={messages}/>);
-      }
-      else return <p>Choose a menu</p>;
+      if (channelChoose) {
+        return (
+          <Discussion
+            user={props.user}
+            channel={channelChoose}
+            ws={ws}
+            messages={messages}
+          />
+        );
+      } else return <p>Choose a menu</p>;
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
     else if (activeChatMenu === 'JoinChannel') {
       return (
@@ -86,6 +90,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           user={props.user}
           channelNotJoin={channelsNotJoin2}
           ws={ws}
+          channels={channels}
+          action={ftChannelJoin}
         />
       );
     } else if (activeChatMenu === 'CreateChannel')
@@ -161,7 +167,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Ramzi</p>
         </div>
 
-        <div className={classes.ChatCenter}>{ftActiveChatMenu()}</div>
+        <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
 
         <div className={classes.ChatRight}></div>
       </div>
