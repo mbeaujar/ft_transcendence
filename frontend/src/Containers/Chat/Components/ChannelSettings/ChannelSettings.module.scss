@@ -7,42 +7,48 @@
   justify-content: center;
 
   h3 {
-    margin-top: 15px;
     background-color: $grey5;
     width: 95%;
     padding: 5px;
-    margin-bottom: 0;
+    margin-bottom: 7px;
     color: $grey2;
     margin-top: 0;
-    border-top-right-radius: 10px;
   }
 
-  .ChannelUser
-  {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    color: $white1;
-    width: 80%;
+  .ChannelUsers {
+    width: 100%;
+    h3 {
+      border-top-right-radius: 10px;
+    }
 
-    img {
-      border-radius: 100%;
-      margin-top: 7px;
-      margin-right: 10px;
-      width: 35px;
+    .ChannelUser {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: left;
+      color: $white1;
+      
+      margin-left: 10px;
+
+      img {
+        border-radius: 100%;
+        margin-top: 7px;
+        margin-right: 10px;
+        width: 35px;
+      }
     }
   }
 
-  .UserSettings
-  {
+  .UserSettings {
     width: 100%;
+
+    margin-top: 7px;
     button {
       background-color: $grey3;
       border: none;
       color: $white1;
-      margin-top: 15px;
-      margin-bottom: 15px;
+      margin-top: 8px;
+      margin-bottom: 8px;
       padding: 5px;
       border-radius: 5px;
       width: 70%;

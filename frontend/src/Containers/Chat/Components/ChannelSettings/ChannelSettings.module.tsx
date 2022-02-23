@@ -30,13 +30,15 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div className={classes.ChannelSettings}>
-      <h3>Users</h3>
-      {actualChannel.users.map((user: any) => (
-        <div className={classes.ChannelUser} key={user.id}>
-          <Avatar user={user.user} />
-          <p>{user.user.username}</p>
-        </div>
-      ))}
+      <div className={classes.ChannelUsers}>
+        <h3>Users</h3>
+        {actualChannel.users.map((user: any) => (
+          <div className={classes.ChannelUser} key={user.id}>
+            <Avatar user={user.user} />
+            <p>{user.user.username}</p>
+          </div>
+        ))}
+      </div>
 
       <div className={classes.UserSettings}>
         <h3>User settings</h3>
@@ -47,6 +49,18 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         >
           Leave channel
         </button>
+      </div>
+
+      <div className={classes.UserSettings}>
+        <h3>Admin settings</h3>
+        <div className={classes.BanUser}>
+          <p>Ban User</p>
+          <input></input>
+        </div>
+        <div className={classes.MuteUser}>
+        <p>Mute User</p>
+          <input></input>
+        </div>
       </div>
     </div>
   );
