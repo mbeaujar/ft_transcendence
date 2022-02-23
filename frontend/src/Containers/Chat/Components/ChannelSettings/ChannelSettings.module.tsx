@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import classes from './ChannelSettings.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
+import Avatar from '../../../Profile/components/Avatar.module';
 
 interface Props {
   user: IUser;
@@ -31,13 +32,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className={classes.ChannelSettings}>
       <h3>Users</h3>
-
-
       {actualChannel.users.map((user: any) => (
-        <div key={user.id}>
+        <div className={classes.ChannelUser} key={user.id}>
+          <Avatar user={user.user} />
           <p>{user.user.username}</p>
         </div>
-
       ))}
     </div>
   );

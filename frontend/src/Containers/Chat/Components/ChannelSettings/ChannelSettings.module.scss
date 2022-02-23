@@ -1,6 +1,11 @@
 @import '../../../../utils.scss';
 
 .ChannelSettings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   h3 {
     margin-top: 15px;
     background-color: $grey5;
@@ -10,5 +15,22 @@
     color: $grey2;
     margin-top: 0;
     border-top-right-radius: 10px;
+  }
+
+  .ChannelUser
+  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    color: $white1;
+    width: 80%;
+
+    img {
+      border-radius: 100%;
+      margin-top: 7px;
+      margin-right: 10px;
+      width: 35px;
+    }
   }
 }
