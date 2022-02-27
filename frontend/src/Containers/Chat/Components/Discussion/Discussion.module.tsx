@@ -30,8 +30,10 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     return (
       <div key={message.id} className={classes.Message}>
         <Avatar user={message.user} />
-        <h4>{message.user.username}</h4>
-        <p> {message.text}</p>
+        <div className={classes.MessageRight}>
+          <h4>{message.user.username}</h4>
+          <p> {message.text}</p>
+        </div>
       </div>
     );
   });
