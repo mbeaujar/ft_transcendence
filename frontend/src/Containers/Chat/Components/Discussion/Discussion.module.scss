@@ -6,9 +6,8 @@
   h1 {
     margin-top: 0;
     padding: 15px 0;
-    color: $blue1;
-    background-color: $grey5;
-    background-color: $grey5;
+    color: $white1;
+    background-color: $blue5;
     margin-bottom: 0px;
   }
   ::-webkit-scrollbar {
@@ -16,11 +15,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: $grey5;
+    background: $blue5;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $grey2;
+    background-color: $blue4;
     border-radius: 20px;
   }
 

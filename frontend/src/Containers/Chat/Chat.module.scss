@@ -17,11 +17,11 @@
   }
   
   ::-webkit-scrollbar-track {
-    background: $grey5; 
+    background: $blue5; 
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: $grey2; 
+    background-color: $blue4; 
     border-radius: 20px;
   }
 
@@ -34,7 +34,7 @@
     overflow-x: hidden;
     /*border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;*/
-    background-color: $grey3;
+    /*background-color: $grey3;*/
     display: flex;
     flex-direction: column;
     justify-content: top;
@@ -43,7 +43,6 @@
 
     .ChatLeftButton {
       width: 50%;
-      background-color: $grey3;
       border: none;
       color: $white1;
       margin-top: 15px;
@@ -51,26 +50,14 @@
       border-radius: 5px;
       width: 80%;
       font-size: 15px;
+      background-color: $blue4;
       cursor: pointer;
     }
 
-    .SearchUserButton {
-      background-color: $orange1;
-      background-color: $blue4;
-    }
-
-    .JoinChannelButton {
-      background-color: $green1;
-      background-color: $blue4;
-    }
-
-    .CreateChannelButton {
-      background-color: $blue4;
-    }
 
     h3 {
       margin-top: 15px;
-      background-color: $grey5;
+      background-color: $blue5;
       width: 100%;
       padding: 12px;
       margin-bottom: 0;
@@ -91,7 +78,7 @@
 
     p:hover
     {
-      background-color: $grey4;
+      background-color: $blue6;
     }
   }
 
@@ -100,7 +87,6 @@
     width: 66vw;
     /*height: 500px;*/
     height: 81.7vh;
-    background-color: $grey4;
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -112,6 +98,6 @@
     height: 81.7vh;
     /*border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;*/
-    background-color: $grey3;
+    /*background-color: $grey3;*/
   }
 }
