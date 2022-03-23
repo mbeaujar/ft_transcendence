@@ -174,6 +174,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <h3 className={clsx(classes.Messages)}>Messages</h3>
           <p>Sommecaise</p>
           <p>Ramzi</p>
+          <p>Hassan</p>
+          <p>Arthur</p>
+          <p>Sofiane</p>
+          <p>Miguel</p>
+          <p>Yanis</p>
+          <p>Ramzi Zoukidiev</p>
         </div>
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
