@@ -26,13 +26,17 @@
       justify-content: left;
       color: $white1;
       
-      margin-left: 10px;
+      margin-left: 20px;
 
       img {
         border-radius: 100%;
         margin-top: 7px;
         margin-right: 10px;
-        width: 35px;
+        width: 40px;
+      }
+
+      p{
+        font-size: 17px;
       }
     }
   }
