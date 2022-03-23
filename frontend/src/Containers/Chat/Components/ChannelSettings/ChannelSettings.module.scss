@@ -8,8 +8,9 @@
 
   h3 {
     background-color: $grey5;
-    width: 95%;
-    padding: 5px;
+    font-size: 20px;
+    width: 92.7%;
+    padding: 10px;
     margin-bottom: 7px;
     color: $grey2;
     margin-top: 0;
@@ -17,9 +18,6 @@
 
   .ChannelUsers {
     width: 100%;
-    h3 {
-      border-top-right-radius: 10px;
-    }
 
     .ChannelUser {
       display: flex;
@@ -54,6 +52,7 @@
       width: 70%;
       cursor: pointer;
       background-color: $red1;
+      font-size: 15px;
     }
   }
 }
