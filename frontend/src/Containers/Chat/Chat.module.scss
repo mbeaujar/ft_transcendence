@@ -10,6 +10,8 @@
   margin-left: -8px;
   margin-right: -8px;
   margin-bottom: -10px;
+  font-family: 'Arial', cursive;
+
   ::-webkit-scrollbar {
     width: 5px; 
   }
@@ -25,7 +27,7 @@
 
   .ChatLeft {
     /*width: 200px;*/
-    width: 300px;
+    min-width: 250px;
     /*height: 500px;*/
     height: 81.7vh;
     overflow-y: scroll;
@@ -95,7 +97,7 @@
 
   .ChatCenter {
     /*width: 40vw;*/
-    width: 60vw;
+    width: 66vw;
     /*height: 500px;*/
     height: 81.7vh;
     background-color: $grey4;
@@ -105,7 +107,7 @@
 
   .ChatRight {
     /*width: 200px;*/
-    width: 300px;
+    min-width: 250px;
     /*height: 500px;*/
     height: 81.7vh;
     /*border-top-right-radius: 10px;

@@ -22,14 +22,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 5%;
+    padding: 0.5% 5%;
     border: 1px solid $grey2;
     margin-bottom: 20px;
     border-radius: 20px;
-
+    
     p 
     {
       color: $white1;
+      font-size: 1.2vw;
+
     }
     
     button 
@@ -40,6 +42,8 @@
       border-radius: 5px;
       cursor: pointer;
       padding: 5px;
+      padding: 1%;
+      font-size: 1.2vw;
     }
 
     button:hover
