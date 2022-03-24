@@ -1,4 +1,4 @@
-FROM node:alpine3.15
+FROM node:16.14-alpine
 
 WORKDIR /app
 
@@ -7,3 +7,4 @@ EXPOSE 8080
 
 # Download nodes_modules + start 
 ENTRYPOINT npm ci && npm run start
+# ENTRYPOINT sh
