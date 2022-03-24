@@ -6,6 +6,7 @@ import Game from './Containers/Game/Game.module';
 import Chat from './Containers/Chat/Chat.module';
 import Profile from './Containers/Profile/Profile.module';
 import Header from './Containers/Header/Header.module';
+import OtherUserProfile from './Containers/OtherUserProfile/OtherUserProfile.module';
 import { IUser } from './interface/user.interface';
 import api from './apis/api';
 
@@ -29,6 +30,7 @@ const App: React.FC = (): JSX.Element => {
             <Route path="/Game" element={<Game />} />
             <Route path="/Chat" element={<Chat user={user} />} />
             <Route path="/Profile" element={<Profile user={user} />} />
+            <Route path="/OtherUserProfile" element={<OtherUserProfile user={user} />} />
           </Routes>
         ) : (
           <h1 className="unauthorized">
