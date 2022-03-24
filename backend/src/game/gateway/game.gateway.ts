@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -19,7 +19,9 @@ import { Game } from '../model/Game';
     credentials: true,
   },
 })
-export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class GameGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+{
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
@@ -28,7 +30,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  game: Game;
+  game: any;
+
+  async onModuleInit() {
+    this.game = {};
+  }
 
   /** --------------------------- CONNECTION -------------------------------------- */
 
@@ -41,7 +47,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (!user) {
         return this.disconnect(client);
       } else {
-        client.data.userr = user;
+        client.data.user = user;
         // const channels = await this.channelService.getChannels();
         // await this.connectedUserService.create({ socketId: socket.id, user });
         console.log('connect', client.id, user.username);
@@ -77,7 +83,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('createGame')
   async onCreateGame(client: Socket) {
+    // create Match entity
+
     this.game = new Game();
+
+    // send createdGame
   }
 
   @SubscribeMessage('resetPoint')

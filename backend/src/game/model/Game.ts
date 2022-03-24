@@ -19,7 +19,7 @@ export class Game {
   // interval 10ms
   loop() {
     // fin de game ??
-    if (this.player1Point === 1000 || this.player2Point === 10) {
+    if (this.player1Point === 10 || this.player2Point === 10) {
       clearInterval(this.interval);
       return;
     }
