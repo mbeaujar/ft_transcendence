@@ -14,7 +14,6 @@ const Friends: React.FC = (): JSX.Element => {
   const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
-    console.log('refresh');
     api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
