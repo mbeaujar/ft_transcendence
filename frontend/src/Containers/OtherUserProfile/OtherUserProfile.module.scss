@@ -1,0 +1,24 @@
+@import '../../utils.scss';
+
+.OtherUserProfile {
+  .OtherUserProfileLeft {
+    margin-top: 50px;
+    margin-left: 100px;
+    background-color: $grey6;
+    width: 15vw;
+    border-radius: 20px;
+    height: 32vh;
+    img {
+      margin-top: 20px;
+      width: 10vw;
+      border-radius: 50%;
+    }
+    h1 {
+    }
+  }
+
+  .OtherUserProfileRight
+  {
+
+  }
+}

@@ -1,0 +1,66 @@
+@import '../../../../utils.scss';
+
+.CreateChannel {
+  h1 {
+    margin-top: 0;
+    padding: 15px 0;
+    color: $white1;
+    background-color: $blue5;
+  }
+
+  h2 {
+    color: $white1;
+    margin-bottom: 10px;
+  }
+
+  input 
+  {
+    border: 2px solid $blue4;
+    border-radius: 10px;
+    outline: none;
+    padding: 3px;
+  }
+
+  .ChannelName {
+    margin-bottom: 30px;
+
+  }
+
+  .ChannelType {
+
+
+    .ChannelCheckbox {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      color: $white1;
+
+      .CheckboxPrivate {
+        margin: 0 15px;
+      }
+    }
+
+  }
+  
+  .ChannelPassword {
+    margin-top: 25px;
+  }
+
+  button {
+    margin-top: 30px;
+    border:none;
+    background-color: $blue4;
+    color: $blue2;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:hover
+    {
+      background-color: $blue2;
+      color: $blue4;
+    }
+  }
+}

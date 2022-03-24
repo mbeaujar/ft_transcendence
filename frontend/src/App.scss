@@ -1,4 +1,25 @@
+@import 'utils.scss';
+
+.Layout
+{
+    background-color: $blue1;
+    color: $blue2;
+}
+
+.unauthorized 
+{
+    font-size: 30px;
+    margin-top: 250px;
+    align-self: center;
+}
+
+body 
+{
+  background-color: $blue1;
+}
+
 .App {
+  margin-top: 0;
   text-align: center;
 }
 
@@ -14,7 +35,7 @@
 }
 
 .App-header {
-  background-color: #1e58ca;
+  background-color: #071c49;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

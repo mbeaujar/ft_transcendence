@@ -1,0 +1,107 @@
+@import '../../utils.scss';
+
+.Chat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /*padding-top: 50px;*/
+  margin-top: -10px;
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-bottom: -10px;
+  font-family: 'Arial', cursive;
+
+  ::-webkit-scrollbar {
+    width: 5px; 
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: $blue5; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: $blue4; 
+    border-radius: 20px;
+  }
+
+  .ChatLeft {
+    /*width: 200px;*/
+    min-width: 250px;
+    /*height: 500px;*/
+    height: 81.7vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /*border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;*/
+    /*background-color: $grey3;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+
+
+    .ChatLeftButton {
+      width: 50%;
+      border: none;
+      color: $white1;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 80%;
+      font-size: 15px;
+      background-color: $blue4;
+      cursor: pointer;
+    }
+
+    .ChatLeftButton:hover {
+      background-color: $blue3;
+    }
+
+
+    h3 {
+      margin-top: 15px;
+      background-color: $blue5;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 0;
+    }
+
+    .Messages {
+      margin-top: 0;
+    }
+
+    p 
+    {
+      margin: 0;
+      width: 100%;
+      color: $white1;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    p:hover
+    {
+      background-color: $blue6;
+    }
+  }
+
+  .ChatCenter {
+    /*width: 40vw;*/
+    width: 66vw;
+    /*height: 500px;*/
+    height: 81.7vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .ChatRight {
+    /*width: 200px;*/
+    min-width: 250px;
+    /*height: 500px;*/
+    height: 81.7vh;
+    /*border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;*/
+    /*background-color: $grey3;*/
+  }
+}

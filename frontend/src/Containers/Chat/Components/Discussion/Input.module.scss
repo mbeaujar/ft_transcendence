@@ -1,0 +1,21 @@
+@import '../../../../utils.scss';
+
+@import '../../../../utils.scss';
+
+.Input {
+  width: 100%;
+  height: 100%;
+  input {
+    margin-top: 0;
+    width: 80%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: $grey7;
+    font-size: 15px;
+    height: 22px;
+    border: none;
+    color: white;
+    outline: none;
+    padding: 10px;
+  }
+}

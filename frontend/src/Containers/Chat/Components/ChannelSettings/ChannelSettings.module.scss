@@ -1,0 +1,62 @@
+@import '../../../../utils.scss';
+
+.ChannelSettings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h3 {
+    background-color: $blue5;
+    font-size: 20px;
+    width: 92%;
+    padding: 10px;
+    margin-bottom: 7px;
+    color: $blue2;
+    margin-top: 0;
+  }
+
+  .ChannelUsers {
+    width: 100%;
+
+    .ChannelUser {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: left;
+      color: $white1;
+      
+      margin-left: 20px;
+
+      img {
+        border-radius: 100%;
+        margin-top: 7px;
+        margin-right: 10px;
+        width: 40px;
+      }
+
+      p{
+        font-size: 17px;
+      }
+    }
+  }
+
+  .UserSettings {
+    width: 100%;
+
+    margin-top: 7px;
+    button {
+      background-color: $grey3;
+      border: none;
+      color: $white1;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 70%;
+      cursor: pointer;
+      background-color: $red1;
+      font-size: 15px;
+    }
+  }
+}
