@@ -17,7 +17,20 @@ const OtherUserProfile: React.FC<Props> = (props: Props): JSX.Element => {
         <h1>{props.user?.username}</h1>
       </div>
       <div className={classes.OtherUserProfileRight}>
-
+        <div className={classes.Stats}>
+          <div className={classes.Pongopoints}></div>
+          <div className={classes.Ratio}></div>
+          <div className={classes.Rank}></div>
+          <div className={classes.Pongopoints}></div>
+        </div>
+        <div className={classes.Bottom}>
+          <div className={classes.Hitory}>
+            <h3 className={classes.title}>History</h3>
+          </div>
+          <div className={classes.Friends}>
+            <h3 className={classes.title}>Friends</h3>
+          </div>
+        </div>
       </div>
     </div>
   );
