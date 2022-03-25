@@ -1,10 +1,10 @@
-@import '../../../utils.scss';
+@import '../../../../utils.scss';
 
 .Friends {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 95vw;
+  width: 65vw;
 
   h2 {
     color: $white1;
@@ -13,7 +13,7 @@
   .FriendsLeft {
     display: flex;
     flex-direction: column;
-    width: 46.9%;
+    width: 50%;
     min-height: 410px;
     border-right: 1px solid $grey1;
 

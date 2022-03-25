@@ -4,7 +4,7 @@ import classes from './Discussion.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
 import { IMessage } from '../../../../interface/message.interface';
-import Avatar from '../../../Profile/components/Avatar.module';
+import Avatar from '../../../Profile/components/Avatar/Avatar.module';
 
 import styles from './Discussion.module.scss';
 import Input from './Input';

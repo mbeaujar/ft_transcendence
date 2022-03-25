@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import classes from './ChannelSettings.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
-import Avatar from '../../../Profile/components/Avatar.module';
+import Avatar from '../../../Profile/components/Avatar/Avatar.module';
 
 interface Props {
   user: IUser;

@@ -37,8 +37,7 @@
       width: 15vw;
       border-radius: 20px;
 
-      div 
-      {
+      div {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -46,8 +45,7 @@
         border-radius: 20px;
         cursor: pointer;
 
-        span 
-        {
+        span {
           margin-left: 1vw;
         }
 
@@ -56,73 +54,21 @@
         }
       }
 
-      div:hover 
-      {
+      div:hover {
         background-color: $grey2;
       }
     }
   }
 
-  /*.User {
-    margin-top: 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
 
-    img {
-      margin-right: 10px;
-      width: 50px;
-      border-radius: 100%;
-      border: 3px solid $blue3;
-    }
 
-    h1 {
-      margin-left: 10px;
-      font-size: 30px;
-      color: $white1;
-    }
-  }*/
+  .activeMenu {
+    background-color: $blue3;
+  }
 
-  /*.Menu {
-    margin-top: 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    p {
-      width: 200px;
-      font-size: 25px;
-      padding: 10px;
-      cursor: pointer;
-    }
-
-    .History {
-      border: 1px solid $grey1;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-    }
-
-    .Stats {
-      border-top: 1px solid $grey1;
-      border-bottom: 1px solid $grey1;
-    }
-
-    .Friends {
-      border: 1px solid $grey1;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-
-    .activeMenu {
-      background-color: $blue3;
-    }
-
-    .disactiveMenu {
-      background-color: $blue1;
-    }
-  }*/
+  .disactiveMenu {
+    background-color: $grey6;
+  }
 
   .activeInfo {
     display: block;
@@ -132,7 +78,7 @@
     display: none;
   }
 
-  .StatsInfo {
+  .StatsInfo.activeInfo {
     width: 65vw;
     height: 73vh;
     background-color: $grey6;

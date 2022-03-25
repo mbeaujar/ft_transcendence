@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../apis/api';
 import clsx from 'clsx';
-import Friends from './components/Friends.module';
+import Friends from './components/Friends/Friends.module';
+import Leaderboard from './components/Leaderboard/Leaderboard.module';
 import classes from './Profile.module.scss';
-import Avatar from './components/Avatar.module';
+import Avatar from './components/Avatar/Avatar.module';
 import { IUser } from '../../interface/user.interface';
 import { IFriends } from '../../interface/friends.interface';
 
@@ -108,6 +109,10 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className={clsx(classes.LeaderboardInfo, ftIsActiveInfo('Leaderboard'))}>
+        <Leaderboard />
       </div>
 
       <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
