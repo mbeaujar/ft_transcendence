@@ -1,13 +1,69 @@
 @import '../../utils.scss';
 
 .Profile {
-  padding-top: 0px;
+  padding-top: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 
-  .User {
+  .ProfileLeft {
+    display: flex;
+    flex-direction: column;
+    height: 73vh;
+
+    .User {
+      margin-bottom: 5vh;
+      margin-right: 2vw;
+      background-color: $grey6;
+      width: 15vw;
+      border-radius: 20px;
+      height: 32vh;
+      img {
+        margin-top: 20px;
+        width: 10vw;
+        border-radius: 50%;
+      }
+      h1 {
+      }
+    }
+
+    .Menu {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      margin-right: 2vw;
+      background-color: $grey6;
+      width: 15vw;
+      border-radius: 20px;
+
+      div 
+      {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: left;
+        border-radius: 20px;
+        cursor: pointer;
+
+        span 
+        {
+          margin-left: 1vw;
+        }
+
+        p {
+          margin-left: 1vw;
+        }
+      }
+
+      div:hover 
+      {
+        background-color: $grey2;
+      }
+    }
+  }
+
+  /*.User {
     margin-top: 0px;
     display: flex;
     flex-direction: row;
@@ -26,9 +82,9 @@
       font-size: 30px;
       color: $white1;
     }
-  }
+  }*/
 
-  .Menu {
+  /*.Menu {
     margin-top: 0px;
     display: flex;
     flex-direction: row;
@@ -66,7 +122,7 @@
     .disactiveMenu {
       background-color: $blue1;
     }
-  }
+  }*/
 
   .activeInfo {
     display: block;
@@ -77,15 +133,122 @@
   }
 
   .StatsInfo {
+    width: 65vw;
+    height: 73vh;
+    background-color: $grey6;
+    border-radius: 20px;
+    display: flex;
     flex-direction: column;
-    font-weight: bold;
+    align-items: center;
 
-    .Victory {
-      color: $green1;
+    .StatsGeneral {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      width: 90%;
+      height: 42%;
+      background-color: $blue1;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      div {
+        width: 22%;
+        height: 75%;
+        border-radius: 20px;
+        background-color: $grey6;
+        margin-left: 2.39%;
+      }
+
+      .Pongopoints {
+      }
+      .Ratio {
+      }
+      .Rank {
+      }
+      .Pongopoints {
+      }
     }
 
-    .Defeats {
-      color: $red1;
+    .Bottom {
+      width: 90%;
+      height: 47%;
+      background-color: $blue1;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+
+      div {
+        margin-top: -20px;
+        width: 48%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 20px;
+        h3 {
+          background-color: $grey6;
+          padding: 3px 10px;
+          border-radius: 5px;
+          color: $white1;
+          font-size: 1.3vw;
+        }
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          width: 92%;
+          height: 75%;
+          background-color: $grey6;
+          margin-top: -20px;
+        }
+      }
+      .FriendsBlock {
+        padding-top: 0;
+        .Friends {
+          .list {
+            margin-top: 0;
+            padding-top: 0;
+            .friendsListElement {
+              width: 90%;
+              margin-top: 0;
+              margin-left: 0px;
+
+              display: flex;
+              flex-direction: row;
+              align-items: left;
+              justify-content: left;
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+              border-bottom: 1px solid $grey2;
+              height: 80px;
+
+              div {
+                margin-top: 0px;
+                width: 60px;
+                height: 45px;
+                img {
+                  width: 40px;
+                  border-radius: 100%;
+                  border: 3px solid $white1;
+                  margin-right: 0;
+                }
+              }
+
+              p {
+                font-size: 18px;
+                color: $white1;
+                margin-left: 0.2vw;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

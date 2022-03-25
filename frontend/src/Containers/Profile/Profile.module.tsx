@@ -5,6 +5,7 @@ import Friends from './components/Friends.module';
 import classes from './Profile.module.scss';
 import Avatar from './components/Avatar.module';
 import { IUser } from '../../interface/user.interface';
+import { IFriends } from '../../interface/friends.interface';
 
 interface Props {
   user: IUser;
@@ -12,6 +13,15 @@ interface Props {
 
 const Profile: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeMenu, setActiveMenu] = useState<string>('Stats');
+  const [friendsList, setFriendsList] = useState<IFriends>();
+  const [refresh, setRefresh] = useState<number>(0);
+
+  useEffect(() => {
+    api
+      .get('/friends/list')
+      .then((response) => setFriendsList(response.data))
+      .catch((reject) => console.error(reject));
+  }, [refresh]);
 
   const ftIsActiveMenu: any = (menuName: string) => {
     if (menuName === activeMenu) {
@@ -29,29 +39,41 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div className={clsx(classes.Profile)}>
-      <div className={classes.User}>
-        <Avatar user={props.user} />
-        <h1>{props.user?.username}</h1>
-      </div>
-      <div className={classes.Menu}>
-        <p
-          className={clsx(classes.History, ftIsActiveMenu('History'))}
-          onClick={() => setActiveMenu('History')}
-        >
-          History
-        </p>
-        <p
-          className={clsx(classes.Stats, ftIsActiveMenu('Stats'))}
-          onClick={() => setActiveMenu('Stats')}
-        >
-          Stats
-        </p>
-        <p
-          className={clsx(classes.Friends, ftIsActiveMenu('Friends'))}
-          onClick={() => setActiveMenu('Friends')}
-        >
-          Friends
-        </p>
+      <div className={classes.ProfileLeft}>
+        <div className={classes.User}>
+          <Avatar user={props.user} />
+          <h1>{props.user?.username}</h1>
+        </div>
+        <div className={classes.Menu}>
+          <div
+            className={clsx(classes.Stats, ftIsActiveMenu('Stats'))}
+            onClick={() => setActiveMenu('Stats')}
+          >
+            <span className="material-icons">show_chart</span>
+            <p>Stats</p>
+          </div>
+          <div
+            className={clsx(classes.History, ftIsActiveMenu('Friends'))}
+            onClick={() => setActiveMenu('Friends')}
+          >
+            <span className="material-icons">people_outline</span>
+            <p>Friends</p>
+          </div>
+          <div
+            className={clsx(classes.History, ftIsActiveMenu('Leaderboard'))}
+            onClick={() => setActiveMenu('Leaderboard')}
+          >
+            <span className="material-icons">leaderboard</span>
+            <p>Leaderboard</p>
+          </div>
+          <div
+            className={clsx(classes.History, ftIsActiveMenu('Settings'))}
+            onClick={() => setActiveMenu('Settings')}
+          >
+            <span className="material-icons">settings</span>
+            <p>Settings</p>
+          </div>
+        </div>
       </div>
 
       <div className={clsx(classes.HistoryInfo, ftIsActiveInfo('History'))}>
@@ -59,11 +81,33 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
 
       <div className={clsx(classes.StatsInfo, ftIsActiveInfo('Stats'))}>
-        <p className={classes.Victory}>{props.user?.wins} victory</p>
-        <p className={classes.Defeats}>{props.user?.losses} defeats</p>
-        <p className={classes.Rank}>Rank : 2{/*user?.rank*/} </p>
-        <p className={classes.Level}>Level : 1{/*user?.level*/} </p>
-        {/*<div className={classes.facts}>{user?.facts}</p>*/}
+        <div className={classes.StatsGeneral}>
+          <div className={classes.Pongopoints}></div>
+          <div className={classes.Ratio}></div>
+          <div className={classes.Rank}></div>
+          <div className={classes.Pongopoints}></div>
+        </div>
+        <div className={classes.Bottom}>
+          <div className={classes.HistoryBlock}>
+            <h3 className={classes.title}>History</h3>
+            <div className={classes.Hitory}></div>
+          </div>
+          <div className={classes.FriendsBlock}>
+            <h3 className={classes.title}>Friends</h3>
+            <div className={classes.Friends}>
+              {friendsList && (
+                <div className={classes.list}>
+                  {friendsList.friends.map((friend: IUser) => (
+                    <div className={classes.friendsListElement} key={friend.id}>
+                      <Avatar user={friend} />
+                      <p>{friend.username}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
