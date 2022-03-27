@@ -1,4 +1,11 @@
 @import '../../../../utils.scss';
 
 .Leaderboard {
+  background-color: $grey6;
+  display: flex;
+  flex-direction: row;
+  /*justify-content: space-around;*/
+  border-radius: 20px;
+  width: 65vw;
+  height: 73vh;
 }

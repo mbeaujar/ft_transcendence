@@ -3,6 +3,7 @@ import api from '../../apis/api';
 import clsx from 'clsx';
 import Friends from './components/Friends/Friends.module';
 import Leaderboard from './components/Leaderboard/Leaderboard.module';
+import Settings from './components/Settings/Settings.module';
 import classes from './Profile.module.scss';
 import Avatar from './components/Avatar/Avatar.module';
 import { IUser } from '../../interface/user.interface';
@@ -111,12 +112,16 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
         </div>
       </div>
 
+      <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
+        <Friends />
+      </div>
+
       <div className={clsx(classes.LeaderboardInfo, ftIsActiveInfo('Leaderboard'))}>
         <Leaderboard />
       </div>
 
-      <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
-        <Friends />
+      <div className={clsx(classes.SettingsInfo, ftIsActiveInfo('Settings'))}>
+        <Settings />
       </div>
     </div>
   );

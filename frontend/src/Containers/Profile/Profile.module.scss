@@ -54,8 +54,8 @@
         }
       }
 
-      div:hover {
-        background-color: $grey2;
+      div.disactiveMenu:hover {
+        background-color: $blue6;
       }
     }
   }
@@ -63,7 +63,8 @@
 
 
   .activeMenu {
-    background-color: $blue3;
+    background-color: $grey2;
+    color: $black;
   }
 
   .disactiveMenu {
