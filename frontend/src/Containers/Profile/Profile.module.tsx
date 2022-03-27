@@ -55,21 +55,21 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
             <p>Stats</p>
           </div>
           <div
-            className={clsx(classes.History, ftIsActiveMenu('Friends'))}
+            className={clsx(classes.Friends, ftIsActiveMenu('Friends'))}
             onClick={() => setActiveMenu('Friends')}
           >
             <span className="material-icons">people_outline</span>
             <p>Friends</p>
           </div>
           <div
-            className={clsx(classes.History, ftIsActiveMenu('Leaderboard'))}
+            className={clsx(classes.Leaderboard, ftIsActiveMenu('Leaderboard'))}
             onClick={() => setActiveMenu('Leaderboard')}
           >
             <span className="material-icons">leaderboard</span>
             <p>Leaderboard</p>
           </div>
           <div
-            className={clsx(classes.History, ftIsActiveMenu('Settings'))}
+            className={clsx(classes.Settings, ftIsActiveMenu('Settings'))}
             onClick={() => setActiveMenu('Settings')}
           >
             <span className="material-icons">settings</span>

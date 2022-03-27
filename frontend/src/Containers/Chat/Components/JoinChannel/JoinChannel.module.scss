@@ -14,8 +14,7 @@
     background-color: $blue5;
   }
 
-  .ChannelToJoin
-  {
+  .ChannelToJoin {
     width: 60%;
     display: flex;
     flex-direction: row;
@@ -24,17 +23,14 @@
     padding: 0.5% 5%;
     border: 1px solid $grey2;
     margin-bottom: 20px;
-    border-radius: 20px;
-    
-    p 
-    {
+    border-radius: 1.5vw;
+
+    p {
       color: $white1;
       font-size: 1.2vw;
-
     }
-    
-    button 
-    {
+
+    button {
       background-color: $green1;
       border: 1px solid $green2;
       color: $white1;
@@ -45,11 +41,9 @@
       font-size: 1.2vw;
     }
 
-    button:hover
-    {
+    button:hover {
       background-color: $green2;
       border: 1px solid $green1;
     }
   }
-
 }

@@ -13,16 +13,16 @@
   font-family: 'Arial', cursive;
 
   ::-webkit-scrollbar {
-    width: 5px; 
+    width: 5px;
   }
-  
+
   ::-webkit-scrollbar-track {
-    background: $blue5; 
+    background: $blue5;
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    background-color: $blue4; 
-    border-radius: 20px;
+    background-color: $blue4;
+    border-radius: 1.5vw;
   }
 
   .ChatLeft {
@@ -39,7 +39,6 @@
     flex-direction: column;
     justify-content: top;
     align-items: center;
-
 
     .ChatLeftButton {
       width: 50%;
@@ -58,7 +57,6 @@
       background-color: $blue3;
     }
 
-
     h3 {
       margin-top: 15px;
       background-color: $blue5;
@@ -71,8 +69,7 @@
       margin-top: 0;
     }
 
-    p 
-    {
+    p {
       margin: 0;
       width: 100%;
       color: $white1;
@@ -80,8 +77,7 @@
       cursor: pointer;
     }
 
-    p:hover
-    {
+    p:hover {
       background-color: $blue6;
     }
   }

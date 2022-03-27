@@ -17,7 +17,7 @@
       margin-right: 2vw;
       background-color: $grey6;
       width: 15vw;
-      border-radius: 20px;
+      border-radius: 1.5vw;
       height: 40%;
       img {
         margin-top: 10%;
@@ -37,14 +37,14 @@
       margin-right: 2vw;
       background-color: $grey6;
       width: 15vw;
-      border-radius: 20px;
+      border-radius: 1.5vw;
 
       div {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: left;
-        border-radius: 20px;
+        /*border-radius: 1.5vw;*/
         cursor: pointer;
 
         span {
@@ -58,13 +58,23 @@
         }
       }
 
+      .Stats 
+      {
+        border-top-left-radius: 1.5vw;
+        border-top-right-radius: 1.5vw;
+      }
+
+      .Settings 
+      {
+        border-bottom-left-radius: 1.5vw;
+        border-bottom-right-radius: 1.5vw;
+      }
+
       div.disactiveMenu:hover {
         background-color: $blue6;
       }
     }
   }
-
-
 
   .activeMenu {
     background-color: $grey2;
@@ -86,19 +96,20 @@
   .StatsInfo.activeInfo {
     width: 65vw;
     height: 73vh;
+    height: 38.8vw;
     background-color: $grey6;
-    border-radius: 20px;
+    border-radius: 1.5vw;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     .StatsGeneral {
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-top: 2.25%;
+      margin-bottom: 2.25%;
       width: 90%;
       height: 42%;
       background-color: $blue1;
-      border-radius: 20px;
+      border-radius: 1.5vw;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -106,7 +117,7 @@
       div {
         width: 22%;
         height: 75%;
-        border-radius: 20px;
+        border-radius: 1.5vw;
         background-color: $grey6;
         margin-left: 2.39%;
       }
@@ -125,7 +136,7 @@
       width: 90%;
       height: 47%;
       background-color: $blue1;
-      border-radius: 20px;
+      border-radius: 1.5vw;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -134,17 +145,20 @@
 
       div {
         margin-top: -20px;
+        margin-top: -2.25%;
         width: 48%;
         height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-around;
-        border-radius: 20px;
+        border-radius: 1.5vw;
         h3 {
           background-color: $grey6;
           padding: 3px 10px;
+          padding: 0.3vw 1vw;
           border-radius: 5px;
+          border-radius: 0.4vw;
           color: $white1;
           font-size: 1.3vw;
         }
@@ -156,7 +170,7 @@
           width: 92%;
           height: 75%;
           background-color: $grey6;
-          margin-top: -20px;
+          margin-top: -4%;
         }
       }
       .FriendsBlock {
@@ -168,31 +182,33 @@
             .friendsListElement {
               width: 90%;
               margin-top: 0;
-              margin-left: 0px;
+              margin-left: 0;
 
               display: flex;
               flex-direction: row;
-              align-items: left;
+              align-items: center;
               justify-content: left;
               border-bottom-left-radius: 0;
               border-bottom-right-radius: 0;
               border-bottom: 1px solid $grey2;
               height: 80px;
+              height: 4vw;
 
               div {
-                margin-top: 0px;
-                width: 60px;
-                height: 45px;
+                margin-top: -2%;
+                width: 4vw;
+                height: 2.2vw;
                 img {
-                  width: 40px;
+                  width: 2.2vw;
                   border-radius: 100%;
-                  border: 3px solid $white1;
+                  border: 0.2vw solid $white1;
                   margin-right: 0;
                 }
               }
 
               p {
-                font-size: 18px;
+
+                font-size: 1.2vw;
                 color: $white1;
                 margin-left: 0.2vw;
               }

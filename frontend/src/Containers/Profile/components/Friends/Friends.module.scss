@@ -4,13 +4,14 @@
   background-color: $grey6;
   display: flex;
   flex-direction: row;
-  /*justify-content: space-around;*/
-  border-radius: 20px;
+  align-items: center;
+  border-radius: 1.5vw;
   width: 65vw;
-  height: 73vh;
+  height: 38.8vw;
 
   h2 {
     color: $white1;
+    font-size: 1.8vw;
   }
 
   .FriendsLeft {
@@ -19,12 +20,15 @@
     align-items: center;
     width: 50%;
     height: 87%;
-    /*border-right: 1px solid $grey1;*/
-    margin-top: 5vh;
-    border-radius: 20px;
+    border-radius: 1.5vw;
     background-color: $black;
     margin-left: 2.8%;
     margin-right: 5%;
+
+    h2 {
+      align-self: flex-start;
+      margin-left: 10%;
+    }
 
     .list {
       width: 80%;
@@ -35,27 +39,28 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        padding-top: 10px;
-        padding-bottom: 5px;
+        padding-top: 0.4vw;
+        padding-bottom: 0.2vw;
         border-bottom: 1px solid $grey1;
 
         img {
           margin-left: 20%;
-          width: 45px;
+          width: 2.5vw;
           border-radius: 100%;
-          border: 3px solid $white1;
+          border: 0.2vw solid $white1;
         }
 
         p {
           margin-left: 6%;
-          font-size: 20px;
+          font-size: 1.3vw;
+          margin-bottom: 6.7%;
         }
 
         button {
-          font-size: 15px;
-          border-radius: 10px;
-          border: 1px solid black;
-          height: 30px;
+          font-size: 1.1vw;
+          padding: 0.5vw;
+          border-radius: 0.7vw;
+          border: 0.1vw solid $black;
           color: $white1;
           cursor: pointer;
         }
@@ -73,7 +78,9 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-between;
     width: 40%;
+    height: 87%;
     margin-left: -2%;
 
     h2 {
@@ -82,29 +89,33 @@
     }
 
     .AddFriends {
-      margin-top: 5vh;
-      border-radius: 20px;
+      border-radius: 1.5vw;
       background-color: $black;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       width: 100%;
       border-bottom: 1px solid $grey1;
-      padding-bottom: 20px;
+      padding-bottom: 1.5vw;
       padding-left: 1vw;
 
       form {
         align-self: center;
         display: flex;
         flex-direction: row;
+        align-items: center;
         width: 100%;
-        margin: 20px 0;
+        margin: 1vw 0;
+        font-size: 1.3vw;
 
         input {
-          margin-left: 5px;
-          margin-right: 20px;
-          border: 2px solid $blue3;
-          border-radius: 5px;
-          color: $blue4;
+          padding: 0.5vw;
+          margin-left: 0.5vw;
+          width: 10vw;
+          border-radius: 1.5vw;
+          border: 1px solid $blue1;
+          background-color: $grey7;
+          color: $white1;
         }
 
         input:focus {
@@ -131,9 +142,9 @@
       padding-left: 1vw;
       width: 100%;
       margin-top: 3.5vh;
-      border-radius: 20px;
+      border-radius: 1.5vw;
       background-color: $black;
-      height: 55.4%;
+      height: 70%;
 
       .request {
         margin-top: -2%;
@@ -141,26 +152,28 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          justify-content: center;
           width: 90%;
-          padding: 10px;
+          padding: 0.4vw;
           border-bottom: 1px solid $grey1;
 
           img {
             width: 35px;
+            width: 2.5vw;
             border-radius: 100%;
-            border: 3px solid $blue4;
+            border: 0.2vw solid $white1;
           }
 
           p {
             margin-left: 3%;
-            font-size: 15px;
+            font-size: 1.1vw;
           }
 
           button {
-            font-size: 12px;
-            border-radius: 10px;
+            font-size: 0.8vw;
+            border-radius: 0.7vw;
+            padding: 0.5vw;
             border: 1px solid black;
-            height: 30px;
             color: $white1;
             cursor: pointer;
           }
