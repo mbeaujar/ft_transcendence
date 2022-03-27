@@ -10,21 +10,23 @@
   .ProfileLeft {
     display: flex;
     flex-direction: column;
-    height: 73vh;
+    height: 38.8vw;
 
     .User {
-      margin-bottom: 5vh;
+      margin-bottom: 15%;
       margin-right: 2vw;
       background-color: $grey6;
       width: 15vw;
       border-radius: 20px;
-      height: 32vh;
+      height: 40%;
       img {
-        margin-top: 20px;
+        margin-top: 10%;
         width: 10vw;
         border-radius: 50%;
       }
       h1 {
+        margin-top: 3%;
+        font-size: 2vw;
       }
     }
 
@@ -47,10 +49,12 @@
 
         span {
           margin-left: 1vw;
+          font-size: 1.5vw;
         }
 
         p {
           margin-left: 1vw;
+          font-size: 1.1vw;
         }
       }
 
