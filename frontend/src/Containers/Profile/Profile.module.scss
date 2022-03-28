@@ -58,14 +58,12 @@
         }
       }
 
-      .Stats 
-      {
+      .Stats {
         border-top-left-radius: 1.5vw;
         border-top-right-radius: 1.5vw;
       }
 
-      .Settings 
-      {
+      .Settings {
         border-bottom-left-radius: 1.5vw;
         border-bottom-right-radius: 1.5vw;
       }
@@ -120,15 +118,54 @@
         border-radius: 1.5vw;
         background-color: $grey6;
         margin-left: 2.39%;
+
+        display: flex;
+        flex-direction: column;
+
+        .Top {
+          /*background-color: darkblue;*/
+          width: 100%;
+          height: 65%;
+          margin-left: 0;
+          z-index: 1;
+        }
+
+        .Bottom {
+          width: 100%;
+          height: 35%;
+          margin-left: 0;
+          /*background-color: darkcyan;*/
+          p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2vw;
+            /*margin-top: 0;*/
+          }
+        }
       }
 
       .Pongopoints {
+        .Top {
+          h4 {
+            font-size: 6vw;
+            margin-top: 10%;
+          }
+        }
       }
       .Ratio {
       }
       .Rank {
       }
-      .Pongopoints {
+      .Level {
+        .Top {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          img {
+            margin-top: 15%;
+            //margin-bottom: 3%;
+            width: 55%;
+          }
+        }
       }
     }
 
@@ -196,7 +233,7 @@
 
               div {
                 margin-top: -2%;
-                width: 4vw;
+                width: 3.8vw;
                 height: 2.2vw;
                 img {
                   width: 2.2vw;
@@ -207,10 +244,9 @@
               }
 
               p {
-
                 font-size: 1.2vw;
                 color: $white1;
-                margin-left: 0.2vw;
+                margin-left: 0;
               }
             }
           }
