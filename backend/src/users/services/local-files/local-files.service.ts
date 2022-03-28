@@ -12,6 +12,7 @@ export class LocalFilesService {
   ) {}
 
   async getFileById(fileId: number) {
+    if (!fileId) return;
     return this.localFilesRepository.findOne(fileId);
   }
 

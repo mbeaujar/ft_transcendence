@@ -34,30 +34,17 @@ const File: React.FC<Props> = (props: Props): JSX.Element => {
       <button
         onClick={() => {
           console.log('id', props.user.avatarId);
-          if (props.user.avatarId) {
-            api
-              .get(`/local-files/${props.user.avatarId}`, {
-                responseType: 'blob',
-              })
-              .then(response => setAvatar(response.data))
-              .catch(reject => console.log(reject));
-          } else {
-            api
-              .get('/local-files/default')
-              .then(response => setAvatar(response.data))
-              .catch(reject => console.log(reject));
-          }
+          api
+            .get(`/local-files/${props.user.avatarId}`, {
+              responseType: 'blob',
+            })
+            .then(response => setAvatar(response.data))
+            .catch(reject => console.log(reject));
         }}
       >
         Get avatar
       </button>
-      {avatar ? (
-        props.user.avatarId ? (
-          <img src={URL.createObjectURL(avatar)} />
-        ) : (
-          <img src={avatar} />
-        )
-      ) : null}
+      {avatar ? <img src={URL.createObjectURL(avatar)} /> : null}
     </div>
   );
 };

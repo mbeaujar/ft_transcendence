@@ -24,7 +24,7 @@ const App: React.FC = (): JSX.Element => {
         <Header />
         <Routes>
           <Route path="/" element={<Auth user={user} />} />
-          {user ? <Route path="/chat" element={<Chat user={user} />} /> : null}
+          {/* {user ? <Route path="/chat" element={<Chat user={user} />} /> : null} */}
           {user ? <Route path="/file" element={<File user={user} />} /> : null}
           {user ? <Route path="/game" element={<Game />} /> : null}
         </Routes>

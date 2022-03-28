@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   NotFoundException,
+  OnModuleInit,
   Param,
   ParseIntPipe,
   Post,
@@ -28,12 +29,21 @@ export class LocalFilesController {
     private readonly usersService: UsersService,
   ) {}
 
+  // onModuleInit() {
+  //   const localFile = await this.localFilesService.saveLocalFileData({
+  //     path: file.path,
+  //     filename: file.originalname,
+  //     mimetype: file.mimetype,
+  //   });
+  //   // this.localFilesService.saveLocalFileData();
+  // }
+
   @Post('avatar')
   @Auth()
   @UseInterceptors(
     LocalFilesInterceptor({
       fieldName: 'file',
-      path: '/avatars',
+      path: '/',
       fileFilter: (request: any, file: any, callback: any) => {
         if (!file.mimetype.includes('image')) {
           return callback(
@@ -58,6 +68,7 @@ export class LocalFilesController {
       unlink(path, (err) => {
         if (err) console.log(err);
       });
+      // await this.localFilesService.deleteFileById(user.avatarId);
     }
     const localFile = await this.localFilesService.saveLocalFileData({
       path: file.path,
@@ -78,18 +89,26 @@ export class LocalFilesController {
   @Auth()
   @Get('/:id')
   async getDatabaseFileById(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const file = await this.localFilesService.getFileById(id);
-    if (!file) {
-      throw new NotFoundException('file not found');
+    console.log('id', id);
+    if (id) {
+      const file = await this.localFilesService.getFileById(parseInt(id));
+      if (!file) {
+        throw new NotFoundException('file not found');
+      }
+      const stream = createReadStream(join(process.cwd(), file.path));
+      response.set({
+        'Content-Disposition': `inline; filename="${file.filename}"`,
+        'Content-Type': file.mimetype,
+      });
+      return new StreamableFile(stream);
     }
-    const stream = createReadStream(join(process.cwd(), file.path));
-
+    const stream = createReadStream(join(process.cwd(), 'assets/default'));
     response.set({
-      'Content-Disposition': `inline; filename="${file.filename}"`,
-      'Content-Type': file.mimetype,
+      'Content-Disposition': `inline; filename="default"`,
+      'Content-Type': 'image/jpeg',
     });
     return new StreamableFile(stream);
   }

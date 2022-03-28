@@ -18,6 +18,16 @@ services:
       - backend
     restart: always
     env_file: .env
+
+  admin:
+    image: dpage/pgadmin4
+    container_name: admin_database
+    ports:
+      - 5050:5050
+    networks:
+      - backend
+    restart: always
+    env_file: .env
   
   api:
     build: ./backend
