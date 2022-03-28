@@ -6,6 +6,7 @@ import {
   Req,
   Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -19,6 +20,7 @@ import { TwoFactorAuthenticationDto } from '../dtos/2fa.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AuthTwoFactor } from '../decorators/auth-two-factor.decorator';
 import { IPayload } from '../interface/payload.interface';
+import { IntraGuard } from '../guards/intra.guard';
 
 export const mainPage = 'http://localhost:8080';
 
@@ -105,7 +107,6 @@ export class AuthController {
   @ApiOperation({ summary: 'Profile of the user authenticated' })
   @Get('status')
   status(@CurrentUser() user: User): User {
-    // console.log('user', user);
     return user;
   }
 

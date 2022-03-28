@@ -25,5 +25,3 @@ export class GameService {
     return this.matchsRepository.delete(id);
   }
 }
-
-// await this.gameService.updateMatch(match, { score: 0 });

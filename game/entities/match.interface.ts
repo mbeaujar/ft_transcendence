@@ -1,3 +1,3 @@
 export interface IMatch {
-  id: number;
+  id?: number;
 }

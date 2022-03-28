@@ -28,6 +28,7 @@ import { IUser } from 'src/users/interface/user.interface';
 import { IChannelUser } from '../model/channel-user/channel-user.interface';
 import { IUpdateChannel } from '../interface/update-channel.interface';
 import { IUpdateUser } from '../interface/update-user.interface';
+import { IDiscussion } from '../interface/discussion.interface';
 
 // Server emit:
 // channels 					-> list of channels
@@ -75,7 +76,7 @@ export class ChatGateway
         return this.disconnect(socket);
       } else {
         socket.data.user = user;
-        const channels = await this.channelService.getChannels();
+        const channels = await this.channelService.getChannels(user.id);
         await this.connectedUserService.create({ socketId: socket.id, user });
         // console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
@@ -100,8 +101,10 @@ export class ChatGateway
 
   /** ---------------------------  CHANNEL -------------------------------- */
 
-  private async sendChannelToEveryone() {
-    const channels = await this.channelService.getChannels();
+  private async sendChannelToEveryone(socket: Socket) {
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
     const connectedUsers = await this.connectedUserService.getAll();
     for (const user of connectedUsers) {
       this.server.to(user.socketId).emit('channels', channels);
@@ -157,6 +160,41 @@ export class ChatGateway
     return [channelDB, channelUser];
   }
 
+  @SubscribeMessage('createDiscussion')
+  async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
+    const createdChannel: Channel = await this.channelService.createChannel(
+      discussion.channel,
+    );
+
+    const channelUser = await this.channelUserService.createUser({
+      administrator: true,
+      creator: true,
+      ban: false,
+      mute: false,
+      user: socket.data.user,
+      channelId: createdChannel.id,
+      channel: createdChannel,
+    });
+
+    const channelUserInvite = await this.channelUserService.createUser({
+      administrator: false,
+      creator: false,
+      ban: false,
+      mute: false,
+      user: discussion.user,
+      channelId: createdChannel.id,
+      channel: createdChannel,
+    });
+
+    const updateChannel = await this.channelService.updateChannel(
+      createdChannel,
+      { users: [channelUser, channelUserInvite] },
+    );
+    this.sendChannelToEveryone(socket);
+
+    this.switchToChannel(socket, updateChannel);
+  }
+
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: IChannel) {
     // Create channel
@@ -180,7 +218,7 @@ export class ChatGateway
       },
     );
     // Prevent everyone that a new channel is created
-    this.sendChannelToEveryone();
+    this.sendChannelToEveryone(socket);
     // Switch to the channel created
     this.switchToChannel(socket, updatedChannel);
   }
@@ -198,7 +236,7 @@ export class ChatGateway
     // Delete channel
     await this.channelService.deleteChannel(channelDB);
     // Prevent everyone that a channel as been deleted
-    this.sendChannelToEveryone();
+    this.sendChannelToEveryone(socket);
   }
 
   @SubscribeMessage('joinChannel')
@@ -274,12 +312,14 @@ export class ChatGateway
       }
     }
     // Prevent everyone that a channel as been deleted
-    this.sendChannelToEveryone();
+    this.sendChannelToEveryone(socket);
   }
 
   @SubscribeMessage('getAllChannels')
   async getAllChannels(socket: Socket) {
-    const channels = await this.channelService.getChannels();
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
     return this.server.to(socket.id).emit('channels', channels);
   }
 
@@ -340,9 +380,6 @@ export class ChatGateway
       ...message,
       user: socket.data.user,
     });
-    // const channel = await this.channelService.getChannel(
-    //   createdMessage.channel.id,
-    // );
     const joinedUsers: JoinedChannel[] =
       await this.joinedChannelService.findByChannel(channel);
     /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */

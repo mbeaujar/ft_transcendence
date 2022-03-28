@@ -8,6 +8,7 @@ import { promisify } from 'util';
 import { WsException } from '@nestjs/websockets';
 import { IChannelUser } from 'src/chat/model/channel-user/channel-user.interface';
 import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
+import { State } from 'src/chat/interface/state.enum';
 const scrypt = promisify(_scrypt);
 
 @Injectable()
@@ -15,6 +16,8 @@ export class ChannelService {
   constructor(
     @InjectRepository(Channel)
     private readonly channelRepository: Repository<Channel>,
+    @InjectRepository(ChannelUser)
+    private readonly channelUserRepository: Repository<ChannelUser>,
   ) {}
 
   async hashPassword(password: string) {
@@ -76,20 +79,38 @@ export class ChannelService {
     });
   }
 
-  async getChannels(): Promise<Channel[]> {
+  async getChannelsWithoutDiscussion(): Promise<Channel[]> {
     return this.channelRepository
       .createQueryBuilder('channel')
-      .leftJoin('channel.users', 'users')
       .leftJoinAndSelect('channel.users', 'all_users')
       .leftJoinAndSelect('all_users.user', 'all_users_info')
+      .where('channel.state != :state', { state: State.discussion })
       .getMany();
   }
 
-  async getChannelsForUser(userId: number) {
+  async getChannelsDiscussionForUser(userId: number): Promise<Channel[]> {
+    return this.channelRepository
+      .createQueryBuilder('channel')
+      .leftJoinAndSelect('channel.users', 'users')
+      .leftJoinAndSelect('users.user', 'user')
+      .where('user.id = :userId', { userId })
+      .andWhere('channel.state = :state', { state: State.discussion })
+      .getMany();
+  }
+
+  async getChannels(userId: number): Promise<Channel[]> {
+    const channels = await this.getChannelsWithoutDiscussion();
+    const channelsDiscussion = await this.getChannelsDiscussionForUser(userId);
+    channels.push(...channelsDiscussion);
+    return channels;
+  }
+
+  async getChannelsForUser(userId: number): Promise<Channel[]> {
     return this.channelRepository
       .createQueryBuilder('channel')
       .leftJoin('channel.users', 'users')
-      .where('users.id = :userId', { userId })
+      .leftJoin('users.user', 'user')
+      .where('user.id = :userId', { userId })
       .leftJoinAndSelect('channel.users', 'all_users')
       .getMany();
   }

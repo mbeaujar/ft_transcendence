@@ -15,12 +15,23 @@ switch (process.env.NODE_ENV) {
     break;
   case 'development':
     Object.assign(dbConfig, {
-      type: 'sqlite',
-      database: 'db.sqlite',
+      type: 'postgres',
+      database: process.env.POSTGRES_DB,
+      host: process.env.POSTGRES_HOST,
+      port: process.env.POSTGRES_PORT,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
       synchronize: true,
       entities: ['**/*.entity.js'],
     });
     break;
+  // Object.assign(dbConfig, {
+  //   type: 'sqlite',
+  //   database: 'db.sqlite',
+  //   synchronize: true,
+  //   entities: ['**/*.entity.js'],
+  // });
+  // break;
   case 'test':
     Object.assign(dbConfig, {
       type: 'sqlite',

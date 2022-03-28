@@ -53,7 +53,8 @@ export class UsersService {
       userDetails.blockedUsers = [];
     }
     const user = this.usersRepository.create(userDetails);
-    return this.usersRepository.save(user);
+    // return this.usersRepository.save(user);
+    return this.login(user);
   }
 
   async updateUser(user: IUser, attrs: Partial<User>): Promise<User> {

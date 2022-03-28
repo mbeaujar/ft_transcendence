@@ -8,6 +8,7 @@ import CreateChannel from './CreateChannel';
 import { Scope } from '../interface/scope.enum';
 import { IJoinChannel } from '../interface/join-channel.interface';
 import './Chat.css';
+import api from '../../apis/api';
 
 const ws = new WebSocket('http://localhost:3000/chat');
 
@@ -19,6 +20,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [userid, setUserid] = useState<string>('');
+  const [user, setUser] = useState<IUser>();
 
   /** Listen event from backend socket */
   useEffect(() => {
@@ -101,7 +104,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         onClick={() => {
           ws.socket.emit('leaveChannel', channelChoose);
           setChannelChoose(null);
-          // setChannelChoose()
         }}
       >
         leave channel
@@ -116,6 +118,30 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <p>
         Current channel: {channelChoose?.name ? channelChoose.name : 'none'}
       </p>
+
+      <button
+        onClick={() => {
+          api
+            .get(`/users/${userid}`)
+            .then(response => setUser(response.data))
+            .catch(reject => console.log(reject));
+        }}
+      >
+        fill user
+      </button>
+
+      <button
+        onClick={() => {
+          const channel = { name: 'blabla', state: 3, users: [], password: '' };
+          ws.socket.emit('createDiscussion', {
+            user,
+            channel,
+          });
+        }}
+      >
+        CREATE DISCUSSION
+      </button>
+      <Input label="user id" onSubmit={(text: string) => setUserid(text)} />
       <Input
         label="send Message"
         onSubmit={(text: string) => {

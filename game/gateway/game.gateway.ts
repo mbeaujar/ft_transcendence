@@ -11,6 +11,7 @@ import { AuthService } from 'src/auth/services/auth.service';
 import { IUser } from 'src/users/interface/user.interface';
 import { UsersService } from 'src/users/services/user/users.service';
 import { Game } from '../model/Game';
+import { GameService } from '../services/game.service';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -25,6 +26,7 @@ export class GameGateway
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
+    private readonly gameService: GameService,
   ) {}
 
   @WebSocketServer()
@@ -48,10 +50,7 @@ export class GameGateway
         return this.disconnect(client);
       } else {
         client.data.user = user;
-        // const channels = await this.channelService.getChannels();
-        // await this.connectedUserService.create({ socketId: socket.id, user });
         console.log('connect', client.id, user.username);
-        // return this.server.to(client.id).emit('channels', channels);
       }
     } catch (e) {
       console.log(e);
@@ -84,7 +83,7 @@ export class GameGateway
   @SubscribeMessage('createGame')
   async onCreateGame(client: Socket) {
     // create Match entity
-
+    const match = this.gameService.createMatch();
     this.game = new Game();
 
     // send createdGame

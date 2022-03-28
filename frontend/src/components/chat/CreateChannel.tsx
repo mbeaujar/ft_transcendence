@@ -40,6 +40,11 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
         value={scope === Scope.protected}
         onChange={() => setScope(Scope.protected)}
       />
+      <Checkbox
+        label="discussion"
+        value={scope === Scope.discussion}
+        onChange={() => setScope(Scope.discussion)}
+      />
       {scope === Scope.protected ? (
         <div>
           <label>password: </label>
