@@ -5,6 +5,7 @@ import Friends from './components/Friends/Friends.module';
 import Leaderboard from './components/Leaderboard/Leaderboard.module';
 import Settings from './components/Settings/Settings.module';
 import classes from './Profile.module.scss';
+import styles from './Profile.module.scss';
 import Avatar from './components/Avatar/Avatar.module';
 import { IUser } from '../../interface/user.interface';
 import { IFriends } from '../../interface/friends.interface';
@@ -91,6 +92,38 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
     return classes.disactiveInfo;
   };
 
+
+  var progressBar: any = document.getElementById(styles.circular_progress);
+
+  let progressValue = 0;
+  let progressEndValue = 30;
+  let speed = 20;
+
+  let progress = setInterval(() => {
+    progressValue++;
+    if (progressBar != null) {
+      progressBar.style.background = `conic-gradient(
+      red ${progressValue * 3.6}deg,
+      #000000 ${progressValue * 3.6}deg
+  )`;
+    }
+    if (progressValue >= progressEndValue) {
+
+        progressBar.style.background = `conic-gradient(
+          red 0deg,
+          red ${progressEndValue * 3.6}deg,
+          #4bec00 ${progressEndValue * 3.6}deg,
+          #4bec00 ${progressValue * 3.6}deg,
+          rgb(0, 0, 0) ${progressValue * 3.6}deg,
+          rgb(0, 0, 0) 360deg
+        )`
+        
+    }
+    if (progressValue == 100) {
+      clearInterval(progress);
+    }
+  }, speed);
+
   return (
     <div className={clsx(classes.Profile)}>
       <div className={classes.ProfileLeft}>
@@ -144,14 +177,38 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
               <p>PONGOPOINTS</p>
             </div>
           </div>
-          <div className={classes.Ratio}></div>
-          <div className={classes.Rank}></div>
-          <div className={classes.Level}>
+          <div className={classes.Ratio}>
             <div className={classes.Top}>
-              <img src={imgLevel.get('Gold 2')}></img>
+              <div className={classes.container}>
+                <div id={styles.circular_progress}>
+                  {/*<div id={styles.value_container}>0%</div>*/}
+                </div>
+              </div>
             </div>
             <div className={classes.Bottom}>
-              <p>GOLD 2</p>
+              <p>
+                <span className={classes.Wins}>7 wins</span> /{' '}
+                <span className={classes.Losses}>3 losses</span>
+              </p>
+            </div>
+          </div>
+          <div className={classes.Rank}>
+            <div className={classes.Top}>
+              <div className={classes.Podium2}></div>
+              <div className={classes.Podium1}></div>
+              <div className={classes.Podium3}></div>
+            </div>
+            <div className={classes.Bottom}>
+              <p>8</p>
+              <span>th</span>
+            </div>
+          </div>
+          <div className={classes.Level}>
+            <div className={classes.Top}>
+              <img src={imgLevel.get('Elite 1')}></img>
+            </div>
+            <div className={classes.Bottom}>
+              <p>ELITE 1</p>
             </div>
           </div>
         </div>

@@ -134,11 +134,9 @@
           width: 100%;
           height: 35%;
           margin-left: 0;
-          /*background-color: darkcyan;*/
           p {
             font-family: 'Roboto', sans-serif;
             font-size: 1.2vw;
-            /*margin-top: 0;*/
           }
         }
       }
@@ -152,8 +150,85 @@
         }
       }
       .Ratio {
+        .Top {
+          display: flex;
+          align-items: center;
+          .container {
+            width: 50%;
+            height: 80%;
+            position: relative;
+            transform: translate(-4%, 25%);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            #circular_progress {
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              border-radius: 50%;
+              display: grid;
+              place-items: center;
+              background-color: $black;
+            }
+            #circular_progress:before {
+              content: '';
+              position: absolute;
+              height: 70%;
+              width: 70%;
+              background-color: $black;
+              border-radius: 50%;
+            }
+          }
+        }
+
+        .Bottom {
+          .Wins {
+            color: $green3;
+          }
+          .Losses {
+            color: $red2;
+          }
+        }
       }
       .Rank {
+        .Top {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          justify-content: center;
+
+          div {
+            border-radius: 0;
+            background-color: $grey2;
+            border: 0.1vw solid $white1;
+            width: 13%;
+          }
+
+          .Podium2 {
+            height: 45%;
+            margin-right: 0;
+          }
+          .Podium1 {
+            height: 60%;
+            margin-left: 2%;
+            margin-right: 2%;
+          }
+          .Podium3 {
+            height: 30%;
+            margin-left: 0;
+          }
+        }
+
+        .Bottom {
+          display: flex;
+          flex-direction: row;
+          p {
+          }
+          span {
+            font-size: 0.7vw;
+            margin-top: -1vw;
+          }
+        }
       }
       .Level {
         .Top {
@@ -162,7 +237,6 @@
           justify-content: center;
           img {
             margin-top: 15%;
-            //margin-bottom: 3%;
             width: 55%;
           }
         }
