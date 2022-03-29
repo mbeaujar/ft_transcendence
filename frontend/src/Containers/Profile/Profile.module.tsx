@@ -173,6 +173,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
 
   let imgLevelElementProgress = 0;
   let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
+  console.log(imgLevelElement);
   let progressPodium4 = setInterval(() => {
     imgLevelElementProgress++;
     if (imgLevelElement != null) {
@@ -298,7 +299,11 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
                     </div>
                     <div className={classes.friendsListElement} >
                       <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhWqTEVwIMyW5Mx90y44YZjlkPVH-dm908g&usqp=CAU"/></div>
-                      <p>Eren</p>
+                      <p>Erwin</p>
+                    </div>
+                    <div className={classes.friendsListElement} >
+                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwD1TQPCWvR6RTQ9SNgeRnw0tlF4QoUitDmg&usqp=CAU"/></div>
+                      <p>Rick</p>
                     </div>
                 </div>
               )}

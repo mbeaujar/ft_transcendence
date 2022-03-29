@@ -289,18 +289,19 @@
         border-radius: 0;
         
         ::-webkit-scrollbar {
-          width: 0.3vw;
+          width: 0.1vw;
         }
-      
-        ::-webkit-scrollbar-track {
+        
+        /*::-webkit-scrollbar-track {
+          border-top-right-radius: 15%;
           background: $blue5;
         }
       
         ::-webkit-scrollbar-thumb {
           background: $grey2;
-        }
+        }*/
         .Friends {
-          border-radius: 0;
+          //border-radius: 0;
 
           overflow-y: auto;
           padding-right: 10px;
