@@ -93,29 +93,40 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   let valuePongopoints: any = document.getElementById(styles.valuePongopoints);
-  let progressBar: any = document.getElementById(styles.circular_progress);
   let progressPongopoints = 0;
+  let speed = 1;
+  let progress2 = setInterval(() => {
+    progressPongopoints++;
+    if (valuePongopoints != null) {
+      valuePongopoints.textContent = `${progressPongopoints}`;
+    }
 
+    if (progressPongopoints == 561) {
+      clearInterval(progress2);
+    }
+  }, speed);
+
+  let progressBar: any = document.getElementById(styles.circular_progress);
   let progressValue = 0;
   let progressEndValue = 30;
-  let speed = 20;
+  speed = 20;
 
   let progress = setInterval(() => {
     progressValue++;
     if (progressBar != null) {
       progressBar.style.background = `conic-gradient(
-      red ${progressValue * 3.6}deg,
-      #000000 ${progressValue * 3.6}deg
-  )`;
+        red ${progressValue * 3.6}deg,
+        #000000 ${progressValue * 3.6}deg
+        )`;
       if (progressValue >= progressEndValue) {
         progressBar.style.background = `conic-gradient(
-        red 0deg,
-        red ${progressEndValue * 3.6}deg,
-        #4bec00 ${progressEndValue * 3.6}deg,
-        #4bec00 ${progressValue * 3.6}deg,
-        rgb(0, 0, 0) ${progressValue * 3.6}deg,
-        rgb(0, 0, 0) 360deg
-      )`;
+            red 0deg,
+            red ${progressEndValue * 3.6}deg,
+            #4bec00 ${progressEndValue * 3.6}deg,
+            #4bec00 ${progressValue * 3.6}deg,
+            rgb(0, 0, 0) ${progressValue * 3.6}deg,
+            rgb(0, 0, 0) 360deg
+            )`;
       }
     }
     if (progressValue == 100) {
@@ -123,16 +134,40 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
     }
   }, speed);
 
-  speed=1;
-  let progress2 = setInterval(() => {
-    progressPongopoints++;
-    if (valuePongopoints != null) {
-      valuePongopoints.textContent = `${progressPongopoints}`;
-      console.log('ok');
-    }
+  let podium2: any = document.getElementById(styles.Podium2);
+  let podium1: any = document.getElementById(styles.Podium1);
+  let podium3: any = document.getElementById(styles.Podium3);
 
-    if (progressPongopoints == 561) {
-      clearInterval(progress2);
+  let podium2Progress = 0;
+  let podium3Progress = 0;
+  let podium1Progress = 0;
+
+  speed = 30;
+  let progressPodium2 = setInterval(() => {
+    podium2Progress++;
+    if (podium2 != null) {
+      podium2.style.height = `${podium2Progress}%`;
+    }
+    if (podium2Progress == 45) {
+      clearInterval(progressPodium2);
+    }
+  }, speed);
+  let progressPodium1 = setInterval(() => {
+    podium1Progress++;
+    if (podium1 != null) {
+      podium1.style.height = `${podium1Progress}%`;
+    }
+    if (podium1Progress == 60) {
+      clearInterval(progressPodium1);
+    }
+  }, speed);
+  let progressPodium3 = setInterval(() => {
+    podium3Progress++;
+    if (podium3 != null) {
+      podium3.style.height = `${podium3Progress}%`;
+    }
+    if (podium1Progress == 30) {
+      clearInterval(progressPodium3);
     }
   }, speed);
 
@@ -192,8 +227,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
           <div className={classes.Ratio}>
             <div className={classes.Top}>
               <div className={classes.container}>
-                <div id={styles.circular_progress}>
-                </div>
+                <div id={styles.circular_progress}></div>
               </div>
             </div>
             <div className={classes.Bottom}>
@@ -205,9 +239,9 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
           </div>
           <div className={classes.Rank}>
             <div className={classes.Top}>
-              <div className={classes.Podium2}></div>
-              <div className={classes.Podium1}></div>
-              <div className={classes.Podium3}></div>
+              <div id={styles.Podium2}></div>
+              <div id={styles.Podium1}></div>
+              <div id={styles.Podium3}></div>
             </div>
             <div className={classes.Bottom}>
               <p>8</p>
