@@ -143,7 +143,7 @@
 
       .Pongopoints {
         .Top {
-          h4 {
+          #valuePongopoints {
             font-size: 6vw;
             margin-top: 10%;
           }
@@ -175,7 +175,7 @@
               position: absolute;
               height: 70%;
               width: 70%;
-              background-color: $black;
+              background-color: $blue1;
               border-radius: 50%;
             }
           }

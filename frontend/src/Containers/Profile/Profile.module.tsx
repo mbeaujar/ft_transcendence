@@ -92,8 +92,9 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
     return classes.disactiveInfo;
   };
 
-
-  var progressBar: any = document.getElementById(styles.circular_progress);
+  let valuePongopoints: any = document.getElementById(styles.valuePongopoints);
+  let progressBar: any = document.getElementById(styles.circular_progress);
+  let progressPongopoints = 0;
 
   let progressValue = 0;
   let progressEndValue = 30;
@@ -106,21 +107,32 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       red ${progressValue * 3.6}deg,
       #000000 ${progressValue * 3.6}deg
   )`;
-    }
-    if (progressValue >= progressEndValue) {
-
+      if (progressValue >= progressEndValue) {
         progressBar.style.background = `conic-gradient(
-          red 0deg,
-          red ${progressEndValue * 3.6}deg,
-          #4bec00 ${progressEndValue * 3.6}deg,
-          #4bec00 ${progressValue * 3.6}deg,
-          rgb(0, 0, 0) ${progressValue * 3.6}deg,
-          rgb(0, 0, 0) 360deg
-        )`
-        
+        red 0deg,
+        red ${progressEndValue * 3.6}deg,
+        #4bec00 ${progressEndValue * 3.6}deg,
+        #4bec00 ${progressValue * 3.6}deg,
+        rgb(0, 0, 0) ${progressValue * 3.6}deg,
+        rgb(0, 0, 0) 360deg
+      )`;
+      }
     }
     if (progressValue == 100) {
       clearInterval(progress);
+    }
+  }, speed);
+
+  speed=1;
+  let progress2 = setInterval(() => {
+    progressPongopoints++;
+    if (valuePongopoints != null) {
+      valuePongopoints.textContent = `${progressPongopoints}`;
+      console.log('ok');
+    }
+
+    if (progressPongopoints == 561) {
+      clearInterval(progress2);
     }
   }, speed);
 
@@ -171,7 +183,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
         <div className={classes.StatsGeneral}>
           <div className={classes.Pongopoints}>
             <div className={classes.Top}>
-              <h4>561</h4>
+              <h4 id={styles.valuePongopoints}>561</h4>
             </div>
             <div className={classes.Bottom}>
               <p>PONGOPOINTS</p>
@@ -181,7 +193,6 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
             <div className={classes.Top}>
               <div className={classes.container}>
                 <div id={styles.circular_progress}>
-                  {/*<div id={styles.value_container}>0%</div>*/}
                 </div>
               </div>
             </div>
