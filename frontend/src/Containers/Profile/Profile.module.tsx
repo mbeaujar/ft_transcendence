@@ -166,8 +166,22 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
     if (podium3 != null) {
       podium3.style.height = `${podium3Progress}%`;
     }
-    if (podium1Progress == 30) {
+    if (podium3Progress == 30) {
       clearInterval(progressPodium3);
+    }
+  }, speed);
+
+  let imgLevelElementProgress = 0;
+  let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
+  console.log(imgLevelElement)
+  let progressPodium4 = setInterval(() => {
+    imgLevelElementProgress++;
+    if (imgLevelElement != null) {
+      console.log("oki");
+      imgLevelElement.style.width = `${imgLevelElementProgress}%`;
+    }
+    if (imgLevelElementProgress == 55) {
+      clearInterval(progressPodium4);
     }
   }, speed);
 
@@ -250,7 +264,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
           </div>
           <div className={classes.Level}>
             <div className={classes.Top}>
-              <img src={imgLevel.get('Elite 1')}></img>
+              <img id={styles.imgLevelElement} src={imgLevel.get('Elite 1')}></img>
             </div>
             <div className={classes.Bottom}>
               <p>ELITE 1</p>
