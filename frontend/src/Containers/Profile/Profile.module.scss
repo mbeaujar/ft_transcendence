@@ -205,16 +205,16 @@
           }
 
           #Podium2 {
-            height: 45%;
+            height: 0%;
             margin-right: 0;
           }
           #Podium1 {
-            height: 60%;
+            height: 0%;
             margin-left: 2%;
             margin-right: 2%;
           }
           #Podium3 {
-            height: 30%;
+            height: 0%;
             margin-left: 0;
           }
         }
@@ -237,7 +237,7 @@
           justify-content: center;
           #imgLevelElement {
             margin-top: 15%;
-            width: 55%;
+            width: 0%;
           }
         }
       }
@@ -279,14 +279,31 @@
           justify-content: flex-start;
           align-items: center;
           width: 92%;
-          height: 75%;
+          max-height: 75%;
           background-color: $grey6;
           margin-top: -4%;
         }
       }
       .FriendsBlock {
         padding-top: 0;
+        border-radius: 0;
+        
+        ::-webkit-scrollbar {
+          width: 0.3vw;
+        }
+      
+        ::-webkit-scrollbar-track {
+          background: $blue5;
+        }
+      
+        ::-webkit-scrollbar-thumb {
+          background: $grey2;
+        }
         .Friends {
+          border-radius: 0;
+
+          overflow-y: auto;
+          padding-right: 10px;
           .list {
             margin-top: 0;
             padding-top: 0;
@@ -311,6 +328,7 @@
                 height: 2.2vw;
                 img {
                   width: 2.2vw;
+                  min-height: 2.2vw;
                   border-radius: 100%;
                   border: 0.2vw solid $white1;
                   margin-right: 0;
@@ -322,6 +340,11 @@
                 color: $white1;
                 margin-left: 0;
               }
+            }
+
+            .friendsListElement:last-child
+            {
+              border-bottom: 0px solid $grey2;
             }
           }
         }

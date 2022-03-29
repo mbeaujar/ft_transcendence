@@ -173,11 +173,9 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
 
   let imgLevelElementProgress = 0;
   let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
-  console.log(imgLevelElement)
   let progressPodium4 = setInterval(() => {
     imgLevelElementProgress++;
     if (imgLevelElement != null) {
-      console.log("oki");
       imgLevelElement.style.width = `${imgLevelElementProgress}%`;
     }
     if (imgLevelElementProgress == 55) {
@@ -232,7 +230,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
         <div className={classes.StatsGeneral}>
           <div className={classes.Pongopoints}>
             <div className={classes.Top}>
-              <h4 id={styles.valuePongopoints}>561</h4>
+              <h4 id={styles.valuePongopoints}></h4>
             </div>
             <div className={classes.Bottom}>
               <p>PONGOPOINTS</p>
@@ -264,7 +262,10 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
           </div>
           <div className={classes.Level}>
             <div className={classes.Top}>
-              <img id={styles.imgLevelElement} src={imgLevel.get('Elite 1')}></img>
+              <img
+                id={styles.imgLevelElement}
+                src={imgLevel.get('Elite 1')}
+              ></img>
             </div>
             <div className={classes.Bottom}>
               <p>ELITE 1</p>
@@ -287,6 +288,18 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
                       <p>{friend.username}</p>
                     </div>
                   ))}
+                  <div className={classes.friendsListElement} >
+                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa_ZFA7Nc5_IkQinevA7dBIwquje91csViyQ&usqp=CAU"/></div>
+                      <p>Eren</p>
+                    </div>
+                    <div className={classes.friendsListElement} >
+                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"/></div>
+                      <p>Livaï</p>
+                    </div>
+                    <div className={classes.friendsListElement} >
+                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhWqTEVwIMyW5Mx90y44YZjlkPVH-dm908g&usqp=CAU"/></div>
+                      <p>Eren</p>
+                    </div>
                 </div>
               )}
             </div>
