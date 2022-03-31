@@ -13,7 +13,7 @@
   font-family: 'Arial', cursive;
 
   ::-webkit-scrollbar {
-    width: 5px;
+    width: 0.4vw;
   }
 
   ::-webkit-scrollbar-track {
@@ -28,7 +28,7 @@
 
   .ChatLeft {
     width: 19vw;
-    height: 81.7vh;
+    height: 82.5vh;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
@@ -80,16 +80,14 @@
   }
 
   .ChatCenter {
-    /*width: 40vw;*/
     width: 66vw;
-    /*height: 500px;*/
-    height: 81.7vh;
+    height: 82.5vh;
     overflow-y: scroll;
     overflow-x: hidden;
   }
 
   .ChatRight {
     width: 19vw;
-    height: 81.7vh;
+    height: 82.5vh;
   }
 }
