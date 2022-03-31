@@ -16,6 +16,8 @@ import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 import { State } from '../interface/state.enum';
 import { LocalFile } from './localFile.entity';
 import { FriendsRequest } from 'src/friends/model/friends-request.entity';
+import { Match } from 'src/game/entities/match.entity';
+import { Player } from 'src/game/entities/player.entity';
 
 @Entity()
 export class User {
@@ -81,4 +83,10 @@ export class User {
 
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];
+
+  @OneToMany(() => Player, (player) => player.user)
+  player: Player;
+
+  @ManyToMany(() => Match, (match) => match.players)
+  matchSpectate: Match[];
 }
