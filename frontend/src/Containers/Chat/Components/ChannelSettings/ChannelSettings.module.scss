@@ -23,14 +23,13 @@
       align-items: center;
       justify-content: left;
       color: $white1;
-
-      //margin-left: 20px;
       margin-left: 1vw;
+      height: 3.5vw;
 
       img {
         border-radius: 100%;
         border: 0.1vw solid $white1;
-        margin-top: 0.2vw;
+        margin-top: 0.425vw;
         margin-right: 0.5vw;
         width: 2.5vw;
       }
@@ -42,9 +41,9 @@
   }
 
   .UserSettings {
+    margin-top: 0.2vw;
     width: 100%;
 
-    margin-top: 7px;
     button {
       border: none;
       color: $white1;
@@ -53,7 +52,6 @@
       border-radius: 0.5vw;
       width: 80%;
       font-size: 1.2vw;
-      background-color: $blue4;
       cursor: pointer;
       background-color: $red1;
     }

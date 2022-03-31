@@ -3,8 +3,100 @@
 .Leaderboard {
   background-color: $grey6;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   border-radius: 1.5vw;
   width: 65vw;
   height: 38.8vw;
+  font-family: 'Roboto', sans-serif;
+
+  .Header {
+    width: 90.8%;
+    padding: 1vw 3vw;
+    border-top-left-radius: 1.5vw;
+    border-top-right-radius: 1.5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: space-between;
+    background-color: $grey3;
+    font-size: 1.2vw;
+
+    .Left {
+      display: flex;
+      flex-direction: row;
+
+      h3 {
+        margin-right: 3vw;
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.4vw;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $blue5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $blue5;
+    border: 0.01vw solid rgb(95, 93, 93);
+    border-radius: 1.5vw;
+  }
+
+  .Users {
+    min-height: 80%;
+    max-height: 80%;
+    margin-left: -17%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    margin-right: -11.05vw;
+
+    .User {
+      display: flex;
+      flex-direction: row;
+      font-size: 1.1vw;
+      width: 100%;
+      padding-top: 0.5vw;
+      padding-bottom: 0.5vw;
+
+      .Left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 30%;
+
+        .Rank {
+          width: 50%;
+        }
+
+        img {
+          width: 2.55vw;
+          height: 2.55vw;
+          border-radius: 100%;
+          margin-left: -8%;
+          margin-right: 3%;
+        }
+      }
+
+      .Right {
+        width: 70%;
+        display: flex;
+        flex-direction: row;
+        .Level {
+          width: 36%;
+        }
+        .Ratio {
+          width: 25%;
+        }
+        .Pongopoints {
+          width: 26%;
+          text-align: right;
+        }
+      }
+    }
+  }
 }
