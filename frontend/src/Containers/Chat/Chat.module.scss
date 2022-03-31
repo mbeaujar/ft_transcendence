@@ -21,34 +21,29 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $blue4;
+    background-color: $blue5;
+    border: 0.01vw solid rgb(95, 93, 93);
     border-radius: 1.5vw;
   }
 
   .ChatLeft {
-    /*width: 200px;*/
-    min-width: 250px;
-    /*height: 500px;*/
+    width: 19vw;
     height: 81.7vh;
     overflow-y: scroll;
     overflow-x: hidden;
-    /*border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;*/
-    /*background-color: $grey3;*/
     display: flex;
     flex-direction: column;
     justify-content: top;
     align-items: center;
 
     .ChatLeftButton {
-      width: 50%;
       border: none;
       color: $white1;
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 5px;
+      margin-top: 1vw;
+      padding: 0.8vw;
+      border-radius: 0.5vw;
       width: 80%;
-      font-size: 15px;
+      font-size: 1.2vw;
       background-color: $blue4;
       cursor: pointer;
     }
@@ -58,10 +53,11 @@
     }
 
     h3 {
-      margin-top: 15px;
+      margin-top: 1vw;
       background-color: $blue5;
       width: 100%;
-      padding: 12px;
+      padding: 1vw;
+      font-size: 1.2vw;
       margin-bottom: 0;
     }
 
@@ -73,8 +69,9 @@
       margin: 0;
       width: 100%;
       color: $white1;
-      padding: 12px;
+      padding: 0.9vw;
       cursor: pointer;
+      font-size: 1.1vw;
     }
 
     p:hover {
@@ -92,12 +89,7 @@
   }
 
   .ChatRight {
-    /*width: 200px;*/
-    min-width: 250px;
-    /*height: 500px;*/
+    width: 19vw;
     height: 81.7vh;
-    /*border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;*/
-    /*background-color: $grey3;*/
   }
 }

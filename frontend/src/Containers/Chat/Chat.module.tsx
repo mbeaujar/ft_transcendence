@@ -13,7 +13,7 @@ import { Scope } from '../../interface/scope.enum';
 import { IJoinChannel } from '../../interface/join-channel.interface';
 import ChannelSettings from './Components/ChannelSettings/ChannelSettings.module';
 
-const ws = new WebSocket('http://localhost:3000');
+const ws = new WebSocket('http://localhost:3000/chat');
 
 interface Props {
   user: IUser;
@@ -83,7 +83,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             messages={messages}
           />
         );
-      } else return <p>Choose a menu</p>;
+      } else return <p></p>;
     else if (activeChatMenu === 'SearchUser') return <SearchUser />;
     else if (activeChatMenu === 'JoinChannel') {
       return (
@@ -109,7 +109,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftActiveChatMenuRight = () => {
     if (channelChoose) {
       return (
-        <ChannelSettings user={props.user} channel={channelChoose} ws={ws} channels={channels}/>
+        <ChannelSettings
+          user={props.user}
+          channel={channelChoose}
+          ws={ws}
+          channels={channels}
+        />
       );
     }
   };

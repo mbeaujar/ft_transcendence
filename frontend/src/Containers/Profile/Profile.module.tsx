@@ -101,7 +101,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       valuePongopoints.textContent = `${progressPongopoints}`;
     }
 
-    if (progressPongopoints == 561) {
+    if (progressPongopoints >= 561) {
       clearInterval(progress2);
     }
   }, speed);
@@ -173,7 +173,6 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
 
   let imgLevelElementProgress = 0;
   let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
-  console.log(imgLevelElement);
   let progressPodium4 = setInterval(() => {
     imgLevelElementProgress++;
     if (imgLevelElement != null) {
@@ -304,6 +303,10 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
                     <div className={classes.friendsListElement} >
                       <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwD1TQPCWvR6RTQ9SNgeRnw0tlF4QoUitDmg&usqp=CAU"/></div>
                       <p>Rick</p>
+                    </div>
+                    <div className={classes.friendsListElement} >
+                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQww5NXS3n-jtIJeol6l462l_Nl-X9BUH6vLw&usqp=CAU"/></div>
+                      <p>Jon</p>
                     </div>
                 </div>
               )}

@@ -7,13 +7,11 @@
   justify-content: center;
 
   h3 {
-    background-color: $blue5;
-    font-size: 20px;
-    width: 92%;
-    padding: 10px;
-    margin-bottom: 7px;
-    color: $blue2;
     margin-top: 0;
+    background-color: $blue5;
+    padding: 1vw;
+    font-size: 1.2vw;
+    margin-bottom: 0;
   }
 
   .ChannelUsers {
@@ -25,18 +23,20 @@
       align-items: center;
       justify-content: left;
       color: $white1;
-      
-      margin-left: 20px;
+
+      //margin-left: 20px;
+      margin-left: 1vw;
 
       img {
         border-radius: 100%;
-        margin-top: 7px;
-        margin-right: 10px;
-        width: 40px;
+        border: 0.1vw solid $white1;
+        margin-top: 0.2vw;
+        margin-right: 0.5vw;
+        width: 2.5vw;
       }
 
-      p{
-        font-size: 17px;
+      p {
+        font-size: 1.1vw;
       }
     }
   }
@@ -46,17 +46,16 @@
 
     margin-top: 7px;
     button {
-      background-color: $grey3;
       border: none;
       color: $white1;
-      margin-top: 8px;
-      margin-bottom: 8px;
-      padding: 10px;
-      border-radius: 5px;
-      width: 70%;
+      margin-top: 1vw;
+      padding: 0.8vw;
+      border-radius: 0.5vw;
+      width: 80%;
+      font-size: 1.2vw;
+      background-color: $blue4;
       cursor: pointer;
       background-color: $red1;
-      font-size: 15px;
     }
   }
 }
