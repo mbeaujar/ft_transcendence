@@ -54,6 +54,57 @@
       font-size: 1.2vw;
       cursor: pointer;
       background-color: $red1;
+      margin-bottom: 0.8vw;
+    }
+  }
+
+  .AdminSettings {
+    margin-top: 0.2vw;
+    width: 100%;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;*/
+
+    .BanUser {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: 1vw;
+
+      .BanUserInput {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        font-size: 1vw;
+        width: 50%;
+        height: 1.2vw;
+        margin-left: 1vw;
+        outline: none;
+        color: $white1;
+        padding: 0.2vw 0.4vw;
+      }
+    }
+
+    .MuteUser {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      font-size: 1vw;
+
+      .MuteUserInput {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        width: 50%;
+        height: 1.2vw;
+        margin-left: 0.6vw;
+        font-size: 1vw;
+        outline: none;
+        color: $white1;
+        padding: 0.2vw 0.4vw;
+      }
     }
   }
 }

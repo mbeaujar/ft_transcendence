@@ -68,20 +68,17 @@
           margin-bottom: 5px;
           margin-top: 1.6vw;
           margin-bottom: 0.4vw;
+          font-size: 1.2vw;
         }
 
         p {
           margin: 0;
           margin-bottom: 20px;
           padding: 1px !important;
-          width: 90%;
+          width: 100%;
           word-wrap: break-word;
           text-align: left;
           font-size: 1vw;
-
-         /* @media screen and (max-width: 1000px) {
-            width: 80%;
-          }*/
         }
       }
     }
@@ -91,5 +88,6 @@
     margin-top: 2vh;
     margin-bottom: 1vh !important;
     height: 10%;
+    height: 1vw;
   }
 }

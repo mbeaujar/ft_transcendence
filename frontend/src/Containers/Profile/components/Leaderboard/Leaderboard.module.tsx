@@ -32,7 +32,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
           <div className={classes.Right}>
             <p className={classes.Level}>ELITE 1</p>
             <p className={classes.Ratio}>13W / 0L</p>
-            <p className={classes.Pongopoints}>324</p>
+            <p className={classes.Pongopoints}>5324</p>
           </div>
         </div>
         <div className={classes.User}>
@@ -62,7 +62,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
           <div className={classes.Right}>
             <p className={classes.Level}>Golden 3</p>
             <p className={classes.Ratio}>10W / 10L</p>
-            <p className={classes.Pongopoints}>054</p>
+            <p className={classes.Pongopoints}>54</p>
           </div>
         </div>
         <div className={classes.User}>
@@ -77,7 +77,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
           <div className={classes.Right}>
             <p className={classes.Level}>SILVER 1</p>
             <p className={classes.Ratio}>3W / 5L</p>
-            <p className={classes.Pongopoints}>004</p>
+            <p className={classes.Pongopoints}>4</p>
           </div>
         </div>
       </div>

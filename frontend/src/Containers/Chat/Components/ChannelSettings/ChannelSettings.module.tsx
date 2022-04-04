@@ -51,17 +51,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         </button>
       </div>
 
-      {/*<div className={classes.UserSettings}>
+      <div className={classes.AdminSettings}>
         <h3>Admin settings</h3>
         <div className={classes.BanUser}>
           <p>Ban User</p>
-          <input></input>
+          <input className={classes.BanUserInput}></input>
         </div>
         <div className={classes.MuteUser}>
-        <p>Mute User</p>
-          <input></input>
+          <p>Mute User</p>
+          <input className={classes.MuteUserInput}></input>
         </div>
-        </div>*/}
+      </div>
     </div>
   );
 };

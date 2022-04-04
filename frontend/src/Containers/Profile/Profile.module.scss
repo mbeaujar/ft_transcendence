@@ -324,7 +324,7 @@
               height: 4vw;
 
               div {
-                margin-top: -2%;
+                margin-top: -1%;
                 width: 3.8vw;
                 height: 2.2vw;
                 img {
@@ -332,6 +332,7 @@
                   min-height: 2.2vw;
                   border-radius: 100%;
                   border: 0.2vw solid $white1;
+                  border: 0.1vw solid $grey2;
                   margin-right: 0;
                 }
               }
