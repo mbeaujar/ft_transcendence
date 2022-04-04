@@ -8,10 +8,16 @@ import {
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { AuthService } from 'src/auth/services/auth.service';
+import { ConnectedUserService } from 'src/chat/services/connected-user/connected-user.service';
 import { IUser } from 'src/users/interface/user.interface';
 import { UsersService } from 'src/users/services/user/users.service';
-import { Game } from '../model/Game';
-import { GameService } from '../services/game.service';
+import { IMatch } from '../entities/match.interface';
+import { IPlayer } from '../entities/player.interface';
+import { IQueue } from '../entities/queue.interface';
+import { Game } from '../model/game';
+import { GameService } from '../services/game/game.service';
+import { MatchService } from '../services/match/match.service';
+import { QueueService } from '../services/queue/queue.service';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -26,7 +32,10 @@ export class GameGateway
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
+    private readonly queueService: QueueService,
     private readonly gameService: GameService,
+    private readonly matchService: MatchService,
+    private readonly connectedUserService: ConnectedUserService,
   ) {}
 
   @WebSocketServer()
@@ -51,6 +60,7 @@ export class GameGateway
       } else {
         client.data.user = user;
         console.log('connect', client.id, user.username);
+        await this.connectedUserService.create({ socketId: client.id, user });
       }
     } catch (e) {
       console.log(e);
@@ -60,6 +70,10 @@ export class GameGateway
 
   async handleDisconnect(client: Socket) {
     console.log('disconnect', client.id, client.data.user?.username);
+    if (client.data.user) {
+      await this.connectedUserService.deleteBySocketId(client.id);
+      await this.queueService.delete(client.data.user?.id); // ??
+    }
     client.disconnect();
   }
 
@@ -72,22 +86,68 @@ export class GameGateway
 
   @SubscribeMessage('ping')
   async ping(client: Socket, args: any) {
-    console.log('client id', client.id);
-    console.log('client user', client.data.user);
-    console.log('args', args);
+    // console.log('client user', client.data.user);
+    // console.log('args', args);
+    console.log('ping', client.data.user.username, client.id);
     this.server.to(client.id).emit('pong', 'pong');
   }
 
-  /** --------------------------- GAME -------------------------------------- */
+  /** --------------------------- QUEUE -------------------------------------- */
 
-  @SubscribeMessage('createGame')
-  async onCreateGame(client: Socket) {
-    // create Match entity
-    const match = this.gameService.createMatch();
-    this.game = new Game();
-
-    // send createdGame
+  private async sendGameStarted(player: IPlayer, match: IMatch) {
+    const connectedPlayer = await this.connectedUserService.findByUser(
+      player.user,
+    );
+    if (connectedPlayer) {
+      this.server.to(connectedPlayer.socketId).emit('startGame', { match });
+    }
   }
+
+  private async startGame(queue1: IQueue, queue2: IQueue) {
+    const match = await this.gameService.create(queue1.user, queue2.user);
+    this.game[match.id] = new Game(
+      match,
+      this.connectedUserService,
+      this.server,
+    );
+
+    this.sendGameStarted(match.players[0], match);
+    this.sendGameStarted(match.players[1], match);
+  }
+
+  @SubscribeMessage('joinQueue')
+  async onJoinQueue(client: Socket) {
+    const queueExist = await this.queueService.find(client.data.user.id);
+    if (queueExist) return;
+
+    await this.queueService.create({
+      elo: client?.data?.user?.elo,
+      user: client?.data?.user,
+    });
+    const interval = setInterval(async () => {
+      const queue = await this.queueService.find(client.data.user.id);
+      if (!queue) {
+        clearInterval(interval);
+      }
+      const players = await this.queueService.findOpponents(
+        client.data.user.id,
+        client.data.user.elo,
+      );
+      if (players.length > 0) {
+        await this.startGame(queue, players[0]);
+        await this.queueService.delete(client.data.user.id);
+        clearInterval(interval);
+      }
+      // console.log('liste', players);
+    }, 100);
+  }
+
+  @SubscribeMessage('leaveQueue')
+  async onLeaveQueue(client: Socket) {
+    await this.queueService.delete(client.data.user.id);
+  }
+
+  /** --------------------------- GAME -------------------------------------- */
 
   @SubscribeMessage('resetPoint')
   async resetPlayerPoint(client: Socket) {

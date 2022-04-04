@@ -39,6 +39,22 @@ const Game = () => {
       >
         refresh
       </button>
+
+      <button
+        onClick={() => {
+          ws.socket.emit('joinQueue');
+        }}
+      >
+        join Queue
+      </button>
+
+      <button
+        onClick={() => {
+          ws.socket.emit('addelo');
+        }}
+      >
+        add elo
+      </button>
     </div>
   );
 };

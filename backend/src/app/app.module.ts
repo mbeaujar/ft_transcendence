@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { FriendsModule } from '../friends/friends.module';
 import { ChatModule } from '../chat/chat.module';
-// import { GameModule } from 'src/game/game.module';
+import { GameModule } from 'src/game/game.module';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ChatModule } from '../chat/chat.module';
     AuthModule,
     FriendsModule,
     ChatModule,
-    // GameModule,
+    GameModule,
   ],
 })
 export class AppModule {}

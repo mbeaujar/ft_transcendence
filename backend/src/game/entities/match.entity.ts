@@ -1,5 +1,12 @@
 import { User } from 'src/users/entities/user.entity';
-import { Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Player } from './player.entity';
 
 @Entity()
@@ -12,4 +19,10 @@ export class Match {
 
   @ManyToMany(() => User, (user) => user.matchSpectate)
   spectators: User[];
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

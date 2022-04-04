@@ -18,6 +18,8 @@ import { LocalFile } from './localFile.entity';
 import { FriendsRequest } from 'src/friends/model/friends-request.entity';
 import { Match } from 'src/game/entities/match.entity';
 import { Player } from 'src/game/entities/player.entity';
+import { Queue } from 'src/game/entities/queue.entity';
+import { Min } from 'class-validator';
 
 @Entity()
 export class User {
@@ -48,6 +50,7 @@ export class User {
   state: State;
 
   @Column({ default: 1000 })
+  @Min(0)
   elo: number;
 
   @Column({ default: 0 })
@@ -86,6 +89,9 @@ export class User {
 
   @OneToMany(() => Player, (player) => player.user)
   player: Player;
+
+  @OneToMany(() => Queue, (player) => player.user)
+  queuePlayer: Queue;
 
   @ManyToMany(() => Match, (match) => match.players)
   matchSpectate: Match[];

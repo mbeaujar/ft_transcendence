@@ -3,12 +3,14 @@ export class Ball {
   y: number;
   dx: number;
   dy: number;
+  r: number;
 
   constructor() {
-    this.x = 0;
-    this.y = 0;
+    this.x = 400;
+    this.y = 200;
     this.dx = 0;
     this.dy = 0;
+    this.r = 10;
   }
 
   move() {

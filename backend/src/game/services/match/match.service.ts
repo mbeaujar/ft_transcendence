@@ -21,6 +21,10 @@ export class MatchService {
     return this.matchRepository.save(match);
   }
 
+  async save(match: IMatch): Promise<Match> {
+    return this.matchRepository.save(match);
+  }
+
   async findOne(id: number): Promise<Match> {
     return this.matchRepository.findOne(id);
   }
