@@ -1,0 +1,82 @@
+@import '../../../../../utils.scss';
+
+@mixin styling() {
+  background-color: $blue1;
+  border: 0.1vw solid $blue3;
+  border-radius: 0.5vw;
+}
+
+.Dropdown {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  //margin-bottom: 0.5vw;
+  //margin-top: 7.5vw;
+  position: absolute;
+  margin-top: 6vw;
+  z-index: 2;
+  .header {
+    @include styling();
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 80%;
+    height: 2.5vw;
+
+    .headerTitleP {
+      font-weight: bold;
+      font-size: 1vw;
+      margin-right: 5vw;
+    }
+  }
+
+  .list {
+    padding: 0;
+    margin: 0;
+    width: 80%;
+
+    li {
+      list-style-type: none;
+
+      &:first-of-type {
+        > button {
+          border-top: 0.1vw solid $blue3;
+          border-top-left-radius: 0.5vw;
+          border-top-right-radius: 0.5vw;
+        }
+      }
+
+      &:last-of-type > button {
+        border-bottom-left-radius: 0.5vw;
+        border-bottom-right-radius: 0.5vw;
+      }
+
+      button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: black;
+        color: $blue2;
+        font-size: 1vw;
+        height: 3vw;
+        border: 0;
+        width: 100%;
+        text-align: left;
+        border-bottom: 0.1vw solid $blue3;
+        border-left: 0.1vw solid $blue3;
+        border-right: 0.1vw solid $blue3;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $blue2;
+          color: $blue4;
+        }
+
+        .checkLogo {
+          font-size: 0.01vw;
+        }
+      }
+    }
+  }
+}

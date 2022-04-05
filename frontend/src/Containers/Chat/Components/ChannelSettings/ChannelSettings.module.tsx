@@ -4,6 +4,8 @@ import classes from './ChannelSettings.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
 import Avatar from '../../../Profile/components/Avatar/Avatar.module';
+import Dropdown from './Dropdown/Dropdown.module';
+import { userInfo } from 'os';
 
 interface Props {
   user: IUser;
@@ -16,6 +18,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   let actualChannel: any = ftGetActualChannel();
   useEffect(() => {
     actualChannel = ftGetActualChannel();
+    console.log(actualChannel);
   }, [props.channel]);
 
   function ftGetActualChannel() {
@@ -27,6 +30,22 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
       i++;
     }
   }
+
+  function ifShowAdminSettings() {
+    let i = 0;
+    while (actualChannel.users[i].user.username != props.user.username) {
+      i++;
+    }
+    if (actualChannel.users[i].administrator == true)
+      return classes.ShowAdminSettings;
+    else return classes.HideAdminSettings;
+  }
+
+  const itemsDuration = [
+    { id: 1, value: '1 hour' },
+    { id: 2, value: '1 day' },
+    { id: 3, value: '1 week' }
+  ];
 
   return (
     <div className={classes.ChannelSettings}>
@@ -51,7 +70,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         </button>
       </div>
 
-      <div className={classes.AdminSettings}>
+      <div className={ifShowAdminSettings()}>
         <h3>Admin settings</h3>
         <div className={classes.BanUser}>
           <p>Ban User</p>
@@ -60,6 +79,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         <div className={classes.MuteUser}>
           <p>Mute User</p>
           <input className={classes.MuteUserInput}></input>
+        </div>
+        <Dropdown title="Duration" items={itemsDuration} />
+        <div className={classes.UnmuteUser}>
+          <p>Unmute User</p>
+          <input className={classes.UnmuteUserInput}></input>
         </div>
       </div>
     </div>

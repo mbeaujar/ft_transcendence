@@ -4,7 +4,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  height: 82.5vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0.4vw;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $blue5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $blue5;
+    border: 0.01vw solid rgb(95, 93, 93);
+    border-radius: 1.5vw;
+  }
 
   h3 {
     margin-top: 0;
@@ -58,53 +75,74 @@
     }
   }
 
-  .AdminSettings {
+  .HideAdminSettings
+  {
+    display: none;
+  }
+
+  .ShowAdminSettings {
     margin-top: 0.2vw;
     width: 100%;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;*/
+    position: relative;
 
-    .BanUser {
+    .BanUser
+    {
+      position: absolute;
+      z-index: 3;
+    }
+
+    .MuteUser
+    {
+      position: absolute;
+      margin-top: 3vw;
+
+      z-index: 2;
+    }
+
+    .UnmuteUser
+    {
+      position: absolute;
+      margin-top: 9vw;
+      z-index: 1;
+    }
+
+    div {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       font-size: 1vw;
+
+
+      input {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        font-size: 1vw;
+        width: 50%;
+        height: 1.2vw;
+        outline: none;
+        color: $white1;
+        padding: 0.2vw 0.4vw;
+      }
 
       .BanUserInput {
-        background-color: $grey2;
-        border: 1px solid $grey2;
-        border-radius: 3vw;
-        font-size: 1vw;
-        width: 50%;
-        height: 1.2vw;
-        margin-left: 1vw;
-        outline: none;
-        color: $white1;
-        padding: 0.2vw 0.4vw;
+        
+        margin-left: 2.2vw;
       }
-    }
-
-    .MuteUser {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      font-size: 1vw;
 
       .MuteUserInput {
-        background-color: $grey2;
-        border: 1px solid $grey2;
-        border-radius: 3vw;
-        width: 50%;
-        height: 1.2vw;
-        margin-left: 0.6vw;
-        font-size: 1vw;
-        outline: none;
-        color: $white1;
-        padding: 0.2vw 0.4vw;
+        
+        margin-left: 1.8vw;
+      }
+
+      .UnmuteUserInput {
+        
+        margin-left: 0.5vw;
       }
     }
+
+
+
   }
 }
