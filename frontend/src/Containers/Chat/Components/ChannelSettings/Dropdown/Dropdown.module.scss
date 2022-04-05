@@ -10,31 +10,31 @@
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  //margin-bottom: 0.5vw;
-  //margin-top: 7.5vw;
   position: absolute;
-  margin-top: 6vw;
+  margin-top: 6.5vw;
   z-index: 2;
   .header {
     @include styling();
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     cursor: pointer;
-    width: 80%;
+    width: 100%;
     height: 2.5vw;
 
     .headerTitleP {
       font-weight: bold;
       font-size: 1vw;
-      margin-right: 5vw;
+      text-align: center;
+      margin-left: 1vw;
+      margin-right: 3vw;
     }
   }
 
   .list {
     padding: 0;
     margin: 0;
-    width: 80%;
+    width: 100%;
 
     li {
       list-style-type: none;

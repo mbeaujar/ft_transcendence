@@ -82,23 +82,33 @@
   .ShowAdminSettings {
     margin-top: 0.2vw;
     width: 100%;
+    width: 92%;
     position: relative;
+
+    h3 
+    {
+      width: 110%;
+      margin-left: -10%;
+    }
 
     .BanUser {
       position: absolute;
+      justify-content: space-between;
       z-index: 3;
     }
 
     .MuteUser {
       position: absolute;
-      margin-top: 3vw;
+      margin-top: 3.3vw;
+      justify-content: space-between;
 
       z-index: 2;
     }
 
     .UnmuteUser {
       position: absolute;
-      margin-top: 9vw;
+      margin-top: 10.1vw;
+      justify-content: space-between;
       z-index: 1;
     }
 
@@ -106,7 +116,6 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
       font-size: 1vw;
 
       input {
@@ -140,7 +149,7 @@
   }
 
   .ShowCreatorSettings {
-    margin-top: 13vw;
+    margin-top: 13.25vw;
     width: 93%;
     display: flex;
     flex-direction: column;
@@ -154,13 +163,13 @@
     .NewAdmin
     {
       position: absolute;
-      margin-top: 4vw;
+      margin-top: 3.4vw;
       justify-content: space-between;
     }
 
     .ChangePassword
     {
-      margin-top: 8.25vw;
+      margin-top: 7.6vw;
       justify-content: space-between;
     }
 
@@ -174,7 +183,7 @@
     {
       margin-top: -0.5vw;
       justify-content: space-between;
-      margin-bottom: 1vw;
+      margin-bottom: 0vw;
     }
     div {
       display: flex;

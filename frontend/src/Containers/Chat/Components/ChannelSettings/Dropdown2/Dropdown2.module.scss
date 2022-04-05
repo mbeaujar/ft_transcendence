@@ -8,10 +8,10 @@
 
 .Dropdown {
   display: flex;
-  width: 120%;
+  width: 120%; //changement ici
   flex-wrap: wrap;
   position: absolute;
-  margin-top: 8vw;//changement ici
+  margin-top: 7.4vw; //changement ici
   z-index: 2;
   .header {
     @include styling();
@@ -19,15 +19,15 @@
     flex-direction: row;
     justify-content: flex-start;
     cursor: pointer;
-    width: 80%;
+    width: 80%; //changement ici
     height: 2.5vw;
 
     .headerTitleP {
       font-weight: bold;
       font-size: 1vw;
       text-align: center;
-      margin-left: 1vw;//nouveauté ici
-      margin-right: 3vw;//changement ici
+      margin-left: 1vw;
+      margin-right: 3vw;
     }
   }
 

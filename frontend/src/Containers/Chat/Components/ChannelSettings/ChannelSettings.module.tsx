@@ -97,7 +97,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Mute User</p>
           <input className={classes.MuteUserInput}></input>
         </div>
-        <Dropdown title="Duration" items={itemsMuteDuration} />
+        <Dropdown title="Mute Duration" items={itemsMuteDuration} />
         <div className={classes.UnmuteUser}>
           <p>Unmute User</p>
           <input className={classes.UnmuteUserInput}></input>
