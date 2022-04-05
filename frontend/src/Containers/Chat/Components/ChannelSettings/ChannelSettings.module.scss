@@ -75,8 +75,7 @@
     }
   }
 
-  .HideAdminSettings
-  {
+  .HideAdminSettings {
     display: none;
   }
 
@@ -85,22 +84,19 @@
     width: 100%;
     position: relative;
 
-    .BanUser
-    {
+    .BanUser {
       position: absolute;
       z-index: 3;
     }
 
-    .MuteUser
-    {
+    .MuteUser {
       position: absolute;
       margin-top: 3vw;
 
       z-index: 2;
     }
 
-    .UnmuteUser
-    {
+    .UnmuteUser {
       position: absolute;
       margin-top: 9vw;
       z-index: 1;
@@ -113,13 +109,12 @@
       justify-content: center;
       font-size: 1vw;
 
-
       input {
         background-color: $grey2;
         border: 1px solid $grey2;
         border-radius: 3vw;
         font-size: 1vw;
-        width: 50%;
+        width: 42%;
         height: 1.2vw;
         outline: none;
         color: $white1;
@@ -127,22 +122,77 @@
       }
 
       .BanUserInput {
-        
         margin-left: 2.2vw;
       }
 
       .MuteUserInput {
-        
         margin-left: 1.8vw;
       }
 
       .UnmuteUserInput {
-        
         margin-left: 0.5vw;
       }
     }
+  }
 
+  .HideCreatorSettings {
+    display: none;
+  }
 
+  .ShowCreatorSettings {
+    margin-top: 13vw;
+    width: 93%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
+    h3 
+    {
+      width: 110%;
+      margin-left: -10%;
+    }
+    .NewAdmin
+    {
+      position: absolute;
+      margin-top: 4vw;
+      justify-content: space-between;
+    }
+
+    .ChangePassword
+    {
+      margin-top: 8.25vw;
+      justify-content: space-between;
+    }
+
+    .ConfirmPassword
+    {
+      margin-top: -0.5vw;
+      justify-content: space-between;
+    }
+
+    .ActualPassword
+    {
+      margin-top: -0.5vw;
+      justify-content: space-between;
+      margin-bottom: 1vw;
+    }
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 1vw;
+
+      input {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        font-size: 1vw;
+        width: 42%;
+        height: 1.2vw;
+        outline: none;
+        color: $white1;
+        padding: 0.2vw 0.4vw;
+      }
+    }
   }
 }

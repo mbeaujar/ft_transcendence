@@ -5,6 +5,7 @@ import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
 import Avatar from '../../../Profile/components/Avatar/Avatar.module';
 import Dropdown from './Dropdown/Dropdown.module';
+import Dropdown2 from './Dropdown2/Dropdown2.module';
 import { userInfo } from 'os';
 
 interface Props {
@@ -41,10 +42,26 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     else return classes.HideAdminSettings;
   }
 
-  const itemsDuration = [
+  function ifShowCreatorSettings() {
+    let i = 0;
+    while (actualChannel.users[i].user.username != props.user.username) {
+      i++;
+    }
+    if (actualChannel.users[i].creator == true)
+      return classes.ShowCreatorSettings;
+    else return classes.HideCreatorSettings;
+  }
+
+  const itemsMuteDuration = [
     { id: 1, value: '1 hour' },
     { id: 2, value: '1 day' },
     { id: 3, value: '1 week' }
+  ];
+
+  const itemsChannelMode = [
+    { id: 1, value: 'Public' },
+    { id: 2, value: 'Private' },
+    { id: 3, value: 'Protected' }
   ];
 
   return (
@@ -80,10 +97,31 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Mute User</p>
           <input className={classes.MuteUserInput}></input>
         </div>
-        <Dropdown title="Duration" items={itemsDuration} />
+        <Dropdown title="Duration" items={itemsMuteDuration} />
         <div className={classes.UnmuteUser}>
           <p>Unmute User</p>
           <input className={classes.UnmuteUserInput}></input>
+        </div>
+      </div>
+
+      <div className={ifShowCreatorSettings()}>
+        <h3>Creator settings</h3>
+        <div className={classes.NewAdmin}>
+          <p>New Admin</p>
+          <input className={classes.NewAdminInput}></input>
+        </div>
+        <Dropdown2 title="Channel Mode" items={itemsChannelMode} />
+        <div className={classes.ChangePassword}>
+          <p>Change password</p>
+          <input className={classes.ChangePasswordInput}></input>
+        </div>
+        <div className={classes.ConfirmPassword}>
+          <p>Confirm</p>
+          <input className={classes.ConfirmInput}></input>
+        </div>
+        <div className={classes.ActualPassword}>
+          <p>Actual password</p>
+          <input className={classes.ActualPasswordInput}></input>
         </div>
       </div>
     </div>
