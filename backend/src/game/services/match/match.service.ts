@@ -29,6 +29,15 @@ export class MatchService {
     return this.matchRepository.findOne(id);
   }
 
+  async findByUser(userId: number): Promise<Match> {
+    return this.matchRepository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.players', 'player')
+      .leftJoinAndSelect('player.user', 'user')
+      .where('user.id = :id', { id: userId })
+      .getOne();
+  }
+
   async delete(id: number): Promise<DeleteResult> {
     return this.matchRepository.delete(id);
   }

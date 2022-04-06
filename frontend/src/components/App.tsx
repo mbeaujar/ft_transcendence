@@ -5,8 +5,9 @@ import Chat from './chat/Chat';
 import Header from './Header';
 import File from './file/File';
 import { IUser } from './interface/user.interface';
-import Game from './game/Game';
+// import Game from './game/Game';
 import api from '../apis/api';
+import Pong from './game/Pong';
 
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
@@ -23,10 +24,12 @@ const App: React.FC = (): JSX.Element => {
       <BrowserRouter>
         <Header />
         <Routes>
+          ^
           <Route path="/" element={<Auth user={user} />} />
           {/* {user ? <Route path="/chat" element={<Chat user={user} />} /> : null} */}
           {/* {user ? <Route path="/file" element={<File user={user} />} /> : null} */}
-          {user ? <Route path="/game" element={<Game />} /> : null}
+          {/* {user ? <Route path="/game" element={<Game />} /> : null} */}
+          {user ? <Route path="/game" element={<Pong />} /> : null}
         </Routes>
       </BrowserRouter>
       <br />

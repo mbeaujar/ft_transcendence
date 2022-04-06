@@ -47,7 +47,7 @@ export class GameGateway
     this.game = {};
   }
 
-  /** --------------------------- CONNECTION -------------------------------------- */
+  /** --------------------------- CONNECTION --------------------------------#DirtyDrivers #F1 #F12017------ */
 
   async handleConnection(client: Socket) {
     try {
@@ -107,6 +107,8 @@ export class GameGateway
     const match = await this.gameService.create(queue1.user, queue2.user);
     this.game[match.id] = new Game(
       match,
+      this.matchService,
+      this.usersService,
       this.connectedUserService,
       this.server,
     );
@@ -133,12 +135,12 @@ export class GameGateway
         client.data.user.id,
         client.data.user.elo,
       );
+      // console.log('liste', players);
       if (players.length > 0) {
         await this.startGame(queue, players[0]);
         await this.queueService.delete(client.data.user.id);
         clearInterval(interval);
       }
-      // console.log('liste', players);
     }, 100);
   }
 
@@ -147,10 +149,33 @@ export class GameGateway
     await this.queueService.delete(client.data.user.id);
   }
 
-  /** --------------------------- GAME -------------------------------------- */
+  /** --------------------------- MOVEMENT -------------------------------------- */
 
-  @SubscribeMessage('resetPoint')
-  async resetPlayerPoint(client: Socket) {
-    this.game.resetPoint();
+  @SubscribeMessage('moveTopPaddle')
+  async moveTopPaddle(client: Socket) {
+    const match = await this.matchService.findByUser(client.data.user.id);
+    if (match) {
+      this.game[match.id].moveTop(client.data.user);
+    }
+  }
+
+  @SubscribeMessage('moveBotPaddle')
+  async moveBotPaddle(client: Socket) {
+    const match = await this.matchService.findByUser(client.data.user.id);
+    if (match) {
+      this.game[match.id].moveBot(client.data.user);
+    }
+  }
+
+  @SubscribeMessage('lala')
+  async onadd(client: Socket) {
+    this.server
+      .to(client.id)
+      .emit('infoGame', { ballx: 400, bally: 200, player1: 10, player2: 20 });
+  }
+
+  @SubscribeMessage('deleteQueue')
+  async ondeleteMass(client: Socket) {
+    await this.queueService.delete(client.data.user.id);
   }
 }

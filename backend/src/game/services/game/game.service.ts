@@ -15,6 +15,7 @@ export class GameService {
   ) {}
 
   async create(user1: IUser, user2: IUser): Promise<IMatch> {
+    // check if user exist
     const player1 = await this.playerService.create({
       score: 0,
       elo: user1.elo,

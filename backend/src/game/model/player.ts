@@ -1,20 +1,20 @@
+import { WIDTH, HEIGHT, PADDLEH, PADDLEW } from './game';
+
 export class Player {
   score: number;
   y: number;
-  dy: number;
 
   constructor() {
     this.score = 0;
-    this.y = 0;
-    this.dy = 1;
+    this.y = 200;
   }
 
-  move() {
-    this.y += this.dy;
+  top() {
+    if (this.y > PADDLEH / 2) this.y--;
   }
 
-  direction() {
-    this.dy *= -1;
+  bot() {
+    if (this.y < HEIGHT - PADDLEH / 2) this.y++;
   }
 
   goal() {
