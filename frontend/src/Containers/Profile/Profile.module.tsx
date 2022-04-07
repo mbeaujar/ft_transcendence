@@ -326,7 +326,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
 
       <div className={clsx(classes.SettingsInfo, ftIsActiveInfo('Settings'))}>
-        <Settings />
+        <Settings user={props.user} refresh={refresh} setRefresh={setRefresh}/>
       </div>
     </div>
   );
