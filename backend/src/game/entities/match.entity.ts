@@ -2,6 +2,8 @@ import { User } from 'src/users/entities/user.entity';
 import {
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -15,9 +17,11 @@ export class Match {
   id: number;
 
   @ManyToOne(() => Player, (user) => user.match)
+  @JoinColumn()
   players: Player[];
 
   @ManyToMany(() => User, (user) => user.matchSpectate)
+  @JoinTable()
   spectators: User[];
 
   @CreateDateColumn()

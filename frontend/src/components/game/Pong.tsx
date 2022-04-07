@@ -15,11 +15,12 @@ const Pong = () => {
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [keyUp, setkeyUp] = useState<boolean>(false);
   const [keyDown, setkeyDown] = useState<boolean>(false);
+  const [id, setId] = useState<number>();
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
-    context.fillStyle = BACKGROUND;
-    context.fillRect(0, 0, WIDTH, HEIGHT);
+    // context.fillStyle = BACKGROUND;
+    // context.fillRect(0, 0, WIDTH, HEIGHT);
   };
 
   const drawCircle = (context: any, x: any, y: any, r: any) => {
@@ -39,27 +40,31 @@ const Pong = () => {
   };
 
   useEffect(() => {
-    ws.socket.on('startGame', (data: any) => {});
+    ws.socket.on('startGame', (data: any) => {
+      setId(data?.match?.id);
+    });
     ws.socket.on('infoGame', (data: IGame) => {
+      console.log('pos player1', data.player1);
       resetWindow(context);
       drawCircle(context, data.ballx, data.bally, 10);
-      drawPaddle(context, 10, data.player1, 10, 75);
+      drawPaddle(context, 10, data.player1 - 20, 10, 75);
       drawPaddle(context, WIDTH - 20, data.player2, 10, 75);
-      if (keyUp) ws.socket.emit('moveTopPaddle');
-      if (keyDown) ws.socket.emit('moveBotPaddle');
+      // console.log('keyup', keyUp);
+      // if (keyUp) ws.socket.emit('moveTopPaddle');
+      // if (keyDown) ws.socket.emit('moveBotPaddle');
     });
-    ws.socket.on('scoreGame', (data: Array<number>) => {
-      setScore(data);
+    ws.socket.on('scoreGame', (data: { score: Array<number> }) => {
+      setScore(data.score);
     });
 
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
-    context.fillStyle = BACKGROUND;
-    context.fillRect(0, 0, WIDTH, HEIGHT);
+    // context.fillStyle = BACKGROUND;
+    // context.fillRect(0, 0, WIDTH, HEIGHT);
     setContext(context);
   }, []);
 
-  console.log('context', context);
+  // console.log('context', context);
 
   return (
     <div>
@@ -76,16 +81,23 @@ const Pong = () => {
         {score[0]} | {score[1]}
       </div>
       <canvas
+        style={{ backgroundColor: BACKGROUND }}
         width={WIDTH}
         height={HEIGHT}
         ref={canvasRef}
+        tabIndex={0}
         onKeyDown={event => {
-          if (event.code === 'ArrowUp') setkeyUp(true);
-          if (event.code === 'ArrowDown') setkeyDown(true);
+          // console.log('event down', event.code);
+          // if (event.code === 'ArrowUp') setkeyUp(true);
+          // if (event.code === 'ArrowDown') setkeyDown(true);
         }}
         onKeyUp={event => {
-          if (event.code === 'ArrowUp') setkeyUp(false);
-          if (event.code === 'ArrowDown') setkeyDown(false);
+          console.log('event up', event.code);
+          // if (event.code === 'ArrowUp') setkeyUp(false);
+          // if (event.code === 'ArrowDown') setkeyDown(false);
+          if (event.code === 'ArrowUp') ws.socket.emit('moveTopPaddle', { id });
+          if (event.code === 'ArrowDown')
+            ws.socket.emit('moveBotPaddle', { id });
         }}
       />
       <button onClick={() => resetWindow(context)}>click</button>

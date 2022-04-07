@@ -16,25 +16,32 @@ export const PADDLEH = 75;
 export class Game {
   ball: Ball;
   interval: NodeJS.Timer;
-  end: boolean;
   player1: Player;
   player2: Player;
 
   constructor(
-    private readonly match: IMatch,
+    private match: IMatch,
     private readonly matchService: MatchService,
     private readonly usersService: UsersService,
     private readonly connectedUserService: ConnectedUserService,
     private readonly server: Server,
   ) {
+    // Init score
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
-    this.interval = setInterval(this.loop.bind(this), 10);
+    // Instance of player
+    this.player1 = new Player();
+    this.player2 = new Player();
+    // Instance of ball
+    this.ball = new Ball();
+
+    // Start Loop game with refresh rate of 100 ms (~ 100fps)
+    this.interval = setInterval(this.loop.bind(this), 100);
   }
 
   // interval 10ms
   async loop() {
-    // fin de game ??
+    // End of the game ?
     if (this.player1.score === 3 || this.player2.score === 3) {
       this.match.players[0].score = this.player1.score;
       this.match.players[1].score = this.player2.score;
@@ -47,6 +54,7 @@ export class Game {
       await this.usersService.saveUser(this.match.players[1].user);
 
       clearInterval(this.interval);
+      return;
     }
 
     this.ballHitRightPaddle();

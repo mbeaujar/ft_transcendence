@@ -28,7 +28,7 @@ export class QueueService {
   async find(id: number): Promise<Queue> {
     return this.queueRepository
       .createQueryBuilder('queue')
-      .leftJoin('queue.user', 'user')
+      .leftJoinAndSelect('queue.user', 'user')
       .where('user.id = :id', { id })
       .getOne();
   }
@@ -39,10 +39,6 @@ export class QueueService {
   }
 
   async delete(id: number) {
-    return this.queueRepository
-      .createQueryBuilder('queue')
-      .leftJoinAndSelect('queue.user', 'user')
-      .where('user.id = :id', { id })
-      .delete();
+    return this.queueRepository.delete(id);
   }
 }

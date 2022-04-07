@@ -15,17 +15,21 @@ export class GameService {
   ) {}
 
   async create(user1: IUser, user2: IUser): Promise<IMatch> {
-    // check if user exist
     const player1 = await this.playerService.create({
       score: 0,
       elo: user1.elo,
       user: user1,
     });
+    if (!player1) return;
     const player2 = await this.playerService.create({
       score: 0,
       elo: user2.elo,
       user: user2,
     });
+    if (!player2) {
+      await this.playerService.delete(player1.id);
+      return;
+    }
     return this.matchService.create({
       players: [player1, player2],
       spectators: [],
@@ -33,6 +37,6 @@ export class GameService {
   }
 
   async findMatch(id: number): Promise<Match> {
-    return this.matchService.findOne(id);
+    return this.matchService.find(id);
   }
 }

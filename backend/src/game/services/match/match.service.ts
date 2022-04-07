@@ -13,6 +13,7 @@ export class MatchService {
 
   async create(matchDetails: IMatch): Promise<Match> {
     const match = this.matchRepository.create(matchDetails);
+    match.players = matchDetails.players;
     return this.matchRepository.save(match);
   }
 
@@ -25,8 +26,17 @@ export class MatchService {
     return this.matchRepository.save(match);
   }
 
-  async findOne(id: number): Promise<Match> {
-    return this.matchRepository.findOne(id);
+  async find(id: number): Promise<Match> {
+    return this.matchRepository.findOne(id, {
+      relations: ['players', 'players.user', 'spectators'],
+    });
+    // return this.matchRepository
+    //   .createQueryBuilder('match')
+    //   .leftJoinAndSelect('match.spectators', 'spectator')
+    //   .leftJoinAndSelect('match.players', 'players')
+    //   .leftJoinAndSelect('players.user', 'user')
+    //   .where('match.id = :id', { id })
+    //   .getOne();
   }
 
   async findByUser(userId: number): Promise<Match> {

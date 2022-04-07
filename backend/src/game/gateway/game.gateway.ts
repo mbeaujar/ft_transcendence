@@ -18,6 +18,7 @@ import { Game } from '../model/game';
 import { GameService } from '../services/game/game.service';
 import { MatchService } from '../services/match/match.service';
 import { QueueService } from '../services/queue/queue.service';
+import { IGame } from '../entities/game.interface';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -104,7 +105,9 @@ export class GameGateway
   }
 
   private async startGame(queue1: IQueue, queue2: IQueue) {
+    // Create Game
     const match = await this.gameService.create(queue1.user, queue2.user);
+    console.log('match', match);
     this.game[match.id] = new Game(
       match,
       this.matchService,
@@ -122,26 +125,37 @@ export class GameGateway
     const queueExist = await this.queueService.find(client.data.user.id);
     if (queueExist) return;
 
+    // Add user in the queue
     await this.queueService.create({
       elo: client?.data?.user?.elo,
       user: client?.data?.user,
     });
+
+    // Search other user in the queue
     const interval = setInterval(async () => {
+      // check if the user is in the queue (stop if not)
       const queue = await this.queueService.find(client.data.user.id);
       if (!queue) {
         clearInterval(interval);
+        return;
       }
       const players = await this.queueService.findOpponents(
         client.data.user.id,
         client.data.user.elo,
       );
-      // console.log('liste', players);
+      // Start game if we found an opponent
       if (players.length > 0) {
-        await this.startGame(queue, players[0]);
-        await this.queueService.delete(client.data.user.id);
-        clearInterval(interval);
+        if (queue.user && players[0].user) {
+          console.log('CREATE GAME');
+          await this.startGame(queue, players[0]);
+          // Remove user and opponent of the queue
+          await this.queueService.delete(queue.id);
+          await this.queueService.delete(players[0].id);
+          clearInterval(interval);
+          return;
+        }
       }
-    }, 100);
+    }, 1000);
   }
 
   @SubscribeMessage('leaveQueue')
@@ -152,19 +166,32 @@ export class GameGateway
   /** --------------------------- MOVEMENT -------------------------------------- */
 
   @SubscribeMessage('moveTopPaddle')
-  async moveTopPaddle(client: Socket) {
-    const match = await this.matchService.findByUser(client.data.user.id);
-    if (match) {
-      this.game[match.id].moveTop(client.data.user);
-    }
+  async moveTopPaddle(client: Socket, game: IGame) {
+    const match = await this.matchService.find(game.id);
+    console.log('match top', match);
+
+    // if (match) {
+    //   if (
+    //     match.players[0].user.id === client.data.user.id ||
+    //     match.players[1].user.id === client.data.user.id
+    //   ) {
+    //     this.game[match.id].moveTop(client.data.user);
+    //   }
+    // }
   }
 
   @SubscribeMessage('moveBotPaddle')
-  async moveBotPaddle(client: Socket) {
-    const match = await this.matchService.findByUser(client.data.user.id);
-    if (match) {
-      this.game[match.id].moveBot(client.data.user);
-    }
+  async moveBotPaddle(client: Socket, game: IGame) {
+    const match = await this.matchService.find(game.id);
+    console.log('match bot', match);
+    // if (match) {
+    //   if (
+    //     match.players[0].user.id === client.data.user.id ||
+    //     match.players[1].user.id === client.data.user.id
+    //   ) {
+    //     this.game[match.id].moveBot(client.data.user);
+    //   }
+    // }
   }
 
   @SubscribeMessage('lala')
