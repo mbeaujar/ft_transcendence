@@ -122,19 +122,64 @@
 
             span {
               font-size: 1.5vw;
+              color: $green1;
             }
           }
 
           .ValidNewName:hover {
             background-color: $green3;
+            border: 0.1vw solid $green1;
           }
         }
       }
     }
+
     .Avatar {
       height: 35%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      h3 {
+        margin-left: 10%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        font-size: 1.5vw;
+      }
+      .AvatarBottom
+      {
+        margin-left: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 90%;
+
+        div 
+        {
+          width: 20%;
+          img{
+            width: 100%;
+            border-radius: 100%;
+          }
+
+        }
+        form 
+        {
+          width: 80%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .ValidNewAvatar
+          {
+            width: 15%;
+          }
+        }
+      }
     }
   }
+
+
   .UsersBlock {
     width: 40%;
     height: 80%;
