@@ -54,6 +54,10 @@ export class AuthService {
     return this.usersService.turnOnTwoFactorAuthentication(user.id);
   }
 
+  async turnOffTwoFactorAuthentication(user: User) {
+    return this.usersService.turnOffTwoFactorAuthentication(user.id);
+  }
+
   // --------------------------------------------------------------------------- //
 
   async validateUser(userDetails: IUser): Promise<User> {

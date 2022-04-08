@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Post,
   Req,
   Res,
@@ -75,6 +76,23 @@ export class AuthController {
     await this.authService.turnOnTwoFactorAuthentication(user);
   }
 
+  @Auth()
+  @ApiOperation({ summary: 'disable 2FA' })
+  @Post('2fa/disable')
+  async turnOffTwoFactorAuthentication(
+    @Body() body: TwoFactorAuthenticationDto,
+    @CurrentUser() user: User,
+  ) {
+    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+      body.code,
+      user,
+    );
+    if (!isCodeValid) {
+      throw new UnauthorizedException('Wrong authentication code');
+    }
+    await this.authService.turnOffTwoFactorAuthentication(user);
+  }
+
   @AuthTwoFactor()
   @ApiOperation({ summary: 'Authenticate user with 2FA' })
   @Post('2fa/authenticate')
@@ -100,6 +118,11 @@ export class AuthController {
     const decodedToken: IPayload = await this.authService.verifyJwt(
       req.cookies.access_token,
     );
+    const user = await this.authService.findUser(decodedToken.sub);
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    if (user.isTwoFactorEnabled === false) return true;
     return decodedToken.twoFactorAuthenticatedEnabled;
   }
 

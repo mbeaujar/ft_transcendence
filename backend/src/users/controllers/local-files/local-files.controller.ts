@@ -93,7 +93,7 @@ export class LocalFilesController {
     @Res({ passthrough: true }) response: Response,
   ) {
     console.log('id', id);
-    if (id) {
+    if (id && id != 'null') {
       const file = await this.localFilesService.getFileById(parseInt(id));
       if (!file) {
         throw new NotFoundException('file not found');

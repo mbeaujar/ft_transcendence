@@ -13,7 +13,7 @@ const TwoAuth: React.FC<Props> = (props: Props) => {
   const [qrcode, setQrcode] = useState<any>(null);
 
   console.log('is two factor', props.user?.isTwoFactorEnabled);
-
+  console.log('user', props?.user);
   return (
     <div className="container">
       <div className="blockAuth-left">
@@ -42,6 +42,16 @@ const TwoAuth: React.FC<Props> = (props: Props) => {
             api.post('/auth/2fa/authenticate', { code: text });
           }}
         />
+        <button
+          onClick={() => {
+            api
+              .get('/auth/authenticated')
+              .then(response => console.log(response.data))
+              .catch(reject => console.log(reject));
+          }}
+        >
+          verify 2fa is enable
+        </button>
       </div>
     </div>
   );
