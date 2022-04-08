@@ -21,7 +21,9 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     useState<boolean>(true);
   const [newName, setNewName] = useState<string>(props.user?.username);
   const [selectedFileName, setSelectedFileName] =
-    useState<string>('Upload a file');
+    useState<string>('Choose a file...');
+    const [uploadedFile, setUploadedFile] = useState<any>();
+    //const [avatarImg, setAvatarImg] = useState<any>(props.user.avatar);
   //const [selectedFile, setSelectedFile] = useState<any>();
   const [refresh, setRefresh] = useState<number>(0);
 
@@ -30,22 +32,29 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const handleClick = (event: any) => {
     if (hiddenFileInput.current) hiddenFileInput.current.click();
   };
-  const handleChange = (event: any) => {
-    const fileUploaded = event.target.files[0];
-    setSelectedFileName(event.target.files[0].name);
-    console.log("selectedFile:"+fileUploaded+" selectedFile"+selectedFileName);
-    /*const formData = new FormData();
-    formData.append('file', event.target.files[0], event.target.files[0].name);
-    console.log('file', event.target.files[0]);
-    api
-      .post('/local-files/avatar', formData)
-      .then((response) => console.log(response.data))
-      .catch((reject) => console.log(reject));*/
+  const handleChangeAvatar = (event: any) => {
+    if (event.target.files) {
+      //const fileUploaded = 
+      setUploadedFile(event.target.files[0]);
+      console.log(uploadedFile);
+      setSelectedFileName(event.target.files[0].name);
+      const formData = new FormData();
+      formData.append(
+        'file',
+        event.target.files[0],
+        event.target.files[0].name
+      );
+      api
+        .post('/local-files/avatar', formData)
+        .then((response) => setRefresh(refresh + 1))
+        .catch((reject) => console.log(reject));
+    }
   };
 
   useEffect(() => {
     props.user.username = newName;
     props.setRefresh(props.refresh + 1);
+    console.log(props.user);
   }, [refresh]);
 
   function handleSubmitFormUsername(event: any) {
@@ -113,12 +122,19 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           <h3>Avatar</h3>
           <div className={classes.AvatarBottom}>
             <Avatar user={props.user} />
+            {/*<img src={avatarImg}/>*/}
             <div className={classes.AvatarBottomChange}>
-              <button onClick={handleClick}>{selectedFileName}</button>
+              <button
+                className={classes.buttonChooseFile}
+                onClick={handleClick}
+              >
+                <span className="material-icons">backup</span>
+                <p>{selectedFileName}</p>
+              </button>
               <input
                 type="file"
                 ref={hiddenFileInput}
-                onChange={handleChange}
+                onChange={handleChangeAvatar}
                 style={{ display: 'none' }}
               />
             </div>

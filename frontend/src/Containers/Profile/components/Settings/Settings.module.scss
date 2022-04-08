@@ -145,8 +145,7 @@
         margin-bottom: 5%;
         font-size: 1.5vw;
       }
-      .AvatarBottom
-      {
+      .AvatarBottom {
         margin-left: 10%;
         display: flex;
         flex-direction: row;
@@ -154,31 +153,58 @@
         justify-content: flex-start;
         width: 90%;
 
-        div 
-        {
+        div {
           width: 20%;
-          img{
-            width: 100%;
+          img {
+            width: 4.5vw;
+            height: 4.5vw;
             border-radius: 100%;
           }
-
         }
-        form 
-        {
-          width: 80%;
+        .AvatarBottomChange {
+          margin-left: 10%;
+          width: 50%;
+          height: 100%;
           display: flex;
           flex-direction: column;
-          align-items: center;
+          align-items: left;
+          justify-content: flex-start;
+          .buttonChooseFile {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            border-radius: 0.3vw;
+            background-color: $grey6;
+            color: $white1;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 40%;
+            span 
+            {
+              margin-left: 2%;
+              margin-right: 6%;
+              font-size: 1.2vw;
+            }
+            p{
+              width: 100%;
+              font-size: 1vw;
+              overflow: hidden;
+              white-space: nowrap;
+              display: block;
+              text-overflow: ellipsis;
+              text-align: left;
 
-          .ValidNewAvatar
-          {
-            width: 15%;
+            }
+          }
+          .buttonChooseFile:hover {
+            background-color: $grey2;
           }
         }
       }
     }
   }
-
 
   .UsersBlock {
     width: 40%;

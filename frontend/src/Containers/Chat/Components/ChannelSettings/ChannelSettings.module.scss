@@ -49,6 +49,7 @@
         margin-top: 0.425vw;
         margin-right: 0.5vw;
         width: 2.5vw;
+        height: 2.5vw;
       }
 
       p {
@@ -85,8 +86,7 @@
     width: 92%;
     position: relative;
 
-    h3 
-    {
+    h3 {
       width: 110%;
       margin-left: -10%;
     }
@@ -155,32 +155,27 @@
     flex-direction: column;
     position: relative;
 
-    h3 
-    {
+    h3 {
       width: 110%;
       margin-left: -10%;
     }
-    .NewAdmin
-    {
+    .NewAdmin {
       position: absolute;
       margin-top: 3.4vw;
       justify-content: space-between;
     }
 
-    .ChangePassword
-    {
+    .ChangePassword {
       margin-top: 7.6vw;
       justify-content: space-between;
     }
 
-    .ConfirmPassword
-    {
+    .ConfirmPassword {
       margin-top: -0.5vw;
       justify-content: space-between;
     }
 
-    .ActualPassword
-    {
+    .ActualPassword {
       margin-top: -0.5vw;
       justify-content: space-between;
       margin-bottom: 0vw;

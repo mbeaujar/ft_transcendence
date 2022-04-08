@@ -9,32 +9,21 @@ interface Props {
 const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
   const [avatar, setAvatar] = useState<any>(); // Blob | string
 
-  useEffect(() => {
-    if (!props.user) return;
-    if (props.user.avatarId) {
+  {
+    useEffect(() => {
+      if (!props.user) return;
       api
-        .get(`/local-files/${props.user.avatarId}`, { responseType: 'blob' })
-        .then(response => setAvatar(response.data))
-        .catch(reject => console.error(reject));
-    } else {
-      api
-        .get(`/local-files/default/${props.user.id}`)
-        .then(response => setAvatar(response.data))
-        .catch(reject => console.error(reject));
-    }
-  }, []);
+        .get(`/local-files/${props.user.avatarId}`, {
+          responseType: 'blob',
+        })
+        .then((response) => setAvatar(response.data))
+        .catch((reject) => console.log(reject));
+    }, []);
 
-  return (
-    <div>
-      {props.user ? (
-        props.user?.avatarId ? (
-          <img src={URL.createObjectURL(avatar)} alt="profile" />
-        ) : (
-          <img src={avatar} alt="default profile" />
-        )
-      ) : null}
-    </div>
-  );
+    return (
+      <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>
+    );
+  }
 };
 
 export default Avatar;
