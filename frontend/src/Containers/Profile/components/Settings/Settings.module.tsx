@@ -11,49 +11,34 @@ interface Props {
   setRefresh: any;
 }
 
-
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeUsernameBottom, setActiveUsernameBottom] =
     useState<boolean>(true);
+  const [activeAvatarBottom, setActiveAvatarBottom] = useState<boolean>(true);
   const [newName, setNewName] = useState<string>(props.user?.username);
   const [selectedFileName, setSelectedFileName] =
     useState<string>('Choose a file...');
-    const [uploadedFile, setUploadedFile] = useState<any>();
-    //const [avatarImg, setAvatarImg] = useState<any>(props.user.avatar);
-  //const [selectedFile, setSelectedFile] = useState<any>();
+  const [uploadedFile, setUploadedFile] = useState<any>();
   const [refresh, setRefresh] = useState<number>(0);
-
-  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
-
-  const handleClick = (event: any) => {
-    if (hiddenFileInput.current) hiddenFileInput.current.click();
-  };
-
-
-  const handleChangeAvatar = (event: any) => {
-    if (event.target.files) {
-      setUploadedFile(event.target.files[0]);
-      //setAvatar(URL.createObjectURL(event.target.files[0]));
-      console.log('file=',uploadedFile);
-      setSelectedFileName(event.target.files[0].name);
-      const formData = new FormData();
-      formData.append(
-        'file',
-        event.target.files[0],
-        event.target.files[0].name
-      );
-      api
-        .post('/local-files/avatar', formData)
-        .then((response) => setRefresh(refresh + 1))
-        .catch((reject) => console.log(reject));
-    }
-  };
+  const [refreshImg, setRefreshImg] = useState<number>(0);
+  const [avatarImg, setAvatarImg] = useState<any>();
 
   useEffect(() => {
     props.user.username = newName;
     props.setRefresh(props.refresh + 1);
-  }, [refresh,uploadedFile]);
 
+    if (refreshImg == 0) {
+      api
+        .get(`/local-files/${props.user.avatarId}`, {
+          responseType: 'blob',
+        })
+        .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
+        .catch((reject) => console.log(reject));
+    }
+    setRefreshImg(1);
+  }, [refresh, uploadedFile]);
+
+  //Username
   function handleSubmitFormUsername(event: any) {
     api
       .post('/users/username', { username: newName })
@@ -68,6 +53,41 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     setNewName(value);
   }
 
+  function showUsernameBottom() {
+    if (activeUsernameBottom === true) return classes.ShowUsernameBottom;
+    else return classes.HideUsernameBottom;
+  }
+
+  function showUsernameBottomChange() {
+    if (activeUsernameBottom === false) return classes.ShowUsernameBottomChange;
+    else return classes.HideUsernameBottomChange;
+  }
+
+  //Avatar
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+
+  const handleClick = (event: any) => {
+    if (hiddenFileInput.current) hiddenFileInput.current.click();
+  };
+
+  const handleChangeAvatar = (event: any) => {
+    if (event.target.files) {
+      setUploadedFile(event.target.files[0]);
+      setAvatarImg(URL.createObjectURL(event.target.files[0]));
+      setSelectedFileName(event.target.files[0].name);
+      const formData = new FormData();
+      formData.append(
+        'file',
+        event.target.files[0],
+        event.target.files[0].name
+      );
+      api
+        .post('/local-files/avatar', formData)
+        .then((response) => setRefresh(refresh + 1))
+        .catch((reject) => console.log(reject));
+    }
+  };
+
   function handleSubmitFormAvatar(event: any) {
     /*api
       .post('/users/username', { username: newName })
@@ -77,14 +97,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     event.preventDefault();*/
   }
 
-  function showUsernameBottom() {
-    if (activeUsernameBottom === true) return classes.ShowUsernameBottom;
-    else return classes.HideUsernameBottom;
+  function showAvatarBottom() {
+    if (activeAvatarBottom === true) return classes.ShowAvatarBottom;
+    else return classes.HideAvatarBottom;
   }
 
-  function showUsernameBottomChange() {
-    if (activeUsernameBottom === false) return classes.ShowUsernameBottomChange;
-    else return classes.HideUsernameBottomChange;
+  function showAvatarBottomInChange() {
+    if (activeAvatarBottom === false) return classes.ShowAvatarBottomInChange;
+    else return classes.HideAvatarBottomInChange;
   }
 
   return (
@@ -117,9 +137,16 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         </div>
         <div className={classes.Avatar}>
           <h3>Avatar</h3>
-          <div className={classes.AvatarBottom}>
+          <div className={showAvatarBottom()}>
             <Avatar user={props.user} />
-            {/*<img src={avatarImg}/>*/}
+            <button onClick={() => setActiveAvatarBottom(!activeAvatarBottom)}>
+              <span className="material-icons">edit</span>
+            </button>
+          </div>
+          <div className={showAvatarBottomInChange()}>
+            <div className={classes.AvatarImg}>
+              <img src={avatarImg} />
+            </div>
             <div className={classes.AvatarBottomChange}>
               <button
                 className={classes.buttonChooseFile}
@@ -134,6 +161,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
                 onChange={handleChangeAvatar}
                 style={{ display: 'none' }}
               />
+              <div className={classes.ButtonsValidation}>
+                <button className={classes.ValidNewAvatar} onClick={() => setActiveAvatarBottom(!activeAvatarBottom)}>
+                  <span className="material-icons">done</span>
+                </button>
+                <button className={classes.NoValidNewAvatar} onClick={() => setActiveAvatarBottom(!activeAvatarBottom)}>
+                  <span className="material-icons">close</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
