@@ -4,7 +4,6 @@ import Avatar from '../Avatar/Avatar.module';
 import classes from './Settings.module.scss';
 import styles from './Profile.module.scss';
 import { IUser } from '../../../../interface/user.interface';
-import styled from 'styled-components';
 
 interface Props {
   user: IUser;
@@ -12,9 +11,6 @@ interface Props {
   setRefresh: any;
 }
 
-const Button = styled.button`
-  /* Insert your favorite CSS code to style a button */
-`;
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeUsernameBottom, setActiveUsernameBottom] =
@@ -32,11 +28,13 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const handleClick = (event: any) => {
     if (hiddenFileInput.current) hiddenFileInput.current.click();
   };
+
+
   const handleChangeAvatar = (event: any) => {
     if (event.target.files) {
-      //const fileUploaded = 
       setUploadedFile(event.target.files[0]);
-      console.log(uploadedFile);
+      //setAvatar(URL.createObjectURL(event.target.files[0]));
+      console.log('file=',uploadedFile);
       setSelectedFileName(event.target.files[0].name);
       const formData = new FormData();
       formData.append(
@@ -54,8 +52,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     props.user.username = newName;
     props.setRefresh(props.refresh + 1);
-    console.log(props.user);
-  }, [refresh]);
+  }, [refresh,uploadedFile]);
 
   function handleSubmitFormUsername(event: any) {
     api

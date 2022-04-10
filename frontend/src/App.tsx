@@ -12,13 +12,14 @@ import api from './apis/api';
 
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
+  const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
     api
       .get('/auth/status')
       .then(response => setUser(response.data))
       .catch(reject => console.error(reject));
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="App Layout">
@@ -29,7 +30,7 @@ const App: React.FC = (): JSX.Element => {
             <Route path="/" element={<Game />} />
             <Route path="/Game" element={<Game />} />
             <Route path="/Chat" element={<Chat user={user} />} />
-            <Route path="/Profile" element={<Profile user={user} />} />
+            <Route path="/Profile" element={<Profile user={user} refresh={refresh} setRefresh={setRefresh}/>} />
             <Route path="/OtherUserProfile" element={<OtherUserProfile user={user} />} />
           </Routes>
         ) : (

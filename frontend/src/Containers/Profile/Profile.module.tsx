@@ -12,6 +12,8 @@ import { IFriends } from '../../interface/friends.interface';
 
 interface Props {
   user: IUser;
+  refresh: number;
+  setRefresh: any;
 }
 
 //site imgLevel : https://www.dexerto.es/fifa/recompensas-de-fifa-20-fut-champions-rangos-de-la-weekend-league-1101381/
@@ -76,6 +78,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
+    props.setRefresh(props.refresh + 1);
   }, [refresh]);
 
   const ftIsActiveMenu: any = (menuName: string) => {
@@ -288,26 +291,36 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
                       <p>{friend.username}</p>
                     </div>
                   ))}
-                  <div className={classes.friendsListElement} >
-                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa_ZFA7Nc5_IkQinevA7dBIwquje91csViyQ&usqp=CAU"/></div>
-                      <p>Eren</p>
+                  <div className={classes.friendsListElement}>
+                    <div>
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa_ZFA7Nc5_IkQinevA7dBIwquje91csViyQ&usqp=CAU" />
                     </div>
-                    <div className={classes.friendsListElement} >
-                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"/></div>
-                      <p>Livaï</p>
+                    <p>Eren</p>
+                  </div>
+                  <div className={classes.friendsListElement}>
+                    <div>
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU" />
                     </div>
-                    <div className={classes.friendsListElement} >
-                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhWqTEVwIMyW5Mx90y44YZjlkPVH-dm908g&usqp=CAU"/></div>
-                      <p>Erwin</p>
+                    <p>Livaï</p>
+                  </div>
+                  <div className={classes.friendsListElement}>
+                    <div>
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyhWqTEVwIMyW5Mx90y44YZjlkPVH-dm908g&usqp=CAU" />
                     </div>
-                    <div className={classes.friendsListElement} >
-                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwD1TQPCWvR6RTQ9SNgeRnw0tlF4QoUitDmg&usqp=CAU"/></div>
-                      <p>Rick</p>
+                    <p>Erwin</p>
+                  </div>
+                  <div className={classes.friendsListElement}>
+                    <div>
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwD1TQPCWvR6RTQ9SNgeRnw0tlF4QoUitDmg&usqp=CAU" />
                     </div>
-                    <div className={classes.friendsListElement} >
-                      <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQww5NXS3n-jtIJeol6l462l_Nl-X9BUH6vLw&usqp=CAU"/></div>
-                      <p>Jon</p>
+                    <p>Rick</p>
+                  </div>
+                  <div className={classes.friendsListElement}>
+                    <div>
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQww5NXS3n-jtIJeol6l462l_Nl-X9BUH6vLw&usqp=CAU" />
                     </div>
+                    <p>Jon</p>
+                  </div>
                 </div>
               )}
             </div>
@@ -326,7 +339,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
 
       <div className={clsx(classes.SettingsInfo, ftIsActiveInfo('Settings'))}>
-        <Settings user={props.user} refresh={refresh} setRefresh={setRefresh}/>
+        <Settings user={props.user} refresh={refresh} setRefresh={setRefresh} />
       </div>
     </div>
   );

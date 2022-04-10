@@ -18,7 +18,7 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
         })
         .then((response) => setAvatar(response.data))
         .catch((reject) => console.log(reject));
-    }, []);
+    }, [props.user.avatarId]);
 
     return (
       <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>
