@@ -70,32 +70,39 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     if (hiddenFileInput.current) hiddenFileInput.current.click();
   };
 
-  const handleChangeAvatar = (event: any) => {
+  const changeAvatarImg = (event: any) => {
     if (event.target.files) {
       setUploadedFile(event.target.files[0]);
       setAvatarImg(URL.createObjectURL(event.target.files[0]));
       setSelectedFileName(event.target.files[0].name);
+    }
+  };
+
+  const validNewAvatar = () => {
+    setActiveAvatarBottom(!activeAvatarBottom);
+    setSelectedFileName('Choose a file...');
+    if (uploadedFile) {
       const formData = new FormData();
-      formData.append(
-        'file',
-        event.target.files[0],
-        event.target.files[0].name
-      );
+      formData.append('file', uploadedFile, selectedFileName);
       api
         .post('/local-files/avatar', formData)
         .then((response) => setRefresh(refresh + 1))
         .catch((reject) => console.log(reject));
     }
+    setUploadedFile(null);
   };
 
-  function handleSubmitFormAvatar(event: any) {
-    /*api
-      .post('/users/username', { username: newName })
-      .then((response) => setRefresh(refresh + 1))
-      .catch((reject) => console.error(reject));
-    setActiveUsernameBottom(!activeUsernameBottom);
-    event.preventDefault();*/
-  }
+  const noValidNewAvatar = () => {
+    setActiveAvatarBottom(!activeAvatarBottom);
+    setSelectedFileName('Choose a file...');
+    setUploadedFile(null);
+    api
+      .get(`/local-files/${props.user.avatarId}`, {
+        responseType: 'blob',
+      })
+      .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
+      .catch((reject) => console.log(reject));
+  };
 
   function showAvatarBottom() {
     if (activeAvatarBottom === true) return classes.ShowAvatarBottom;
@@ -158,14 +165,20 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               <input
                 type="file"
                 ref={hiddenFileInput}
-                onChange={handleChangeAvatar}
+                onChange={changeAvatarImg}
                 style={{ display: 'none' }}
               />
               <div className={classes.ButtonsValidation}>
-                <button className={classes.ValidNewAvatar} onClick={() => setActiveAvatarBottom(!activeAvatarBottom)}>
+                <button
+                  className={classes.ValidNewAvatar}
+                  onClick={validNewAvatar}
+                >
                   <span className="material-icons">done</span>
                 </button>
-                <button className={classes.NoValidNewAvatar} onClick={() => setActiveAvatarBottom(!activeAvatarBottom)}>
+                <button
+                  className={classes.NoValidNewAvatar}
+                  onClick={noValidNewAvatar}
+                >
                   <span className="material-icons">close</span>
                 </button>
               </div>
