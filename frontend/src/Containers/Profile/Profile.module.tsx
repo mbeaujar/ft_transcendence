@@ -13,7 +13,7 @@ import { IFriends } from '../../interface/friends.interface';
 interface Props {
   user: IUser;
   refresh: number;
-  setRefresh: any;
+  setRefresh: any; 
 }
 
 //site imgLevel : https://www.dexerto.es/fifa/recompensas-de-fifa-20-fut-champions-rangos-de-la-weekend-league-1101381/

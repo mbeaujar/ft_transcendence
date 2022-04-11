@@ -23,6 +23,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [refresh, setRefresh] = useState<number>(0);
   const [refreshImg, setRefreshImg] = useState<number>(0);
   const [avatarImg, setAvatarImg] = useState<any>();
+  const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState('No');
 
   useEffect(() => {
     props.user.username = newName;
@@ -37,7 +38,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         .catch((reject) => console.log(reject));
     }
     setRefreshImg(1);
-  }, [refresh, uploadedFile]);
+  }, [refresh, uploadedFile, valueEnableDoubleAuth]);
 
   //Username
   function handleSubmitFormUsername(event: any) {
@@ -117,9 +118,11 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Google authenticator
   const itemsGoogleAuth = [
-    { id: 1, value: 'No' },
-    { id: 2, value: 'Yes' },
+    { id: 1, value: 'Yes' },
+    { id: 2, value: 'No' },
   ];
+
+
 
   return (
     <div className={classes.Settings}>
@@ -200,10 +203,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
             <Dropdown
               title="Enable google authenticator"
               items={itemsGoogleAuth}
+              setValueEnableDoubleAuth={setValueEnableDoubleAuth}
+              valueEnableDoubleAuth={valueEnableDoubleAuth}
             />
           </div>
         </div>
-        <div className={classes.UsersBlock}></div>
+        <div className={classes.UsersBlock}>
+        <h3>Block users</h3>
+        </div>
       </div>
     </div>
   );

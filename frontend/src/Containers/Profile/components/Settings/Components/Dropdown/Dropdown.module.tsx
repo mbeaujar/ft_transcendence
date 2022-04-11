@@ -2,9 +2,10 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import classes from './Dropdown.module.scss';
 
+
 function Dropdown(props: any) {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState<string>(props.items[0].value);
+  const [selection, setSelection] = useState<string>(props.items[1].value);
   const close = () => setOpen(!open);
   const ref = useRef<any>();
 
@@ -20,8 +21,15 @@ function Dropdown(props: any) {
   }, []);
 
   function handleOnClick(item: any, multiSelect: boolean) {
-    if (selection != item.value) setSelection(item.value);
-    else setSelection(props.items[0].value);
+    if (selection != item.value) 
+    {
+      setSelection(item.value);
+      props.setValueEnableDoubleAuth(item.value);
+    }
+    else {
+      setSelection(props.items[1].value);
+      props.setValueEnableDoubleAuth(props.items[1].value)
+    }
   }
 
   function isItemInSelection(item: any) {
