@@ -2,7 +2,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
-  JoinTable,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,9 +21,9 @@ export class Player {
   elo: number;
 
   @ManyToOne(() => User, (user) => user.player)
-  @JoinTable()
+  @JoinColumn()
   user: User;
 
-  @OneToMany(() => Match, (match) => match.players)
+  @ManyToOne(() => Match, (match) => match.players)
   match: Match;
 }

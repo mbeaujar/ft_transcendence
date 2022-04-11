@@ -10,7 +10,11 @@ import { Socket, Server } from 'socket.io';
 import { AuthService } from '../../auth/services/auth.service';
 import { UsersService } from '../../users/services/user/users.service';
 import { User } from '../../users/entities/user.entity';
-import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
+import {
+  OnModuleDestroy,
+  OnModuleInit,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { IChannel } from '../model/channel/channel.interface';
 import { ConnectedUserService } from '../services/connected-user/connected-user.service';
 import { ChannelService } from '../services/channel/channel.service';
@@ -44,7 +48,11 @@ import { IDiscussion } from '../interface/discussion.interface';
   },
 })
 export class ChatGateway
-  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+  implements
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    OnModuleInit,
+    OnModuleDestroy
 {
   @WebSocketServer()
   server: Server;
@@ -60,6 +68,11 @@ export class ChatGateway
   ) {}
 
   async onModuleInit() {
+    await this.connectedUserService.deleteAll();
+    await this.joinedChannelService.deleteAll();
+  }
+
+  async onModuleDestroy() {
     await this.connectedUserService.deleteAll();
     await this.joinedChannelService.deleteAll();
   }
@@ -82,7 +95,7 @@ export class ChatGateway
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       return this.disconnect(socket);
     }
   }

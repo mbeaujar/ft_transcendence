@@ -16,13 +16,15 @@ export class QueueService {
     return this.queueRepository.save(queue);
   }
 
-  async findOpponents(id: number, elo: number): Promise<Queue[]> {
+  async findOpponents(id: number, elo: number): Promise<Queue> {
     return this.queueRepository
       .createQueryBuilder('queue')
-      .where('ABS(queue.elo - :elo) <= :limit', { elo, limit: 150 })
+      .orderBy('ABS(queue.elo - :elo)', 'DESC')
+      .setParameters({ elo })
+      .limit(1)
       .leftJoinAndSelect('queue.user', 'user')
       .where('user.id != :id', { id })
-      .getMany();
+      .getOne();
   }
 
   async find(id: number): Promise<Queue> {
@@ -39,6 +41,11 @@ export class QueueService {
   }
 
   async delete(id: number) {
-    return this.queueRepository.delete(id);
+    return this.queueRepository
+      .createQueryBuilder('queue')
+      .leftJoin('queue.user', 'user')
+      .where('user.id = :id', { id })
+      .delete()
+      .execute();
   }
 }

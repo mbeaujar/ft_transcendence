@@ -1,4 +1,8 @@
-import { OnModuleInit, UnauthorizedException } from '@nestjs/common';
+import {
+  OnModuleDestroy,
+  OnModuleInit,
+  UnauthorizedException,
+} from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -19,6 +23,7 @@ import { GameService } from '../services/game/game.service';
 import { MatchService } from '../services/match/match.service';
 import { QueueService } from '../services/queue/queue.service';
 import { IGame } from '../entities/game.interface';
+import { PlayerService } from '../services/player/player.service';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -28,11 +33,16 @@ import { IGame } from '../entities/game.interface';
   },
 })
 export class GameGateway
-  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+  implements
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    OnModuleInit,
+    OnModuleDestroy
 {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
+    private readonly playerService: PlayerService,
     private readonly queueService: QueueService,
     private readonly gameService: GameService,
     private readonly matchService: MatchService,
@@ -46,6 +56,10 @@ export class GameGateway
 
   async onModuleInit() {
     this.game = {};
+  }
+
+  async onModuleDestroy() {
+    await this.connectedUserService.deleteAll();
   }
 
   /** --------------------------- CONNECTION --------------------------------#DirtyDrivers #F1 #F12017------ */
@@ -64,7 +78,7 @@ export class GameGateway
         await this.connectedUserService.create({ socketId: client.id, user });
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       return this.disconnect(client);
     }
   }
@@ -104,13 +118,14 @@ export class GameGateway
     }
   }
 
-  private async startGame(queue1: IQueue, queue2: IQueue) {
+  private async startGame(queue1: IQueue, user2: IUser) {
     // Create Game
-    const match = await this.gameService.create(queue1.user, queue2.user);
-    console.log('match', match);
+    const match = await this.gameService.create(queue1.user, user2);
+    // console.log('match', match);
+
     this.game[match.id] = new Game(
       match,
-      this.matchService,
+      this.playerService,
       this.usersService,
       this.connectedUserService,
       this.server,
@@ -139,19 +154,19 @@ export class GameGateway
         clearInterval(interval);
         return;
       }
-      const players = await this.queueService.findOpponents(
+      // list of opponents found
+      const player = await this.queueService.findOpponents(
         client.data.user.id,
         client.data.user.elo,
       );
       // Start game if we found an opponent
-      if (players.length > 0) {
-        if (queue.user && players[0].user) {
-          console.log('CREATE GAME');
-          await this.startGame(queue, players[0]);
-          // Remove user and opponent of the queue
-          await this.queueService.delete(queue.id);
-          await this.queueService.delete(players[0].id);
+      if (player) {
+        if (queue.user && player.user) {
           clearInterval(interval);
+          const user = player.user;
+          await this.queueService.delete(player.user.id);
+          await this.startGame(queue, user);
+          await this.queueService.delete(queue.user.id);
           return;
         }
       }
@@ -168,37 +183,40 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    console.log('match top', match);
-
-    // if (match) {
-    //   if (
-    //     match.players[0].user.id === client.data.user.id ||
-    //     match.players[1].user.id === client.data.user.id
-    //   ) {
-    //     this.game[match.id].moveTop(client.data.user);
-    //   }
-    // }
+    if (match) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.game[match.id].moveTop(client.data.user);
+      }
+    }
   }
 
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    console.log('match bot', match);
-    // if (match) {
-    //   if (
-    //     match.players[0].user.id === client.data.user.id ||
-    //     match.players[1].user.id === client.data.user.id
-    //   ) {
-    //     this.game[match.id].moveBot(client.data.user);
-    //   }
-    // }
+    if (match) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.game[match.id].moveBot(client.data.user);
+      }
+    }
   }
 
-  @SubscribeMessage('lala')
-  async onadd(client: Socket) {
-    this.server
-      .to(client.id)
-      .emit('infoGame', { ballx: 400, bally: 200, player1: 10, player2: 20 });
+  @SubscribeMessage('info')
+  async oninfo(client: Socket, game: IGame) {
+    const match = await this.matchService.find(game.id);
+    if (match) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.game[match.id].printInfoGame();
+      }
+    }
   }
 
   @SubscribeMessage('deleteQueue')

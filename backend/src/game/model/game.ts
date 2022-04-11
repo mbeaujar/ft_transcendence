@@ -7,11 +7,12 @@ import { MatchService } from '../services/match/match.service';
 import { UsersService } from 'src/users/services/user/users.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user/connected-user.service';
 import { IPlayer } from '../entities/player.interface';
+import { PlayerService } from '../services/player/player.service';
 
 export const WIDTH = 800;
 export const HEIGHT = 400;
 export const PADDLEW = 10;
-export const PADDLEH = 75;
+export const PADDLEH = 80;
 
 export class Game {
   ball: Ball;
@@ -21,7 +22,7 @@ export class Game {
 
   constructor(
     private match: IMatch,
-    private readonly matchService: MatchService,
+    private readonly playerService: PlayerService,
     private readonly usersService: UsersService,
     private readonly connectedUserService: ConnectedUserService,
     private readonly server: Server,
@@ -36,24 +37,32 @@ export class Game {
     this.ball = new Ball();
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
-    this.interval = setInterval(this.loop.bind(this), 100);
+    this.interval = setInterval(this.loop.bind(this), 35);
   }
 
   // interval 10ms
   async loop() {
     // End of the game ?
     if (this.player1.score === 3 || this.player2.score === 3) {
+      clearInterval(this.interval);
       this.match.players[0].score = this.player1.score;
       this.match.players[1].score = this.player2.score;
-      await this.matchService.save(this.match);
-      this.match.players[0].user.elo += 30;
-      this.match.players[0].user.wins++;
-      this.match.players[1].user.elo -= 30;
-      this.match.players[1].user.losses++;
+      await this.playerService.save(this.match.players[0]);
+      await this.playerService.save(this.match.players[1]);
+
+      let winner = this.player1.score === 3 ? 0 : 1;
+      let loser = this.player1.score === 3 ? 1 : 0;
+      this.match.players[winner].user.elo += 100;
+      this.match.players[winner].user.wins++;
+      if (this.match.players[loser].user.elo > 30) {
+        this.match.players[loser].user.elo -= 100;
+      } else {
+        this.match.players[loser].user.elo = 0;
+      }
+      this.match.players[loser].user.losses++;
       await this.usersService.saveUser(this.match.players[0].user);
       await this.usersService.saveUser(this.match.players[1].user);
 
-      clearInterval(this.interval);
       return;
     }
 
@@ -71,20 +80,16 @@ export class Game {
 
   moveTop(user: IUser) {
     if (user.id === this.match.players[0].user.id) {
-      // Player1 move top
       this.player1.top();
     } else if (user.id === this.match.players[1].user.id) {
-      // Player2 move top
       this.player2.top();
     }
   }
 
   moveBot(user: IUser) {
     if (user.id === this.match.players[0].user.id) {
-      // Player1 move bot
       this.player1.bot();
     } else if (user.id === this.match.players[1].user.id) {
-      // Player2 move bot
       this.player2.bot();
     }
   }
@@ -121,11 +126,17 @@ export class Game {
     }
   }
 
+  printInfoGame() {
+    console.log('pos ball', this.ball.x, this.ball.y);
+    console.log('pos p1', this.player1.y);
+    console.log('pos p2', this.player2.y);
+  }
+
   ballHitRightPaddle() {
     if (
-      this.player2.y + PADDLEH / 2 <= this.ball.y &&
-      this.player2.y - PADDLEH / 2 >= this.ball.y &&
-      this.ball.x >= 775
+      this.ball.y + this.ball.r >= this.player2.y - PADDLEH / 2 &&
+      this.ball.y - this.ball.r <= this.player2.y + PADDLEH / 2 &&
+      this.ball.x + this.ball.r + PADDLEW + 5 >= WIDTH
     ) {
       this.ball.dx = -this.ball.dx;
       this.ball.dy =
@@ -134,11 +145,10 @@ export class Game {
   }
 
   ballHitLeftPaddle() {
-    // Ball touche un paddle gauche
     if (
-      this.player1.y + PADDLEH / 2 <= this.ball.y &&
-      this.player1.y - PADDLEH / 2 >= this.ball.y &&
-      this.ball.x <= 25
+      this.ball.y + this.ball.r >= this.player1.y - PADDLEH / 2 &&
+      this.ball.y - this.ball.r <= this.player1.y + PADDLEH / 2 &&
+      this.ball.x - this.ball.r - PADDLEW - 5 <= 0
     ) {
       this.ball.dx = -this.ball.dx;
       this.ball.dy =
@@ -147,17 +157,19 @@ export class Game {
   }
 
   async ballHitWall() {
-    if (this.ball.y >= HEIGHT || this.ball.y <= 0) {
+    if (this.ball.y + this.ball.r >= HEIGHT || this.ball.y - this.ball.r <= 0) {
       this.ball.dy = -this.ball.dy;
     }
 
-    if (this.ball.x >= WIDTH || this.ball.x <= 0) {
-      if (this.ball.x >= WIDTH) {
+    if (this.ball.x + this.ball.r >= WIDTH || this.ball.x - this.ball.r <= 0) {
+      if (this.ball.x + this.ball.r >= WIDTH) {
         this.player1.goal();
       } else {
         this.player2.goal();
       }
       this.ball.reset();
+      this.player1.reset();
+      this.player2.reset();
       // send score to players
       for (const player of this.match.players) {
         const connectedPlayer = await this.connectedUserService.findByUser(

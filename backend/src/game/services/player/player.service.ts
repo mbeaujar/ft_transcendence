@@ -21,6 +21,10 @@ export class PlayerService {
     return this.playerRepository.save(player);
   }
 
+  async save(player: IPlayer): Promise<Player> {
+    return this.playerRepository.save(player);
+  }
+
   async delete(id: number) {
     return this.playerRepository.delete(id);
   }
