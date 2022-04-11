@@ -73,7 +73,6 @@ export class Game {
     await this.ballHitWall();
 
     this.ball.move();
-    // send informations to all players and spectators
     this.sendPlayersInformation(this.match.players);
     this.sendSpectatorInformation(this.match.spectators);
   }
