@@ -26,7 +26,7 @@
       background-color: $blue1;
       border-radius: 1.5vw;
     }
-    .DoubleAuth {
+    .Theme {
       height: 25%;
     }
     .Username {
@@ -110,7 +110,7 @@
             outline: none;
           }
 
-          .ValidNewName {
+          button {
             width: 12%;
             height: 60%;
             margin-left: 2.5%;
@@ -118,17 +118,36 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            border: 0.1vw solid $green3;
+            background-color: $blue1;
 
             span {
               font-size: 1.5vw;
-              color: $green1;
+            }
+          }
+
+          .ValidNewName {
+            border: 0.1vw solid $green3;
+
+            span {
+              color: $green3;
             }
           }
 
           .ValidNewName:hover {
-            background-color: $green3;
-            border: 0.1vw solid $green1;
+            background-color: $green1;
+          }
+
+          .NoValidNewName {
+            border: 0.1vw solid $red1;
+
+            span {
+              color: $red2;
+            }
+          }
+
+          .NoValidNewName:hover {
+            background-color: $red1;
+            border: 0.1vw solid $red2;
           }
         }
       }
@@ -225,7 +244,7 @@
             cursor: pointer;
             width: 100%;
             height: 35%;
-            
+
             span {
               margin-left: 2%;
               margin-right: 6%;
@@ -245,8 +264,7 @@
             background-color: $grey2;
           }
 
-          .ButtonsValidation
-          {
+          .ButtonsValidation {
             display: flex;
             flex-direction: row;
             align-items: left;
@@ -262,7 +280,8 @@
               align-items: center;
               justify-content: center;
               cursor: pointer;
-  
+              background-color: $blue1;
+
               span {
                 font-size: 1.5vw;
               }
@@ -271,29 +290,27 @@
             .ValidNewAvatar {
               border: 0.1vw solid $green3;
               margin-right: 2%;
-  
+
               span {
-                color: $green1;
+                color: $green3;
               }
             }
-  
+
             .ValidNewAvatar:hover {
-              background-color: $green3;
-              border: 0.1vw solid $green1;
+              background-color: $green1;
             }
 
             .NoValidNewAvatar {
-              border: 0.1vw solid $red1;
+              border: 0.1vw solid $red2;
               margin-left: 2%;
-  
+
               span {
                 color: $red2;
               }
             }
-  
+
             .NoValidNewAvatar:hover {
               background-color: $red1;
-              border: 0.1vw solid $red2;
             }
           }
         }
@@ -301,10 +318,42 @@
     }
   }
 
-  .UsersBlock {
+  .SettingsRight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     width: 40%;
     height: 80%;
-    background-color: $blue1;
     border-radius: 1.5vw;
+
+    .DoubleAuth {
+      width: 100%;
+      height: 46%;
+      background-color: $blue1;
+      border-radius: 1.5vw;
+
+      display:flex;
+      flex-direction: column;
+      align-items: left;
+
+      h3 
+      {
+        text-align: left;
+        margin-left: 10%;
+        font-size: 1.5vw;
+        margin-bottom: 3%;
+      }
+
+      .DoubleAuthBottom
+      {
+        width: 100%;
+        height: 60%;
+        margin-top: 0;
+        margin-left: 10%;
+      }
+    }
+    
+
   }
 }

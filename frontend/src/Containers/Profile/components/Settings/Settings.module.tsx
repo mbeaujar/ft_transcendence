@@ -4,6 +4,7 @@ import Avatar from '../Avatar/Avatar.module';
 import classes from './Settings.module.scss';
 import styles from './Profile.module.scss';
 import { IUser } from '../../../../interface/user.interface';
+import Dropdown from './Components/Dropdown/Dropdown.module';
 
 interface Props {
   user: IUser;
@@ -114,10 +115,15 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     else return classes.HideAvatarBottomInChange;
   }
 
+  //Google authenticator
+  const itemsGoogleAuth = [
+    { id: 1, value: 'No' },
+    { id: 2, value: 'Yes' },
+  ];
+
   return (
     <div className={classes.Settings}>
       <div className={classes.SettingsLeft}>
-        <div className={classes.DoubleAuth}></div>
         <div className={classes.Username}>
           <h3>Username</h3>
           <div className={showUsernameBottom()}>
@@ -185,8 +191,20 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
           </div>
         </div>
+        <div className={classes.Theme}></div>
       </div>
-      <div className={classes.UsersBlock}></div>
+      <div className={classes.SettingsRight}>
+        <div className={classes.DoubleAuth}>
+          <h3>Google Authenticator</h3>
+          <div className={classes.DoubleAuthBottom}>
+            <Dropdown
+              title="Enable google authenticator"
+              items={itemsGoogleAuth}
+            />
+          </div>
+        </div>
+        <div className={classes.UsersBlock}></div>
+      </div>
     </div>
   );
 };
