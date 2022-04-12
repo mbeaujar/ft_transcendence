@@ -16,6 +16,7 @@ const Pong = () => {
   const [context, setContext] = useState<any>(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
+  const [listGame, setListGame] = useState<any>();
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -56,13 +57,15 @@ const Pong = () => {
     ws.socket.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
     });
+    ws.socket.on('listAllGame', data => {
+      console.log(data);
+      setListGame(data.matchs);
+    });
 
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
     setContext(context);
   }, []);
-
-  // console.log('context', context);
 
   return (
     <div>
@@ -95,6 +98,12 @@ const Pong = () => {
         print info backend
       </button>
       <button onClick={() => ws.socket.emit('leaveQueue')}>Leave queue</button>
+      <button onClick={() => ws.socket.emit('listGame')}>get all game </button>
+      <button
+        onClick={() => ws.socket.emit('joinGame', { id: listGame[0].id })}
+      >
+        Spectate Game
+      </button>
     </div>
   );
 };

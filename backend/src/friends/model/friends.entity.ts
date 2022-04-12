@@ -1,4 +1,4 @@
-import { User } from '../../users/entities/user.entity';
+import { User } from 'src/users/model/user/user.entity';
 import { Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()

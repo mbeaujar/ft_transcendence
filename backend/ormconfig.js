@@ -25,21 +25,6 @@ switch (process.env.NODE_ENV) {
       entities: ['**/*.entity.js'],
     });
     break;
-  // Object.assign(dbConfig, {
-  //   type: 'sqlite',
-  //   database: 'db.sqlite',
-  //   synchronize: true,
-  //   entities: ['**/*.entity.js'],
-  // });
-  // break;
-  case 'test':
-    Object.assign(dbConfig, {
-      type: 'sqlite',
-      database: 'test.sqlite',
-      synchronize: true,
-      entities: ['**/*.entity.ts'], // .ts only for testing environment
-    });
-    break;
   default:
     throw new Error('unknow environment');
 }

@@ -5,27 +5,28 @@ import {
   Entity,
   JoinColumn,
   JoinTable,
-  ManyToOne,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Channel } from '../channel/channel.entity';
+import { Player } from '../player/player.entity';
 
 @Entity()
-export class Message {
+export class Match {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  text: string;
-
-  @ManyToOne(() => User, (user) => user.messages)
+  @OneToMany(() => Player, (user) => user.match)
   @JoinColumn()
-  user: User;
+  players: Player[];
 
-  @ManyToOne(() => Channel, (channel) => channel.messages)
+  @ManyToMany(() => User, (user) => user.matchSpectate)
   @JoinTable()
-  channel: Channel;
+  spectators: User[];
+
+  @Column()
+  live: number;
 
   @CreateDateColumn()
   created_at: Date;

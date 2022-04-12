@@ -11,19 +11,19 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { AuthService } from 'src/auth/services/auth.service';
-import { ConnectedUserService } from 'src/chat/services/connected-user/connected-user.service';
-import { IUser } from 'src/users/interface/user.interface';
-import { UsersService } from 'src/users/services/user/users.service';
-import { IMatch } from '../entities/match.interface';
-import { IPlayer } from '../entities/player.interface';
-import { IQueue } from '../entities/queue.interface';
-import { Game } from '../model/game';
-import { GameService } from '../services/game/game.service';
-import { MatchService } from '../services/match/match.service';
-import { QueueService } from '../services/queue/queue.service';
-import { IGame } from '../entities/game.interface';
-import { PlayerService } from '../services/player/player.service';
+import { IGame } from '../model/game.interface';
+import { MatchService } from '../services/match.service';
+import { QueueService } from '../services/queue.service';
+import { IUser } from 'src/users/model/user/user.interface';
+import { UsersService } from 'src/users/users.service';
+import { AuthService } from 'src/auth/auth.service';
+import { PlayerService } from '../services/player.service';
+import { GameService } from '../services/game.service';
+import { ConnectedUserService } from 'src/chat/services/connected-user.service';
+import { IPlayer } from '../model/player/player.interface';
+import { IMatch } from '../model/match/match.interface';
+import { IQueue } from '../model/queue/queue.interface';
+import { Game } from './game';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -62,7 +62,7 @@ export class GameGateway
     await this.connectedUserService.deleteAll();
   }
 
-  /** --------------------------- CONNECTION --------------------------------#DirtyDrivers #F1 #F12017------ */
+  /** --------------------------- CONNECTION -------------------------------- */
 
   async handleConnection(client: Socket) {
     try {
@@ -78,7 +78,6 @@ export class GameGateway
         await this.connectedUserService.create({ socketId: client.id, user });
       }
     } catch (e) {
-      // console.log(e);
       return this.disconnect(client);
     }
   }
@@ -97,14 +96,18 @@ export class GameGateway
     client.disconnect();
   }
 
-  /** --------------------------- SAMPLE -------------------------------------- */
+  @SubscribeMessage('listGame')
+  async getAllGame(client: Socket) {
+    const matchs = await this.matchService.findAllMatch();
+    if (matchs) this.server.to(client.id).emit('listAllGame', { matchs });
+  }
 
-  @SubscribeMessage('ping')
-  async ping(client: Socket, args: any) {
-    // console.log('client user', client.data.user);
-    // console.log('args', args);
-    console.log('ping', client.data.user.username, client.id);
-    this.server.to(client.id).emit('pong', 'pong');
+  @SubscribeMessage('joinGame')
+  async spectatorJoinGame(client: Socket, game: IGame) {
+    const match = await this.matchService.find(game.id);
+    if (match) {
+      await this.game[match.id].addSpectatorToGame(client.data.user);
+    }
   }
 
   /** --------------------------- QUEUE -------------------------------------- */
@@ -121,10 +124,10 @@ export class GameGateway
   private async startGame(queue1: IQueue, user2: IUser) {
     // Create Game
     const match = await this.gameService.create(queue1.user, user2);
-    // console.log('match', match);
 
     this.game[match.id] = new Game(
       match,
+      this.matchService,
       this.playerService,
       this.usersService,
       this.connectedUserService,
