@@ -5,4 +5,5 @@ export interface IUser {
   avatarId?: number;
   wins?: number;
   losses?: number;
+  isTwoFactorEnabled:boolean;
 }

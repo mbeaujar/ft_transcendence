@@ -24,6 +24,8 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [refreshImg, setRefreshImg] = useState<number>(0);
   const [avatarImg, setAvatarImg] = useState<any>();
   const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState('No');
+  const [qrcode, setQrcode] = useState<any>(null);
+  const [twofaCode, SetTwofaCode] = useState<string>('');
 
   useEffect(() => {
     props.user.username = newName;
@@ -38,6 +40,16 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         .catch((reject) => console.log(reject));
     }
     setRefreshImg(1);
+
+    if (
+      valueEnableDoubleAuth == 'Yes' &&
+      props.user.isTwoFactorEnabled == false
+    ) {
+      api
+        .post('/auth/2fa/generate', {}, { responseType: 'blob' })
+        .then((response) => setQrcode(response.data))
+        .catch((reject) => console.log(reject));
+    }
   }, [refresh, uploadedFile, valueEnableDoubleAuth]);
 
   //Username
@@ -122,7 +134,35 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     { id: 2, value: 'No' },
   ];
 
+  function handleSubmitForm2faCode(event:any) {
+    /*api
+      .post('/users/username', { username: newName })
+      .then((response) => setRefresh(refresh + 1))
+      .catch((reject) => console.error(reject));
+    setActiveUsernameBottom(!activeUsernameBottom);
+    event.preventDefault();*/
+    console.log('code:', twofaCode);
+  }
 
+  function handleChange2faCode(event: any) {
+    var value = event.target.value;
+    SetTwofaCode(value);
+  }
+
+  function showDoubleAuthBottom(className: string) {
+    if (className == 'DoubleAuthEnable2faInProgress') {
+      if (
+        valueEnableDoubleAuth == 'Yes' &&
+        props.user.isTwoFactorEnabled == false
+      ) {
+        return classes.showDoubleAuthEnable2faInProgress;
+      }
+      return classes.hideDoubleAuthEnable2faInProgress;
+    } else if (className == 'DoubleAuthEnable2faDone') {
+    } else if (className == 'DoubleAuthDisable2faInProgress') {
+    } else if (className == 'DoubleAuthDisable2faDone') {
+    }
+  }
 
   return (
     <div className={classes.Settings}>
@@ -199,7 +239,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       <div className={classes.SettingsRight}>
         <div className={classes.DoubleAuth}>
           <h3>Google Authenticator</h3>
-          <div className={classes.DoubleAuthBottom}>
+          <div className={classes.DoubleAuthMiddle}>
             <Dropdown
               title="Enable google authenticator"
               items={itemsGoogleAuth}
@@ -207,9 +247,26 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               valueEnableDoubleAuth={valueEnableDoubleAuth}
             />
           </div>
+          <div
+            className={showDoubleAuthBottom('DoubleAuthEnable2faInProgress')}
+          >
+            {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
+            <div className={classes.Right}>
+              <input
+                className={classes.NewName}
+                type="text"
+                value={twofaCode}
+                onChange={(event) => handleChange2faCode(event)}
+              />
+              <button onClick={(event) => handleSubmitForm2faCode(event)}>Enable</button>
+            </div>
+          </div>
+          <div className={classes.DoubleAuthEnable2faDone}></div>
+          <div className={classes.DoubleAuthDisable2faInProgress}></div>
+          <div className={classes.DoubleAuthDisable2faDone}></div>
         </div>
         <div className={classes.UsersBlock}>
-        <h3>Block users</h3>
+          <h3>Block users</h3>
         </div>
       </div>
     </div>
