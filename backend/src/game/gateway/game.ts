@@ -11,6 +11,7 @@ import { User } from 'src/users/model/user/user.entity';
 import { IPlayer } from '../model/player/player.interface';
 import { IInfoGame } from '../model/info-game.interface';
 import { IScore } from '../model/score.interface';
+import { State } from 'src/users/model/state.enum';
 
 export const WIDTH = 800;
 export const HEIGHT = 400;
@@ -60,6 +61,8 @@ export class Game {
         this.match.players[loser].user.elo = 0;
       }
       this.match.players[loser].user.losses++;
+      this.match.players[0].user.state = State.online;
+      this.match.players[1].user.state = State.online;
       await this.usersService.saveUser(this.match.players[0].user);
       await this.usersService.saveUser(this.match.players[1].user);
 

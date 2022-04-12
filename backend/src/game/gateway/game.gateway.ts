@@ -24,6 +24,7 @@ import { IPlayer } from '../model/player/player.interface';
 import { IMatch } from '../model/match/match.interface';
 import { IQueue } from '../model/queue/queue.interface';
 import { Game } from './game';
+import { State } from 'src/users/model/state.enum';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -134,6 +135,8 @@ export class GameGateway
       this.server,
     );
 
+    await this.usersService.updateUser(queue1.user, { state: State.inGame });
+    await this.usersService.updateUser(user2, { state: State.inGame });
     this.sendGameStarted(match.players[0], match);
     this.sendGameStarted(match.players[1], match);
   }
