@@ -212,14 +212,7 @@ export class GameGateway
   @SubscribeMessage('info')
   async oninfo(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    if (match) {
-      if (
-        match.players[0].user.id === client.data.user.id ||
-        match.players[1].user.id === client.data.user.id
-      ) {
-        this.game[match.id].printInfoGame();
-      }
-    }
+    console.log('match', match);
   }
 
   @SubscribeMessage('deleteQueue')

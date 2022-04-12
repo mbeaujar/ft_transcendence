@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IUser } from 'src/users/model/user/user.interface';
 import { DeleteResult, Repository } from 'typeorm';
 import { Match } from '../model/match/match.entity';
 import { IMatch } from '../model/match/match.interface';
@@ -38,15 +39,33 @@ export class MatchService {
       .getMany();
   }
 
-  async findByUser(userId: number): Promise<Match> {
+  async findByUser(userId: number): Promise<Match[]> {
     return this.matchRepository
       .createQueryBuilder('match')
       .leftJoinAndSelect('match.players', 'player')
       .leftJoinAndSelect('player.user', 'user')
-      .where('user.id = :id', { id: userId })
-      .getOne();
+      .where('user.id =  :id', { id: userId })
+      .orderBy('match.created_at', 'ASC')
+      .getMany();
   }
 
+  async findMatchUser(userId: number): Promise<Match[]> {
+    const matchs = await this.findByUser(userId);
+    let matchsFilter: Match[] = [];
+
+    for (const match of matchs) {
+      const filter = await this.find(match.id);
+      if (filter) {
+        matchsFilter.push(filter);
+      }
+    }
+    return matchsFilter;
+  }
+
+  // .groupBy('match.id')
+  // .addGroupBy('player.id')
+  // .addGroupBy('user.id')
+  // .having('user.id = :id', { id: userId })
   async delete(id: number): Promise<DeleteResult> {
     return this.matchRepository.delete(id);
   }

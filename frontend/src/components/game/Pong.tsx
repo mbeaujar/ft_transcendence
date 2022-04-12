@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import api from '../../apis/api';
+import Input from '../chat/Input';
 import { WebSocket } from '../chat/Socket';
 import { IGame } from './interface/game.interface';
 
@@ -11,7 +13,7 @@ const PADDLE = '#ffffff';
 const BALL = '#00007f';
 const ws = new WebSocket('http://localhost:3000/game');
 
-const Pong = () => {
+const Pong = (props: any) => {
   const canvasRef = useRef(null);
   const [context, setContext] = useState<any>(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
@@ -104,6 +106,25 @@ const Pong = () => {
       >
         Spectate Game
       </button>
+      <button
+        onClick={() => {
+          api
+            .get(`/users/history/${props.user.id}`)
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        Get history
+      </button>
+      <Input
+        label="sensibilité"
+        onSubmit={(text: string) => {
+          console.log('sensi', text);
+          api
+            .post('/users/sensitivity', { sensitivity: parseInt(text) })
+            .catch(reject => console.error(reject));
+        }}
+      />
     </div>
   );
 };

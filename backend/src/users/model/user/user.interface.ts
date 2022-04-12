@@ -4,7 +4,7 @@ import { State } from '../state.enum';
 export interface IUser {
   id: number;
   username: string;
-  avatarDefault?: string;
+  sensitivity: number;
   avatarId?: number;
   avatar?: LocalFileDto;
   isTwoFactorEnabled?: boolean;

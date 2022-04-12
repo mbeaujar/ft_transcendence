@@ -50,7 +50,7 @@ const TwoAuth: React.FC<Props> = (props: Props) => {
               .catch(reject => console.log(reject));
           }}
         >
-          verify 2fa is enable
+          user is authenticated
         </button>
       </div>
     </div>

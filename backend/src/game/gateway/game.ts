@@ -9,6 +9,8 @@ import { UsersService } from 'src/users/users.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
 import { User } from 'src/users/model/user/user.entity';
 import { IPlayer } from '../model/player/player.interface';
+import { IInfoGame } from '../model/info-game.interface';
+import { IScore } from '../model/score.interface';
 
 export const WIDTH = 800;
 export const HEIGHT = 400;
@@ -31,12 +33,12 @@ export class Game {
   ) {
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
-    this.player1 = new Player();
-    this.player2 = new Player();
+    this.player1 = new Player(this.match.players[0].user.sensitivity);
+    this.player2 = new Player(this.match.players[1].user.sensitivity);
     this.ball = new Ball();
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
-    this.interval = setInterval(this.loop.bind(this), 50);
+    this.interval = setInterval(this.loop.bind(this), 35);
   }
 
   async loop() {
@@ -109,7 +111,7 @@ export class Game {
   async sendPlayersInformation(
     players: IPlayer[],
     emitMessage: string,
-    info: any,
+    info: IInfoGame | IScore,
   ) {
     for (const player of players) {
       const connectedPlayer = await this.connectedUserService.findByUser(
@@ -124,7 +126,7 @@ export class Game {
   async sendSpectatorsInformation(
     spectators: IUser[],
     emitMessage: string,
-    info: any,
+    info: IInfoGame | IScore,
   ) {
     for (const spec of spectators) {
       const connectedSpecator = await this.connectedUserService.findByUser(

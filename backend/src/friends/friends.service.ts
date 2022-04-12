@@ -10,12 +10,6 @@ import { Repository } from 'typeorm';
 import { FriendsRequest } from './model/friends-request.entity';
 import { Friends } from './model/friends.entity';
 
-// ---------------------
-// a want to be friends
-// b want to be friends +
-// a and b are friends
-// ---------------------
-
 @Injectable()
 export class FriendsService {
   constructor(

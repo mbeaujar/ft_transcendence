@@ -21,7 +21,7 @@ export class Ball {
   reset() {
     this.x = 400;
     this.y = 200;
-    this.dx = 10;
+    this.dx = -this.dx;
     this.dy = 0;
   }
 }

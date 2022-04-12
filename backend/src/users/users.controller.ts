@@ -23,12 +23,18 @@ import { join } from 'path';
 import { createReadStream, unlink } from 'fs';
 import { IUser } from './model/user/user.interface';
 import { Response } from 'express';
+import { MatchService } from 'src/game/services/match.service';
+import { Match } from 'src/game/model/match/match.entity';
+import { SensitivityUserDto } from './dtos/sensitivity-user.dto';
 
 @ApiBasicAuth()
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly matchService: MatchService,
+  ) {}
 
   /** --------------------------- AVATAR -------------------------------- */
 
@@ -159,6 +165,12 @@ export class UsersController {
   }
 
   @Auth()
+  @Get('history/:id')
+  async getHistoryMatch(@Param('id') id: string): Promise<Match[]> {
+    return this.matchService.findMatchUser(parseInt(id));
+  }
+
+  @Auth()
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {
@@ -167,5 +179,14 @@ export class UsersController {
       throw new NotFoundException('user not found');
     }
     return user;
+  }
+
+  @Auth()
+  @Post('/sensitivity')
+  async changeSensitivity(
+    @Body() body: SensitivityUserDto,
+    @CurrentUser() user: IUser,
+  ) {
+    await this.usersService.changeSensitivity(body.sensitivity, user.id);
   }
 }

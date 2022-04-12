@@ -1,4 +1,6 @@
 import {
+  AfterInsert,
+  AfterRemove,
   Column,
   Entity,
   JoinColumn,
@@ -36,7 +38,7 @@ export class User {
   username: string;
 
   @Column()
-  avatarDefault: string;
+  sensitivity: number;
 
   @OneToOne(() => LocalFile, { nullable: true })
   @JoinColumn({ name: 'avatarId' })
@@ -60,8 +62,6 @@ export class User {
 
   /** relations */
 
-  // ------------- chat
-
   @OneToMany(() => ConnectedUser, (connection) => connection.user)
   connections: ConnectedUser[];
 
@@ -80,8 +80,6 @@ export class User {
 
   @OneToMany(() => FriendsRequest, (friendsRequest) => friendsRequest.userInfo)
   friendsRequest: FriendsRequest[];
-
-  // -------------  friends
 
   @ManyToMany(() => Friends, (friendContract) => friendContract.friends)
   friendsReverse: Friends[];

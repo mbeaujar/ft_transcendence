@@ -65,8 +65,14 @@ export class UsersService {
     });
   }
 
+  async changeSensitivity(sensitivity: number, id: number) {
+    return this.usersRepository.update(id, {
+      sensitivity,
+    });
+  }
+
   // ATTENTION -> https://typeorm.io/#/repository-api
-  // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de précision sur la doc)
+  // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de precision sur la doc)
 
   async createUser(userDetails: IUser): Promise<User> {
     const friends = this.friendsRepository.create({
