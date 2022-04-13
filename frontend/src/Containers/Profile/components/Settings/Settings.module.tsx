@@ -25,7 +25,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [avatarImg, setAvatarImg] = useState<any>();
   const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState('No');
   const [qrcode, setQrcode] = useState<any>(null);
-  const [twofaCode, SetTwofaCode] = useState<string>('');
+  const [twofaCode, setTwofaCode] = useState<string>('');
 
   useEffect(() => {
     props.user.username = newName;
@@ -134,19 +134,24 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     { id: 2, value: 'No' },
   ];
 
-  function handleSubmitForm2faCode(event:any) {
-    /*api
-      .post('/users/username', { username: newName })
-      .then((response) => setRefresh(refresh + 1))
-      .catch((reject) => console.error(reject));
-    setActiveUsernameBottom(!activeUsernameBottom);
-    event.preventDefault();*/
+  function handleSubmitForm2faCode(event: any) {
+    console.log('1', props.user);
+    api
+      .post('/auth/2fa/enable', { code: twofaCode })
+      .then((response) => setTwofaCode(''))
+      .catch((reject) => setTwofaCode('Wrong code!'));
     console.log('code:', twofaCode);
+    setTwofaCode('');
+    console.log('2', props.user);
   }
 
   function handleChange2faCode(event: any) {
+    if (twofaCode === 'Wrong code!') {
+      console.log(twofaCode);
+      setTwofaCode('');
+    }
     var value = event.target.value;
-    SetTwofaCode(value);
+    setTwofaCode(value);
   }
 
   function showDoubleAuthBottom(className: string) {
@@ -258,7 +263,9 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
                 value={twofaCode}
                 onChange={(event) => handleChange2faCode(event)}
               />
-              <button onClick={(event) => handleSubmitForm2faCode(event)}>Enable</button>
+              <button onClick={(event) => handleSubmitForm2faCode(event)}>
+                Enable
+              </button>
             </div>
           </div>
           <div className={classes.DoubleAuthEnable2faDone}></div>
@@ -266,7 +273,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           <div className={classes.DoubleAuthDisable2faDone}></div>
         </div>
         <div className={classes.UsersBlock}>
-          <h3>Block users</h3>
+          <h3>Blocked users</h3>
         </div>
       </div>
     </div>
