@@ -37,6 +37,12 @@ const TwoAuth: React.FC<Props> = (props: Props) => {
           }}
         />
         <Input
+          label="disable"
+          onSubmit={(text: string) => {
+            api.post('/auth/2fa/disable', { code: text });
+          }}
+        />
+        <Input
           label="connect"
           onSubmit={(text: string) => {
             api.post('/auth/2fa/authenticate', { code: text });

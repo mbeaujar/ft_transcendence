@@ -79,7 +79,7 @@ export class UsersController {
   }
 
   @Auth()
-  @Get('/:id')
+  @Get('/avatar/:id')
   async getDatabaseFileById(
     @Param('id') id: string,
     @Res({ passthrough: true }) response: Response,
