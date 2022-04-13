@@ -9,6 +9,15 @@ export class Queue {
   @Column()
   elo: number;
 
+  @Column()
+  mode: number;
+
+  @Column()
+  invite: number;
+
+  @Column()
+  target: number;
+
   @ManyToOne(() => User, (user) => user.queuePlayer)
   user: User;
 }

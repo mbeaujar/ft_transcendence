@@ -19,6 +19,7 @@ const Pong = (props: any) => {
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
   const [listGame, setListGame] = useState<any>();
+  const [mode, setMode] = useState<number>(0);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -40,20 +41,38 @@ const Pong = (props: any) => {
     context.fill();
   };
 
+  const calculPercentage = (percentage: number, max: number) => {
+    return (percentage * max) / 100;
+  };
+
   useEffect(() => {
     ws.socket.on('startGame', (data: any) => {
       setId(data?.match?.id);
     });
     ws.socket.on('infoGame', (data: IGame) => {
       resetWindow(context);
-      drawCircle(context, data.ballx, data.bally, PADDLEW);
-      drawPaddle(context, 5, data.player1 - PADDLEH / 2, PADDLEW, PADDLEH);
+      drawCircle(
+        context,
+        calculPercentage(data.ballx, WIDTH),
+        calculPercentage(data.bally, HEIGHT),
+        PADDLEW
+      );
+
       drawPaddle(
         context,
-        WIDTH - PADDLEW - 5,
-        data.player2 - PADDLEH / 2,
+        5,
+        calculPercentage(data.player1, HEIGHT) -
+          calculPercentage(data.paddleh1, HEIGHT) / 2, // 160
         PADDLEW,
-        PADDLEH
+        calculPercentage(data.paddleh1, HEIGHT)
+      );
+      drawPaddle(
+        context,
+        WIDTH - PADDLEW - 2,
+        calculPercentage(data.player2, HEIGHT) -
+          calculPercentage(data.paddleh2, HEIGHT) / 2,
+        PADDLEW,
+        calculPercentage(data.paddleh2, HEIGHT)
       );
     });
     ws.socket.on('scoreGame', (data: { score: Array<number> }) => {
@@ -61,7 +80,6 @@ const Pong = (props: any) => {
     });
     ws.socket.on('listAllGame', data => {
       console.log(data);
-      setListGame(data.matchs);
     });
 
     const canvas: any = canvasRef.current;
@@ -74,7 +92,7 @@ const Pong = (props: any) => {
       <div>
         <button
           onClick={() => {
-            ws.socket.emit('joinQueue');
+            ws.socket.emit('joinQueue', { mode });
           }}
         >
           joinQueue
@@ -119,10 +137,17 @@ const Pong = (props: any) => {
       <Input
         label="sensibilité"
         onSubmit={(text: string) => {
-          console.log('sensi', text);
           api
             .post('/users/sensitivity', { sensitivity: parseInt(text) })
             .catch(reject => console.error(reject));
+        }}
+      />
+      <br />
+      <Input
+        label="mode"
+        onSubmit={(text: string) => {
+          console.log('MODE', parseInt(text));
+          setMode(parseInt(text));
         }}
       />
     </div>

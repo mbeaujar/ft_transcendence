@@ -16,6 +16,9 @@ import { AuthService } from 'src/auth/auth.service';
 import { PlayerService } from './services/player.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
 import { LocalFile } from 'src/users/model/localFile.entity';
+import { GameController } from './game.controller';
+import { InviteService } from './services/invite.service';
+import { Invite } from './model/invite/invite.entity';
 
 @Module({
   imports: [
@@ -27,10 +30,11 @@ import { LocalFile } from 'src/users/model/localFile.entity';
       Player,
       Queue,
       LocalFile,
+      Invite,
     ]),
     AuthModule,
   ],
-  controllers: [],
+  controllers: [GameController],
   providers: [
     GameService,
     GameGateway,
@@ -40,6 +44,7 @@ import { LocalFile } from 'src/users/model/localFile.entity';
     PlayerService,
     QueueService,
     ConnectedUserService,
+    InviteService,
   ],
   exports: [],
 })

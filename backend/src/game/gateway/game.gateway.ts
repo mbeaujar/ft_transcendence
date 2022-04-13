@@ -25,6 +25,8 @@ import { IMatch } from '../model/match/match.interface';
 import { IQueue } from '../model/queue/queue.interface';
 import { Game } from './game';
 import { State } from 'src/users/model/state.enum';
+import { Player } from './player';
+import { Queue } from '../model/queue/queue.entity';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -34,16 +36,11 @@ import { State } from 'src/users/model/state.enum';
   },
 })
 export class GameGateway
-  implements
-    OnGatewayConnection,
-    OnGatewayDisconnect,
-    OnModuleInit,
-    OnModuleDestroy
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleDestroy
 {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
-    private readonly playerService: PlayerService,
     private readonly queueService: QueueService,
     private readonly gameService: GameService,
     private readonly matchService: MatchService,
@@ -52,12 +49,6 @@ export class GameGateway
 
   @WebSocketServer()
   server: Server;
-
-  game: any;
-
-  async onModuleInit() {
-    this.game = {};
-  }
 
   async onModuleDestroy() {
     await this.connectedUserService.deleteAll();
@@ -87,7 +78,7 @@ export class GameGateway
     console.log('disconnect', client.id, client.data.user?.username);
     if (client.data.user) {
       await this.connectedUserService.deleteBySocketId(client.id);
-      await this.queueService.delete(client.data.user?.id); // ??
+      await this.queueService.delete(client.data.user?.id);
     }
     client.disconnect();
   }
@@ -107,51 +98,29 @@ export class GameGateway
   async spectatorJoinGame(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
     if (match) {
-      await this.game[match.id].addSpectatorToGame(client.data.user);
+      await this.gameService.joinGame(match.id, client.data.user);
     }
   }
 
   /** --------------------------- QUEUE -------------------------------------- */
 
-  private async sendGameStarted(player: IPlayer, match: IMatch) {
-    const connectedPlayer = await this.connectedUserService.findByUser(
-      player.user,
-    );
-    if (connectedPlayer) {
-      this.server.to(connectedPlayer.socketId).emit('startGame', { match });
-    }
-  }
-
-  private async startGame(queue1: IQueue, user2: IUser) {
-    // Create Game
-    const match = await this.gameService.create(queue1.user, user2);
-
-    this.game[match.id] = new Game(
-      match,
-      this.matchService,
-      this.playerService,
-      this.usersService,
-      this.connectedUserService,
-      this.server,
-    );
-
-    await this.usersService.updateUser(queue1.user, { state: State.inGame });
-    await this.usersService.updateUser(user2, { state: State.inGame });
-    this.sendGameStarted(match.players[0], match);
-    this.sendGameStarted(match.players[1], match);
+  private async startGame(queue1: IQueue, user2: IUser, mode: number) {
+    await this.gameService.startGame(queue1.user, user2, mode, this.server);
   }
 
   @SubscribeMessage('joinQueue')
-  async onJoinQueue(client: Socket) {
+  async onJoinQueue(client: Socket, game: IGame) {
     const queueExist = await this.queueService.find(client.data.user.id);
+    // Todo(maybe): check if the user is already in game
     if (queueExist) return;
 
-    // Add user in the queue
     await this.queueService.create({
       elo: client?.data?.user?.elo,
       user: client?.data?.user,
+      invite: game.invite ? game.invite : 0,
+      target: game.target,
+      mode: game.mode,
     });
-
     // Search other user in the queue
     const interval = setInterval(async () => {
       // check if the user is in the queue (stop if not)
@@ -160,18 +129,24 @@ export class GameGateway
         clearInterval(interval);
         return;
       }
-      // list of opponents found
-      const player = await this.queueService.findOpponents(
-        client.data.user.id,
-        client.data.user.elo,
-      );
+
+      let player: Queue;
+      if (queue.invite === 1) {
+        player = await this.queueService.findQueue(queue.target);
+      } else {
+        player = await this.queueService.findOpponents(
+          client.data.user.id,
+          client.data.user.elo,
+          game.mode,
+        );
+      }
       // Start game if we found an opponent
       if (player) {
         if (queue.user && player.user) {
           clearInterval(interval);
           const user = player.user;
           await this.queueService.delete(player.user.id);
-          await this.startGame(queue, user);
+          await this.startGame(queue, user, game.mode);
           await this.queueService.delete(queue.user.id);
           return;
         }
@@ -194,7 +169,8 @@ export class GameGateway
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
       ) {
-        this.game[match.id].moveTop(client.data.user);
+        this.gameService.moveTop(match.id, client.data.user);
+        // this.game[match.id].moveTop(client.data.user);
       }
     }
   }
@@ -207,7 +183,8 @@ export class GameGateway
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
       ) {
-        this.game[match.id].moveBot(client.data.user);
+        this.gameService.moveBot(match.id, client.data.user);
+        // this.game[match.id].moveBot(client.data.user);
       }
     }
   }
@@ -216,10 +193,5 @@ export class GameGateway
   async oninfo(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
     console.log('match', match);
-  }
-
-  @SubscribeMessage('deleteQueue')
-  async ondeleteMass(client: Socket) {
-    await this.queueService.delete(client.data.user.id);
   }
 }

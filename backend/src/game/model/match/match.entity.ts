@@ -26,6 +26,9 @@ export class Match {
   spectators: User[];
 
   @Column()
+  mode: number;
+
+  @Column()
   live: number;
 
   @CreateDateColumn()

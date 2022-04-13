@@ -62,10 +62,6 @@ export class MatchService {
     return matchsFilter;
   }
 
-  // .groupBy('match.id')
-  // .addGroupBy('player.id')
-  // .addGroupBy('user.id')
-  // .having('user.id = :id', { id: userId })
   async delete(id: number): Promise<DeleteResult> {
     return this.matchRepository.delete(id);
   }

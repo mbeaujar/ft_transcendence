@@ -12,6 +12,7 @@ import { IPlayer } from '../model/player/player.interface';
 import { IInfoGame } from '../model/info-game.interface';
 import { IScore } from '../model/score.interface';
 import { State } from 'src/users/model/state.enum';
+import { Mode } from '../model/mode.enum';
 
 export const WIDTH = 800;
 export const HEIGHT = 400;
@@ -34,8 +35,8 @@ export class Game {
   ) {
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
-    this.player1 = new Player(this.match.players[0].user.sensitivity);
-    this.player2 = new Player(this.match.players[1].user.sensitivity);
+    this.player1 = new Player(this.match.players[0].user.sensitivity, PADDLEH);
+    this.player2 = new Player(this.match.players[1].user.sensitivity, PADDLEH);
     this.ball = new Ball();
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
@@ -45,27 +46,7 @@ export class Game {
   async loop() {
     if (this.player1.score === 3 || this.player2.score === 3) {
       clearInterval(this.interval);
-      this.match.players[0].score = this.player1.score;
-      this.match.players[1].score = this.player2.score;
-      await this.playerService.save(this.match.players[0]);
-      await this.playerService.save(this.match.players[1]);
-
-      await this.matchService.update(this.match, { live: 0 });
-      let winner = this.player1.score === 3 ? 0 : 1;
-      let loser = this.player1.score === 3 ? 1 : 0;
-      this.match.players[winner].user.elo += 30;
-      this.match.players[winner].user.wins++;
-      if (this.match.players[loser].user.elo > 30) {
-        this.match.players[loser].user.elo -= 30;
-      } else {
-        this.match.players[loser].user.elo = 0;
-      }
-      this.match.players[loser].user.losses++;
-      this.match.players[0].user.state = State.online;
-      this.match.players[1].user.state = State.online;
-      await this.usersService.saveUser(this.match.players[0].user);
-      await this.usersService.saveUser(this.match.players[1].user);
-
+      this.endGame();
       return;
     }
 
@@ -76,18 +57,47 @@ export class Game {
     await this.ballHitWall();
 
     this.ball.move();
-    this.sendPlayersInformation(this.match.players, 'infoGame', {
-      ballx: this.ball.x,
-      bally: this.ball.y,
-      player1: this.player1.y,
-      player2: this.player2.y,
-    });
-    this.sendSpectatorsInformation(this.match.spectators, 'infoGame', {
-      ballx: this.ball.x,
-      bally: this.ball.y,
-      player1: this.player1.y,
-      player2: this.player2.y,
-    });
+
+    const infoGame: IInfoGame = {
+      ballx: this.calculPercentage(this.ball.x, WIDTH),
+      bally: this.calculPercentage(this.ball.y, HEIGHT),
+      player1: this.calculPercentage(this.player1.y, HEIGHT),
+      player2: this.calculPercentage(this.player2.y, HEIGHT),
+      paddleh1: this.calculPercentage(this.player1.paddleh, HEIGHT),
+      paddleh2: this.calculPercentage(this.player2.paddleh, HEIGHT),
+    };
+    console.log('infogame', infoGame);
+    this.sendPlayersInformation(this.match.players, 'infoGame', infoGame);
+    this.sendSpectatorsInformation(this.match.spectators, 'infoGame', infoGame);
+  }
+
+  calculPercentage(pos: number, sub: number) {
+    return (pos * 100) / sub;
+  }
+
+  async endGame() {
+    this.match.players[0].score = this.player1.score;
+    this.match.players[1].score = this.player2.score;
+    await this.playerService.save(this.match.players[0]);
+    await this.playerService.save(this.match.players[1]);
+
+    await this.matchService.update(this.match, { live: 0 });
+    if (this.match.mode === Mode.default) {
+      let winner = this.player1.score === 3 ? 0 : 1;
+      let loser = this.player1.score === 3 ? 1 : 0;
+      this.match.players[winner].user.elo += 30;
+      this.match.players[winner].user.wins++;
+      if (this.match.players[loser].user.elo > 30) {
+        this.match.players[loser].user.elo -= 30;
+      } else {
+        this.match.players[loser].user.elo = 0;
+      }
+      this.match.players[loser].user.losses++;
+    }
+    this.match.players[0].user.state = State.online;
+    this.match.players[1].user.state = State.online;
+    await this.usersService.saveUser(this.match.players[0].user);
+    await this.usersService.saveUser(this.match.players[1].user);
   }
 
   moveTop(user: IUser) {
@@ -173,8 +183,10 @@ export class Game {
     if (this.ball.x + this.ball.r >= WIDTH || this.ball.x - this.ball.r <= 0) {
       if (this.ball.x + this.ball.r >= WIDTH) {
         this.player1.goal();
+        if (this.match.mode === Mode.paddle) this.player1.paddleh /= 2;
       } else {
         this.player2.goal();
+        if (this.match.mode === Mode.paddle) this.player2.paddleh /= 2;
       }
       this.ball.reset();
       this.player1.reset();

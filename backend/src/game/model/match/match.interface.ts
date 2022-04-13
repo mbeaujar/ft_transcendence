@@ -5,5 +5,6 @@ export interface IMatch {
   id?: number;
   players: Player[];
   spectators: User[];
+  mode: number;
   live: number;
 }
