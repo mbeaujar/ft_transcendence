@@ -13,7 +13,7 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
     useEffect(() => {
       if (!props.user) return;
       api
-        .get(`/local-files/${props.user.avatarId}`, {
+        .get(`/users/avatar/${props.user.avatarId}`, {
           responseType: 'blob',
         })
         .then((response) => setAvatar(response.data))

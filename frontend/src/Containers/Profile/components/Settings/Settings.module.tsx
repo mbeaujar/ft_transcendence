@@ -33,7 +33,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
 
     if (refreshImg == 0) {
       api
-        .get(`/local-files/${props.user.avatarId}`, {
+        .get(`/users/avatar/${props.user.avatarId}`, {
           responseType: 'blob',
         })
         .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
@@ -42,8 +42,9 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     setRefreshImg(1);
 
     if (
-      valueEnableDoubleAuth == 'Yes' &&
-      props.user.isTwoFactorEnabled == false
+      (valueEnableDoubleAuth == 'Yes' &&
+        props.user.isTwoFactorEnabled == false) ||
+      (valueEnableDoubleAuth == 'No' && props.user.isTwoFactorEnabled == true)
     ) {
       api
         .post('/auth/2fa/generate', {}, { responseType: 'blob' })
@@ -99,7 +100,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       const formData = new FormData();
       formData.append('file', uploadedFile, selectedFileName);
       api
-        .post('/local-files/avatar', formData)
+        .post('/users/avatar/', formData)
         .then((response) => setRefresh(refresh + 1))
         .catch((reject) => console.log(reject));
     }
@@ -111,7 +112,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     setSelectedFileName('Choose a file...');
     setUploadedFile(null);
     api
-      .get(`/local-files/${props.user.avatarId}`, {
+      .get(`/users/avatar/${props.user.avatarId}`, {
         responseType: 'blob',
       })
       .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
@@ -134,18 +135,39 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
     { id: 2, value: 'No' },
   ];
 
-  function handleSubmitForm2faCode(event: any) {
-    console.log('1', props.user);
+  function dropdownIndex() {
+    if (props.user.isTwoFactorEnabled == false) return 1;
+    return 0;
+  }
+
+  function handleSubmitFormEnable2faInProgressCode(event: any) {
     api
       .post('/auth/2fa/enable', { code: twofaCode })
       .then((response) => setTwofaCode(''))
       .catch((reject) => setTwofaCode('Wrong code!'));
-    console.log('code:', twofaCode);
+    window.location.reload();
     setTwofaCode('');
-    console.log('2', props.user);
   }
 
-  function handleChange2faCode(event: any) {
+  function handleChangeEnable2faInProgressCode(event: any) {
+    if (twofaCode === 'Wrong code!') {
+      console.log(twofaCode);
+      setTwofaCode('');
+    }
+    var value = event.target.value;
+    setTwofaCode(value);
+  }
+
+  function handleSubmitFormDisable2faInProgressCode(event: any) {
+    api
+      .post('/auth/2fa/disable', { code: twofaCode })
+      .then((response) => setTwofaCode(''))
+      .catch((reject) => setTwofaCode('Wrong code!'));
+    window.location.reload();
+    setTwofaCode('');
+  }
+
+  function handleChangeDisable2faInProgressCode(event: any) {
     if (twofaCode === 'Wrong code!') {
       console.log(twofaCode);
       setTwofaCode('');
@@ -165,6 +187,13 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       return classes.hideDoubleAuthEnable2faInProgress;
     } else if (className == 'DoubleAuthEnable2faDone') {
     } else if (className == 'DoubleAuthDisable2faInProgress') {
+      if (
+        valueEnableDoubleAuth == 'No' &&
+        props.user.isTwoFactorEnabled == true
+      ) {
+        return classes.showDoubleAuthDisable2faInProgress;
+      }
+      return classes.hideDoubleAuthDisable2faInProgress;
     } else if (className == 'DoubleAuthDisable2faDone') {
     }
   }
@@ -250,6 +279,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               items={itemsGoogleAuth}
               setValueEnableDoubleAuth={setValueEnableDoubleAuth}
               valueEnableDoubleAuth={valueEnableDoubleAuth}
+              dropdownIndex={dropdownIndex()}
             />
           </div>
           <div
@@ -261,15 +291,40 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
                 className={classes.NewName}
                 type="text"
                 value={twofaCode}
-                onChange={(event) => handleChange2faCode(event)}
+                onChange={(event) => handleChangeEnable2faInProgressCode(event)}
               />
-              <button onClick={(event) => handleSubmitForm2faCode(event)}>
+              <button
+                onClick={(event) =>
+                  handleSubmitFormEnable2faInProgressCode(event)
+                }
+              >
                 Enable
               </button>
             </div>
           </div>
           <div className={classes.DoubleAuthEnable2faDone}></div>
-          <div className={classes.DoubleAuthDisable2faInProgress}></div>
+          <div
+            className={showDoubleAuthBottom('DoubleAuthDisable2faInProgress')}
+          >
+            {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
+            <div className={classes.Right}>
+              <input
+                className={classes.NewName}
+                type="text"
+                value={twofaCode}
+                onChange={(event) =>
+                  handleChangeDisable2faInProgressCode(event)
+                }
+              />
+              <button
+                onClick={(event) =>
+                  handleSubmitFormDisable2faInProgressCode(event)
+                }
+              >
+                Disable
+              </button>
+            </div>
+          </div>
           <div className={classes.DoubleAuthDisable2faDone}></div>
         </div>
         <div className={classes.UsersBlock}>

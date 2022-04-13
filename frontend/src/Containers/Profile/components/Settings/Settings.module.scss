@@ -355,12 +355,12 @@
         //z-index: 2;
       }
 
-      .hideDoubleAuthEnable2faInProgress
+      .hideDoubleAuthEnable2faInProgress,.hideDoubleAuthDisable2faInProgress
       {
         display: none;
       }
 
-      .showDoubleAuthEnable2faInProgress
+      .showDoubleAuthEnable2faInProgress,.showDoubleAuthDisable2faInProgress
       {
         position: absolute;
         margin-top: 31%;

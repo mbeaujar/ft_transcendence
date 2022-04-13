@@ -5,7 +5,7 @@ import classes from './Dropdown.module.scss';
 
 function Dropdown(props: any) {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState<string>(props.items[1].value);
+  const [selection, setSelection] = useState<string>(props.items[props.dropdownIndex].value);
   const close = () => setOpen(!open);
   const ref = useRef<any>();
 
