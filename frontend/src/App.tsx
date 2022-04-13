@@ -11,6 +11,8 @@ import { IUser } from './interface/user.interface';
 import api from './apis/api';
 import googleAuthImg from './assets/Google_Authenticator_for_Android_icon.png'
 
+
+
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
   const [refresh, setRefresh] = useState<number>(0);
@@ -18,6 +20,7 @@ const App: React.FC = (): JSX.Element => {
   const [twofaCode, setTwofaCode] = useState<string>('');
 
   useEffect(() => {
+
     api
       .get('/auth/status')
       .then((response) => setUser(response.data))
@@ -36,7 +39,7 @@ const App: React.FC = (): JSX.Element => {
     api
       .post('/auth/2fa/authenticate', { code: twofaCode })
       .then((response) => window.location.reload())
-      .catch((reject) => setTwofaCode('Wrong code!'));
+      .catch((reject) => setTwofaCode(''));
     console.log('code:', twofaCode);
     setTwofaCode('');
   }

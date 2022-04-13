@@ -12,6 +12,12 @@ interface Props {
   setRefresh: any;
 }
 
+let qrcode2: any;
+api
+  .post('/auth/2fa/generate', {}, { responseType: 'blob' })
+  .then((response) => (qrcode2 = response.data))
+  .catch((reject) => console.log(reject));
+
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeUsernameBottom, setActiveUsernameBottom] =
     useState<boolean>(true);
@@ -23,11 +29,20 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [refresh, setRefresh] = useState<number>(0);
   const [refreshImg, setRefreshImg] = useState<number>(0);
   const [avatarImg, setAvatarImg] = useState<any>();
-  const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState('No');
+  const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState(
+    props.user.isTwoFactorEnabled ? 'Yes' : 'no'
+  );
   const [qrcode, setQrcode] = useState<any>(null);
   const [twofaCode, setTwofaCode] = useState<string>('');
 
   useEffect(() => {
+    /*if (refresh < 1) {
+      api
+        .post('/auth/2fa/generate', {}, { responseType: 'blob' })
+        .then((response) => setQrcode(response.data))
+        .catch((reject) => console.log(reject));
+    }*/ 
+
     props.user.username = newName;
     props.setRefresh(props.refresh + 1);
 
@@ -40,17 +55,6 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         .catch((reject) => console.log(reject));
     }
     setRefreshImg(1);
-
-    if (
-      (valueEnableDoubleAuth == 'Yes' &&
-        props.user.isTwoFactorEnabled == false) ||
-      (valueEnableDoubleAuth == 'No' && props.user.isTwoFactorEnabled == true)
-    ) {
-      api
-        .post('/auth/2fa/generate', {}, { responseType: 'blob' })
-        .then((response) => setQrcode(response.data))
-        .catch((reject) => console.log(reject));
-    }
   }, [refresh, uploadedFile, valueEnableDoubleAuth]);
 
   //Username
@@ -143,9 +147,15 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   function handleSubmitFormEnable2faInProgressCode(event: any) {
     api
       .post('/auth/2fa/enable', { code: twofaCode })
-      .then((response) => setTwofaCode(''))
-      .catch((reject) => setTwofaCode('Wrong code!'));
-    window.location.reload();
+      .then((response) => {
+        setTwofaCode('');
+        console.log('success');
+      })
+      .catch((reject) => {
+        setTwofaCode('');
+        console.log('failure');
+      });
+    //window.location.reload();
     setTwofaCode('');
   }
 
@@ -161,9 +171,15 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   function handleSubmitFormDisable2faInProgressCode(event: any) {
     api
       .post('/auth/2fa/disable', { code: twofaCode })
-      .then((response) => setTwofaCode(''))
-      .catch((reject) => setTwofaCode('Wrong code!'));
-    window.location.reload();
+      .then((response) => {
+        setTwofaCode('');
+        console.log('success');
+      })
+      .catch((reject) => {
+        setTwofaCode('');
+        console.log('failure');
+      });
+    //window.location.reload();
     setTwofaCode('');
   }
 
@@ -285,7 +301,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           <div
             className={showDoubleAuthBottom('DoubleAuthEnable2faInProgress')}
           >
-            {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
+            {qrcode2 ? <img src={URL.createObjectURL(qrcode2)} /> : null}
             <div className={classes.Right}>
               <input
                 className={classes.NewName}
@@ -306,7 +322,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           <div
             className={showDoubleAuthBottom('DoubleAuthDisable2faInProgress')}
           >
-            {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
+            {qrcode2 ? <img src={URL.createObjectURL(qrcode2)} /> : null}
             <div className={classes.Right}>
               <input
                 className={classes.NewName}
