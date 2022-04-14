@@ -8,6 +8,8 @@ import { IFriends } from '../../../../interface/friends.interface';
 import Avatar from '../../components/Avatar/Avatar.module';
 import Pongopoints from './Components/Pongopoints/Pongopoints';
 import Ratio from './Components/Ratio/Ratio';
+import Rank from './Components/Rank/Rank';
+import Level from './Components/Level/Level';
 
 interface Props {
   user: IUser;
@@ -186,6 +188,8 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
   </div>*/}
   <Pongopoints/>
   <Ratio/>
+  <Rank/>
+  
         {/*<div className={classes.Ratio}>
           <div className={classes.Top}>
             <div className={classes.container}>
@@ -198,7 +202,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
               <span className={classes.Losses}>3 losses</span>
             </p>
           </div>
-        </div>*/}
+        </div>*
         <div className={classes.Rank}>
           <div className={classes.Top}>
             <div id={styles.Podium2}></div>
@@ -219,8 +223,8 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
           </div>
           <div className={classes.Bottom}>
             <p>ELITE 1</p>
-          </div>
-        </div>
+</div>
+</div>*/}
       </div>
       <div className={classes.Bottom}>
         <div className={classes.HistoryBlock}>
