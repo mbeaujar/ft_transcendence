@@ -1,0 +1,256 @@
+@import '../../../../utils.scss';
+
+.Stats {
+  width: 65vw;
+  height: 73vh;
+  height: 38.8vw;
+  background-color: $grey6;
+  border-radius: 1.5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .StatsGeneral {
+    margin-top: 2.25%;
+    margin-bottom: 2.25%;
+    width: 90%;
+    height: 42%;
+    background-color: $blue1;
+    border-radius: 1.5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    div {
+      width: 22%;
+      height: 75%;
+      border-radius: 1.5vw;
+      background-color: $grey6;
+      margin-left: 2.39%;
+
+      display: flex;
+      flex-direction: column;
+
+      .Top {
+        width: 100%;
+        height: 65%;
+        margin-left: 0;
+        z-index: 1;
+      }
+
+      .Bottom {
+        width: 100%;
+        height: 35%;
+        margin-left: 0;
+        p {
+          font-family: 'Roboto', sans-serif;
+          font-size: 1.2vw;
+        }
+      }
+    }
+
+    .Pongopoints {
+      .Top {
+        #valuePongopoints {
+          font-size: 6vw;
+          margin-top: 10%;
+        }
+      }
+    }
+    .Ratio {
+      .Top {
+        display: flex;
+        align-items: center;
+        .container {
+          width: 50%;
+          height: 80%;
+          position: relative;
+          transform: translate(-4%, 25%);
+          border-radius: 8px;
+          display: grid;
+          place-items: center;
+          #circular_progress {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background-color: $black;
+          }
+          #circular_progress:before {
+            content: '';
+            position: absolute;
+            height: 70%;
+            width: 70%;
+            background-color: $blue1;
+            border-radius: 50%;
+          }
+        }
+      }
+
+      .Bottom {
+        .Wins {
+          color: $green3;
+        }
+        .Losses {
+          color: $red2;
+        }
+      }
+    }
+    .Rank {
+      .Top {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+
+        div {
+          border-radius: 0;
+          background-color: $grey2;
+          border: 0.1vw solid $white1;
+          width: 13%;
+        }
+
+        #Podium2 {
+          height: 0%;
+          margin-right: 0;
+        }
+        #Podium1 {
+          height: 0%;
+          margin-left: 2%;
+          margin-right: 2%;
+        }
+        #Podium3 {
+          height: 0%;
+          margin-left: 0;
+        }
+      }
+
+      .Bottom {
+        display: flex;
+        flex-direction: row;
+        p {
+        }
+        span {
+          font-size: 0.7vw;
+          margin-top: -1vw;
+        }
+      }
+    }
+    .Level {
+      .Top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        #imgLevelElement {
+          margin-top: 15%;
+          width: 0%;
+        }
+      }
+    }
+  }
+
+  .Bottom {
+    width: 90%;
+    height: 47%;
+    background-color: $blue1;
+    border-radius: 1.5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+
+    div {
+      margin-top: -20px;
+      margin-top: -2.25%;
+      width: 48%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 1.5vw;
+      h3 {
+        background-color: $grey6;
+        padding: 3px 10px;
+        padding: 0.3vw 1vw;
+        border-radius: 5px;
+        border-radius: 0.4vw;
+        color: $white1;
+        font-size: 1.3vw;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 92%;
+        max-height: 75%;
+        background-color: $grey6;
+        margin-top: -4%;
+      }
+    }
+    .FriendsBlock {
+      padding-top: 0;
+      border-radius: 0;
+      
+      ::-webkit-scrollbar {
+        width: 0.1vw;
+      }
+      
+
+      .Friends {
+
+        overflow-y: auto;
+        padding-right: 10px;
+        .list {
+          margin-top: 0;
+          padding-top: 0;
+          .friendsListElement {
+            width: 90%;
+            margin-top: 0;
+            margin-left: 0;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: 1px solid $grey2;
+            height: 80px;
+            height: 4vw;
+
+            div {
+              margin-top: -1%;
+              width: 3.8vw;
+              height: 2.2vw;
+              img {
+                width: 2.2vw;
+                min-height: 2.2vw;
+                max-height: 2.2vw;
+                border-radius: 100%;
+                border: 0.2vw solid $white1;
+                border: 0.1vw solid $grey2;
+                margin-right: 0;
+              }
+            }
+
+            p {
+              font-size: 1.2vw;
+              color: $white1;
+              margin-left: 0;
+            }
+          }
+
+          .friendsListElement:last-child
+          {
+            border-bottom: 0px solid $grey2;
+          }
+        }
+      }
+    }
+  }
+}
