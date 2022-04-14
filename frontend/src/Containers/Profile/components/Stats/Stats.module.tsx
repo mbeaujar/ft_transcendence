@@ -6,6 +6,8 @@ import styles from './Stats.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IFriends } from '../../../../interface/friends.interface';
 import Avatar from '../../components/Avatar/Avatar.module';
+import Pongopoints from './Components/Pongopoints/Pongopoints';
+import Ratio from './Components/Ratio/Ratio';
 
 interface Props {
   user: IUser;
@@ -174,15 +176,17 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className={classes.Stats}>
       <div className={classes.StatsGeneral}>
-        <div className={classes.Pongopoints}>
+        {/*<div className={classes.Pongopoints}>
           <div className={classes.Top}>
             <h4 id={styles.valuePongopoints} ></h4>
           </div>
           <div className={classes.Bottom}>
             <p>PONGOPOINTS</p>
           </div>
-        </div>
-        <div className={classes.Ratio}>
+  </div>*/}
+  <Pongopoints/>
+  <Ratio/>
+        {/*<div className={classes.Ratio}>
           <div className={classes.Top}>
             <div className={classes.container}>
               <div id={styles.circular_progress}></div>
@@ -194,7 +198,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
               <span className={classes.Losses}>3 losses</span>
             </p>
           </div>
-        </div>
+        </div>*/}
         <div className={classes.Rank}>
           <div className={classes.Top}>
             <div id={styles.Podium2}></div>

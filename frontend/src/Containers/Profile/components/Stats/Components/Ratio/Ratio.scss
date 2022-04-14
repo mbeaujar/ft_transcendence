@@ -1,0 +1,67 @@
+@import '../../../../../../utils.scss';
+
+.Ratio {
+  width: 22%;
+  height: 75%;
+  border-radius: 1.5vw;
+  background-color: $grey6;
+  margin-left: 2.39%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .Top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 65%;
+    margin-left: 0;
+    z-index: 1;
+    .container {
+      margin-bottom: 15%;
+      width: 50%;
+      height: 80%;
+      width: 6vw;
+      height: 6vw;
+      position: relative;
+      transform: translate(-4%, 25%);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      #circular_progress {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background-color: $black;
+      }
+      #circular_progress:before {
+        content: '';
+        position: absolute;
+        height: 70%;
+        width: 70%;
+        background-color: $blue1;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .Bottom {
+    width: 100%;
+    height: 35%;
+    margin-left: 0;
+    p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.2vw;
+    }
+    .Wins {
+      color: $green3;
+    }
+    .Losses {
+      color: $red2;
+    }
+  }
+}

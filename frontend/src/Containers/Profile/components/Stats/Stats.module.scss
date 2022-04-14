@@ -21,7 +21,7 @@
     flex-direction: row;
     align-items: center;
 
-    div {
+    /*div{
       width: 22%;
       height: 75%;
       border-radius: 1.5vw;
@@ -30,6 +30,7 @@
 
       display: flex;
       flex-direction: column;
+      align-items: center;
 
       .Top {
         width: 100%;
@@ -47,16 +48,16 @@
           font-size: 1.2vw;
         }
       }
-    }
+    }*/
 
-    .Pongopoints {
+    /*.Pongopoints {
       .Top {
         #valuePongopoints {
           font-size: 6vw;
           margin-top: 10%;
         }
       }
-    }
+    }*/
     .Ratio {
       .Top {
         display: flex;
@@ -195,14 +196,12 @@
     .FriendsBlock {
       padding-top: 0;
       border-radius: 0;
-      
+
       ::-webkit-scrollbar {
         width: 0.1vw;
       }
-      
 
       .Friends {
-
         overflow-y: auto;
         padding-right: 10px;
         .list {
@@ -245,8 +244,7 @@
             }
           }
 
-          .friendsListElement:last-child
-          {
+          .friendsListElement:last-child {
             border-bottom: 0px solid $grey2;
           }
         }
