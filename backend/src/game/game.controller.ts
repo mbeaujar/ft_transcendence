@@ -1,5 +1,11 @@
-import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
-import { targetModulesByContainer } from '@nestjs/core/router/router-module';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+} from '@nestjs/common';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { IUser } from 'src/users/model/user/user.interface';
@@ -26,7 +32,21 @@ export class GameController {
     if (!target) {
       throw new NotFoundException('user not found');
     }
+    const invite = await this.inviteService.findInvite(user.id, body.target);
+    if (invite) {
+      throw new BadRequestException('invite already exist');
+    }
     return this.inviteService.create({ owner: user.id, target: target.id });
+  }
+
+  @Auth()
+  @Get('/invite')
+  async getInviteToPlay(@CurrentUser() user: IUser) {
+    const invites = await this.inviteService.findByUser(user.id);
+    if (!invites) {
+      throw new NotFoundException('invites to user not found');
+    }
+    return invites;
   }
 
   @Auth()

@@ -92,7 +92,7 @@ const Pong = (props: any) => {
       <div>
         <button
           onClick={() => {
-            ws.socket.emit('joinQueue', { mode });
+            ws.socket.emit('joinQueue', { mode, invite: 0, target: 0 });
           }}
         >
           joinQueue

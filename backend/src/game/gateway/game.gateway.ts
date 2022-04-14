@@ -129,7 +129,6 @@ export class GameGateway
         clearInterval(interval);
         return;
       }
-
       let player: Queue;
       if (queue.invite === 1) {
         player = await this.queueService.findQueue(queue.target);

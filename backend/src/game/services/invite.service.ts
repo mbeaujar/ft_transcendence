@@ -16,6 +16,18 @@ export class InviteService {
     return this.inviteRepository.save(invite);
   }
 
+  async findInvite(owner: number, target: number): Promise<Invite> {
+    return this.inviteRepository
+      .createQueryBuilder('invite')
+      .where('invite.owner = :owner', { owner })
+      .andWhere('invite.target = :target', { target })
+      .getOne();
+  }
+
+  async findByUser(id: number): Promise<Invite[]> {
+    return this.inviteRepository.find({ target: id });
+  }
+
   async find(id: number): Promise<Invite> {
     return this.inviteRepository.findOne(id);
   }

@@ -11,6 +11,7 @@ import Pong from './game/Pong';
 
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
+  const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
     api
@@ -19,14 +20,22 @@ const App: React.FC = (): JSX.Element => {
       .catch(reject => console.log('user not found', reject));
   }, []);
 
+  console.log('aaaa', window.location.href);
+
   return (
     <div>
       <BrowserRouter>
         <Header />
         <Routes>
-          ^
           <Route path="/" element={<Auth user={user} />} />
-          {/* {user ? <Route path="/chat" element={<Chat user={user} />} /> : null} */}
+          {user ? (
+            <Route
+              path="/chat"
+              element={
+                <Chat user={user} refresh={refresh} setRefresh={setRefresh} />
+              }
+            />
+          ) : null}
           {/* {user ? <Route path="/file" element={<File user={user} />} /> : null} */}
           {/* {user ? <Route path="/game" element={<Game />} /> : null} */}
           {user ? <Route path="/game" element={<Pong user={user} />} /> : null}

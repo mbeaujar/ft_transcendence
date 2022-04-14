@@ -9,11 +9,14 @@ import { Scope } from '../interface/scope.enum';
 import { IJoinChannel } from '../interface/join-channel.interface';
 import './Chat.css';
 import api from '../../apis/api';
+import { Link } from 'react-router-dom';
 
 const ws = new WebSocket('http://localhost:3000/chat');
 
 interface Props {
   user: IUser;
+  refresh: any;
+  setRefresh: any;
 }
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
@@ -89,9 +92,57 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
     );
   });
+  const [invites, setInvites] = useState<any>([]);
 
   return (
     <div>
+      <button
+        onClick={() => {
+          api
+            .post('/game/invite', { target: 74728 })
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        invite ramzi to play
+      </button>
+      <Link
+        to="/game"
+        onClick={() => {
+          api
+            .post('/game/invite', { target: 74728 })
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        invite ramzi to play
+      </Link>
+      <button
+        onClick={() => {
+          api
+            .get('/game/invite')
+            .then(response => {
+              console.log('invites', response.data);
+              setInvites(response.data);
+            })
+            .catch(reject => console.error(reject));
+        }}
+      >
+        get invite (click before accept)
+      </button>
+      <button
+        onClick={() => {
+          api
+            .post('/game/accept', { target: parseInt(invites[0].id) })
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        ramzi accept to play
+      </button>
+      <br />
+      <br />
+      <br />
       <button
         onClick={() => {
           ws.socket.emit('getAllChannels');
