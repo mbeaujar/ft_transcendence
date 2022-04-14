@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import api from '../../../../apis/api';
 import clsx from 'clsx';
 import classes from './Stats.module.scss';
@@ -15,216 +15,23 @@ interface Props {
   user: IUser;
 }
 
-//site imgLevel : https://www.dexerto.es/fifa/recompensas-de-fifa-20-fut-champions-rangos-de-la-weekend-league-1101381/
-let imgLevel = new Map<string, string>();
-imgLevel.set(
-  'Bronze 3',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Bronze-3-Rank.png'
-);
-imgLevel.set(
-  'Bronze 2',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Bronze-2-Rank.png'
-);
-imgLevel.set(
-  'Bronze 1',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Bronze-1-Rank.png'
-);
-imgLevel.set(
-  'Silver 3',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Silver-3-Rank.png'
-);
-imgLevel.set(
-  'Silver 2',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Silver-2-Rank.png'
-);
-imgLevel.set(
-  'Silver 1',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Silver-1-Rank.png'
-);
-imgLevel.set(
-  'Gold 3',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Gold-3-Rank.png'
-);
-imgLevel.set(
-  'Gold 2',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Gold-2-Rank.png'
-);
-imgLevel.set(
-  'Gold 1',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Gold-1-Rank.png'
-);
-imgLevel.set(
-  'Elite 3',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Elite-3-Rank.png'
-);
-imgLevel.set(
-  'Elite 2',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Elite-2-Rank.png'
-);
-imgLevel.set(
-  'Elite 1',
-  'https://s3.eu-west-3.amazonaws.com/dexertoes-assets-production-7d0f29e6/uploads/articles/FIFA-20-FUT-Champions-Elite-1-Rank.png'
-);
-
 const Stats: React.FC<Props> = (props: Props): JSX.Element => {
   const [friendsList, setFriendsList] = useState<IFriends>();
-  let speed = 1;
+
   useEffect(() => {
     api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
-
-      let valuePongopoints: any = document.getElementById(styles.valuePongopoints);
-      let progressPongopoints = 0;
-      let speed = 1;
-      let progress2 = setInterval(() => {
-        progressPongopoints++;
-        if (valuePongopoints != null) {
-          valuePongopoints.textContent = `${progressPongopoints}`;
-        }
-    
-        if (progressPongopoints >= 561) {
-          clearInterval(progress2);
-        }
-      }, speed);
-
-
-      let progressBar: any = document.getElementById(styles.circular_progress);
-      let progressValue = 0;
-      let progressEndValue = 30;
-      speed = 20;
-    
-      let progress = setInterval(() => {
-        progressValue++;
-        if (progressBar != null) {
-          progressBar.style.background = `conic-gradient(
-            red ${progressValue * 3.6}deg,
-            #000000 ${progressValue * 3.6}deg
-            )`;
-          if (progressValue >= progressEndValue) {
-            progressBar.style.background = `conic-gradient(
-                red 0deg,
-                red ${progressEndValue * 3.6}deg,
-                #4bec00 ${progressEndValue * 3.6}deg,
-                #4bec00 ${progressValue * 3.6}deg,
-                rgb(0, 0, 0) ${progressValue * 3.6}deg,
-                rgb(0, 0, 0) 360deg
-                )`;
-          }
-        }
-        if (progressValue == 100) {
-          clearInterval(progress);
-        }
-      }, speed);
-
-
-      let podium2: any = document.getElementById(styles.Podium2);
-      let podium1: any = document.getElementById(styles.Podium1);
-      let podium3: any = document.getElementById(styles.Podium3);
-    
-      let podium2Progress = 0;
-      let podium3Progress = 0;
-      let podium1Progress = 0;
-    
-      speed = 30;
-      let progressPodium2 = setInterval(() => {
-        podium2Progress++;
-        if (podium2 != null) {
-          podium2.style.height = `${podium2Progress}%`;
-        }
-        if (podium2Progress == 45) {
-          clearInterval(progressPodium2);
-        }
-      }, speed);
-      let progressPodium1 = setInterval(() => {
-        podium1Progress++;
-        if (podium1 != null) {
-          podium1.style.height = `${podium1Progress}%`;
-        }
-        if (podium1Progress == 60) {
-          clearInterval(progressPodium1);
-        }
-      }, speed);
-      let progressPodium3 = setInterval(() => {
-        podium3Progress++;
-        if (podium3 != null) {
-          podium3.style.height = `${podium3Progress}%`;
-        }
-        if (podium3Progress == 30) {
-          clearInterval(progressPodium3);
-        }
-      }, speed);
-    
-      let imgLevelElementProgress = 0;
-      let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
-      let progressPodium4 = setInterval(() => {
-        imgLevelElementProgress++;
-        if (imgLevelElement != null) {
-          imgLevelElement.style.width = `${imgLevelElementProgress}%`;
-        }
-        if (imgLevelElementProgress == 55) {
-          clearInterval(progressPodium4);
-        }
-      }, speed);
   }, []);
-
-
-
-
-
-
 
   return (
     <div className={classes.Stats}>
       <div className={classes.StatsGeneral}>
-        {/*<div className={classes.Pongopoints}>
-          <div className={classes.Top}>
-            <h4 id={styles.valuePongopoints} ></h4>
-          </div>
-          <div className={classes.Bottom}>
-            <p>PONGOPOINTS</p>
-          </div>
-  </div>*/}
-  <Pongopoints/>
-  <Ratio/>
-  <Rank/>
-  
-        {/*<div className={classes.Ratio}>
-          <div className={classes.Top}>
-            <div className={classes.container}>
-              <div id={styles.circular_progress}></div>
-            </div>
-          </div>
-          <div className={classes.Bottom}>
-            <p>
-              <span className={classes.Wins}>7 wins</span> /{' '}
-              <span className={classes.Losses}>3 losses</span>
-            </p>
-          </div>
-        </div>*
-        <div className={classes.Rank}>
-          <div className={classes.Top}>
-            <div id={styles.Podium2}></div>
-            <div id={styles.Podium1}></div>
-            <div id={styles.Podium3}></div>
-          </div>
-          <div className={classes.Bottom}>
-            <p>8</p>
-            <span>th</span>
-          </div>
-        </div>
-        <div className={classes.Level}>
-          <div className={classes.Top}>
-            <img
-              id={styles.imgLevelElement}
-              src={imgLevel.get('Elite 1')}
-            ></img>
-          </div>
-          <div className={classes.Bottom}>
-            <p>ELITE 1</p>
-</div>
-</div>*/}
+        <Pongopoints />
+        <Ratio />
+        <Rank />
+        <Level />
       </div>
       <div className={classes.Bottom}>
         <div className={classes.HistoryBlock}>
