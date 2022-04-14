@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import api from '../../../../apis/api';
 import clsx from 'clsx';
 import classes from './Stats.module.scss';
@@ -9,8 +9,6 @@ import Avatar from '../../components/Avatar/Avatar.module';
 
 interface Props {
   user: IUser;
-  refresh: number;
-  setRefresh: any;
 }
 
 //site imgLevel : https://www.dexerto.es/fifa/recompensas-de-fifa-20-fut-champions-rangos-de-la-weekend-league-1101381/
@@ -66,114 +64,119 @@ imgLevel.set(
 
 const Stats: React.FC<Props> = (props: Props): JSX.Element => {
   const [friendsList, setFriendsList] = useState<IFriends>();
-  const [refresh, setRefresh] = useState<number>(0);
-
+  let speed = 1;
   useEffect(() => {
     api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
-    props.setRefresh(props.refresh + 1);
-  }, [refresh]);
+
+      let valuePongopoints: any = document.getElementById(styles.valuePongopoints);
+      let progressPongopoints = 0;
+      let speed = 1;
+      let progress2 = setInterval(() => {
+        progressPongopoints++;
+        if (valuePongopoints != null) {
+          valuePongopoints.textContent = `${progressPongopoints}`;
+        }
+    
+        if (progressPongopoints >= 561) {
+          clearInterval(progress2);
+        }
+      }, speed);
 
 
-  let valuePongopoints: any = document.getElementById(styles.valuePongopoints);
-  let progressPongopoints = 0;
-  let speed = 1;
-  let progress2 = setInterval(() => {
-    progressPongopoints++;
-    if (valuePongopoints != null) {
-      valuePongopoints.textContent = `${progressPongopoints}`;
-    }
-
-    if (progressPongopoints >= 561) {
-      clearInterval(progress2);
-    }
-  }, speed);
-
-  let progressBar: any = document.getElementById(styles.circular_progress);
-  let progressValue = 0;
-  let progressEndValue = 30;
-  speed = 20;
-
-  let progress = setInterval(() => {
-    progressValue++;
-    if (progressBar != null) {
-      progressBar.style.background = `conic-gradient(
-        red ${progressValue * 3.6}deg,
-        #000000 ${progressValue * 3.6}deg
-        )`;
-      if (progressValue >= progressEndValue) {
-        progressBar.style.background = `conic-gradient(
-            red 0deg,
-            red ${progressEndValue * 3.6}deg,
-            #4bec00 ${progressEndValue * 3.6}deg,
-            #4bec00 ${progressValue * 3.6}deg,
-            rgb(0, 0, 0) ${progressValue * 3.6}deg,
-            rgb(0, 0, 0) 360deg
+      let progressBar: any = document.getElementById(styles.circular_progress);
+      let progressValue = 0;
+      let progressEndValue = 30;
+      speed = 20;
+    
+      let progress = setInterval(() => {
+        progressValue++;
+        if (progressBar != null) {
+          progressBar.style.background = `conic-gradient(
+            red ${progressValue * 3.6}deg,
+            #000000 ${progressValue * 3.6}deg
             )`;
-      }
-    }
-    if (progressValue == 100) {
-      clearInterval(progress);
-    }
-  }, speed);
+          if (progressValue >= progressEndValue) {
+            progressBar.style.background = `conic-gradient(
+                red 0deg,
+                red ${progressEndValue * 3.6}deg,
+                #4bec00 ${progressEndValue * 3.6}deg,
+                #4bec00 ${progressValue * 3.6}deg,
+                rgb(0, 0, 0) ${progressValue * 3.6}deg,
+                rgb(0, 0, 0) 360deg
+                )`;
+          }
+        }
+        if (progressValue == 100) {
+          clearInterval(progress);
+        }
+      }, speed);
 
-  let podium2: any = document.getElementById(styles.Podium2);
-  let podium1: any = document.getElementById(styles.Podium1);
-  let podium3: any = document.getElementById(styles.Podium3);
 
-  let podium2Progress = 0;
-  let podium3Progress = 0;
-  let podium1Progress = 0;
+      let podium2: any = document.getElementById(styles.Podium2);
+      let podium1: any = document.getElementById(styles.Podium1);
+      let podium3: any = document.getElementById(styles.Podium3);
+    
+      let podium2Progress = 0;
+      let podium3Progress = 0;
+      let podium1Progress = 0;
+    
+      speed = 30;
+      let progressPodium2 = setInterval(() => {
+        podium2Progress++;
+        if (podium2 != null) {
+          podium2.style.height = `${podium2Progress}%`;
+        }
+        if (podium2Progress == 45) {
+          clearInterval(progressPodium2);
+        }
+      }, speed);
+      let progressPodium1 = setInterval(() => {
+        podium1Progress++;
+        if (podium1 != null) {
+          podium1.style.height = `${podium1Progress}%`;
+        }
+        if (podium1Progress == 60) {
+          clearInterval(progressPodium1);
+        }
+      }, speed);
+      let progressPodium3 = setInterval(() => {
+        podium3Progress++;
+        if (podium3 != null) {
+          podium3.style.height = `${podium3Progress}%`;
+        }
+        if (podium3Progress == 30) {
+          clearInterval(progressPodium3);
+        }
+      }, speed);
+    
+      let imgLevelElementProgress = 0;
+      let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
+      let progressPodium4 = setInterval(() => {
+        imgLevelElementProgress++;
+        if (imgLevelElement != null) {
+          imgLevelElement.style.width = `${imgLevelElementProgress}%`;
+        }
+        if (imgLevelElementProgress == 55) {
+          clearInterval(progressPodium4);
+        }
+      }, speed);
+  }, []);
 
-  speed = 30;
-  let progressPodium2 = setInterval(() => {
-    podium2Progress++;
-    if (podium2 != null) {
-      podium2.style.height = `${podium2Progress}%`;
-    }
-    if (podium2Progress == 45) {
-      clearInterval(progressPodium2);
-    }
-  }, speed);
-  let progressPodium1 = setInterval(() => {
-    podium1Progress++;
-    if (podium1 != null) {
-      podium1.style.height = `${podium1Progress}%`;
-    }
-    if (podium1Progress == 60) {
-      clearInterval(progressPodium1);
-    }
-  }, speed);
-  let progressPodium3 = setInterval(() => {
-    podium3Progress++;
-    if (podium3 != null) {
-      podium3.style.height = `${podium3Progress}%`;
-    }
-    if (podium3Progress == 30) {
-      clearInterval(progressPodium3);
-    }
-  }, speed);
 
-  let imgLevelElementProgress = 0;
-  let imgLevelElement: any = document.getElementById(styles.imgLevelElement);
-  let progressPodium4 = setInterval(() => {
-    imgLevelElementProgress++;
-    if (imgLevelElement != null) {
-      imgLevelElement.style.width = `${imgLevelElementProgress}%`;
-    }
-    if (imgLevelElementProgress == 55) {
-      clearInterval(progressPodium4);
-    }
-  }, speed);
+
+
+
+
 
   return (
     <div className={classes.Stats}>
       <div className={classes.StatsGeneral}>
         <div className={classes.Pongopoints}>
           <div className={classes.Top}>
-            <h4 id={styles.valuePongopoints}></h4>
+            <h4 id={styles.valuePongopoints} ></h4>
           </div>
           <div className={classes.Bottom}>
             <p>PONGOPOINTS</p>

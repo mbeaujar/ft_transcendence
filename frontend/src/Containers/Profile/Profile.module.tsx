@@ -84,7 +84,7 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
 
       <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Stats'))}>
-        <Stats user={props.user} refresh={refresh} setRefresh={setRefresh} />
+        <Stats user={props.user} />
       </div>
 
       <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
