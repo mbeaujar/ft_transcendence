@@ -360,7 +360,70 @@
         display: none;
       }
 
-      .showDoubleAuthEnable2faInProgress,.showDoubleAuthDisable2faInProgress
+      .showDoubleAuthDisable2faInProgress
+      {
+        position: absolute;
+        margin-top: 31%;
+        margin-top: 31%;
+        //margin-left: 15%;
+        z-index: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+
+        .Right 
+        {
+          //margin-left: 9%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 46%;
+
+          input 
+          {
+            margin-top: 2%;
+            margin-bottom: 8%;
+            width: 90%;
+            background-color: $grey2;
+            border: 1px solid $grey2;
+            border-radius: 3vw;
+            font-size: 1vw;
+            height: 1.2vw;
+            outline: none;
+            color: $white1;
+            padding: 0.2vw 0.4vw;
+            text-align: center;
+          }
+
+          input::placeholder
+          {
+            color: $grey6;
+            font-size: 0.8vw;
+          }
+
+          button 
+          {
+            background-color: $grey4;
+            color: $white1;
+            width: 50%;
+            border: 0.1vw solid $blue3;
+            border-radius: 0.3vw;
+            padding: 3%;
+            cursor: pointer;
+            font-size: 1vw;
+          }
+
+          button:hover 
+          {
+            background-color: $grey6;
+          }
+        }
+      }
+
+      .showDoubleAuthEnable2faInProgress
       {
         position: absolute;
         margin-top: 31%;
@@ -398,6 +461,12 @@
             color: $white1;
             padding: 0.2vw 0.4vw;
             text-align: center;
+
+          }
+          input::placeholder
+          {
+            color: $grey6;
+            font-size: 0.8vw;
           }
 
           button 

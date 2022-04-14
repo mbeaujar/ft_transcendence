@@ -1,73 +1,70 @@
 @import 'utils.scss';
 
-.Layout
-{
-    background-color: $blue1;
-    color: $blue2;
+.Layout {
+  background-color: $blue1;
+  color: $blue2;
 
-    .DoubleAuth 
-    {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 1.5vw;
-      width: 25vw;
-      height: 25vw;
-      background-color: $blue4;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 10vh;
+  .DoubleAuth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1.5vw;
+    width: 25vw;
+    height: 25vw;
+    background-color: $blue4;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
 
-      img
-      {
-        width: 45%;
-        margin-top: 10%;
-        margin-bottom: 10%;
-      }
-
-      input 
-      {
-        margin-bottom: 7%;
-        width: 50%;
-        background-color: $grey2;
-        border: 1px solid $grey2;
-        border-radius: 3vw;
-        font-size: 1.5vw;
-        height: 1.2vw;
-        outline: none;
-        color: $white1;
-        padding: 0.4vw 0.8vw;
-        text-align: center;
-      }
-
-      button 
-      {
-        background-color: $blue5;
-        color: $white1;
-        width: 40%;
-        border: 0.1vw solid $blue3;
-        border-radius: 0.3vw;
-        padding: 3%;
-        font-size: 1.2vw;
-        cursor: pointer;
-      }
-
-      button:hover
-      {
-        background-color: $black2;
-      }
+    img {
+      width: 45%;
+      margin-top: 10%;
+      margin-bottom: 10%;
     }
+
+    input {
+      margin-bottom: 7%;
+      width: 50%;
+      background-color: $grey2;
+      border: 1px solid $grey2;
+      border-radius: 3vw;
+      font-size: 1.5vw;
+      //height: 1.2vw;
+      outline: none;
+      color: $white1;
+      padding: 0.4vw 0.8vw;
+      text-align: center;
+    }
+
+    input::placeholder {
+      color: $grey6;
+      font-size: 1vw;
+    }
+
+    button {
+      background-color: $blue5;
+      color: $white1;
+      width: 40%;
+      border: 0.1vw solid $blue3;
+      border-radius: 0.3vw;
+      padding: 3%;
+      font-size: 1.2vw;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: $black2;
+    }
+  }
 }
 
-.unauthorized 
-{
-    font-size: 30px;
-    margin-top: 250px;
-    align-self: center;
+.unauthorized {
+  font-size: 30px;
+  margin-top: 250px;
+  align-self: center;
 }
 
-body 
-{
+body {
   background-color: $blue1;
 }
 

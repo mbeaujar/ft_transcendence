@@ -18,6 +18,7 @@ const App: React.FC = (): JSX.Element => {
   const [refresh, setRefresh] = useState<number>(0);
   const [googleAuth, setGoogleAuth] = useState<boolean>(true);
   const [twofaCode, setTwofaCode] = useState<string>('');
+  const [inputPlaceholder, setInputPlaceholder] = useState<string>('Enter the 6 digit code');
 
   useEffect(() => {
 
@@ -29,7 +30,7 @@ const App: React.FC = (): JSX.Element => {
     api
       .get('/auth/authenticated')
       .then((response) => setGoogleAuth(response.data))
-      .catch((reject) => setGoogleAuth(true));
+      .catch((reject) => {setGoogleAuth(true);});
 
     console.log('user=', user);
     console.log('googleAuth=', googleAuth);
@@ -39,7 +40,7 @@ const App: React.FC = (): JSX.Element => {
     api
       .post('/auth/2fa/authenticate', { code: twofaCode })
       .then((response) => window.location.reload())
-      .catch((reject) => setTwofaCode(''));
+      .catch((reject) => {setTwofaCode('');setInputPlaceholder("Wrong code");});
     console.log('code:', twofaCode);
     setTwofaCode('');
   }
@@ -84,6 +85,7 @@ const App: React.FC = (): JSX.Element => {
               type="text"
               value={twofaCode}
               onChange={(event) => handleChange2faCode(event)}
+              placeholder={inputPlaceholder}
             />
             <button onClick={(event) => handleSubmitForm2faCode(event)}>
               Connect

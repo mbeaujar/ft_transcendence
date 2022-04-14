@@ -12,12 +12,6 @@ interface Props {
   setRefresh: any;
 }
 
-let qrcode2: any;
-api
-  .post('/auth/2fa/generate', {}, { responseType: 'blob' })
-  .then((response) => (qrcode2 = response.data))
-  .catch((reject) => console.log(reject));
-
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeUsernameBottom, setActiveUsernameBottom] =
     useState<boolean>(true);
@@ -34,14 +28,20 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   );
   const [qrcode, setQrcode] = useState<any>(null);
   const [twofaCode, setTwofaCode] = useState<string>('');
+  const [inputPlaceholder, setInputPlaceholder] = useState<string>(
+    'Enter the 6 digit code'
+  );
 
   useEffect(() => {
-    /*if (refresh < 1) {
+    if (
+      valueEnableDoubleAuth == 'Yes' &&
+      props.user.isTwoFactorEnabled == false
+    ) {
       api
         .post('/auth/2fa/generate', {}, { responseType: 'blob' })
         .then((response) => setQrcode(response.data))
         .catch((reject) => console.log(reject));
-    }*/ 
+    }
 
     props.user.username = newName;
     props.setRefresh(props.refresh + 1);
@@ -150,12 +150,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       .then((response) => {
         setTwofaCode('');
         console.log('success');
+        props.user.isTwoFactorEnabled = true;
+        setRefresh(refresh + 1);
       })
       .catch((reject) => {
         setTwofaCode('');
         console.log('failure');
+        setInputPlaceholder('Wrong code');
       });
-    //window.location.reload();
     setTwofaCode('');
   }
 
@@ -174,12 +176,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       .then((response) => {
         setTwofaCode('');
         console.log('success');
+        props.user.isTwoFactorEnabled = false;
+        setRefresh(refresh + 1);
       })
       .catch((reject) => {
         setTwofaCode('');
         console.log('failure');
+        setInputPlaceholder('Wrong code');
       });
-    //window.location.reload();
     setTwofaCode('');
   }
 
@@ -201,7 +205,6 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         return classes.showDoubleAuthEnable2faInProgress;
       }
       return classes.hideDoubleAuthEnable2faInProgress;
-    } else if (className == 'DoubleAuthEnable2faDone') {
     } else if (className == 'DoubleAuthDisable2faInProgress') {
       if (
         valueEnableDoubleAuth == 'No' &&
@@ -210,7 +213,6 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         return classes.showDoubleAuthDisable2faInProgress;
       }
       return classes.hideDoubleAuthDisable2faInProgress;
-    } else if (className == 'DoubleAuthDisable2faDone') {
     }
   }
 
@@ -301,13 +303,14 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           <div
             className={showDoubleAuthBottom('DoubleAuthEnable2faInProgress')}
           >
-            {qrcode2 ? <img src={URL.createObjectURL(qrcode2)} /> : null}
+            {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
             <div className={classes.Right}>
               <input
                 className={classes.NewName}
                 type="text"
                 value={twofaCode}
                 onChange={(event) => handleChangeEnable2faInProgressCode(event)}
+                placeholder={inputPlaceholder}
               />
               <button
                 onClick={(event) =>
@@ -318,11 +321,9 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               </button>
             </div>
           </div>
-          <div className={classes.DoubleAuthEnable2faDone}></div>
           <div
             className={showDoubleAuthBottom('DoubleAuthDisable2faInProgress')}
           >
-            {qrcode2 ? <img src={URL.createObjectURL(qrcode2)} /> : null}
             <div className={classes.Right}>
               <input
                 className={classes.NewName}
@@ -331,6 +332,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
                 onChange={(event) =>
                   handleChangeDisable2faInProgressCode(event)
                 }
+                placeholder={inputPlaceholder}
               />
               <button
                 onClick={(event) =>
@@ -341,7 +343,6 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               </button>
             </div>
           </div>
-          <div className={classes.DoubleAuthDisable2faDone}></div>
         </div>
         <div className={classes.UsersBlock}>
           <h3>Blocked users</h3>
