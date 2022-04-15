@@ -11,6 +11,7 @@ import Ratio from './Components/Ratio/Ratio';
 import Rank from './Components/Rank/Rank';
 import Level from './Components/Level/Level';
 import HistoryBlock from './Components/HistoryBlock/HistoryBlock';
+import FriendsBlock from './Components/FriendsBlock/FriendsBlock';
 
 interface Props {
   user: IUser;
@@ -36,7 +37,8 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
       <div className={classes.Bottom}>
         <HistoryBlock />
-        <div className={classes.FriendsBlock}>
+        <FriendsBlock />
+        {/*<div className={classes.FriendsBlock}>
           <h3 className={classes.title}>Friends</h3>
           <div className={classes.Friends}>
             {friendsList && (
@@ -80,7 +82,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
               </div>
             )}
           </div>
-        </div>
+        </div>*/}
       </div>
     </div>
   );
