@@ -10,7 +10,7 @@ import MyFriends from './Components/MyFriends/MyFriends';
 import AddFriends from './Components/AddFriends/AddFriends';
 import FriendsRequest from './Components/FriendsRequest/FriendsRequest';
 
-const Friends: React.FC = (): JSX.Element => {
+function Friends() {
   useEffect(() => {}, []);
 
   return (
