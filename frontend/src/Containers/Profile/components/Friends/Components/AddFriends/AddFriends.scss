@@ -1,1 +1,51 @@
 @import '../../../../../../utils.scss';
+
+.AddFriends {
+  border-radius: 1.5vw;
+  background-color: $black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid $grey1;
+  padding-bottom: 1.5vw;
+  padding-left: 1vw;
+
+  form {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin: 1vw 0;
+    font-size: 1.3vw;
+
+    input {
+      padding: 0.5vw;
+      margin-left: 0.5vw;
+      width: 10vw;
+      border-radius: 1.5vw;
+      border: 1px solid $blue1;
+      background-color: $grey7;
+      color: $white1;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    button {
+      background-color: $blue4;
+      color: $blue2;
+      border: 1px solid $blue2;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: $blue2;
+      color: $blue1;
+      border: 1px solid $blue4;
+    }
+  }
+}

@@ -1,1 +1,56 @@
 @import '../../../../../../utils.scss';
+
+.FriendsRequest {
+  padding-left: 1vw;
+  width: 100%;
+  margin-top: 3.5vh;
+  border-radius: 1.5vw;
+  background-color: $black;
+  height: 70%;
+
+  .request {
+    margin-top: -2%;
+    .friendsRequestsElement {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      padding: 0.4vw;
+      border-bottom: 1px solid $grey1;
+
+      img {
+        width: 35px;
+        width: 2.5vw;
+        height: 2.5vw;
+        border-radius: 100%;
+        border: 0.2vw solid $white1;
+      }
+
+      p {
+        margin-left: 3%;
+        font-size: 1.1vw;
+      }
+
+      button {
+        font-size: 0.8vw;
+        border-radius: 0.7vw;
+        padding: 0.5vw;
+        border: 1px solid black;
+        color: $white1;
+        cursor: pointer;
+      }
+
+      .accept {
+        margin-left: auto;
+        background-color: $green1;
+      }
+
+      .refuse {
+        margin-right: 2%;
+        margin-left: 2%;
+        background-color: $red1;
+      }
+    }
+  }
+}
