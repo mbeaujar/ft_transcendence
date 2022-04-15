@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import api from '../../../../apis/api';
 import clsx from 'clsx';
-import classes from './Stats.module.scss';
+import './Stats.scss';
 import styles from './Stats.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IFriends } from '../../../../interface/friends.interface';
-import Avatar from '../../components/Avatar/Avatar.module';
+import Avatar from '../Avatar/Avatar.module';
 import Pongopoints from './Components/Pongopoints/Pongopoints';
 import Ratio from './Components/Ratio/Ratio';
 import Rank from './Components/Rank/Rank';
@@ -21,14 +21,14 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {}, []);
 
   return (
-    <div className={classes.Stats}>
-      <div className={classes.StatsGeneral}>
+    <div className="Stats">
+      <div className="StatsGeneral">
         <Pongopoints />
         <Ratio />
         <Rank />
         <Level />
       </div>
-      <div className={classes.Bottom}>
+      <div className="Bottom">
         <HistoryBlock />
         <FriendsBlock />
         
