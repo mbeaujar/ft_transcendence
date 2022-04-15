@@ -3,7 +3,7 @@ import './FriendsBlock.scss';
 import { IFriends } from '../../../../../../interface/friends.interface';
 import { IUser } from '../../../../../../interface/user.interface';
 import api from '../../../../../../apis/api';
-import Avatar from '../../../../components/Avatar/Avatar.module';
+import Avatar from '../../../Avatar/Avatar';
 
 function FriendsBlock(props: any) {
   const [friendsList, setFriendsList] = useState<IFriends>();

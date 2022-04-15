@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../../apis/api';
-import Avatar from '../Avatar/Avatar.module';
-
+import Avatar from '../Avatar/Avatar';
 import classes from './Friends.module.scss';
+import Input from '../Input/Input';
 import { IFriends } from '../../../../interface/friends.interface';
-import Input from '../Input/Input.module';
 import { IUser } from '../../../../interface/user.interface';
 import { IFriendsRequest } from '../../../../interface/friends-request.interface';
+import MyFriends from './Components/MyFriends/MyFriends';
 
 const Friends: React.FC = (): JSX.Element => {
-  const [friendsList, setFriendsList] = useState<IFriends>();
+  //const [friendsList, setFriendsList] = useState<IFriends>();
   const [friendsRequest, setFriendsRequest] = useState<IFriendsRequest[]>([]);
   const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {
-    api
+    /*api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
-      .catch((reject) => console.error(reject));
+      .catch((reject) => console.error(reject));*/
     api
       .get('/friends/request')
       .then((response) => setFriendsRequest(response.data))
@@ -38,16 +38,17 @@ const Friends: React.FC = (): JSX.Element => {
       .catch((reject) => console.error(reject));
   };
 
-  const deleteFriend = (friendsList: any) => {
+  /*const deleteFriend = (friendsList: any) => {
     api
       .delete(`/friends/${friendsList.id}`)
       .then((response) => setRefresh(refresh + 1))
       .catch((reject) => console.error(reject));
-  };
+  };*/
 
   return (
     <div className={classes.Friends}>
-      <div className={classes.FriendsLeft}>
+      <MyFriends/>
+      {/*<div className={classes.MyFriends}>
         <h2>My Friends</h2>
         {friendsList && (
           <div className={classes.list}>
@@ -65,7 +66,7 @@ const Friends: React.FC = (): JSX.Element => {
             ))}
           </div>
         )}
-      </div>
+            </div>*/}
 
       <div className={classes.FriendsRight}>
         <div className={classes.AddFriends}>

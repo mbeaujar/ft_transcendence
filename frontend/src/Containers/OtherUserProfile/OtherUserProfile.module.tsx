@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import classes from './OtherUserProfile.module.scss';
 import { IUser } from '../../interface/user.interface';
 import { IFriends } from '../../interface/friends.interface';
-import Avatar from '../Profile/components/Avatar/Avatar.module';
+import Avatar from '../Profile/components/Avatar/Avatar';
 
 interface Props {
   user: IUser;

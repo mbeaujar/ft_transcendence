@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import classes from './ChannelSettings.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
-import Avatar from '../../../Profile/components/Avatar/Avatar.module';
+import Avatar from '../../../Profile/components/Avatar/Avatar';
 import Dropdown from './Dropdown/Dropdown.module';
 import Dropdown2 from './Dropdown2/Dropdown2.module';
 import { userInfo } from 'os';

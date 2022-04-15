@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../../apis/api';
-import Avatar from '../Avatar/Avatar.module';
+import Avatar from '../Avatar/Avatar';
 import classes from './Leaderboard.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 
