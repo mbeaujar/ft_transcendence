@@ -10,6 +10,7 @@ import Pongopoints from './Components/Pongopoints/Pongopoints';
 import Ratio from './Components/Ratio/Ratio';
 import Rank from './Components/Rank/Rank';
 import Level from './Components/Level/Level';
+import HistoryBlock from './Components/HistoryBlock/HistoryBlock';
 
 interface Props {
   user: IUser;
@@ -34,10 +35,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
         <Level />
       </div>
       <div className={classes.Bottom}>
-        <div className={classes.HistoryBlock}>
-          <h3 className={classes.title}>History</h3>
-          <div className={classes.Hitory}></div>
-        </div>
+        <HistoryBlock />
         <div className={classes.FriendsBlock}>
           <h3 className={classes.title}>Friends</h3>
           <div className={classes.Friends}>
