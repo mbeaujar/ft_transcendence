@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../apis/api';
 import clsx from 'clsx';
 import Stats from './components/Stats/Stats';
-import Friends from './components/Friends/Friends.module';
+import Friends from './components/Friends/Friends';
 import Leaderboard from './components/Leaderboard/Leaderboard.module';
 import Settings from './components/Settings/Settings.module';
 import classes from './Profile.module.scss';

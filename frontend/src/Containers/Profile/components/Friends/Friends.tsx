@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../../apis/api";
 import Avatar from "../Avatar/Avatar";
-import classes from "./Friends.module.scss";
+import "./Friends.scss";
 import Input from "../Input/Input";
 import { IFriends } from "../../../../interface/friends.interface";
 import { IUser } from "../../../../interface/user.interface";
@@ -18,11 +18,14 @@ function Friends() {
   }, []);
 
   return (
-    <div className={classes.Friends}>
-      <MyFriends refreshMyFriends={refreshMyFriends}/>
-      <div className={classes.FriendsRight}>
+    <div className="Friends">
+      <MyFriends refreshMyFriends={refreshMyFriends} />
+      <div className="FriendsRight">
         <AddFriends />
-        <FriendsRequest refreshMyFriends={refreshMyFriends} setRefreshMyFriends={setRefreshMyFriends}/>
+        <FriendsRequest
+          refreshMyFriends={refreshMyFriends}
+          setRefreshMyFriends={setRefreshMyFriends}
+        />
       </div>
     </div>
   );
