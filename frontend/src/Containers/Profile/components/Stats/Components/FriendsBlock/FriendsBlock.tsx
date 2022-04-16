@@ -22,7 +22,7 @@ function FriendsBlock(props: any) {
       {friendsList && (
         <div className="list">
           {friendsList.friends.map((friend: IUser) => (
-            <div className="friendsListElement" key="friend.id">
+            <div className="friendsListElement" key={friend.id}>
               <Avatar user={friend} />
               <p>{friend.username}</p>
             </div>

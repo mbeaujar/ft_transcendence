@@ -86,10 +86,10 @@ const App: React.FC = (): JSX.Element => {
     <div className="App Layout">
       <Router>
         <Header />
-        {user && googleAuth && (
+        {user ? (
           <MainApp user={user} refresh={refresh} setRefresh={setRefresh} />
-        )}
-        {user && !googleAuth ? (
+        )
+        : !googleAuth ? (
           <div className="DoubleAuth">
             <img src={googleAuthImg} />
             <input

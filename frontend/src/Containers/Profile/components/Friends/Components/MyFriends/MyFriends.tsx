@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Avatar from '../../../Avatar/Avatar';
-import api from '../../../../../../apis/api';
-import { IFriends } from '../../../../../../interface/friends.interface';
-import { IUser } from '../../../../../../interface/user.interface';
-import './MyFriends.scss';
+import React, { useState, useEffect } from "react";
+import Avatar from "../../../Avatar/Avatar";
+import api from "../../../../../../apis/api";
+import { IFriends } from "../../../../../../interface/friends.interface";
+import { IUser } from "../../../../../../interface/user.interface";
+import "./MyFriends.scss";
 
 function MyFriends(props: any) {
   const [friendsList, setFriendsList] = useState<IFriends>();
@@ -11,11 +11,12 @@ function MyFriends(props: any) {
 
   useEffect(() => {
     api
-      .get('/friends/list')
+      .get("/friends/list")
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
 
-  }, [refresh]);
+    console.log("myfriends effect");
+  }, [refresh, props.refreshMyFriends]);
 
   const deleteFriend = (friendsList: any) => {
     api
@@ -29,13 +30,10 @@ function MyFriends(props: any) {
       {friendsList && (
         <div className="list">
           {friendsList.friends.map((friend: IUser) => (
-            <div className="friendsListElement" key="friend.id">
+            <div className="friendsListElement" key={friend.id}>
               <Avatar user={friend} />
               <p>{friend.username}</p>
-              <button
-                className="delete"
-                onClick={() => deleteFriend(friend)}
-              >
+              <button className="delete" onClick={() => deleteFriend(friend)}>
                 Delete
               </button>
             </div>
