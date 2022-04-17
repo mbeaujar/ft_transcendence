@@ -1,0 +1,167 @@
+@import '../../../../../../utils.scss';
+
+.Avatar {
+  height: 35%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  h3 {
+    margin-left: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 1.5vw;
+  }
+
+
+  .HideAvatarBottomInChange,
+  .HideAvatarBottom {
+    display: none;
+  }
+  .ShowAvatarBottom {
+    margin-left: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 90%;
+
+    div {
+      width: 20%;
+      img {
+        width: 4.5vw;
+        height: 4.5vw;
+        border-radius: 100%;
+      }
+    }
+
+    button {
+      margin-left: 5%;
+      margin-top: 5%;
+      width: 10%;
+      height: 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 0.1vw solid $blue3;
+
+      span {
+        font-size: 1.5vw;
+      }
+    }
+
+    button:hover {
+      background-color: $blue3;
+    }
+  }
+
+  .ShowAvatarBottomInChange {
+    margin-left: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 90%;
+
+    div {
+      width: 20%;
+      img {
+        width: 4.5vw;
+        height: 4.5vw;
+        border-radius: 100%;
+      }
+    }
+    .AvatarBottomChange {
+      margin-left: 5%;
+      margin-top: -1%;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      justify-content: flex-start;
+      .buttonChooseFile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: 0.3vw;
+        background-color: $grey6;
+        color: $white1;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        height: 35%;
+
+        span {
+          margin-left: 2%;
+          margin-right: 6%;
+          font-size: 1.2vw;
+        }
+        p {
+          width: 100%;
+          font-size: 1vw;
+          overflow: hidden;
+          white-space: nowrap;
+          display: block;
+          text-overflow: ellipsis;
+          text-align: left;
+        }
+      }
+      .buttonChooseFile:hover {
+        background-color: $grey2;
+      }
+
+      .ButtonsValidation {
+        display: flex;
+        flex-direction: row;
+        align-items: left;
+        justify-content: left;
+        margin-top: 5%;
+        height: 40%;
+        width: 100%;
+
+        button {
+          width: 18%;
+          height: 90%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background-color: $blue1;
+
+          span {
+            font-size: 1.5vw;
+          }
+        }
+
+        .ValidNewAvatar {
+          border: 0.1vw solid $green3;
+          margin-right: 2%;
+
+          span {
+            color: $green3;
+          }
+        }
+
+        .ValidNewAvatar:hover {
+          background-color: $green1;
+        }
+
+        .NoValidNewAvatar {
+          border: 0.1vw solid $red2;
+          margin-left: 2%;
+
+          span {
+            color: $red2;
+          }
+        }
+
+        .NoValidNewAvatar:hover {
+          background-color: $red1;
+        }
+      }
+    }
+  }
+}
