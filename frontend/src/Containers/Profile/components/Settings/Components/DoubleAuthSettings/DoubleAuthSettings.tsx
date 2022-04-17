@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../../../../apis/api";
 import Dropdown from "../Dropdown/Dropdown.module";
-import "./DoubleAuth.scss";
+import "./DoubleAuthSettings.scss";
 
-function DoubleAuth(props: any) {
+function DoubleAuthSettings(props: any) {
   const [refresh, setRefresh] = useState<number>(0);
   const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState(
     props.user.isTwoFactorEnabled ? "Yes" : "no"
@@ -111,7 +111,7 @@ function DoubleAuth(props: any) {
     }
   }
   return (
-    <div className="DoubleAuth">
+    <div className="DoubleAuthSettings">
       <h3>Google Authenticator</h3>
       <div className="DoubleAuthMiddle">
         <Dropdown
@@ -159,4 +159,4 @@ function DoubleAuth(props: any) {
   );
 }
 
-export default DoubleAuth;
+export default DoubleAuthSettings;
