@@ -7,6 +7,7 @@ import { IUser } from "../../../../interface/user.interface";
 import Dropdown from "./Components/Dropdown/Dropdown.module";
 import Username from "./Components/Username/Username";
 import AvatarSettings from "./Components/AvatarSettings/AvatarSettings";
+import Theme from "./Components/Theme/Theme";
 
 interface Props {
   user: IUser;
@@ -135,8 +136,8 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           refresh={props.refresh}
           setRefresh={props.setRefresh}
         />
+        <Theme/>
 
-        <div className={classes.Theme}></div>
       </div>
       <div className={classes.SettingsRight}>
         <div className={classes.DoubleAuth}>
