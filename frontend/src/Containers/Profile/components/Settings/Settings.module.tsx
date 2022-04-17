@@ -9,6 +9,7 @@ import Username from "./Components/Username/Username";
 import AvatarSettings from "./Components/AvatarSettings/AvatarSettings";
 import Theme from "./Components/Theme/Theme";
 import DoubleAuth from "./Components/DoubleAuth/DoubleAuth";
+import BlockedUsers from "./Components/BlockedUsers/BlockedUsers";
 
 interface Props {
   user: IUser;
@@ -28,7 +29,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
   );
 
   useEffect(() => {
-   /* if (
+    if (
       valueEnableDoubleAuth == "Yes" &&
       props.user.isTwoFactorEnabled == false
     ) {
@@ -36,13 +37,13 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
         .post("/auth/2fa/generate", {}, { responseType: "blob" })
         .then((response) => setQrcode(response.data))
         .catch((reject) => console.log(reject));
-    }*/
+    }
 
     props.setRefresh(props.refresh + 1);
-  }, [refresh /*uploadedFile,*/ /*valueEnableDoubleAuth*/]);
+  }, [refresh /*uploadedFile,*/, valueEnableDoubleAuth]);
 
   //Google authenticator
-  /*const itemsGoogleAuth = [
+  const itemsGoogleAuth = [
     { id: 1, value: "Yes" },
     { id: 2, value: "No" },
   ];
@@ -122,7 +123,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
       }
       return classes.hideDoubleAuthDisable2faInProgress;
     }
-  }*/
+  }
 
   return (
     <div className={classes.Settings}>
@@ -137,14 +138,13 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           refresh={props.refresh}
           setRefresh={props.setRefresh}
         />
-        <Theme/>
-
+        <Theme />
       </div>
       <div className={classes.SettingsRight}>
-        <DoubleAuth user={props.user}
+        {/*<DoubleAuth user={props.user}
           refresh={props.refresh}
-          setRefresh={props.setRefresh}/>
-       {/* <div className={classes.DoubleAuth}>
+          setRefresh={props.setRefresh}/>*/}
+        <div className={classes.DoubleAuth}>
           <h3>Google Authenticator</h3>
           <div className={classes.DoubleAuthMiddle}>
             <Dropdown
@@ -198,10 +198,9 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
               </button>
             </div>
           </div>
-              </div>*/}
-        <div className={classes.UsersBlock}>
-          <h3>Blocked users</h3>
         </div>
+
+        <BlockedUsers />
       </div>
     </div>
   );
