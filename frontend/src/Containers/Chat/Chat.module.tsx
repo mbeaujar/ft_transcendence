@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import classes from './Chat.module.scss';
-import { WebSocket } from './Socket.module';
-import { IUser } from '../../interface/user.interface';
-import { IChannel } from '../../interface/channel.interface';
-import SearchUser from './Components/SearchUser/SearchUser.module';
-import JoinChannel from './Components/JoinChannel/JoinChannel.module';
-import CreateChannel from './Components/CreateChannel/CreateChannel.module';
-import Discussion from './Components/Discussion/Discussion.module';
-import { IMessage } from '../../interface/message.interface';
-import { Scope } from '../../interface/scope.enum';
-import { IJoinChannel } from '../../interface/join-channel.interface';
-import ChannelSettings from './Components/ChannelSettings/ChannelSettings.module';
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import classes from "./Chat.module.scss";
+import { WebSocket } from "./Socket.module";
+import { IUser } from "../../interface/user.interface";
+import { IChannel } from "../../interface/channel.interface";
+import SearchUser from "./Components/SearchUser/SearchUser.module";
+import JoinChannel from "./Components/JoinChannel/JoinChannel.module";
+import CreateChannel from "./Components/CreateChannel/CreateChannel.module";
+import Discussion from "./Components/Discussion/Discussion.module";
+import { IMessage } from "../../interface/message.interface";
+import { Scope } from "../../interface/scope.enum";
+import { IJoinChannel } from "../../interface/join-channel.interface";
+import ChannelSettings from "./Components/ChannelSettings/ChannelSettings.module";
 
-const ws = new WebSocket('http://localhost:3000/chat');
+const ws = new WebSocket("http://localhost:3000/chat");
 
 interface Props {
   user: IUser;
@@ -26,33 +26,34 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [refreshChannelsList, setRefreshChannelsList] = useState<number>(0);
   let channelsJoin2 = channelsJoin;
   let channelsNotJoin2 = channelsNotJoin;
 
   useEffect(() => {
-    ws.socket.on('channels', (data) => {
+    ws.socket.on("channels", (data) => {
       setChannels(data);
     });
 
-    ws.socket.on('messages', (data) => {
+    ws.socket.on("messages", (data) => {
       setMessages(data);
     });
 
-    ws.socket.on('messageAdded', (data) => {
+    ws.socket.on("messageAdded", (data) => {
       setMessages((prev) => [...prev, data]);
     });
 
-    ws.socket.on('currentChannel', (data) => {
+    ws.socket.on("currentChannel", (data) => {
       setChannelChoose(data);
     });
 
-    ws.socket.emit('getAllChannels');
-  }, []);
+    ws.socket.emit("getAllChannels");
+  }, [refreshChannelsList]);
 
   useEffect(() => {
     setChannelsJoin(channelsJoin2);
     setChannelsNotJoin(channelsNotJoin2);
-  }, [channels, activeChatMenu]);
+  }, [channels, activeChatMenu,refreshChannelsList]);
 
   function ftChannelJoin() {
     channelsJoin2 = [];
@@ -84,8 +85,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           />
         );
       } else return <p></p>;
-    else if (activeChatMenu === 'SearchUser') return <SearchUser />;
-    else if (activeChatMenu === 'JoinChannel') {
+    else if (activeChatMenu === "SearchUser") return <SearchUser />;
+    else if (activeChatMenu === "JoinChannel") {
       return (
         <JoinChannel
           user={props.user}
@@ -93,14 +94,16 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           ws={ws}
           channels={channels}
           action={ftChannelJoin}
+          refreshChannelsList={refreshChannelsList}
+          setRefreshChannelsList={setRefreshChannelsList}
         />
       );
-    } else if (activeChatMenu === 'CreateChannel')
+    } else if (activeChatMenu === "CreateChannel")
       return (
         <CreateChannel
           user={props.user}
           socketEmit={(channel: IChannel) => {
-            ws.socket.emit('createChannel', channel);
+            ws.socket.emit("createChannel", channel);
           }}
         />
       );
@@ -129,9 +132,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             channel,
           };
           if (channel.state === Scope.protected) {
-            Object.assign(joinChannel, { password: prompt('password') });
+            Object.assign(joinChannel, { password: prompt("password") });
           }
-          ws.socket.emit('joinChannel', joinChannel);
+          ws.socket.emit("joinChannel", joinChannel);
         }}
       >
         {channel.name}
@@ -146,7 +149,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <button
             className={clsx(classes.ChatLeftButton, classes.SearchUserButton)}
             onClick={() => {
-              setActiveChatMenu('SearchUser');
+              setActiveChatMenu("SearchUser");
               setChannelChoose(null);
             }}
           >
@@ -155,7 +158,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <button
             className={clsx(classes.ChatLeftButton, classes.JoinChannelButton)}
             onClick={() => {
-              setActiveChatMenu('JoinChannel');
+              setActiveChatMenu("JoinChannel");
               setChannelChoose(null);
             }}
           >
@@ -167,7 +170,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
               classes.CreateChannelButton
             )}
             onClick={() => {
-              setActiveChatMenu('CreateChannel');
+              setActiveChatMenu("CreateChannel");
               setChannelChoose(null);
             }}
           >

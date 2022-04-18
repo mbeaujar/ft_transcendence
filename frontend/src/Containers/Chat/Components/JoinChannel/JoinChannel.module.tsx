@@ -14,6 +14,8 @@ interface Props {
   channelNotJoin: IChannel[];
   ws: any;
   action: any;
+  refreshChannelsList:any;
+  setRefreshChannelsList:any;
 }
 
 const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
@@ -36,6 +38,7 @@ const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
               }
               props.ws.socket.emit('joinChannel', joinChannel);
               props.ws.socket.emit('getAllChannels');
+              props.setRefreshChannelsList(props.refreshChannelsList + 1);
             }}
           >
             Join channel
