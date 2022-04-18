@@ -18,6 +18,7 @@
     align-items: center;
     width: 100%;
     margin: 1vw 0;
+    margin-left: 3%;
     font-size: 1.3vw;
 
     input {
@@ -28,6 +29,7 @@
       border: 1px solid $blue1;
       background-color: $grey7;
       color: $white1;
+      font-size: 1vw;
     }
 
     input:focus {
