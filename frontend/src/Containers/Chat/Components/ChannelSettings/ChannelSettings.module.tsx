@@ -6,7 +6,7 @@ import { IChannel } from '../../../../interface/channel.interface';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
 import Dropdown from './Dropdown/Dropdown.module';
 import Dropdown2 from './Dropdown2/Dropdown2.module';
-import { userInfo } from 'os';
+
 
 interface Props {
   user: IUser;

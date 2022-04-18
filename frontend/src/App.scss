@@ -1,5 +1,10 @@
 @import 'utils.scss';
 
+body
+{
+  margin-left: 0;
+}
+
 .Layout {
   background-color: $blue1;
   color: $blue2;
