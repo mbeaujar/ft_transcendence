@@ -121,6 +121,10 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Ban User</p>
           <input className={classes.BanUserInput}></input>
         </div>
+        <div className={classes.UnbanUser}>
+          <p>Unban User</p>
+          <input className={classes.UnbanUserInput}></input>
+        </div>
         <div className={classes.MuteUser}>
           <p>Mute User</p>
           <input className={classes.MuteUserInput}></input>
