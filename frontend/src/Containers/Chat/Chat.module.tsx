@@ -17,22 +17,25 @@ const ws = new WebSocket("http://localhost:3000/chat");
 
 interface Props {
   user: IUser;
+  refresh: any;
+  setRefresh: any;
 }
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
-  const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
-  const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [refreshChannelsList, setRefreshChannelsList] = useState<number>(0);
+  const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
+  const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
   let channelsJoin2 = channelsJoin;
   let channelsNotJoin2 = channelsNotJoin;
 
   useEffect(() => {
     ws.socket.on("channels", (data) => {
       setChannels(data);
+      console.log("channelschat===",channels);
     });
 
     ws.socket.on("messages", (data) => {
@@ -48,12 +51,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.emit("getAllChannels");
-  }, [refreshChannelsList]);
+    props.setRefresh(props.refresh + 1);
+  }, [/*refreshChannelsList, channelChoose*/]);
 
   useEffect(() => {
+    ftChannelJoin();
     setChannelsJoin(channelsJoin2);
     setChannelsNotJoin(channelsNotJoin2);
-  }, [channels, activeChatMenu,refreshChannelsList]);
+  }, [/*channels, activeChatMenu, refreshChannelsList, channelChoose*/]);
 
   function ftChannelJoin() {
     channelsJoin2 = [];
@@ -117,6 +122,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           channel={channelChoose}
           ws={ws}
           channels={channels}
+          setChannelChoose={setChannelChoose}
+          setActiveChatMenu={setActiveChatMenu}
         />
       );
     }
@@ -139,7 +146,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         {channel.name}
       </p>
-    ));
+      ));
   };
 
   return (

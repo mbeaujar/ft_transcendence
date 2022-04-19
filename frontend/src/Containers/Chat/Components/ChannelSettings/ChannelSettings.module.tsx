@@ -1,22 +1,26 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import classes from './ChannelSettings.module.scss';
-import { IUser } from '../../../../interface/user.interface';
-import { IChannel } from '../../../../interface/channel.interface';
-import Avatar from '../../../Profile/components/Avatar/Avatar';
-import Dropdown from './Dropdown/Dropdown.module';
-import Dropdown2 from './Dropdown2/Dropdown2.module';
-
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import classes from "./ChannelSettings.module.scss";
+import { IUser } from "../../../../interface/user.interface";
+import { IChannel } from "../../../../interface/channel.interface";
+import Avatar from "../../../Profile/components/Avatar/Avatar";
+import Dropdown from "./Dropdown/Dropdown.module";
+import Dropdown2 from "./Dropdown2/Dropdown2.module";
+import { channel } from "diagnostics_channel";
 
 interface Props {
   user: IUser;
   channel: IChannel;
   channels: IChannel[];
   ws: any;
+  setChannelChoose: any;
+  setActiveChatMenu:any;
 }
 
 const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   let actualChannel: any = ftGetActualChannel();
+  const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
+
   useEffect(() => {
     actualChannel = ftGetActualChannel();
     console.log(actualChannel);
@@ -34,9 +38,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function ifShowAdminSettings() {
     let i = 0;
+
+    if (leaveChannel == true) return;
     while (actualChannel.users[i].user.username != props.user.username) {
+      console.log(actualChannel.users[i].user.username);
       i++;
     }
+
     if (actualChannel.users[i].administrator == true)
       return classes.ShowAdminSettings;
     else return classes.HideAdminSettings;
@@ -53,15 +61,15 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   const itemsMuteDuration = [
-    { id: 1, value: '1 hour' },
-    { id: 2, value: '1 day' },
-    { id: 3, value: '1 week' }
+    { id: 1, value: "1 hour" },
+    { id: 2, value: "1 day" },
+    { id: 3, value: "1 week" },
   ];
 
   const itemsChannelMode = [
-    { id: 1, value: 'Public' },
-    { id: 2, value: 'Private' },
-    { id: 3, value: 'Protected' }
+    { id: 1, value: "Public" },
+    { id: 2, value: "Private" },
+    { id: 3, value: "Protected" },
   ];
 
   return (
@@ -80,14 +88,22 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         <h3>User settings</h3>
         <button
           onClick={() => {
-            props.ws.socket.emit('leaveChannel', props.channel);
+            props.setChannelChoose(null);
+            setLeaveChannel(true);
+            props.ws.socket.emit("leaveChannel", props.channel);
+            //console.log("channels===",props.channels);
+            props.setActiveChatMenu(null);
           }}
         >
           Leave channel
         </button>
       </div>
 
-      <div className={ifShowAdminSettings()}>
+      <div
+        className={
+          !leaveChannel ? ifShowAdminSettings() : classes.HideAdminSettings
+        }
+      >
         <h3>Admin settings</h3>
         <div className={classes.BanUser}>
           <p>Ban User</p>
@@ -104,7 +120,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         </div>
       </div>
 
-      <div className={ifShowCreatorSettings()}>
+      <div
+        className={
+          !leaveChannel ? ifShowCreatorSettings() : classes.HideCreatorSettings
+        }
+      >
         <h3>Creator settings</h3>
         <div className={classes.NewAdmin}>
           <p>New Admin</p>

@@ -23,7 +23,7 @@ function MainApp(props: IMainProps) {
     <Routes>
       <Route path="/" element={<Game />} />
       <Route path="/Game" element={<Game />} />
-      <Route path="/Chat" element={<Chat user={user} />} />
+      <Route path="/Chat" element={<Chat user={user}  refresh={refresh} setRefresh={setRefresh}/>} />
       <Route
         path="/Profile"
         element={
