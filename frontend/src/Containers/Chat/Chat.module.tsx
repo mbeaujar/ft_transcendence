@@ -87,9 +87,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const joinChannel: IJoinChannel = {
             channel,
           };
-          if (channel.state === Scope.protected) {
-            Object.assign(joinChannel, { password: prompt("password") });
-          }
           ws.socket.emit("joinChannel", joinChannel);
         }}
       >
@@ -145,8 +142,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       );
     }
   };
-
-
 
   return (
     <>
