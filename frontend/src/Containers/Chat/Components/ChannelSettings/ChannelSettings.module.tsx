@@ -14,7 +14,7 @@ interface Props {
   channels: IChannel[];
   ws: any;
   setChannelChoose: any;
-  setActiveChatMenu:any;
+  setActiveChatMenu: any;
 }
 
 const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
@@ -23,7 +23,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
-    console.log(actualChannel);
   }, [props.channel]);
 
   function ftGetActualChannel() {
@@ -39,23 +38,37 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ifShowAdminSettings() {
     let i = 0;
 
-    if (leaveChannel == true) return;
-    while (actualChannel.users[i].user.username != props.user.username) {
-      console.log(actualChannel.users[i].user.username);
+    while (
+      actualChannel.users[i] &&
+      actualChannel.users[i].user &&
+      actualChannel.users[i].user.username != props.user.username
+    ) {
       i++;
     }
 
-    if (actualChannel.users[i].administrator == true)
+    if (
+      actualChannel.users[i] &&
+      actualChannel.users[i].user &&
+      actualChannel.users[i].administrator == true
+    )
       return classes.ShowAdminSettings;
     else return classes.HideAdminSettings;
   }
 
   function ifShowCreatorSettings() {
     let i = 0;
-    while (actualChannel.users[i].user.username != props.user.username) {
+    while (
+      actualChannel.users[i] &&
+      actualChannel.users[i].user &&
+      actualChannel.users[i].user.username != props.user.username
+    ) {
       i++;
     }
-    if (actualChannel.users[i].creator == true)
+    if (
+      actualChannel.users[i] &&
+      actualChannel.users[i].user &&
+      actualChannel.users[i].creator == true
+    )
       return classes.ShowCreatorSettings;
     else return classes.HideCreatorSettings;
   }
@@ -74,7 +87,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div className={classes.ChannelSettings}>
-      {/* <div className={classes.ChannelUsers}>
+      <div className={classes.ChannelUsers}>
         <h3>Users</h3>
         {actualChannel.users.map((user: any) => (
           <div className={classes.ChannelUser} key={user.id}>
@@ -91,8 +104,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             props.setChannelChoose(null);
             setLeaveChannel(true);
             props.ws.socket.emit("leaveChannel", props.channel);
-            props.ws.socket.emit("getAllChannels");
-            //console.log("channels===",props.channels);
             props.setActiveChatMenu(null);
           }}
         >
@@ -144,7 +155,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Actual password</p>
           <input className={classes.ActualPasswordInput}></input>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
