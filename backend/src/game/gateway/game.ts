@@ -24,6 +24,7 @@ export class Game {
   interval: NodeJS.Timer;
   player1: Player;
   player2: Player;
+  blink: number;
 
   constructor(
     private match: IMatch,
@@ -33,6 +34,7 @@ export class Game {
     private readonly connectedUserService: ConnectedUserService,
     private readonly server: Server,
   ) {
+    this.blink = 0;
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
     this.player1 = new Player(this.match.players[0].user.sensitivity, PADDLEH);
@@ -49,7 +51,9 @@ export class Game {
       this.endGame();
       return;
     }
-
+    // this.match.mode === Mode.draw;
+    if (this.blink >= 1000) this.blink = 0;
+    else this.blink++;
     this.ballHitRightPaddle();
 
     this.ballHitLeftPaddle();
@@ -66,9 +70,29 @@ export class Game {
       paddleh1: this.calculPercentage(this.player1.paddleh, HEIGHT),
       paddleh2: this.calculPercentage(this.player2.paddleh, HEIGHT),
     };
-    console.log('infogame', infoGame);
-    this.sendPlayersInformation(this.match.players, 'infoGame', infoGame);
+    this.sendPlayersInformation(
+      this.match.players[0],
+      this.player1,
+      'infoGame',
+      infoGame,
+    );
+    this.sendPlayersInformation(
+      this.match.players[1],
+      this.player2,
+      'infoGame',
+      infoGame,
+    );
     this.sendSpectatorsInformation(this.match.spectators, 'infoGame', infoGame);
+  }
+
+  drawingState(player: Player) {
+    if (player.score === 1 && this.blink > 500) {
+      player.draw = false;
+    } else if (this.player1.score === 2 || this.player2.score === 2) {
+      player.draw = false;
+    } else {
+      player.draw = true;
+    }
   }
 
   calculPercentage(pos: number, sub: number) {
@@ -122,17 +146,21 @@ export class Game {
   }
 
   async sendPlayersInformation(
-    players: IPlayer[],
+    players: IPlayer,
+    player: Player,
     emitMessage: string,
-    info: IInfoGame | IScore,
+    info: any,
   ) {
-    for (const player of players) {
-      const connectedPlayer = await this.connectedUserService.findByUser(
-        player.user,
-      );
-      if (connectedPlayer) {
-        this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
-      }
+    console.log('players', players);
+    console.log('player', player);
+    if (player.draw === false && emitMessage === 'infoGame') {
+      info = { ballx: info.ballx, bally: info.bally };
+    }
+    const connectedPlayer = await this.connectedUserService.findByUser(
+      players.user,
+    );
+    if (connectedPlayer) {
+      this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
     }
   }
 
@@ -191,13 +219,23 @@ export class Game {
       this.ball.reset();
       this.player1.reset();
       this.player2.reset();
+      const score: IScore = {
+        score: [this.player1.score, this.player2.score],
+      };
       // send score to players
-      this.sendPlayersInformation(this.match.players, 'scoreGame', {
-        score: [this.player1.score, this.player2.score],
-      });
-      this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', {
-        score: [this.player1.score, this.player2.score],
-      });
+      this.sendPlayersInformation(
+        this.match.players[0],
+        this.player1,
+        'scoreGame',
+        score,
+      );
+      this.sendPlayersInformation(
+        this.match.players[1],
+        this.player2,
+        'scoreGame',
+        score,
+      );
+      this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', score);
     }
   }
 }

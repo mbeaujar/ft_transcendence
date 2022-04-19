@@ -5,12 +5,14 @@ export class Player {
   y: number;
   step: number;
   paddleh: number;
+  draw: boolean;
 
   constructor(playerSensitivity: number, paddleh: number) {
     this.score = 0;
     this.y = 200;
     this.paddleh = PADDLEH;
     this.step = 20 * playerSensitivity;
+    this.draw = true;
   }
 
   top() {

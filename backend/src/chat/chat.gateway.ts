@@ -280,15 +280,16 @@ export class ChatGateway
         channel: channelDB,
       });
       await this.channelService.addUser(channelDB, newUser);
-    }
-    if (user.ban === true) {
-      if (this.countdownIsDown(user.unban_at)) {
-        throw new WsException('user is banned');
+    } else {
+      if (user.ban === true) {
+        if (this.countdownIsDown(user.unban_at)) {
+          throw new WsException('user is banned');
+        }
+        await this.channelUserService.updateUser(user, {
+          ban: false,
+          unban_at: null,
+        });
       }
-      await this.channelUserService.updateUser(user, {
-        ban: false,
-        unban_at: null,
-      });
     }
     await this.switchToChannel(socket, channelDB);
   }

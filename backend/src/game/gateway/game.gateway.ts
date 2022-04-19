@@ -1,8 +1,4 @@
-import {
-  OnModuleDestroy,
-  OnModuleInit,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { OnModuleDestroy, UnauthorizedException } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
