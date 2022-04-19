@@ -13,15 +13,9 @@ import { QueueService } from '../services/queue.service';
 import { IUser } from 'src/users/model/user/user.interface';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from 'src/auth/auth.service';
-import { PlayerService } from '../services/player.service';
 import { GameService } from '../services/game.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
-import { IPlayer } from '../model/player/player.interface';
-import { IMatch } from '../model/match/match.interface';
 import { IQueue } from '../model/queue/queue.interface';
-import { Game } from './game';
-import { State } from 'src/users/model/state.enum';
-import { Player } from './player';
 import { Queue } from '../model/queue/queue.entity';
 
 @WebSocketGateway({
@@ -63,6 +57,7 @@ export class GameGateway
       } else {
         client.data.user = user;
         console.log('connect', client.id, user.username);
+        // await this.connectedUserService.deleteByUser(user);
         await this.connectedUserService.create({ socketId: client.id, user });
       }
     } catch (e) {
@@ -73,6 +68,7 @@ export class GameGateway
   async handleDisconnect(client: Socket) {
     console.log('disconnect', client.id, client.data.user?.username);
     if (client.data.user) {
+      // await this.connectedUserService.deleteByUser(client.data.user);
       await this.connectedUserService.deleteBySocketId(client.id);
       await this.queueService.delete(client.data.user?.id);
     }
@@ -160,12 +156,14 @@ export class GameGateway
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
     if (match) {
-      if (
-        match.players[0].user.id === client.data.user.id ||
-        match.players[1].user.id === client.data.user.id
-      ) {
-        this.gameService.moveTop(match.id, client.data.user);
-        // this.game[match.id].moveTop(client.data.user);
+      if (match.live === 1) {
+        if (
+          match.players[0].user.id === client.data.user.id ||
+          match.players[1].user.id === client.data.user.id
+        ) {
+          this.gameService.moveTop(match.id, client.data.user);
+          // this.game[match.id].moveTop(client.data.user);
+        }
       }
     }
   }
@@ -174,19 +172,20 @@ export class GameGateway
   async moveBotPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
     if (match) {
-      if (
-        match.players[0].user.id === client.data.user.id ||
-        match.players[1].user.id === client.data.user.id
-      ) {
-        this.gameService.moveBot(match.id, client.data.user);
-        // this.game[match.id].moveBot(client.data.user);
+      if (match.live === 1) {
+        if (
+          match.players[0].user.id === client.data.user.id ||
+          match.players[1].user.id === client.data.user.id
+        ) {
+          this.gameService.moveBot(match.id, client.data.user);
+          // this.game[match.id].moveBot(client.data.user);
+        }
       }
     }
   }
 
-  @SubscribeMessage('info')
-  async oninfo(client: Socket, game: IGame) {
-    const match = await this.matchService.find(game.id);
-    console.log('match', match);
+  @SubscribeMessage('deleteConnected')
+  async on(socket: Socket) {
+    await this.connectedUserService.deleteByUser(socket.data.user);
   }
 }

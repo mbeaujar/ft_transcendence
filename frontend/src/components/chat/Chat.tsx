@@ -42,7 +42,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setMessages(prev => [...prev, data]);
     });
     ws.socket.on('currentChannel', data => {
-      console.log('users channel', data.users);
+      console.log('users channel', data);
       setChannelChoose(data);
     });
 

@@ -58,26 +58,22 @@ const Pong = (props: any) => {
         PADDLEW
       );
 
-      if (data.player1 && data.paddleh1) {
-        drawPaddle(
-          context,
-          5,
-          calculPercentage(data.player1, HEIGHT) -
-            calculPercentage(data.paddleh1, HEIGHT) / 2, // 160
-          PADDLEW,
-          calculPercentage(data.paddleh1, HEIGHT)
-        );
-      }
-      if (data.player2 && data.paddleh2) {
-        drawPaddle(
-          context,
-          WIDTH - PADDLEW - 2,
-          calculPercentage(data.player2, HEIGHT) -
-            calculPercentage(data.paddleh2, HEIGHT) / 2,
-          PADDLEW,
-          calculPercentage(data.paddleh2, HEIGHT)
-        );
-      }
+      drawPaddle(
+        context,
+        5,
+        calculPercentage(data.player1, HEIGHT) -
+          calculPercentage(data.paddleh1, HEIGHT) / 2, // 160
+        PADDLEW,
+        calculPercentage(data.paddleh1, HEIGHT)
+      );
+      drawPaddle(
+        context,
+        WIDTH - PADDLEW - 2,
+        calculPercentage(data.player2, HEIGHT) -
+          calculPercentage(data.paddleh2, HEIGHT) / 2,
+        PADDLEW,
+        calculPercentage(data.paddleh2, HEIGHT)
+      );
     });
     ws.socket.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
@@ -94,6 +90,13 @@ const Pong = (props: any) => {
   return (
     <div>
       <div>
+        <button
+          onClick={() => {
+            ws.socket.emit('deleteConnected');
+          }}
+        >
+          delete connected user
+        </button>
         <button
           onClick={() => {
             ws.socket.emit('joinQueue', { mode, invite: 0, target: 0 });

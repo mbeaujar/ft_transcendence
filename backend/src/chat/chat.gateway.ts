@@ -91,6 +91,7 @@ export class ChatGateway
       } else {
         socket.data.user = user;
         const channels = await this.channelService.getChannels(user.id);
+        // await this.connectedUserService.deleteByUser(user);
         await this.connectedUserService.create({ socketId: socket.id, user });
         // console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
@@ -103,6 +104,7 @@ export class ChatGateway
 
   async handleDisconnect(socket: Socket) {
     // console.log('disconnect', socket.id);
+    // await this.connectedUserService.deleteByUser(socket.data.user);
     await this.connectedUserService.deleteBySocketId(socket.id);
     await this.joinedChannelService.deleteBySocketId(socket.id);
     socket.disconnect();
@@ -147,8 +149,6 @@ export class ChatGateway
         return message;
       }
     });
-    // console.log('messageFiltered', messagesWithoutBlockedUsers);
-
     this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
 
     // Send the current channel of the user
@@ -158,6 +158,10 @@ export class ChatGateway
       users: channel.users,
     };
     this.server.to(socket.id).emit('currentChannel', currentChannel);
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
+    return this.server.to(socket.id).emit('channels', channels);
   }
 
   private async getChannelAndUser(
@@ -283,7 +287,6 @@ export class ChatGateway
       });
       await this.channelService.addUser(channelDB, newUser);
       const newChannelDB = await this.channelService.getChannel(channelDB.id);
-      console.log('new channel', newChannelDB);
       await this.switchToChannel(socket, newChannelDB);
     } else {
       if (user.ban === true) {
