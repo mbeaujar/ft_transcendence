@@ -20,6 +20,9 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
       username: profile.username,
       id: profile.id,
       sensitivity: 1,
+      elo: 1000,
+      wins: 0,
+      losses: 0,
       blockedUsers: [],
     };
     return this.authService.validateUser(user);

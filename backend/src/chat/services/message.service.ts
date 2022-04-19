@@ -27,4 +27,13 @@ export class MessageService {
       .orderBy('message.created_at', 'ASC')
       .getMany();
   }
+
+  async deleteMessageByChannel(channel: IChannel) {
+    return this.messageRepository
+      .createQueryBuilder('message')
+      .leftJoin('message.channel', 'channel')
+      .where('channel.id = :channelId', { channelId: channel.id })
+      .delete()
+      .execute();
+  }
 }

@@ -117,6 +117,9 @@ export class UsersController {
   @ApiOperation({ summary: 'block a user' })
   @Post('block')
   async blockUser(@Body() body: BlockUserDto, @CurrentUser() user: IUser) {
+    if (body.id === user.id) {
+      throw new BadRequestException('impossible to block yourself');
+    }
     const currentUser = await this.usersService.findUser(user.id);
     if (!currentUser) {
       throw new NotFoundException('user not found');
@@ -133,6 +136,9 @@ export class UsersController {
   @ApiOperation({ summary: 'unblock a user' })
   @Post('unblock')
   async unblockUser(@Body() body: BlockUserDto, @CurrentUser() user: IUser) {
+    if (body.id === user.id) {
+      throw new BadRequestException('impossible to unblock yourself');
+    }
     const currentUser = await this.usersService.findUser(user.id);
     if (!currentUser) {
       throw new NotFoundException('user not found');

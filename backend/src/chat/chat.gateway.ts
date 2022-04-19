@@ -11,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
 import { User } from 'src/users/model/user/user.entity';
 import {
+  BadRequestException,
   OnModuleDestroy,
   OnModuleInit,
   UnauthorizedException,
@@ -136,16 +137,17 @@ export class ChatGateway
     });
     // Get the message history
     const messages = await this.messageService.findMessageByChannel(channel);
-
+    // console.log('messages', messages);
     // BIG OVERKILL (when we get the message history we see the messages of the users blocked)
-    const messagesWithoutBlockedUsers = messages.map((message) => {
-      const userBlockedMe = message.user.blockedUsers.find(
-        (blockedUser) => blockedUser.id === socket.data.user.id,
+    const messagesWithoutBlockedUsers = messages.filter((message) => {
+      const userBlockedMe = socket.data.user?.blockedUsers?.find(
+        (blockedUser: any) => blockedUser.id === message.user.id,
       );
       if (!userBlockedMe) {
         return message;
       }
     });
+    // console.log('messageFiltered', messagesWithoutBlockedUsers);
 
     this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
 
@@ -306,7 +308,10 @@ export class ChatGateway
     // Delete user in the channel
     await this.channelUserService.deleteUser(channelUser);
     // if there is no more user anymore in the channel we delete it
+    console.log('channelDB length', channelDB.users.length);
     if (channelDB.users.length === 1) {
+      await this.channelUserService.deleteAllUsersInChannel(channelDB);
+      await this.messageService.deleteMessageByChannel(channelDB);
       await this.channelService.deleteChannel(channelDB);
     } else if (channelUser.creator === true) {
       // if the deleted user was the owner we make a new user the owner of the channel
@@ -397,13 +402,15 @@ export class ChatGateway
     const joinedUsers: JoinedChannel[] =
       await this.joinedChannelService.findByChannel(channel);
     /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */
-    for (const user of joinedUsers) {
+    for (const joinedUser of joinedUsers) {
       // if the user is blocked we don't send the message
-      const userBlockedMe = user.user.blockedUsers.find(
-        (blockedUser) => blockedUser.id === user.id,
+      const userBlockedMe = joinedUser.user.blockedUsers.find(
+        (blockedUser) => blockedUser.id === user.user.id,
       );
-      if (!userBlockedMe) {
-        this.server.to(user.socketId).emit('messageAdded', createdMessage);
+      if (userBlockedMe === undefined) {
+        this.server
+          .to(joinedUser.socketId)
+          .emit('messageAdded', createdMessage);
       }
     }
   }
@@ -441,19 +448,19 @@ export class ChatGateway
       newAdmin.channel,
       newAdmin.user.user,
     );
-    // Ban user
     await this.channelUserService.updateUser(target, {
       administrator: true,
     });
+
     // Search if the user is connected to the channel
-    const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
-      newAdmin.channel,
-      target.user,
-    );
-    // Kick user of the channel
-    if (joinedChannel) {
-      await this.joinedChannelService.delete(joinedChannel);
-    }
+    // const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
+    //   newAdmin.channel,
+    //   target.user,
+    // );
+    // // Kick user of the channel
+    // if (joinedChannel) {
+    //   await this.joinedChannelService.delete(joinedChannel);
+    // }
   }
 
   @SubscribeMessage('removeAdministrator')
@@ -497,6 +504,9 @@ export class ChatGateway
 
   @SubscribeMessage('banUser')
   async onBanUser(socket: Socket, banUser: IUpdateUser) {
+    if (socket.data.user.id === banUser.user.id) {
+      throw new BadRequestException('impossible to ban yourself');
+    }
     const target = await this.getTargetAndSecureRights(
       banUser.channel,
       banUser.user,
@@ -511,6 +521,9 @@ export class ChatGateway
 
   @SubscribeMessage('unbanUser')
   async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
+    if (socket.data.user.id === unbanUser.user.id) {
+      throw new BadRequestException('impossible to unban yourself');
+    }
     const target = await this.getTargetAndSecureRights(
       unbanUser.channel,
       unbanUser.user,
@@ -524,6 +537,9 @@ export class ChatGateway
 
   @SubscribeMessage('muteUser')
   async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
+    if (socket.data.user.id === muteUser.user.id) {
+      throw new BadRequestException('impossible to mute yourself');
+    }
     const target = await this.getTargetAndSecureRights(
       muteUser.channel,
       muteUser.user,
@@ -538,6 +554,9 @@ export class ChatGateway
 
   @SubscribeMessage('unmuteUser')
   async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
+    if (socket.data.user.id === unmuteUser.user.id) {
+      throw new BadRequestException('impossible to unmute yourself');
+    }
     const target = await this.getTargetAndSecureRights(
       unmuteUser.channel,
       unmuteUser.user,

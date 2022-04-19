@@ -60,7 +60,7 @@ export class ChannelService {
   }
 
   async deleteChannel(channel: IChannel): Promise<any> {
-    return this.channelRepository.delete(channel);
+    return this.channelRepository.delete(channel.id);
   }
 
   async addUser(channelI: IChannel, user: ChannelUser): Promise<Channel> {

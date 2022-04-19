@@ -9,8 +9,8 @@ export interface IUser {
   avatar?: LocalFileDto;
   isTwoFactorEnabled?: boolean;
   state?: State;
-  elo?: number;
-  wins?: number;
-  losses?: number;
-  blockedUsers?: IUser[];
+  elo: number;
+  wins: number;
+  losses: number;
+  blockedUsers: IUser[];
 }

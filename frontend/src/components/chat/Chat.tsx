@@ -29,6 +29,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   /** Listen event from backend socket */
   useEffect(() => {
     ws.socket.on('channels', data => {
+      console.log('channels', data);
       setChannels(data);
     });
 
@@ -40,7 +41,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ws.socket.on('messageAdded', data => {
       setMessages(prev => [...prev, data]);
     });
-
     ws.socket.on('currentChannel', data => {
       console.log('users channel', data.users);
       setChannelChoose(data);
@@ -52,10 +52,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
     ws.socket.emit('getAllChannels');
   }, []);
-
-  useEffect(() => {
-    console.log('list of channels', channels);
-  }, [channels]);
 
   const renderedChannels = channels.map(channel => {
     return (
@@ -150,7 +146,26 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         all channels
       </button>
-      <button onClick={() => {}}>block mael</button>
+      <button
+        onClick={() => {
+          api
+            .post('/users/block', { id: 74632 })
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        block mael
+      </button>
+      <button
+        onClick={() => {
+          api
+            .post('/users/unblock', { id: 74632 })
+            .then(response => console.log(response.data))
+            .catch(reject => console.error(reject));
+        }}
+      >
+        unblock mael
+      </button>
       <button
         onClick={() => {
           ws.socket.emit('leaveChannel', channelChoose);
@@ -165,6 +180,68 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           ws.socket.emit('createChannel', channel);
         }}
       />
+      <button
+        onClick={() => {
+          api
+            .get('/users/74632')
+            .then(response =>
+              ws.socket.emit('addAdministrator', {
+                channel: channelChoose,
+                user: response.data,
+              })
+            )
+            .catch(reject => console.error(reject));
+        }}
+      >
+        add mael administrator
+      </button>
+      <button
+        onClick={() => {
+          api
+            .get('/users/74632')
+            .then(response =>
+              ws.socket.emit('addAdministrator', {
+                channel: channelChoose,
+                user: response.data,
+              })
+            )
+            .catch(reject => console.error(reject));
+        }}
+      >
+        remove mael administrator
+      </button>
+      <button
+        onClick={() => {
+          api
+            .get('/users/74632')
+            .then(response =>
+              ws.socket.emit('muteUser', {
+                channel: channelChoose,
+                user: response.data,
+                milliseconds: 10000,
+              })
+            )
+            .catch(reject => console.error(reject));
+        }}
+      >
+        mute mael
+      </button>
+      <button
+        onClick={() => {
+          api
+            .get('/users/74632')
+            .then(response =>
+              ws.socket.emit('unmuteUser', {
+                channel: channelChoose,
+                user: response.data,
+                milliseconds: 10000,
+              })
+            )
+            .catch(reject => console.error(reject));
+        }}
+      >
+        unmute mael
+      </button>
       <br />
       <p>
         Current channel: {channelChoose?.name ? channelChoose.name : 'none'}

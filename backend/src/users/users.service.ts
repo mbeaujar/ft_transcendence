@@ -53,7 +53,9 @@ export class UsersService {
   }
 
   async findUser(id: number): Promise<User> {
-    return this.usersRepository.findOne({ id });
+    return this.usersRepository.findOne(id, {
+      relations: ['blockedUsers'],
+    });
   }
 
   async findUserALIKEWithUsername(username: string) {
