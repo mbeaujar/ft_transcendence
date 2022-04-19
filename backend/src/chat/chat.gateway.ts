@@ -281,7 +281,11 @@ export class ChatGateway
         channelId: channelDB.id,
         channel: channelDB,
       });
-      await this.channelService.addUser(channelDB, newUser);
+      const newChannelDB = await this.channelService.addUser(
+        channelDB,
+        newUser,
+      );
+      await this.switchToChannel(socket, newChannelDB);
     } else {
       if (user.ban === true) {
         if (this.countdownIsDown(user.unban_at)) {
@@ -292,8 +296,8 @@ export class ChatGateway
           unban_at: null,
         });
       }
+      await this.switchToChannel(socket, channelDB);
     }
-    await this.switchToChannel(socket, channelDB);
   }
 
   @SubscribeMessage('leaveChannel')
