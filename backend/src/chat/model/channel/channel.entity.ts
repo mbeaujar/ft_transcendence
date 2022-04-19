@@ -13,7 +13,7 @@ export class Channel {
   @Column({ select: false })
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToMany(() => ChannelUser, (user) => user.channel)

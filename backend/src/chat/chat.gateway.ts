@@ -281,10 +281,9 @@ export class ChatGateway
         channelId: channelDB.id,
         channel: channelDB,
       });
-      const newChannelDB = await this.channelService.addUser(
-        channelDB,
-        newUser,
-      );
+      await this.channelService.addUser(channelDB, newUser);
+      const newChannelDB = await this.channelService.getChannel(channelDB.id);
+      console.log('new channel', newChannelDB);
       await this.switchToChannel(socket, newChannelDB);
     } else {
       if (user.ban === true) {
