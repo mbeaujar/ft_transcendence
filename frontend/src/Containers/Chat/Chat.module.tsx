@@ -23,19 +23,19 @@ interface Props {
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
-  const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
-  const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [refreshChannelsList, setRefreshChannelsList] = useState<number>(0);
+  const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
+
   const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
   const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
-  let channelsJoin2 = channelsJoin;
-  let channelsNotJoin2 = channelsNotJoin;
+
+  const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
 
   useEffect(() => {
+    ws.socket.emit("getAllChannels");
+
     ws.socket.on("channels", (data) => {
       setChannels(data);
-      console.log("channelschat===",channels);
     });
 
     ws.socket.on("messages", (data) => {
@@ -50,30 +50,31 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setChannelChoose(data);
     });
 
+    ws.socket.on("memberChannel", (data) => {
+      console.log("member", data);
+    });
+
     ws.socket.emit("getAllChannels");
-    props.setRefresh(props.refresh + 1);
-  }, [/*refreshChannelsList, channelChoose*/]);
+  }, []);
 
   useEffect(() => {
     ftChannelJoin();
-    setChannelsJoin(channelsJoin2);
-    setChannelsNotJoin(channelsNotJoin2);
-  }, [/*channels, activeChatMenu, refreshChannelsList, channelChoose*/]);
+  }, [channels]);
 
   function ftChannelJoin() {
-    channelsJoin2 = [];
-    channelsNotJoin2 = [];
     let i = 0;
+    setChannelsJoin([]);
+    setChannelsNotJoin([]);
     channels.map((channel: IChannel) => {
       i = 0;
       channel.users.map((userList: any) => {
         if (userList.user.username === props.user.username) {
-          channelsJoin2.push(channel);
+          setChannelsJoin((prev) => [...prev, channel]);
           i = 1;
         }
       });
       if (i == 0) {
-        channelsNotJoin2.push(channel);
+        setChannelsNotJoin((prev) => [...prev, channel]);
       }
     });
   }
@@ -84,8 +85,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         return (
           <Discussion
             user={props.user}
-            channel={channelChoose}
             ws={ws}
+            channel={channelChoose}
             messages={messages}
           />
         );
@@ -95,12 +96,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <JoinChannel
           user={props.user}
-          channelNotJoin={channelsNotJoin2}
           ws={ws}
           channels={channels}
-          action={ftChannelJoin}
-          refreshChannelsList={refreshChannelsList}
-          setRefreshChannelsList={setRefreshChannelsList}
+          channelNotJoin={channelsNotJoin}
         />
       );
     } else if (activeChatMenu === "CreateChannel")
@@ -130,8 +128,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const ftDisplayJoinChannel = () => {
-    ftChannelJoin();
-    return channelsJoin2.map((channel: IChannel) => (
+    return channelsJoin.map((channel: IChannel) => (
       <p
         key={channel.id}
         onClick={() => {
@@ -146,7 +143,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         {channel.name}
       </p>
-      ));
+    ));
   };
 
   return (

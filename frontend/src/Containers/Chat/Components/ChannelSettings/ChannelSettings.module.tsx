@@ -74,7 +74,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div className={classes.ChannelSettings}>
-      <div className={classes.ChannelUsers}>
+      {/* <div className={classes.ChannelUsers}>
         <h3>Users</h3>
         {actualChannel.users.map((user: any) => (
           <div className={classes.ChannelUser} key={user.id}>
@@ -91,6 +91,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             props.setChannelChoose(null);
             setLeaveChannel(true);
             props.ws.socket.emit("leaveChannel", props.channel);
+            props.ws.socket.emit("getAllChannels");
             //console.log("channels===",props.channels);
             props.setActiveChatMenu(null);
           }}
@@ -143,7 +144,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Actual password</p>
           <input className={classes.ActualPasswordInput}></input>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
