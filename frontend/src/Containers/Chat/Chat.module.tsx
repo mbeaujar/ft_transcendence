@@ -79,6 +79,25 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
   }
 
+  const ftDisplayJoinChannel = () => {
+    return channelsJoin.map((channel: IChannel) => (
+      <p
+        key={channel.id}
+        onClick={() => {
+          const joinChannel: IJoinChannel = {
+            channel,
+          };
+          if (channel.state === Scope.protected) {
+            Object.assign(joinChannel, { password: prompt("password") });
+          }
+          ws.socket.emit("joinChannel", joinChannel);
+        }}
+      >
+        {channel.name}
+      </p>
+    ));
+  };
+
   const ftActiveChatMenuCenter = () => {
     if (activeChatMenu == null || channelChoose)
       if (channelChoose) {
@@ -127,24 +146,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     }
   };
 
-  const ftDisplayJoinChannel = () => {
-    return channelsJoin.map((channel: IChannel) => (
-      <p
-        key={channel.id}
-        onClick={() => {
-          const joinChannel: IJoinChannel = {
-            channel,
-          };
-          if (channel.state === Scope.protected) {
-            Object.assign(joinChannel, { password: prompt("password") });
-          }
-          ws.socket.emit("joinChannel", joinChannel);
-        }}
-      >
-        {channel.name}
-      </p>
-    ));
-  };
+
 
   return (
     <>

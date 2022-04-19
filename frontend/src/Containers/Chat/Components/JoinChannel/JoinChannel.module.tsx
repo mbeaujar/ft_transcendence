@@ -18,11 +18,17 @@ interface Props {
 const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {}, []);
 
+  function ftDisplayChannel(channel: IChannel) {
+    if (channel.state === Scope.public || channel.state === Scope.protected) {
+      return classes.ChannelToJoin;
+    }
+    return classes.HideChannelToJoin;
+  }
   return (
     <div className={classes.JoinChannel}>
       <h1>Join Channel</h1>
       {props.channelNotJoin.map((channel: IChannel) => (
-        <div className={classes.ChannelToJoin} key={channel.id}>
+        <div className={ftDisplayChannel(channel)} key={channel.id}>
           <p>{channel.name}</p>
           <button
             onClick={() => {
