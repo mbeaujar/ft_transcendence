@@ -20,6 +20,10 @@ interface Props {
 const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   let actualChannel: any = ftGetActualChannel();
   const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
+  const [banUser, setBanUser] = useState<string>("");
+  const [unbanUser, setUnbanUser] = useState<string>("");
+  const [muteUser, setMuteUser] = useState<string>("");
+  const [unmuteUser, setUnmuteUser] = useState<string>("");
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
@@ -74,9 +78,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   const itemsMuteDuration = [
-    { id: 1, value: "1 hour" },
-    { id: 2, value: "1 day" },
-    { id: 3, value: "1 week" },
+    { id: 1, value: "1 minute" },
+    { id: 2, value: "1 hour" },
+    { id: 3, value: "1 day" },
   ];
 
   const itemsChannelMode = [
@@ -84,6 +88,54 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     { id: 2, value: "Private" },
     { id: 3, value: "Protected" },
   ];
+
+  //Ban User
+  function handleSubmitFormBan(event: any) {
+    console.log("banUser=", banUser);
+    setBanUser("");
+    event.preventDefault();
+  }
+
+  function handleChangeBan(event: any) {
+    var value = event.target.value;
+    setBanUser(value);
+  }
+
+  //Unban User
+  function handleSubmitFormUnban(event: any) {
+    console.log("unban=", unbanUser);
+    setUnbanUser("");
+    event.preventDefault();
+  }
+
+  function handleChangeUnban(event: any) {
+    var value = event.target.value;
+    setUnbanUser(value);
+  }
+
+  //Mute User
+  function handleSubmitFormMute(event: any) {
+    console.log("muteUser=", muteUser);
+    setMuteUser("");
+    event.preventDefault();
+  }
+
+  function handleChangeMute(event: any) {
+    var value = event.target.value;
+    setMuteUser(value);
+  }
+
+  //Unmute User
+  function handleSubmitFormUnmute(event: any) {
+    console.log("unmuteUser=", unmuteUser);
+    setUnmuteUser("");
+    event.preventDefault();
+  }
+
+  function handleChangeUnmute(event: any) {
+    var value = event.target.value;
+    setUnmuteUser(value);
+  }
 
   return (
     <div className={classes.ChannelSettings}>
@@ -117,23 +169,55 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         }
       >
         <h3>Admin settings</h3>
-        <div className={classes.BanUser}>
+        <form
+          className={classes.BanUser}
+          onSubmit={(event) => handleSubmitFormBan(event)}
+        >
           <p>Ban User</p>
-          <input className={classes.BanUserInput}></input>
-        </div>
-        <div className={classes.UnbanUser}>
+          <input
+            className={classes.BanUserInput}
+            type="text"
+            value={banUser}
+            onChange={(event) => handleChangeBan(event)}
+          ></input>
+        </form>
+        <form
+          className={classes.UnbanUser}
+          onSubmit={(event) => handleSubmitFormUnban(event)}
+        >
           <p>Unban User</p>
-          <input className={classes.UnbanUserInput}></input>
-        </div>
-        <div className={classes.MuteUser}>
+          <input
+            className={classes.UnbanUserInput}
+            type="text"
+            value={unbanUser}
+            onChange={(event) => handleChangeUnban(event)}
+          ></input>
+        </form>
+        <form
+          className={classes.MuteUser}
+          onSubmit={(event) => handleSubmitFormMute(event)}
+        >
           <p>Mute User</p>
-          <input className={classes.MuteUserInput}></input>
-        </div>
+          <input
+            className={classes.MuteUserInput}
+            type="text"
+            value={muteUser}
+            onChange={(event) => handleChangeMute(event)}
+          ></input>
+        </form>
         <Dropdown title="Mute Duration" items={itemsMuteDuration} />
-        <div className={classes.UnmuteUser}>
+        <form
+          className={classes.UnmuteUser}
+          onSubmit={(event) => handleSubmitFormUnmute(event)}
+        >
           <p>Unmute User</p>
-          <input className={classes.UnmuteUserInput}></input>
-        </div>
+          <input
+            className={classes.UnmuteUserInput}
+            type="text"
+            value={unmuteUser}
+            onChange={(event) => handleChangeUnmute(event)}
+          ></input>
+        </form>
       </div>
 
       <div

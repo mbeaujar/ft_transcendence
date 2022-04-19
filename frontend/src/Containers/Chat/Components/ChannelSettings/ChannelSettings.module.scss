@@ -1,4 +1,4 @@
-@import '../../../../utils.scss';
+@import "../../../../utils.scss";
 
 .ChannelSettings {
   display: flex;
@@ -91,35 +91,7 @@
       margin-left: -10%;
     }
 
-    .BanUser {
-      position: absolute;
-      justify-content: space-between;
-      z-index: 3;
-    }
-
-    .UnbanUser {
-      position: absolute;
-      margin-top: 3vw;
-      justify-content: space-between;
-      z-index: 3;
-    }
-
-    .MuteUser {
-      position: absolute;
-      margin-top: 6vw;
-      justify-content: space-between;
-
-      z-index: 2;
-    }
-
-    .UnmuteUser {
-      position: absolute;
-      margin-top: 12.1vw;
-      justify-content: space-between;
-      z-index: 1;
-    }
-
-    div {
+    form {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -152,6 +124,41 @@
       .UnmuteUserInput {
         margin-left: 0.5vw;
       }
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 1vw;
+    }
+
+    .BanUser {
+      position: absolute;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .UnbanUser {
+      position: absolute;
+      margin-top: 3vw;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .MuteUser {
+      position: absolute;
+      margin-top: 6vw;
+      justify-content: space-between;
+
+      z-index: 2;
+    }
+
+    .UnmuteUser {
+      position: absolute;
+      margin-top: 12.1vw;
+      justify-content: space-between;
+      z-index: 1;
     }
   }
 
