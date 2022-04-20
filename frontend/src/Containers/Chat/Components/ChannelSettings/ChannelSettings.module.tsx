@@ -337,7 +337,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>Confirm</p>
           <input className={classes.ConfirmSetPasswordInput}></input>
         </div>
-        <button className={clsx(showChangeChannelMode(),ajustMarginTopChangeChannelMode)}>Change channel mode</button>
+        <button className={clsx(showChangeChannelMode(),ajustMarginTopChangeChannelMode())}>Change channel mode</button>
         <div
           className={clsx(
             showNewPassword("NewPassword"),
