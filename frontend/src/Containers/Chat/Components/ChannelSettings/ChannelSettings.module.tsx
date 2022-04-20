@@ -25,6 +25,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [muteUser, setMuteUser] = useState<string>("");
   const [muteUserDuration, setMuteUserDuration] = useState("1 minute");
   const [unmuteUser, setUnmuteUser] = useState<string>("");
+  const [newAdmin, setNewAdmin] = useState<string>("");
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
@@ -138,6 +139,18 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setUnmuteUser(value);
   }
 
+  //New admin
+  function handleSubmitFormNewAdmin(event: any) {
+    console.log("newAdmin=", newAdmin);
+    setNewAdmin("");
+    event.preventDefault();
+  }
+
+  function handleChangeNewAdmin(event: any) {
+    var value = event.target.value;
+    setNewAdmin(value);
+  }
+
   return (
     <div className={classes.ChannelSettings}>
       <div className={classes.ChannelUsers}>
@@ -231,10 +244,18 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         }
       >
         <h3>Creator settings</h3>
-        <div className={classes.NewAdmin}>
+        <form
+          className={classes.NewAdmin}
+          onSubmit={(event) => handleSubmitFormNewAdmin(event)}
+        >
           <p>New Admin</p>
-          <input className={classes.NewAdminInput}></input>
-        </div>
+          <input
+            className={classes.NewAdminInput}
+            type="text"
+            value={newAdmin}
+            onChange={(event) => handleChangeNewAdmin(event)}
+          ></input>
+        </form>
         <Dropdown2 title="Channel Mode" items={itemsChannelMode} />
         <div className={classes.ChangePassword}>
           <p>Change password</p>

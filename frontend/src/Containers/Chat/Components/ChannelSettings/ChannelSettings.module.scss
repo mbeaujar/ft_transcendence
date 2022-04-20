@@ -198,6 +198,26 @@
       justify-content: space-between;
       margin-bottom: 0vw;
     }
+
+    form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 1vw;
+
+      input {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        font-size: 1vw;
+        width: 42%;
+        height: 1.2vw;
+        outline: none;
+        color: $white1;
+        padding: 0.2vw 0.4vw;
+      }
+    }
+
     div {
       display: flex;
       flex-direction: row;
