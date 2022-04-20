@@ -169,7 +169,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (actualChannel.state == 0) state = "Public";
     if (actualChannel.state == 1) state = "Private";
     if (actualChannel.state == 2) state = "Protected";
-    console.log("state=", state, "mode=", newChallengeMode);
     if (state !== newChallengeMode) {
       return classes.ChangeChannelMode;
     }

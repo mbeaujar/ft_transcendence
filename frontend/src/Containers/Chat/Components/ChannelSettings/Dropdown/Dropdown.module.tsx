@@ -53,7 +53,7 @@ function Dropdown(props: any) {
         </div>
       </div>
       {open && (
-        <ul className={classes.list}>
+        <ul className={classes.list} onClick={() => close()}>
           {props.items.map((item: any) => (
             <li className={classes.dd_list_item} key={item.id}>
               <button
