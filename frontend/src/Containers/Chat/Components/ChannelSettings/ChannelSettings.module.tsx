@@ -23,6 +23,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [banUser, setBanUser] = useState<string>("");
   const [unbanUser, setUnbanUser] = useState<string>("");
   const [muteUser, setMuteUser] = useState<string>("");
+  const [muteUserDuration, setMuteUserDuration] = useState("1 minute");
   const [unmuteUser, setUnmuteUser] = useState<string>("");
 
   useEffect(() => {
@@ -205,7 +206,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             onChange={(event) => handleChangeMute(event)}
           ></input>
         </form>
-        <Dropdown title="Mute Duration" items={itemsMuteDuration} />
+        <Dropdown
+          title="Mute Duration"
+          items={itemsMuteDuration}
+          setMuteUserDuration={setMuteUserDuration}
+        />
         <form
           className={classes.UnmuteUser}
           onSubmit={(event) => handleSubmitFormUnmute(event)}

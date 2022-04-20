@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import classes from './Dropdown.module.scss';
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import classes from "./Dropdown.module.scss";
 
 function Dropdown(props: any) {
   const [open, setOpen] = useState(false);
@@ -13,15 +13,20 @@ function Dropdown(props: any) {
       if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
-    document.addEventListener('click', onBodyClick, { capture: true });
+    document.addEventListener("click", onBodyClick, { capture: true });
     return () => {
-      document.removeEventListener('click', onBodyClick, { capture: true });
+      document.removeEventListener("click", onBodyClick, { capture: true });
     };
   }, []);
 
   function handleOnClick(item: any, multiSelect: boolean) {
-    if (selection != item.value) setSelection(item.value);
-    else setSelection(props.items[0].value);
+    if (selection != item.value) {
+      setSelection(item.value);
+      props.setMuteUserDuration(item.value);
+    } else {
+      setSelection(props.items[0].value);
+      props.setMuteUserDuration(props.items[0].value);
+    }
   }
 
   function isItemInSelection(item: any) {

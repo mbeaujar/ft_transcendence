@@ -1,11 +1,12 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import classes from './Dropdown.module.scss';
-
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import classes from "./Dropdown.module.scss";
 
 function Dropdown(props: any) {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState<string>(props.items[props.dropdownIndex].value);
+  const [selection, setSelection] = useState<string>(
+    props.items[props.dropdownIndex].value
+  );
   const close = () => setOpen(!open);
   const ref = useRef<any>();
 
@@ -14,21 +15,19 @@ function Dropdown(props: any) {
       if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
-    document.addEventListener('click', onBodyClick, { capture: true });
+    document.addEventListener("click", onBodyClick, { capture: true });
     return () => {
-      document.removeEventListener('click', onBodyClick, { capture: true });
+      document.removeEventListener("click", onBodyClick, { capture: true });
     };
   }, []);
 
   function handleOnClick(item: any, multiSelect: boolean) {
-    if (selection != item.value) 
-    {
+    if (selection != item.value) {
       setSelection(item.value);
       props.setValueEnableDoubleAuth(item.value);
-    }
-    else {
+    } else {
       setSelection(props.items[1].value);
-      props.setValueEnableDoubleAuth(props.items[1].value)
+      props.setValueEnableDoubleAuth(props.items[1].value);
     }
   }
 
