@@ -33,13 +33,21 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [setPassword, setSetPassword] = useState<string>("");
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmNewPassword, setConfirmPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel]);
+
+  useEffect(() => {
+    console.log("mute=",muteUserDuration);
+  }, [muteUserDuration]);
+
+  useEffect(() => {
+    console.log("mode=",newChallengeMode);
+  }, [newChallengeMode]);
 
   function ftGetActualChannel() {
     let i = 0;
@@ -242,6 +250,24 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     return classes.MarginSevenHalf;
   }
 
+  function handleSubmitFormNewPassword(event: any) {
+    console.log("newpassword=", newPassword);
+    setNewPassword("");
+    console.log("confirmnewpassword=", confirmNewPassword);
+    setConfirmNewPassword("");
+    event.preventDefault();
+  }
+
+  function handleChangeNewPassword(event: any) {
+    var value = event.target.value;
+    setNewPassword(value);
+  }
+
+  function handleChangeConfirmNewPassword(event: any) {
+    var value = event.target.value;
+    setConfirmNewPassword(value);
+  }
+
   return (
     <div className={classes.ChannelSettings}>
       <div className={classes.ChannelUsers}>
@@ -377,7 +403,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             showChangeChannelMode(),
             ajustMarginTopChangeChannelMode()
           )}
-           onClick={handleSubmitFormSetPassword}
+          onClick={handleSubmitFormSetPassword}
         >
           Change channel mode
         </button>
@@ -388,13 +414,26 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           )}
         >
           <p>New password</p>
-          <input className={classes.NewPasswordInput}></input>
+          <input
+            className={classes.NewPasswordInput}
+            type="text"
+            value={newPassword}
+            onChange={(event) => handleChangeNewPassword(event)}
+          ></input>
         </div>
         <div className={showNewPassword("ConfirmNewPassword")}>
           <p>Confirm</p>
-          <input className={classes.ConfirmNewPasswordInput}></input>
+          <input
+            className={classes.ConfirmNewPasswordInput}
+            type="text"
+            value={confirmNewPassword}
+            onChange={(event) => handleChangeConfirmNewPassword(event)}
+          ></input>
         </div>
-        <button className={showNewPassword("ChangePassword")}>
+        <button
+          className={showNewPassword("ChangePassword")}
+          onClick={handleSubmitFormNewPassword}
+        >
           Change password
         </button>
       </div>
