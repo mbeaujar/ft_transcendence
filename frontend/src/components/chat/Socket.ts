@@ -14,6 +14,16 @@ export class WebSocket {
         },
       },
     };
+    // this.socket = io(url, socketOptions);
     this.socket = io(url, socketOptions);
+  }
+
+  connect() {
+    this.socket.connect();
+  }
+
+  disconnect() {
+    // this.socket.close();
+    this.socket.disconnect();
   }
 }

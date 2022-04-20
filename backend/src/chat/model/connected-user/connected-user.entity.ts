@@ -1,6 +1,7 @@
 import { User } from 'src/users/model/user/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -14,6 +15,12 @@ export class ConnectedUser {
 
   @Column()
   socketId: string;
+
+  @Column()
+  mode: number;
+
+  @CreateDateColumn()
+  created_at: Date;
 
   @ManyToOne(() => User, (user) => user.connections)
   @JoinColumn()

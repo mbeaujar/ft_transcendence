@@ -17,6 +17,7 @@ import { GameService } from '../services/game.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
 import { IQueue } from '../model/queue/queue.interface';
 import { Queue } from '../model/queue/queue.entity';
+import { Mode } from 'src/chat/model/connected-user/mode.enum';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -58,7 +59,11 @@ export class GameGateway
         client.data.user = user;
         console.log('connect', client.id, user.username);
         // await this.connectedUserService.deleteByUser(user);
-        await this.connectedUserService.create({ socketId: client.id, user });
+        await this.connectedUserService.create({
+          socketId: client.id,
+          user,
+          mode: Mode.game,
+        });
       }
     } catch (e) {
       return this.disconnect(client);
@@ -96,53 +101,45 @@ export class GameGateway
 
   /** --------------------------- QUEUE -------------------------------------- */
 
-  private async startGame(queue1: IQueue, user2: IUser, mode: number) {
-    await this.gameService.startGame(queue1.user, user2, mode, this.server);
+  private async startGame(user1: IUser, user2: IUser, mode: number) {
+    await this.gameService.startGame(user1, user2, mode, this.server);
   }
 
   @SubscribeMessage('joinQueue')
   async onJoinQueue(client: Socket, game: IGame) {
     const queueExist = await this.queueService.find(client.data.user.id);
-    // Todo(maybe): check if the user is already in game
-    if (queueExist) return;
+    const match = await this.matchService.userIsPlaying(client.data.user.id);
+    if (queueExist || match) return;
 
-    await this.queueService.create({
-      elo: client?.data?.user?.elo,
-      user: client?.data?.user,
-      invite: game.invite ? game.invite : 0,
-      target: game.target,
-      mode: game.mode,
-    });
-    // Search other user in the queue
-    const interval = setInterval(async () => {
-      // check if the user is in the queue (stop if not)
-      const queue = await this.queueService.find(client.data.user.id);
-      if (!queue) {
-        clearInterval(interval);
+    let player: Queue;
+    if (game.invite === 1) {
+      player = await this.queueService.findQueue(game.target);
+    } else {
+      player = await this.queueService.findOpponents(
+        client.data.user.id,
+        client.data.user.elo,
+        game.mode,
+      );
+    }
+    // Start game if we found an opponent
+    if (player) {
+      if (client.data.user && player.user) {
+        const user = player.user;
+        // Delete opponent queue
+        await this.queueService.delete(player.user.id);
+        await this.startGame(client.data.user, user, game.mode);
         return;
       }
-      let player: Queue;
-      if (queue.invite === 1) {
-        player = await this.queueService.findQueue(queue.target);
-      } else {
-        player = await this.queueService.findOpponents(
-          client.data.user.id,
-          client.data.user.elo,
-          game.mode,
-        );
-      }
-      // Start game if we found an opponent
-      if (player) {
-        if (queue.user && player.user) {
-          clearInterval(interval);
-          const user = player.user;
-          await this.queueService.delete(player.user.id);
-          await this.startGame(queue, user, game.mode);
-          await this.queueService.delete(queue.user.id);
-          return;
-        }
-      }
-    }, 1000);
+    } else {
+      // Create a queue for somebody to find me
+      await this.queueService.create({
+        elo: client?.data?.user?.elo,
+        user: client?.data?.user,
+        invite: game.invite ? game.invite : 0,
+        target: game.target,
+        mode: game.mode,
+      });
+    }
   }
 
   @SubscribeMessage('leaveQueue')
@@ -155,15 +152,20 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    if (match) {
-      if (match.live === 1) {
-        if (
-          match.players[0].user.id === client.data.user.id ||
-          match.players[1].user.id === client.data.user.id
-        ) {
-          this.gameService.moveTop(match.id, client.data.user);
-          // this.game[match.id].moveTop(client.data.user);
-        }
+    console.log('match', match);
+    if (match && match.live === 1) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.gameService.moveTop(match.id, client.data.user);
+      }
+    } else {
+      const matchExist = await this.matchService.userIsPlaying(
+        client.data.user.id,
+      );
+      if (matchExist) {
+        this.server.to(client.id).emit('startGame', { match: matchExist });
       }
     }
   }
@@ -171,15 +173,20 @@ export class GameGateway
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    if (match) {
-      if (match.live === 1) {
-        if (
-          match.players[0].user.id === client.data.user.id ||
-          match.players[1].user.id === client.data.user.id
-        ) {
-          this.gameService.moveBot(match.id, client.data.user);
-          // this.game[match.id].moveBot(client.data.user);
-        }
+    console.log('match', match);
+    if (match && match.live === 1) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.gameService.moveBot(match.id, client.data.user);
+      }
+    } else {
+      const matchExist = await this.matchService.userIsPlaying(
+        client.data.user.id,
+      );
+      if (matchExist) {
+        this.server.to(client.id).emit('startGame', { match: matchExist });
       }
     }
   }

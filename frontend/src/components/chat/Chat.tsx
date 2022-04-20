@@ -12,6 +12,7 @@ import api from '../../apis/api';
 import { Link } from 'react-router-dom';
 
 const ws = new WebSocket('http://localhost:3000/chat');
+ws.disconnect();
 
 interface Props {
   user: IUser;
@@ -28,6 +29,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   /** Listen event from backend socket */
   useEffect(() => {
+    ws.connect();
     ws.socket.on('channels', data => {
       console.log('channels', data);
       setChannels(data);
@@ -51,6 +53,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.emit('getAllChannels');
+    return () => {
+      ws.disconnect();
+      // ws?.socket.on('disconnect', () => {});
+    };
   }, []);
 
   const renderedChannels = channels.map(channel => {
@@ -65,6 +71,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             if (channel.state === Scope.protected) {
               Object.assign(joinChannel, { password: prompt('password') });
             }
+
             ws.socket.emit('joinChannel', joinChannel);
             ws.socket.emit('memberChannel', channel);
           }}
@@ -184,12 +191,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         onClick={() => {
           api
             .get('/users/74632')
-            .then(response =>
+            .then(response => {
               ws.socket.emit('addAdministrator', {
                 channel: channelChoose,
                 user: response.data,
-              })
-            )
+              });
+            })
             .catch(reject => console.error(reject));
         }}
       >
@@ -199,12 +206,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         onClick={() => {
           api
             .get('/users/74632')
-            .then(response =>
+            .then(response => {
               ws.socket.emit('addAdministrator', {
                 channel: channelChoose,
                 user: response.data,
-              })
-            )
+              });
+            })
             .catch(reject => console.error(reject));
         }}
       >
@@ -214,13 +221,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         onClick={() => {
           api
             .get('/users/74632')
-            .then(response =>
+            .then(response => {
               ws.socket.emit('muteUser', {
                 channel: channelChoose,
                 user: response.data,
                 milliseconds: 10000,
-              })
-            )
+              });
+            })
             .catch(reject => console.error(reject));
         }}
       >
@@ -230,13 +237,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         onClick={() => {
           api
             .get('/users/74632')
-            .then(response =>
+            .then(response => {
               ws.socket.emit('unmuteUser', {
                 channel: channelChoose,
                 user: response.data,
                 milliseconds: 10000,
-              })
-            )
+              });
+            })
             .catch(reject => console.error(reject));
         }}
       >
@@ -261,6 +268,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       <button
         onClick={() => {
           const channel = { name: 'blabla', state: 3, users: [], password: '' };
+
           ws.socket.emit('createDiscussion', {
             user,
             channel,

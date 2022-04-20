@@ -12,7 +12,8 @@ import { IPlayer } from '../model/player/player.interface';
 import { IInfoGame } from '../model/info-game.interface';
 import { IScore } from '../model/score.interface';
 import { State } from 'src/users/model/state.enum';
-import { Mode } from '../model/mode.enum';
+import { GameMode } from '../model/gamemode.enum';
+import { Mode } from 'src/chat/model/connected-user/mode.enum';
 
 export const WIDTH = 800;
 export const HEIGHT = 400;
@@ -24,7 +25,7 @@ export class Game {
   interval: NodeJS.Timer;
   player1: Player;
   player2: Player;
-  // blink: number;
+  blink: number;
 
   constructor(
     private match: IMatch,
@@ -34,7 +35,7 @@ export class Game {
     private readonly connectedUserService: ConnectedUserService,
     private readonly server: Server,
   ) {
-    // this.blink = 0;
+    this.blink = 0;
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
     this.player1 = new Player(this.match.players[0].user.sensitivity, PADDLEH);
@@ -51,9 +52,9 @@ export class Game {
       this.endGame();
       return;
     }
-    // this.match.mode === Mode.draw;
-    // if (this.blink >= 1000) this.blink = 0;
-    // else this.blink++;
+    this.match.mode === GameMode.draw;
+    if (this.blink >= 1000) this.blink = 0;
+    else this.blink++;
     this.ballHitRightPaddle();
 
     this.ballHitLeftPaddle();
@@ -70,36 +71,34 @@ export class Game {
       paddleh1: this.calculPercentage(this.player1.paddleh, HEIGHT),
       paddleh2: this.calculPercentage(this.player2.paddleh, HEIGHT),
     };
-    // await this.sendPlayersInformation(
-    //   this.match.players[0],
-    //   this.player1,
-    //   'infoGame',
-    //   infoGame,
-    // );
-    // await this.sendPlayersInformation(
-    //   this.match.players[1],
-    //   this.player2,
-    //   'infoGame',
-    //   infoGame,
-    // );
-    // await this.sendSpectatorsInformation(
-    //   this.match.spectators,
-    //   'infoGame',
-    //   infoGame,
-    // );
-    this.sendPlayersInformation(this.match.players, 'infoGame', infoGame);
-    this.sendSpectatorsInformation(this.match.spectators, 'infoGame', infoGame);
+    await this.sendPlayersInformation(
+      this.match.players[0],
+      this.player1,
+      'infoGame',
+      infoGame,
+    );
+    await this.sendPlayersInformation(
+      this.match.players[1],
+      this.player2,
+      'infoGame',
+      infoGame,
+    );
+    await this.sendSpectatorsInformation(
+      this.match.spectators,
+      'infoGame',
+      infoGame,
+    );
   }
 
-  // drawingState(player: Player) {
-  // if (player.score === 1 && this.blink > 500) {
-  // player.draw = false;
-  // } else if (this.player1.score === 2 || this.player2.score === 2) {
-  // player.draw = false;
-  // } else {
-  // player.draw = true;
-  // }
-  // }
+  drawingState(player: Player) {
+    if (player.score === 1 && this.blink > 500) {
+      player.draw = false;
+    } else if (this.player1.score === 2 || this.player2.score === 2) {
+      player.draw = false;
+    } else {
+      player.draw = true;
+    }
+  }
 
   calculPercentage(pos: number, sub: number) {
     return (pos * 100) / sub;
@@ -112,7 +111,7 @@ export class Game {
     await this.playerService.save(this.match.players[1]);
 
     await this.matchService.update(this.match, { live: 0 });
-    if (this.match.mode === Mode.default) {
+    if (this.match.mode === GameMode.default) {
       let winner = this.player1.score === 3 ? 0 : 1;
       let loser = this.player1.score === 3 ? 1 : 0;
       this.match.players[winner].user.elo += 30;
@@ -152,40 +151,22 @@ export class Game {
   }
 
   async sendPlayersInformation(
-    players: IPlayer[],
+    players: IPlayer,
+    player: Player,
     emitMessage: string,
-    info: IInfoGame | IScore,
+    info: any,
   ) {
-    console.log('players', players);
-    for (const player of players) {
-      const connectedPlayer = await this.connectedUserService.findByUser(
-        player.user,
-      );
-      console.log('connectedplayer', connectedPlayer);
-      if (connectedPlayer) {
-        this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
-      }
+    if (player.draw === false && emitMessage === 'infoGame') {
+      info = { ballx: info.ballx, bally: info.bally };
+    }
+    const connectedPlayer = await this.connectedUserService.findByUserAndMode(
+      players.user,
+      Mode.game,
+    );
+    if (connectedPlayer) {
+      this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
     }
   }
-  // async sendPlayersInformation(
-  //   players: IPlayer,
-  //   player: Player,
-  //   emitMessage: string,
-  //   info: any,
-  // ) {
-  //   console.log('players', players);
-  //   console.log('player', player);
-  //   console.log('info', info);
-  //   // if (player.draw === false && emitMessage === 'infoGame') {
-  //   //   info = { ballx: info.ballx, bally: info.bally };
-  //   // }
-  //   const connectedPlayer = await this.connectedUserService.findByUser(
-  //     players.user,
-  //   );
-  //   if (connectedPlayer) {
-  //     this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
-  //   }
-  // }
 
   async sendSpectatorsInformation(
     spectators: IUser[],
@@ -193,9 +174,8 @@ export class Game {
     info: IInfoGame | IScore,
   ) {
     for (const spec of spectators) {
-      const connectedSpecator = await this.connectedUserService.findByUser(
-        spec,
-      );
+      const connectedSpecator =
+        await this.connectedUserService.findByUserAndMode(spec, Mode.game);
       if (connectedSpecator) {
         this.server.to(connectedSpecator.socketId).emit(emitMessage, info);
       }
@@ -234,37 +214,31 @@ export class Game {
     if (this.ball.x + this.ball.r >= WIDTH || this.ball.x - this.ball.r <= 0) {
       if (this.ball.x + this.ball.r >= WIDTH) {
         this.player1.goal();
-        if (this.match.mode === Mode.paddle) this.player1.paddleh /= 2;
+        if (this.match.mode === GameMode.paddle) this.player1.paddleh /= 2;
       } else {
         this.player2.goal();
-        if (this.match.mode === Mode.paddle) this.player2.paddleh /= 2;
+        if (this.match.mode === GameMode.paddle) this.player2.paddleh /= 2;
       }
       this.ball.reset();
       this.player1.reset();
       this.player2.reset();
-      // const score: IScore = {
-      //   score: [this.player1.score, this.player2.score],
-      // };
+      const score: IScore = {
+        score: [this.player1.score, this.player2.score],
+      };
       // send score to players
-      // this.sendPlayersInformation(
-      //   this.match.players[0],
-      //   this.player1,
-      //   'scoreGame',
-      //   score,
-      // );
-      // this.sendPlayersInformation(
-      //   this.match.players[1],
-      //   this.player2,
-      //   'scoreGame',
-      //   score,
-      // );
-      // this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', score);
-      this.sendPlayersInformation(this.match.players, 'scoreGame', {
-        score: [this.player1.score, this.player2.score],
-      });
-      this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', {
-        score: [this.player1.score, this.player2.score],
-      });
+      this.sendPlayersInformation(
+        this.match.players[0],
+        this.player1,
+        'scoreGame',
+        score,
+      );
+      this.sendPlayersInformation(
+        this.match.players[1],
+        this.player2,
+        'scoreGame',
+        score,
+      );
+      this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', score);
     }
   }
 }

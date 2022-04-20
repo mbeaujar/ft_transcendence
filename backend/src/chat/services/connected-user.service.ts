@@ -4,6 +4,7 @@ import { IUser } from 'src/users/model/user/user.interface';
 import { DeleteResult, Repository } from 'typeorm';
 import { ConnectedUser } from '../model/connected-user/connected-user.entity';
 import { IConnectedUser } from '../model/connected-user/connected-user.interface';
+import { Mode } from '../model/connected-user/mode.enum';
 
 @Injectable()
 export class ConnectedUserService {
@@ -17,11 +18,14 @@ export class ConnectedUserService {
     return this.connetedUserRepository.save(newConnectedUser);
   }
 
-  async findByUser(user: IUser): Promise<ConnectedUser> {
+  async findByUserAndMode(user: IUser, mode: Mode): Promise<ConnectedUser> {
     return this.connetedUserRepository
       .createQueryBuilder('connected')
       .leftJoinAndSelect('connected.user', 'user')
       .where('user.id = :id', { id: user.id })
+      .andWhere('connected.mode = :mode', { mode })
+      .orderBy('connected.created_at', 'DESC')
+      .limit(1)
       .getOne();
   }
 

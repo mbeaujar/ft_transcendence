@@ -34,6 +34,7 @@ import { IChannelUser } from './model/channel-user/channel-user.interface';
 import { IUpdateChannel } from './interface/update-channel.interface';
 import { IUpdateUser } from './interface/update-user.interface';
 import { IDiscussion } from './interface/discussion.interface';
+import { Mode } from './model/connected-user/mode.enum';
 
 // Server emit:
 // channels 					-> list of channels
@@ -91,9 +92,13 @@ export class ChatGateway
       } else {
         socket.data.user = user;
         const channels = await this.channelService.getChannels(user.id);
-        // await this.connectedUserService.deleteByUser(user);
-        await this.connectedUserService.create({ socketId: socket.id, user });
-        // console.log('connect', socket.id, user.username);
+        await this.connectedUserService.deleteByUser(user);
+        await this.connectedUserService.create({
+          socketId: socket.id,
+          user,
+          mode: Mode.chat,
+        });
+        console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
@@ -103,10 +108,12 @@ export class ChatGateway
   }
 
   async handleDisconnect(socket: Socket) {
-    // console.log('disconnect', socket.id);
-    // await this.connectedUserService.deleteByUser(socket.data.user);
-    await this.connectedUserService.deleteBySocketId(socket.id);
-    await this.joinedChannelService.deleteBySocketId(socket.id);
+    console.log('disconnect', socket.id);
+    if (socket.data.user) {
+      await this.connectedUserService.deleteByUser(socket.data.user);
+      // await this.connectedUserService.deleteBySocketId(socket.id);
+      await this.joinedChannelService.deleteBySocketId(socket.id);
+    }
     socket.disconnect();
   }
 

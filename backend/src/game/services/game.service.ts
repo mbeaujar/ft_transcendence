@@ -1,5 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Server } from 'socket.io';
+import { Mode } from 'src/chat/model/connected-user/mode.enum';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
 import { State } from 'src/users/model/state.enum';
 import { IUser } from 'src/users/model/user/user.interface';
@@ -32,8 +33,9 @@ export class GameService implements OnModuleInit {
     match: IMatch,
     server: Server,
   ) {
-    const connectedPlayer = await this.connectedUserService.findByUser(
+    const connectedPlayer = await this.connectedUserService.findByUserAndMode(
       player.user,
+      Mode.game,
     );
     if (connectedPlayer) {
       server.to(connectedPlayer.socketId).emit('startGame', { match });

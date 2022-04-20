@@ -44,9 +44,19 @@ export class MatchService {
       .createQueryBuilder('match')
       .leftJoinAndSelect('match.players', 'player')
       .leftJoinAndSelect('player.user', 'user')
-      .where('user.id =  :id', { id: userId })
+      .where('user.id = :userId', { userId })
       .orderBy('match.created_at', 'ASC')
       .getMany();
+  }
+
+  async userIsPlaying(userId: number): Promise<Match> {
+    return this.matchRepository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.players', 'player') // relation player
+      .leftJoinAndSelect('player.user', 'user') // relation user in player
+      .where('user.id = :userId', { userId }) // where player.id === userid
+      .andWhere('match.live = :live', { live: 1 }) // where match.live === 1
+      .getOne();
   }
 
   async findMatchUser(userId: number): Promise<Match[]> {
