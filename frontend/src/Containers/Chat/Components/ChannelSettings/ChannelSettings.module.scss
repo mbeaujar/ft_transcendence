@@ -173,7 +173,9 @@
     flex-direction: column;
     position: relative;
 
-    .HideChangePasswordSettings {
+    .HideChangeChannelMode,
+    .HideChangePasswordSettings,
+    .HideSetPassword{
       display: none;
     }
 
@@ -184,11 +186,47 @@
     .NewAdmin {
       position: absolute;
       margin-top: 3.4vw;
+      width: 100%;
       justify-content: space-between;
     }
 
+    .SetPassword {
+      margin-top: 6.7vw;
+      justify-content: space-between;
+    }
+
+    .ConfirmSetPassword {
+      margin-top: -0.5vw;
+      justify-content: space-between;
+    }
+
+    .ChangeChannelMode {
+      background-color: $green1;
+      border: 0.1vw solid $green3;
+      color: $white1;
+      padding: 3%;
+      width: 70%;
+      border-radius: 0.3vw;
+      margin: auto;
+      margin-bottom: 1vw;
+      cursor: pointer;
+      font-size: 1vw;
+      //margin-top: 7.5vw;
+    }
+
+    .ChangeChannelMode:hover {
+      background-color: $green2;
+    }
+
+    .MarginZero {
+      margin-top: 0vw;
+    }
+
+    .MarginSevenHalf {
+      margin-top: 7.5vw;
+    }
+
     .NewPassword {
-      margin-top: 7.6vw;
       justify-content: space-between;
     }
 

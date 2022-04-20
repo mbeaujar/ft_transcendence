@@ -8,6 +8,7 @@ import Dropdown from "./Dropdown/Dropdown.module";
 import Dropdown2 from "./Dropdown2/Dropdown2.module";
 import { channel } from "diagnostics_channel";
 import { Scope } from "../../../../interface/scope.enum";
+import clsx from "clsx";
 
 interface Props {
   user: IUser;
@@ -28,10 +29,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [unmuteUser, setUnmuteUser] = useState<string>("");
   const [newAdmin, setNewAdmin] = useState<string>("");
   const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
-  const [newChallengeMode, setNewChallengeMode] = useState<string>("");
+  const [newChallengeMode, setNewChallengeMode] = useState<string>();
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
+    setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel]);
 
@@ -155,6 +157,43 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setNewAdmin(value);
   }
 
+  //Change channel mode
+  function initChangeChannelMode() {
+    if (actualChannel.state == 0) return "Public";
+    if (actualChannel.state == 1) return "Private";
+    if (actualChannel.state == 2) return "Protected";
+  }
+
+  function showChangeChannelMode() {
+    let state: string = "";
+    if (actualChannel.state == 0) state = "Public";
+    if (actualChannel.state == 1) state = "Private";
+    if (actualChannel.state == 2) state = "Protected";
+    console.log("state=", state, "mode=", newChallengeMode);
+    if (state !== newChallengeMode) {
+      return classes.ChangeChannelMode;
+    }
+    return classes.HideChangeChannelMode;
+  }
+
+  function showSetPassword(classname: string) {
+    if (actualChannel.state !== Scope.protected && newChallengeMode==="Protected") {
+      if (classname == "SetPassword") {
+        return classes.SetPassword;
+      } else if (classname == "ConfirmSetPassword") {
+        return classes.ConfirmSetPassword;
+      }
+    }
+    return classes.HideSetPassword;
+  }
+
+  function ajustMarginTopChangeChannelMode() {
+    if (actualChannel.state !== Scope.protected && newChallengeMode==="Protected") {
+      return classes.MarginZero;
+    }
+    return classes.MarginSevenHalf;
+  }
+  
   //New password
   function showNewPassword(classname: string) {
     if (actualChannel.state === Scope.protected) {
@@ -169,6 +208,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
       }
     }
     return classes.HideChangePasswordSettings;
+  }
+  
+  function ajustMarginTopChangePassword() {
+    if (showChangeChannelMode() == classes.ChangeChannelMode) {
+      return classes.MarginZero;
+    }
+    return classes.MarginSevenHalf;
   }
 
   return (
@@ -283,7 +329,21 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           channelState={actualChannel.state}
           setNewChallengeMode={setNewChallengeMode}
         />
-        <div className={showNewPassword("NewPassword")}>
+        <div className={showSetPassword("SetPassword")}>
+          <p>Set password</p>
+          <input className={classes.SetPasswordInput}></input>
+        </div>
+        <div className={showSetPassword("ConfirmSetPassword")}>
+          <p>Confirm</p>
+          <input className={classes.ConfirmSetPasswordInput}></input>
+        </div>
+        <button className={clsx(showChangeChannelMode(),ajustMarginTopChangeChannelMode)}>Change channel mode</button>
+        <div
+          className={clsx(
+            showNewPassword("NewPassword"),
+            ajustMarginTopChangePassword()
+          )}
+        >
           <p>New password</p>
           <input className={classes.NewPasswordInput}></input>
         </div>
