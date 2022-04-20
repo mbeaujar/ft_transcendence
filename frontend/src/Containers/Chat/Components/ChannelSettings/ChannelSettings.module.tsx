@@ -7,6 +7,7 @@ import Avatar from "../../../Profile/components/Avatar/Avatar";
 import Dropdown from "./Dropdown/Dropdown.module";
 import Dropdown2 from "./Dropdown2/Dropdown2.module";
 import { channel } from "diagnostics_channel";
+import { Scope } from "../../../../interface/scope.enum";
 
 interface Props {
   user: IUser;
@@ -26,9 +27,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [muteUserDuration, setMuteUserDuration] = useState("1 minute");
   const [unmuteUser, setUnmuteUser] = useState<string>("");
   const [newAdmin, setNewAdmin] = useState<string>("");
+  const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
+    setRefreshDropdown(refreshDropdown+1);
   }, [props.channel]);
 
   function ftGetActualChannel() {
@@ -151,6 +154,24 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setNewAdmin(value);
   }
 
+
+
+  //New password
+  function showNewPassword(classname: string) {
+    if (actualChannel.state === Scope.protected) {
+      if (classname == "NewPassword") {
+        return classes.NewPassword;
+      } else if (classname == "ConfirmPassword") {
+        return classes.ConfirmPassword;
+      } else if (classname == "ActualPassword") {
+        return classes.ActualPassword;
+      } else if (classname == "ChangePassword") {
+        return classes.ChangePassword;
+      }
+    }
+    return classes.HideChangePasswordSettings;
+  }
+
   return (
     <div className={classes.ChannelSettings}>
       <div className={classes.ChannelUsers}>
@@ -256,19 +277,27 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             onChange={(event) => handleChangeNewAdmin(event)}
           ></input>
         </form>
-        <Dropdown2 title="Channel Mode" items={itemsChannelMode} />
-        <div className={classes.ChangePassword}>
-          <p>Change password</p>
-          <input className={classes.ChangePasswordInput}></input>
+        <Dropdown2
+          title="Channel Mode"
+          items={itemsChannelMode}
+          refreshDropdown={refreshDropdown}
+          channelState={actualChannel.state}
+        />
+        <div className={showNewPassword("NewPassword")}>
+          <p>New password</p>
+          <input className={classes.NewPasswordInput}></input>
         </div>
-        <div className={classes.ConfirmPassword}>
+        <div className={showNewPassword("ConfirmPassword")}>
           <p>Confirm</p>
           <input className={classes.ConfirmInput}></input>
         </div>
-        <div className={classes.ActualPassword}>
+        <div className={showNewPassword("ActualPassword")}>
           <p>Actual password</p>
           <input className={classes.ActualPasswordInput}></input>
         </div>
+        <button className={showNewPassword("ChangePassword")}>
+          Change password
+        </button>
       </div>
     </div>
   );

@@ -1,27 +1,30 @@
-import React from 'react';
-import { useState, useEffect, useRef } from 'react';
-import classes from './Dropdown2.module.scss';
+import React from "react";
+import { useState, useEffect, useRef } from "react";
+import classes from "./Dropdown2.module.scss";
 
 function Dropdown(props: any) {
   const [open, setOpen] = useState(false);
-  const [selection, setSelection] = useState<string>(props.items[0].value);
+  const [selection, setSelection] = useState<string>(
+    props.items[props.channelState].value
+  );
   const close = () => setOpen(!open);
   const ref = useRef<any>();
 
   useEffect(() => {
+    setSelection(props.items[props.channelState].value);
     const onBodyClick = (event: any) => {
       if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
-    document.addEventListener('click', onBodyClick, { capture: true });
+    document.addEventListener("click", onBodyClick, { capture: true });
     return () => {
-      document.removeEventListener('click', onBodyClick, { capture: true });
+      document.removeEventListener("click", onBodyClick, { capture: true });
     };
-  }, []);
+  }, [props.refreshDropdown]);
 
   function handleOnClick(item: any, multiSelect: boolean) {
     if (selection != item.value) setSelection(item.value);
-    else setSelection(props.items[0].value);
+    else setSelection(props.items[props.channelState].value);
   }
 
   function isItemInSelection(item: any) {

@@ -173,6 +173,10 @@
     flex-direction: column;
     position: relative;
 
+    .HideChangePasswordSettings {
+      display: none;
+    }
+
     h3 {
       width: 110%;
       margin-left: -10%;
@@ -183,7 +187,7 @@
       justify-content: space-between;
     }
 
-    .ChangePassword {
+    .NewPassword {
       margin-top: 7.6vw;
       justify-content: space-between;
     }
@@ -197,6 +201,23 @@
       margin-top: -0.5vw;
       justify-content: space-between;
       margin-bottom: 0vw;
+    }
+
+    .ChangePassword {
+      background-color: $green1;
+      border: 0.1vw solid $green3;
+      color: $white1;
+      padding: 2%;
+      width: 60%;
+      border-radius: 0.3vw;
+      margin: auto;
+      margin-bottom: 1vw;
+      cursor: pointer;
+      font-size: 1vw;
+    }
+
+    .ChangePassword:hover {
+      background-color: $green2;
     }
 
     form {
