@@ -28,10 +28,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [unmuteUser, setUnmuteUser] = useState<string>("");
   const [newAdmin, setNewAdmin] = useState<string>("");
   const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
+  const [newChallengeMode, setNewChallengeMode] = useState<string>("");
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
-    setRefreshDropdown(refreshDropdown+1);
+    setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel]);
 
   function ftGetActualChannel() {
@@ -153,8 +154,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     var value = event.target.value;
     setNewAdmin(value);
   }
-
-
 
   //New password
   function showNewPassword(classname: string) {
@@ -282,6 +281,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           items={itemsChannelMode}
           refreshDropdown={refreshDropdown}
           channelState={actualChannel.state}
+          setNewChallengeMode={setNewChallengeMode}
         />
         <div className={showNewPassword("NewPassword")}>
           <p>New password</p>
