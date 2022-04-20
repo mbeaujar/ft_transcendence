@@ -12,6 +12,7 @@
   flex-wrap: wrap;
   position: absolute;
   margin-top: 7.4vw; //changement ici
+  padding-bottom: 1vw;
   z-index: 2;
   .header {
     @include styling();

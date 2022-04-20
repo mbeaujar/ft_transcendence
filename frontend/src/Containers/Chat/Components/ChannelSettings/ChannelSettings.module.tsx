@@ -30,6 +30,10 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [newAdmin, setNewAdmin] = useState<string>("");
   const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
   const [newChallengeMode, setNewChallengeMode] = useState<string>();
+  const [setPassword, setSetPassword] = useState<string>("");
+  const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmPassword] = useState<string>("");
 
   useEffect(() => {
     actualChannel = ftGetActualChannel();
@@ -176,7 +180,10 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function showSetPassword(classname: string) {
-    if (actualChannel.state !== Scope.protected && newChallengeMode==="Protected") {
+    if (
+      actualChannel.state !== Scope.protected &&
+      newChallengeMode === "Protected"
+    ) {
       if (classname == "SetPassword") {
         return classes.SetPassword;
       } else if (classname == "ConfirmSetPassword") {
@@ -187,28 +194,47 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function ajustMarginTopChangeChannelMode() {
-    if (actualChannel.state !== Scope.protected && newChallengeMode==="Protected") {
+    if (
+      actualChannel.state !== Scope.protected &&
+      newChallengeMode === "Protected"
+    ) {
       return classes.MarginZero;
     }
     return classes.MarginSevenHalf;
   }
-  
+  //Set Password
+  function handleSubmitFormSetPassword(event: any) {
+    console.log("setpassword=", setPassword);
+    setSetPassword("");
+    console.log("confirmsetpassword=", confirmSetPassword);
+    setConfirmSetPassword("");
+    event.preventDefault();
+  }
+
+  function handleChangeSetPassword(event: any) {
+    var value = event.target.value;
+    setSetPassword(value);
+  }
+
+  function handleChangeConfirmSetPassword(event: any) {
+    var value = event.target.value;
+    setConfirmSetPassword(value);
+  }
+
   //New password
   function showNewPassword(classname: string) {
     if (actualChannel.state === Scope.protected) {
       if (classname == "NewPassword") {
         return classes.NewPassword;
-      } else if (classname == "ConfirmPassword") {
-        return classes.ConfirmPassword;
-      } else if (classname == "ActualPassword") {
-        return classes.ActualPassword;
+      } else if (classname == "ConfirmNewPassword") {
+        return classes.ConfirmNewPassword;
       } else if (classname == "ChangePassword") {
         return classes.ChangePassword;
       }
     }
     return classes.HideChangePasswordSettings;
   }
-  
+
   function ajustMarginTopChangePassword() {
     if (showChangeChannelMode() == classes.ChangeChannelMode) {
       return classes.MarginZero;
@@ -330,13 +356,31 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         />
         <div className={showSetPassword("SetPassword")}>
           <p>Set password</p>
-          <input className={classes.SetPasswordInput}></input>
+          <input
+            className={classes.SetPasswordInput}
+            type="text"
+            value={setPassword}
+            onChange={(event) => handleChangeSetPassword(event)}
+          ></input>
         </div>
         <div className={showSetPassword("ConfirmSetPassword")}>
           <p>Confirm</p>
-          <input className={classes.ConfirmSetPasswordInput}></input>
+          <input
+            className={classes.ConfirmSetPasswordInput}
+            type="text"
+            value={confirmSetPassword}
+            onChange={(event) => handleChangeConfirmSetPassword(event)}
+          ></input>
         </div>
-        <button className={clsx(showChangeChannelMode(),ajustMarginTopChangeChannelMode())}>Change channel mode</button>
+        <button
+          className={clsx(
+            showChangeChannelMode(),
+            ajustMarginTopChangeChannelMode()
+          )}
+           onClick={handleSubmitFormSetPassword}
+        >
+          Change channel mode
+        </button>
         <div
           className={clsx(
             showNewPassword("NewPassword"),
@@ -346,13 +390,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           <p>New password</p>
           <input className={classes.NewPasswordInput}></input>
         </div>
-        <div className={showNewPassword("ConfirmPassword")}>
+        <div className={showNewPassword("ConfirmNewPassword")}>
           <p>Confirm</p>
-          <input className={classes.ConfirmInput}></input>
-        </div>
-        <div className={showNewPassword("ActualPassword")}>
-          <p>Actual password</p>
-          <input className={classes.ActualPasswordInput}></input>
+          <input className={classes.ConfirmNewPasswordInput}></input>
         </div>
         <button className={showNewPassword("ChangePassword")}>
           Change password
