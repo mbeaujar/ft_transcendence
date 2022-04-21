@@ -38,7 +38,10 @@ export class ChannelUserService {
   }
 
   async getUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
-    return this.channelUserRepository.find({ channelId: channel.id });
+    return this.channelUserRepository.find({
+      channelId: channel.id,
+      ban: false,
+    });
   }
 
   async findUserInChannel(

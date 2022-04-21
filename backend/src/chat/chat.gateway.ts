@@ -319,14 +319,16 @@ export class ChatGateway
     );
     // Quit channel
     await this.joinedChannelService.deleteBySocketId(socket.id);
-
     // Delete user in the channel
     await this.channelUserService.deleteUser(channelUser);
     // if there is no more user anymore in the channel we delete it
-    if (channelDB.users.length === 1) {
+    const users = await this.channelUserService.getUsersInChannel(channelDB);
+    if (users.length === 1) {
       await this.channelUserService.deleteAllUsersInChannel(channelDB);
       await this.messageService.deleteMessageByChannel(channelDB);
       await this.channelService.deleteChannel(channelDB);
+      // Prevent everyone that a channel as been deleted
+      this.sendChannelToEveryone(socket);
     } else if (channelUser.creator === true) {
       // if the deleted user was the owner we make a new user the owner of the channel
       const admins: IChannelUser[] =
@@ -336,16 +338,20 @@ export class ChatGateway
         await this.channelUserService.updateUser(admins[0], { creator: true });
       } else {
         // give it to a random user
-        const users: IChannelUser[] =
-          await this.channelUserService.getUsersInChannel(channelDB);
         await this.channelUserService.updateUser(users[0], {
           creator: true,
           administrator: true,
         });
       }
     }
-    // Prevent everyone that a channel as been deleted
-    this.sendChannelToEveryone(socket);
+    const joinedChannelUsers = await this.joinedChannelService.findByChannel(
+      channelDB,
+    );
+    for (const joinedChannelUser of joinedChannelUsers) {
+      this.server
+        .to(joinedChannelUser.socketId)
+        .emit('currentChannel', channelDB);
+    }
   }
 
   @SubscribeMessage('getAllChannels')
@@ -446,7 +452,6 @@ export class ChatGateway
     target: IUser,
   ): Promise<IChannelUser> {
     const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
-
     if (!userDB) {
       throw new WsException('user not found');
     }
@@ -474,16 +479,6 @@ export class ChatGateway
     await this.channelUserService.updateUser(target, {
       administrator: true,
     });
-
-    // Search if the user is connected to the channel
-    // const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
-    //   newAdmin.channel,
-    //   target.user,
-    // );
-    // // Kick user of the channel
-    // if (joinedChannel) {
-    //   await this.joinedChannelService.delete(joinedChannel);
-    // }
   }
 
   @SubscribeMessage('removeAdministrator')
@@ -547,8 +542,17 @@ export class ChatGateway
       target.user,
       Mode.chat,
     );
+    // Tell frontend that the user is not anymore in the channel
     if (bannedUser) {
       this.server.to(bannedUser.socketId).emit('currentChannel', null);
+    }
+    const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
+      banUser.channel,
+      target.user,
+    );
+    // kick user of the channel
+    if (joinedChannel) {
+      await this.joinedChannelService.delete(joinedChannel);
     }
   }
 

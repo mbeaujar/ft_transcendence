@@ -36,7 +36,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.on('messages', data => {
-      console.log('messages', data);
+      // console.log('messages', data);
       setMessages(data);
     });
 
@@ -46,10 +46,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ws.socket.on('currentChannel', data => {
       // console.log('users channel', data);
       setChannelChoose(data);
-    });
-
-    ws.socket.on('memberChannel', data => {
-      console.log('member', data);
     });
 
     ws.socket.emit('getAllChannels');
