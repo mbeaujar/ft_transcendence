@@ -44,7 +44,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setMessages(prev => [...prev, data]);
     });
     ws.socket.on('currentChannel', data => {
-      console.log('users channel', data);
+      // console.log('users channel', data);
       setChannelChoose(data);
     });
 
@@ -67,13 +67,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             const joinChannel: IJoinChannel = {
               channel,
             };
-            console.log('users', channel.users);
+            // console.log('users', channel.users);
             if (channel.state === Scope.protected) {
               Object.assign(joinChannel, { password: prompt('password') });
             }
 
             ws.socket.emit('joinChannel', joinChannel);
-            ws.socket.emit('memberChannel', channel);
           }}
         >
           {channel.name}
@@ -241,13 +240,45 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
               ws.socket.emit('unmuteUser', {
                 channel: channelChoose,
                 user: response.data,
-                milliseconds: 10000,
+                milliseconds: 100000,
               });
             })
             .catch(reject => console.error(reject));
         }}
       >
         unmute mael
+      </button>
+      <button
+        onClick={() => {
+          api
+            .get('/users/74728')
+            .then(response => {
+              ws.socket.emit('banUser', {
+                channel: channelChoose,
+                user: response.data,
+                milliseconds: 100000,
+              });
+            })
+            .catch(reject => console.error(reject));
+        }}
+      >
+        ban ramzi
+      </button>
+      <button
+        onClick={() => {
+          api
+            .get('/users/74728')
+            .then(response => {
+              ws.socket.emit('unbanUser', {
+                channel: channelChoose,
+                user: response.data,
+                milliseconds: 100000,
+              });
+            })
+            .catch(reject => console.error(reject));
+        }}
+      >
+        unban ramzi
       </button>
       <br />
       <p>

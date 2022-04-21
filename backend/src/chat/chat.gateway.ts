@@ -162,6 +162,7 @@ export class ChatGateway
     const currentChannel: IChannel = {
       id: channel.id,
       name: channel.name,
+      state: channel.state,
       users: channel.users,
     };
     this.server.to(socket.id).emit('currentChannel', currentChannel);
@@ -321,7 +322,6 @@ export class ChatGateway
     // Delete user in the channel
     await this.channelUserService.deleteUser(channelUser);
     // if there is no more user anymore in the channel we delete it
-    console.log('channelDB length', channelDB.users.length);
     if (channelDB.users.length === 1) {
       await this.channelUserService.deleteAllUsersInChannel(channelDB);
       await this.messageService.deleteMessageByChannel(channelDB);
@@ -406,6 +406,15 @@ export class ChatGateway
       await this.channelUserService.updateUser(user, {
         mute: false,
         unmute_at: null,
+      });
+    }
+    if (user.ban === true) {
+      if (this.countdownIsDown(user.unban_at) === false) {
+        throw new WsException('user is ban');
+      }
+      await this.channelUserService.updateUser(user, {
+        ban: false,
+        unban_at: null,
       });
     }
     const createdMessage: Message = await this.messageService.create({
@@ -517,6 +526,7 @@ export class ChatGateway
 
   @SubscribeMessage('banUser')
   async onBanUser(socket: Socket, banUser: IUpdateUser) {
+    console.log('banUser', banUser);
     if (socket.data.user.id === banUser.user.id) {
       throw new BadRequestException('impossible to ban yourself');
     }

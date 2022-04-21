@@ -74,6 +74,14 @@ export class UsersService {
     });
   }
 
+  async leaderboard(): Promise<User[]> {
+    return this.usersRepository.find({
+      order: {
+        elo: 'DESC',
+      },
+    });
+  }
+
   // ATTENTION -> https://typeorm.io/#/repository-api
   // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de precision sur la doc)
 

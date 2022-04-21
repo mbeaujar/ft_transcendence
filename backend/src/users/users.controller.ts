@@ -38,7 +38,7 @@ export class UsersController {
 
   /** --------------------------- AVATAR -------------------------------- */
 
-  @Post('avatar')
+  @Post('/avatar')
   @Auth()
   @UseInterceptors(
     LocalFilesInterceptor({
@@ -115,7 +115,7 @@ export class UsersController {
 
   @Auth()
   @ApiOperation({ summary: 'block a user' })
-  @Post('block')
+  @Post('/block')
   async blockUser(@Body() body: BlockUserDto, @CurrentUser() user: IUser) {
     if (body.id === user.id) {
       throw new BadRequestException('impossible to block yourself');
@@ -134,7 +134,7 @@ export class UsersController {
 
   @Auth()
   @ApiOperation({ summary: 'unblock a user' })
-  @Post('unblock')
+  @Post('/unblock')
   async unblockUser(@Body() body: BlockUserDto, @CurrentUser() user: IUser) {
     if (body.id === user.id) {
       throw new BadRequestException('impossible to unblock yourself');
@@ -156,7 +156,7 @@ export class UsersController {
 
   @Auth()
   @ApiOperation({ summary: 'Change the username' })
-  @Post('username')
+  @Post('/username')
   async changeUsername(
     @Body() body: UpdateUsernameDto,
     @CurrentUser() user: IUser,
@@ -171,9 +171,15 @@ export class UsersController {
   }
 
   @Auth()
-  @Get('history/:id')
+  @Get('/history/:id')
   async getHistoryMatch(@Param('id') id: string): Promise<Match[]> {
     return this.matchService.findMatchUser(parseInt(id));
+  }
+
+  @Auth()
+  @Get('/leaderboard')
+  async leaderboard(): Promise<IUser[]> {
+    return this.usersService.leaderboard();
   }
 
   @Auth()
