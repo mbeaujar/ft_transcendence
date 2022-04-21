@@ -42,11 +42,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }, [props.channel]);
 
   useEffect(() => {
-    console.log("mute=",muteUserDuration);
+    console.log("mute=", muteUserDuration);
   }, [muteUserDuration]);
 
   useEffect(() => {
-    console.log("mode=",newChallengeMode);
+    console.log("mode=", newChallengeMode);
   }, [newChallengeMode]);
 
   function ftGetActualChannel() {
@@ -134,8 +134,44 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   //Mute User
+
+  function findUser(username: string) {
+    let i = 0;
+    while (actualChannel.users[i]) {
+      if (actualChannel.users[i].user.username == username)
+        return actualChannel.users[i].user;
+      i++;
+    }
+    return null;
+  }
+
+  function setMuteTime()
+  {
+    if (muteUserDuration == "1 minute"){
+      return (60000);
+    }
+    if (muteUserDuration == "1 hour"){
+      return (3600000);
+    }
+    if (muteUserDuration == "1 day"){
+      return (86400000);
+    }
+  }
+
   function handleSubmitFormMute(event: any) {
-    console.log("muteUser=", muteUser);
+    let userToMute: IUser | null = null;
+    let time = setMuteTime();
+    userToMute = findUser(muteUser);
+    if (userToMute != null) {
+      console.log(userToMute.username," is mute during ",muteUserDuration);
+      props.ws.socket.emit("muteUser", {
+        channel: actualChannel,
+        user: userToMute,
+        milliseconds: time,
+      });
+    } else {
+      console.log("Mute : User not found");
+    }
     setMuteUser("");
     event.preventDefault();
   }
@@ -147,7 +183,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Unmute User
   function handleSubmitFormUnmute(event: any) {
-    console.log("unmuteUser=", unmuteUser);
+    let userToUnmute: IUser | null = null;
+    userToUnmute = findUser(unmuteUser);
+    if (userToUnmute != null) {
+      console.log(userToUnmute.username," is unmute");
+      props.ws.socket.emit("unmuteUser", {
+        channel: actualChannel,
+        user: userToUnmute,
+      });
+    } else {
+      console.log("Unmute : User not found");
+    }
     setUnmuteUser("");
     event.preventDefault();
   }
@@ -279,6 +325,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           </div>
         ))}
       </div>
+      <button onClick={() => console.log(actualChannel)}>Print channel</button>
 
       <div className={classes.UserSettings}>
         <h3>User settings</h3>
