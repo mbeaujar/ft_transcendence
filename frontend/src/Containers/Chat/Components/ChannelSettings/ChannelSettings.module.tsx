@@ -24,6 +24,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   let actualChannel: any = ftGetActualChannel();
   const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
   const [banUser, setBanUser] = useState<string>("");
+  const [banUserDuration, setBanUserDuration] = useState("1 day");
   const [unbanUser, setUnbanUser] = useState<string>("");
   const [muteUser, setMuteUser] = useState<string>("");
   const [muteUserDuration, setMuteUserDuration] = useState("1 minute");
@@ -40,7 +41,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     actualChannel = ftGetActualChannel();
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
+    console.log("channel=",props.channel);
+    console.log("channels=",props.channels);
   }, [props.channel]);
+
+  useEffect(() => {
+    console.log("ban=", banUserDuration);
+  }, [banUserDuration]);
 
   useEffect(() => {
     console.log("mute=", muteUserDuration);
@@ -51,6 +58,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }, [newChallengeMode]);
 
   function ftGetActualChannel() {
+    //return (props.channel);
     let i = 0;
     while (i < props.channels.length) {
       if (props.channels[i].name == props.channel.name) {
@@ -123,7 +131,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     userToBan = findUser(banUser);
     if (userToBan != null) {
       //console.log(userToBan.username," is ban during ",muteUserDuration);
-      console.log(userToBan.username, " is ban");
       props.ws.socket.emit("banUser", {
         channel: actualChannel,
         user: userToBan,
@@ -401,7 +408,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         <Dropdown3
           title="Ban Duration"
           items={itemsBanDuration}
-          setMuteUserDuration={setMuteUserDuration}
+          setBanUserDuration={setBanUserDuration}
         />
         <form
           className={classes.UnbanUser}

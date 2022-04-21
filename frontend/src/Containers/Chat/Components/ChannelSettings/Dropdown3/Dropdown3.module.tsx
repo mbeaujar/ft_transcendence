@@ -22,10 +22,10 @@ function Dropdown(props: any) {
   function handleOnClick(item: any, multiSelect: boolean) {
     if (selection != item.value) {
       setSelection(item.value);
-      props.setMuteUserDuration(item.value);
+      props.setBanUserDuration(item.value);
     } else {
       setSelection(props.items[0].value);
-      props.setMuteUserDuration(props.items[0].value);
+      props.setBanUserDuration(props.items[0].value);
     }
   }
 
