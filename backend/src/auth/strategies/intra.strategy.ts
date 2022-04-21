@@ -19,7 +19,7 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
     const user: IUser = {
       username: profile.username,
       id: profile.id,
-      sensitivity: 1,
+      sensitivity: 3,
       elo: 1000,
       wins: 0,
       losses: 0,

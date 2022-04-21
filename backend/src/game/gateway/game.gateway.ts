@@ -152,7 +152,6 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    // console.log('match', match);
     if (match && match.live === 1) {
       if (
         match.players[0].user.id === client.data.user.id ||
@@ -173,7 +172,6 @@ export class GameGateway
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    // console.log('match', match);
     if (match && match.live === 1) {
       if (
         match.players[0].user.id === client.data.user.id ||

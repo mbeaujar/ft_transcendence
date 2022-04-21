@@ -82,6 +82,14 @@ export class UsersService {
     });
   }
 
+  async ranking(elo: number): Promise<User[]> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.elo >= :elo', { elo })
+      .orderBy('user.elo', 'DESC')
+      .getMany();
+  }
+
   // ATTENTION -> https://typeorm.io/#/repository-api
   // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de precision sur la doc)
 

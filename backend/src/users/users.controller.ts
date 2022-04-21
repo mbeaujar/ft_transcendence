@@ -183,6 +183,13 @@ export class UsersController {
   }
 
   @Auth()
+  @Get('/ranking')
+  async ranking(@CurrentUser() user: IUser): Promise<number> {
+    const position = await this.usersService.ranking(user.elo);
+    return position.length;
+  }
+
+  @Auth()
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {

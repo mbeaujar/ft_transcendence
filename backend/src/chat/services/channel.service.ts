@@ -72,10 +72,12 @@ export class ChannelService {
   }
 
   async getChannel(channelId: number): Promise<Channel> {
-    return this.channelRepository.findOne(channelId, {
-      relations: ['users'],
-      select: ['id', 'state', 'password', 'users', 'name'],
-    });
+    return this.channelRepository
+      .createQueryBuilder('channel')
+      .where('channel.id = :channelId', { channelId })
+      .leftJoinAndSelect('channel.users', 'channel_user')
+      .leftJoinAndSelect('channel_user.user', 'user')
+      .getOne();
   }
 
   async getChannelsWithoutDiscussion(): Promise<Channel[]> {

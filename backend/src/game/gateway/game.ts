@@ -43,7 +43,7 @@ export class Game {
     this.ball = new Ball();
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
-    this.interval = setInterval(this.loop.bind(this), 35);
+    this.interval = setInterval(this.loop.bind(this), 20);
   }
 
   async loop() {
@@ -52,9 +52,16 @@ export class Game {
       this.endGame();
       return;
     }
-    this.match.mode === GameMode.draw;
-    if (this.blink >= 1000) this.blink = 0;
-    else this.blink++;
+    if (this.match.mode === GameMode.draw) {
+      if (this.blink >= 20) {
+        this.blink = 0;
+      } else {
+        this.blink++;
+      }
+      this.drawingState(this.player1);
+      this.drawingState(this.player2);
+    }
+
     this.ballHitRightPaddle();
 
     this.ballHitLeftPaddle();
@@ -72,14 +79,7 @@ export class Game {
       paddleh2: this.calculPercentage(this.player2.paddleh, HEIGHT),
     };
     await this.sendPlayersInformation(
-      this.match.players[0],
-      this.player1,
-      'infoGame',
-      infoGame,
-    );
-    await this.sendPlayersInformation(
-      this.match.players[1],
-      this.player2,
+      [this.match.players[0].user, this.match.players[1].user],
       'infoGame',
       infoGame,
     );
@@ -91,9 +91,9 @@ export class Game {
   }
 
   drawingState(player: Player) {
-    if (player.score === 1 && this.blink > 500) {
+    if (player.score === 1 && this.blink > 10) {
       player.draw = false;
-    } else if (this.player1.score === 2 || this.player2.score === 2) {
+    } else if (player.score === 2 && this.blink < 15) {
       player.draw = false;
     } else {
       player.draw = true;
@@ -150,21 +150,30 @@ export class Game {
     this.match = await this.matchService.save(this.match);
   }
 
-  async sendPlayersInformation(
-    players: IPlayer,
-    player: Player,
-    emitMessage: string,
-    info: any,
-  ) {
-    if (player.draw === false && emitMessage === 'infoGame') {
-      info = { ballx: info.ballx, bally: info.bally };
+  async sendPlayersInformation(users: User[], emitMessage: string, info: any) {
+    if (emitMessage === 'infoGame') {
+      if (this.player1.draw === false) {
+        info.player1 = undefined;
+        info.paddleh1 = undefined;
+      }
+      if (this.player2.draw === false) {
+        info.player2 = undefined;
+        info.paddleh2 = undefined;
+      }
     }
-    const connectedPlayer = await this.connectedUserService.findByUserAndMode(
-      players.user,
+    const connectedPlayer1 = await this.connectedUserService.findByUserAndMode(
+      users[0],
       Mode.game,
     );
-    if (connectedPlayer) {
-      this.server.to(connectedPlayer.socketId).emit(emitMessage, info);
+    if (connectedPlayer1) {
+      this.server.to(connectedPlayer1.socketId).emit(emitMessage, info);
+    }
+    const connectedPlayer2 = await this.connectedUserService.findByUserAndMode(
+      users[1],
+      Mode.game,
+    );
+    if (connectedPlayer2) {
+      this.server.to(connectedPlayer2.socketId).emit(emitMessage, info);
     }
   }
 
@@ -188,9 +197,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player2.y + PADDLEH / 2 &&
       this.ball.x + this.ball.r + PADDLEW + 5 >= WIDTH
     ) {
-      this.ball.dx = -this.ball.dx;
+      this.ball.dx *= -1.1;
       this.ball.dy =
-        8 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
+        8.5 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 
@@ -200,9 +209,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player1.y + PADDLEH / 2 &&
       this.ball.x - this.ball.r - PADDLEW - 5 <= 0
     ) {
-      this.ball.dx = -this.ball.dx;
+      this.ball.dx *= -1.1;
       this.ball.dy =
-        8 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
+        8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 
@@ -226,15 +235,8 @@ export class Game {
         score: [this.player1.score, this.player2.score],
       };
       // send score to players
-      this.sendPlayersInformation(
-        this.match.players[0],
-        this.player1,
-        'scoreGame',
-        score,
-      );
-      this.sendPlayersInformation(
-        this.match.players[1],
-        this.player2,
+      await this.sendPlayersInformation(
+        [this.match.players[0].user, this.match.players[1].user],
         'scoreGame',
         score,
       );

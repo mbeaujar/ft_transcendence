@@ -157,7 +157,6 @@ export class ChatGateway
       }
     });
     this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
-
     // Send the current channel of the user
     const currentChannel: IChannel = {
       id: channel.id,
@@ -177,6 +176,7 @@ export class ChatGateway
     user: IUser,
   ): Promise<[IChannel, IChannelUser]> {
     const channelDB = await this.channelService.getChannel(channel.id);
+    // console.log('channel users', channelDB);
     if (!channelDB) {
       throw new WsException('channel not found');
     }
@@ -272,6 +272,7 @@ export class ChatGateway
       joinChannel.channel,
       socket.data.user,
     );
+    console.log('channelDB', channelDB);
     // Check if user is already in the channel
     if (!user) {
       if (channelDB.state === State.private) {
@@ -540,6 +541,15 @@ export class ChatGateway
       ban: true,
       unban_at: new Date(now.getTime() + banUser.milliseconds),
     });
+
+    // kick user of channel if user is connected to the channel
+    const bannedUser = await this.connectedUserService.findByUserAndMode(
+      target.user,
+      Mode.chat,
+    );
+    if (bannedUser) {
+      this.server.to(bannedUser.socketId).emit('currentChannel', null);
+    }
   }
 
   @SubscribeMessage('unbanUser')

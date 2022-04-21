@@ -8,7 +8,7 @@ export class Ball {
   constructor() {
     this.x = 400;
     this.y = 200;
-    this.dx = 10;
+    this.dx = 5;
     this.dy = 0;
     this.r = 10;
   }
@@ -21,7 +21,7 @@ export class Ball {
   reset() {
     this.x = 400;
     this.y = 200;
-    this.dx = -this.dx;
+    this.dx = this.dx > 0 ? -5 : 5;
     this.dy = 0;
   }
 }
