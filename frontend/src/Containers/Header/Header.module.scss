@@ -1,7 +1,24 @@
-@import '../../utils.scss';
+@import "../../utils.scss";
 
-.Header
-{
+@media screen and (max-width: 650px) {
+  .Header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .BurgerMenu {
+      width: 3vw;
+      height: 3vw;
+    }
+
+    .Navigation {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .Header {
     margin: 10px 50px;
     margin: 1vw 5vw;
     display: flex;
@@ -12,63 +29,64 @@
     height: 16vh;
     margin-bottom: 0;
 
-    h1 
-    {
-        font-size: 45px;
-        font-size: 3vw;
-        //margin-left: 2%;
+    h1 {
+      font-size: 45px;
+      font-size: 3vw;
+      //margin-left: 2%;
+      font-weight: bold;
+      font-family: "Quintessential", cursive;
+      /*font-family: 'Permanent Marker', cursive;*/
+    }
+
+    .BurgerMenu {
+      display: none;
+    }
+
+    .Navigation {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      //margin-right: 2%;
+
+      a {
+        text-decoration: none;
+        color: $blue2;
+        font-family: "Roboto Slab", serif;
         font-weight: bold;
-        font-family: 'Quintessential', cursive;
-        /*font-family: 'Permanent Marker', cursive;*/
+        font-size: 20px;
+        font-size: 1.65vw;
+        margin-right: 25px;
+      }
+
+      a:hover {
+        color: $blue3;
+      }
+
+      .showLogin,
+      .showLogout {
+        cursor: pointer;
+        display: block;
+        padding: 1vw;
+        background-color: $blue2;
+        border: 0.05px solid $blue3;
+        border-radius: 0.8vw;
+        font-family: "Roboto Slab", serif;
+        font-weight: bold;
+        font-size: 1.65vw;
+        color: $blue1;
+      }
+
+      .showLogin:hover,
+      .showLogout:hover {
+        background-color: $blue3;
+        border: 0.05px solid $blue2;
+        color: $blue2;
+      }
+
+      .hideLogin,
+      .hideLogout {
+        display: none;
+      }
     }
-
-    .Navigation
-    {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        //margin-right: 2%;
-
-        a
-        {
-            text-decoration: none;
-            color: $blue2;
-            font-family: 'Roboto Slab', serif;
-            font-weight: bold;
-            font-size: 20px;
-            font-size: 1.5vw;
-            margin-right: 25px;
-        }
-        
-        a:hover 
-        {
-            color: $blue3;
-        }
-
-        .showLogin , .showLogout
-        {
-            cursor: pointer;
-            display: block;
-            padding: 10px;
-            background-color: $blue2;
-            border: 0.05px solid $blue3;
-            border-radius: 0.8vw;
-            font-family: 'Roboto Slab', serif;
-            font-weight: bold;
-            font-size: 1.5vw;
-            color: $blue1;
-        }
-
-        .showLogin:hover , .showLogout:hover
-        {
-            background-color: $blue3;
-            border: 0.05px solid $blue2;
-            color: $blue2;
-        }
-
-        .hideLogin , .hideLogout
-        {
-            display: none;
-        }
-    }
+  }
 }

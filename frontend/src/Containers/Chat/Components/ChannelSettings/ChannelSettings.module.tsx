@@ -359,7 +359,6 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
           </div>
         ))}
       </div>
-      <button onClick={() => console.log(props.channel)}>Print channel</button>
 
       <div className={classes.UserSettings}>
         <h3>User settings</h3>

@@ -39,9 +39,11 @@ function Header() {
       .catch(() => setUser(null));
   }, []);
 
+
   return (
     <div className={classes.Header}>
       <h1>PONGAME</h1>
+      <div className={classes.BurgerMenu}></div>
       <nav className={classes.Navigation}>
         <Link to="/Game">GAME</Link>
         <Link to="/Chat">CHAT</Link>
