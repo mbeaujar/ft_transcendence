@@ -1,4 +1,4 @@
-@import '../../../../../utils.scss';
+@import "../../../../../utils.scss";
 
 @mixin styling() {
   background-color: $blue1;
@@ -11,8 +11,8 @@
   width: 100%;
   flex-wrap: wrap;
   position: absolute;
-  margin-top: 11.85vw;
-  z-index: 1;
+  margin-top: 2.8vw;
+  z-index: 3;
   .header {
     @include styling();
     display: flex;

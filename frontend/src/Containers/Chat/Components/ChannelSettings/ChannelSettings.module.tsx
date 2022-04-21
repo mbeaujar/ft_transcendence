@@ -6,6 +6,7 @@ import { IChannel } from "../../../../interface/channel.interface";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import Dropdown from "./Dropdown/Dropdown.module";
 import Dropdown2 from "./Dropdown2/Dropdown2.module";
+import Dropdown3 from "./Dropdown3/Dropdown3.module";
 import { channel } from "diagnostics_channel";
 import { Scope } from "../../../../interface/scope.enum";
 import clsx from "clsx";
@@ -97,6 +98,12 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     else return classes.HideCreatorSettings;
   }
 
+  const itemsBanDuration = [
+    { id: 1, value: "1 day" },
+    { id: 2, value: "1 week" },
+    { id: 3, value: "Unlimited" },
+  ];
+
   const itemsMuteDuration = [
     { id: 1, value: "1 minute" },
     { id: 2, value: "1 hour" },
@@ -111,7 +118,20 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Ban User
   function handleSubmitFormBan(event: any) {
-    console.log("banUser=", banUser);
+    let userToBan: IUser | null = null;
+    //let time = setMuteTime();
+    userToBan = findUser(banUser);
+    if (userToBan != null) {
+      //console.log(userToBan.username," is ban during ",muteUserDuration);
+      console.log(userToBan.username, " is ban");
+      props.ws.socket.emit("banUser", {
+        channel: actualChannel,
+        user: userToBan,
+        milliseconds: 100000,
+      });
+    } else {
+      console.log("Ban : User not found");
+    }
     setBanUser("");
     event.preventDefault();
   }
@@ -123,7 +143,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Unban User
   function handleSubmitFormUnban(event: any) {
-    console.log("unban=", unbanUser);
+    let userToUnban: IUser | null = null;
+    userToUnban = findUser(unbanUser);
+    if (userToUnban != null) {
+      console.log(userToUnban.username, " is unban");
+      props.ws.socket.emit("unmuteUser", {
+        channel: actualChannel,
+        user: userToUnban,
+      });
+    } else {
+      console.log("Unban : User not found");
+    }
     setUnbanUser("");
     event.preventDefault();
   }
@@ -145,16 +175,15 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     return null;
   }
 
-  function setMuteTime()
-  {
-    if (muteUserDuration == "1 minute"){
-      return (60000);
+  function setMuteTime() {
+    if (muteUserDuration == "1 minute") {
+      return 60000;
     }
-    if (muteUserDuration == "1 hour"){
-      return (3600000);
+    if (muteUserDuration == "1 hour") {
+      return 3600000;
     }
-    if (muteUserDuration == "1 day"){
-      return (86400000);
+    if (muteUserDuration == "1 day") {
+      return 86400000;
     }
   }
 
@@ -163,7 +192,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let time = setMuteTime();
     userToMute = findUser(muteUser);
     if (userToMute != null) {
-      console.log(userToMute.username," is mute during ",muteUserDuration);
+      console.log(userToMute.username, " is mute during ", muteUserDuration);
       props.ws.socket.emit("muteUser", {
         channel: actualChannel,
         user: userToMute,
@@ -186,7 +215,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
     if (userToUnmute != null) {
-      console.log(userToUnmute.username," is unmute");
+      console.log(userToUnmute.username, " is unmute");
       props.ws.socket.emit("unmuteUser", {
         channel: actualChannel,
         user: userToUnmute,
@@ -205,7 +234,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //New admin
   function handleSubmitFormNewAdmin(event: any) {
-    console.log("newAdmin=", newAdmin);
+    let userToPromoteAdmin: IUser | null = null;
+    userToPromoteAdmin = findUser(newAdmin);
+    if (userToPromoteAdmin != null) {
+      console.log(userToPromoteAdmin.username, " is admin");
+      props.ws.socket.emit("addAdministrator", {
+        channel: actualChannel,
+        user: userToPromoteAdmin,
+      });
+    } else {
+      console.log("Admin : User not found");
+    }
     setNewAdmin("");
     event.preventDefault();
   }
@@ -359,6 +398,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             onChange={(event) => handleChangeBan(event)}
           ></input>
         </form>
+        <Dropdown3
+          title="Ban Duration"
+          items={itemsBanDuration}
+          setMuteUserDuration={setMuteUserDuration}
+        />
         <form
           className={classes.UnbanUser}
           onSubmit={(event) => handleSubmitFormUnban(event)}

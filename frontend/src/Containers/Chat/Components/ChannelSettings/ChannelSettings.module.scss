@@ -141,24 +141,24 @@
 
     .UnbanUser {
       position: absolute;
-      margin-top: 3vw;
+      margin-top: 6vw;
       justify-content: space-between;
-      z-index: 3;
+      z-index: 1;
     }
 
     .MuteUser {
       position: absolute;
-      margin-top: 6vw;
+      margin-top: 9vw;
       justify-content: space-between;
 
-      z-index: 2;
+      z-index: 1;
     }
 
     .UnmuteUser {
       position: absolute;
-      margin-top: 12.1vw;
+      margin-top: 15vw;
       justify-content: space-between;
-      z-index: 1;
+      z-index: 0;
     }
   }
 
@@ -167,7 +167,7 @@
   }
 
   .ShowCreatorSettings {
-    margin-top: 15.3vw;
+    margin-top: 18.2vw;
     width: 93%;
     display: flex;
     flex-direction: column;
