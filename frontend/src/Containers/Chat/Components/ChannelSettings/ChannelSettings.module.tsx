@@ -20,8 +20,7 @@ interface Props {
   setActiveChatMenu: any;
 }
 
-const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
-  let actualChannel: any = ftGetActualChannel();
+const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
   const [banUser, setBanUser] = useState<string>("");
   const [banUserDuration, setBanUserDuration] = useState("1 day");
@@ -38,12 +37,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
   useEffect(() => {
-    actualChannel = ftGetActualChannel();
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
     console.log("channel=",props.channel);
     console.log("channels=",props.channels);
-  }, [props.channel]);
+  }, [props.channel,props.channels]);
 
   useEffect(() => {
     console.log("ban=", banUserDuration);
@@ -57,32 +55,22 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     console.log("mode=", newChallengeMode);
   }, [newChallengeMode]);
 
-  function ftGetActualChannel() {
-    //return (props.channel);
-    let i = 0;
-    while (i < props.channels.length) {
-      if (props.channels[i].name == props.channel.name) {
-        return props.channels[i];
-      }
-      i++;
-    }
-  }
 
   function ifShowAdminSettings() {
     let i = 0;
 
     while (
-      actualChannel.users[i] &&
-      actualChannel.users[i].user &&
-      actualChannel.users[i].user.username != props.user.username
+      props.channel.users[i] &&
+      props.channel.users[i].user &&
+      props.channel.users[i].user.username != props.user.username
     ) {
       i++;
     }
 
     if (
-      actualChannel.users[i] &&
-      actualChannel.users[i].user &&
-      actualChannel.users[i].administrator == true
+      props.channel.users[i] &&
+      props.channel.users[i].user &&
+      props.channel.users[i].administrator == true
     )
       return classes.ShowAdminSettings;
     else return classes.HideAdminSettings;
@@ -91,16 +79,16 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ifShowCreatorSettings() {
     let i = 0;
     while (
-      actualChannel.users[i] &&
-      actualChannel.users[i].user &&
-      actualChannel.users[i].user.username != props.user.username
+      props.channel.users[i] &&
+      props.channel.users[i].user &&
+      props.channel.users[i].user.username != props.user.username
     ) {
       i++;
     }
     if (
-      actualChannel.users[i] &&
-      actualChannel.users[i].user &&
-      actualChannel.users[i].creator == true
+      props.channel.users[i] &&
+      props.channel.users[i].user &&
+      props.channel.users[i].creator == true
     )
       return classes.ShowCreatorSettings;
     else return classes.HideCreatorSettings;
@@ -132,7 +120,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToBan != null) {
       //console.log(userToBan.username," is ban during ",muteUserDuration);
       props.ws.socket.emit("banUser", {
-        channel: actualChannel,
+        channel: props.channel,
         user: userToBan,
         milliseconds: 100000,
       });
@@ -155,7 +143,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToUnban != null) {
       console.log(userToUnban.username, " is unban");
       props.ws.socket.emit("unmuteUser", {
-        channel: actualChannel,
+        channel: props.channel,
         user: userToUnban,
       });
     } else {
@@ -174,9 +162,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function findUser(username: string) {
     let i = 0;
-    while (actualChannel.users[i]) {
-      if (actualChannel.users[i].user.username == username)
-        return actualChannel.users[i].user;
+    while (props.channel.users[i]) {
+      if (props.channel.users[i].user.username == username)
+        return props.channel.users[i].user;
       i++;
     }
     return null;
@@ -201,7 +189,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToMute != null) {
       console.log(userToMute.username, " is mute during ", muteUserDuration);
       props.ws.socket.emit("muteUser", {
-        channel: actualChannel,
+        channel: props.channel,
         user: userToMute,
         milliseconds: time,
       });
@@ -224,7 +212,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToUnmute != null) {
       console.log(userToUnmute.username, " is unmute");
       props.ws.socket.emit("unmuteUser", {
-        channel: actualChannel,
+        channel: props.channel,
         user: userToUnmute,
       });
     } else {
@@ -246,7 +234,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToPromoteAdmin != null) {
       console.log(userToPromoteAdmin.username, " is admin");
       props.ws.socket.emit("addAdministrator", {
-        channel: actualChannel,
+        channel: props.channel,
         user: userToPromoteAdmin,
       });
     } else {
@@ -263,16 +251,16 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Change channel mode
   function initChangeChannelMode() {
-    if (actualChannel.state == 0) return "Public";
-    if (actualChannel.state == 1) return "Private";
-    if (actualChannel.state == 2) return "Protected";
+    if (props.channel.state == 0) return "Public";
+    if (props.channel.state == 1) return "Private";
+    if (props.channel.state == 2) return "Protected";
   }
 
   function showChangeChannelMode() {
     let state: string = "";
-    if (actualChannel.state == 0) state = "Public";
-    if (actualChannel.state == 1) state = "Private";
-    if (actualChannel.state == 2) state = "Protected";
+    if (props.channel.state == 0) state = "Public";
+    if (props.channel.state == 1) state = "Private";
+    if (props.channel.state == 2) state = "Protected";
     if (state !== newChallengeMode) {
       return classes.ChangeChannelMode;
     }
@@ -281,7 +269,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function showSetPassword(classname: string) {
     if (
-      actualChannel.state !== Scope.protected &&
+      props.channel.state !== Scope.protected &&
       newChallengeMode === "Protected"
     ) {
       if (classname == "SetPassword") {
@@ -295,7 +283,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function ajustMarginTopChangeChannelMode() {
     if (
-      actualChannel.state !== Scope.protected &&
+      props.channel.state !== Scope.protected &&
       newChallengeMode === "Protected"
     ) {
       return classes.MarginZero;
@@ -323,7 +311,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //New password
   function showNewPassword(classname: string) {
-    if (actualChannel.state === Scope.protected) {
+    if (props.channel.state === Scope.protected) {
       if (classname == "NewPassword") {
         return classes.NewPassword;
       } else if (classname == "ConfirmNewPassword") {
@@ -364,14 +352,14 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     <div className={classes.ChannelSettings}>
       <div className={classes.ChannelUsers}>
         <h3>Users</h3>
-        {actualChannel.users.map((user: any) => (
+        {props.channel.users.map((user: any) => (
           <div className={classes.ChannelUser} key={user.id}>
             <Avatar user={user.user} />
             <p>{user.user.username}</p>
           </div>
         ))}
       </div>
-      <button onClick={() => console.log(actualChannel)}>Print channel</button>
+      <button onClick={() => console.log(props.channel)}>Print channel</button>
 
       <div className={classes.UserSettings}>
         <h3>User settings</h3>
@@ -475,7 +463,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           title="Channel Mode"
           items={itemsChannelMode}
           refreshDropdown={refreshDropdown}
-          channelState={actualChannel.state}
+          channelState={props.channel.state}
           setNewChallengeMode={setNewChallengeMode}
         />
         <div className={showSetPassword("SetPassword")}>
