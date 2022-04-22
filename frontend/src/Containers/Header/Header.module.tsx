@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Header.module.scss";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import api from "../../apis/api";
+import clsx from 'clsx';
 
 const Button = (props: any) => {
   return (
@@ -46,10 +47,10 @@ function Header() {
   }
 
   function showNavigation() {
-    if (window.innerWidth > 650.01) return classes.Navigation;
+    if (window.innerWidth > 650.01) return classes.Nav;
     else {
       if (showLinks == false) return classes.HideNavigation;
-      return classes.Navigation;
+      return classes.ShowNavigation;
     }
   }
 
@@ -64,7 +65,7 @@ function Header() {
         <div className={classes.BurgerMenuMiddle}></div>
         <div className={classes.BurgerMenuBottom}></div>
       </div>
-      <nav className={showNavigation()}>
+      <nav className={clsx(classes.Navigation,showNavigation())}>
         <Link to="/Game">GAME</Link>
         <Link to="/Chat">CHAT</Link>
         <Link to="/Profile">PROFILE</Link>

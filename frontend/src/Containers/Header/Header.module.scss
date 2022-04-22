@@ -29,7 +29,7 @@
         background-color: $white1;
         width: 100%;
         height: 20%;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
       }
     }
 
@@ -41,7 +41,7 @@
         background-color: $white1;
         width: 100%;
         height: 20%;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
       }
 
       .BurgerMenuMiddle {
@@ -50,31 +50,36 @@
       }
 
       .BurgerMenuTop {
-          width: 132%;
+        width: 132%;
         transform: rotate(45deg) translateX(1.05vw) translateY(2.35vw);
         border-radius: 5px;
       }
 
       .BurgerMenuBottom {
-          width: 132%;
+        width: 132%;
         transform: rotate(-45deg) translateX(-0.65vw) translateY(-0.65vw);
         border-radius: 5px;
       }
     }
 
     .HideNavigation {
-      display: none;
+      visibility: hidden;
+      right:-100vw;
     }
 
-    .Navigation
-    {
-        position: absolute;
-        top:20.1vw;
-        left: -5.5%;
-        width: 100vw;
-        background-color: $blue3;
-        height: -webkit-calc(100vh - 24vw);
-        z-index: 10;
+    .ShowNavigation {
+        right: 0;
+        visibility: visible;
+      }
+
+    .Navigation {
+      position: fixed;
+      top: 22.1vw;
+      transition: all 0.8s ease-out;
+      width: 100vw;
+      background-color: $black;
+      height: -webkit-calc(100vh - 24vw);
+      z-index: 10;
     }
   }
 }
