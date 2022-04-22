@@ -1,12 +1,9 @@
-@import '../../utils.scss';
+@import "../../utils.scss";
 
 .Chat {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Arial', cursive;
-  
+  font-family: "Arial", cursive;
 
   ::-webkit-scrollbar {
     width: 0.4vw;
@@ -23,74 +20,130 @@
   }
 
   .ChatLeft {
-    min-width: 19vw;
-    max-width: 19vw;
-    height: 81vh;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: top;
     align-items: center;
-
-    .ChatLeftButton {
-      border: none;
-      color: $white1;
-      margin-top: 1vw;
-      margin-left: 3%;
-      padding: 0.8vw;
-      border-radius: 0.5vw;
-      width: 80%;
-      font-size: 1.2vw;
-      border: 0.05vw solid $grey2;
-      background-color: $blue4;
-      cursor: pointer;
-    }
-
-    .ChatLeftButton:hover {
-      background-color: $blue3;
-    }
-
-    h3 {
-      margin-top: 1vw;
-      background-color: $blue5;
-      width: 100%;
-      padding: 1vw;
-      font-size: 1.2vw;
-      padding-left: 12%;
-      margin-bottom: 0;
-    }
-
-    .Messages {
-      margin-top: 0;
-    }
-
-    p {
-      margin: 0;
-      width: 100%;
-      color: $white1;
-      padding: 0.9vw;
-      cursor: pointer;
-      font-size: 1.1vw;
-      padding-left: 12%;
-    }
-
-    p:hover {
-      background-color: $blue6;
-    }
   }
 
-  .ChatCenter {
-    min-width: 62.5vw;
-    max-width: 62.5vw;
-    height: 81vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
+  .ChatLeftButton {
+    border: none;
+    color: $white1;
+    width: 80%;
+    border: 0.05vw solid $grey2;
+    background-color: $blue4;
+    cursor: pointer;
   }
 
-  .ChatRight {
-    min-width: 19vw;
-    max-width: 19vw;
-    height: 81vh;
+  .ChatLeftButton:hover {
+    background-color: $blue3;
+  }
+
+  h3 {
+    background-color: $blue5;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .Messages {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 0;
+    width: 100%;
+    color: $white1;
+    cursor: pointer;
+  }
+
+  p:hover {
+    background-color: $blue6;
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .Chat {
+    align-items: center;
+    justify-content: center;
+
+    .ChatLeft {
+      min-width: 19vw;
+      max-width: 19vw;
+      height: 81vh;
+
+      .ChatLeftButton {
+        margin-top: 1vw;
+        margin-left: 3%;
+        padding: 0.8vw;
+        border-radius: 0.5vw;
+        font-size: 1.2vw;
+      }
+
+      h3 {
+        margin-top: 1vw;
+        padding: 1vw;
+        font-size: 1.2vw;
+        padding-left: 12%;
+        margin-bottom: 0;
+      }
+
+      p {
+        padding: 0.9vw;
+        font-size: 1.1vw;
+        padding-left: 12%;
+      }
+    }
+
+    .ChatCenter {
+      min-width: 62.5vw;
+      max-width: 62.5vw;
+      height: 81vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
+    .ChatRight {
+      min-width: 19vw;
+      max-width: 19vw;
+      height: 81vh;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Chat {
+    .ChatLeft {
+      min-width: 50vw;
+      max-width: 50vw;
+      height: -webkit-calc(100vh - 20vw);
+
+      .ChatLeftButton {
+        margin-top: 3vw;
+        padding: 1.5vw;
+        width: 70%;
+        border-radius: 1vw;
+        font-size: 4vw;
+      }
+
+      .Channels {
+        margin-top: 3vw;
+      }
+
+      h3 
+      {
+        text-align: center;
+        font-size: 4vw;
+        padding: 2vw;
+        margin-left: 3%;
+      }
+
+      p {
+        padding: 2vw;
+        font-size: 3.5vw;
+        margin-left: 3%;
+      }
+    }
   }
 }
