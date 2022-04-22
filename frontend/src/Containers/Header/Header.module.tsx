@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import classes from './Header.module.scss';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import api from '../../apis/api';
+import React, { useEffect, useState } from "react";
+import classes from "./Header.module.scss";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import api from "../../apis/api";
 
 const Button = (props: any) => {
   return (
@@ -33,31 +33,38 @@ function Header() {
 
   useEffect(() => {
     api
-      .get('/auth/status')
-      .then(response => {
+      .get("/auth/status")
+      .then((response) => {
         setUser(response.data);
       })
       .catch(() => setUser(null));
   }, []);
 
-  function BurgerMenuMode()
-  {
-    if (showLinks==false)
-      return (classes.BurgerMenu);
-    return (classes.BurgerMenuCross);
+  function BurgerMenuMode() {
+    if (showLinks == false) return classes.BurgerMenu;
+    return classes.BurgerMenuCross;
   }
 
-
+  function showNavigation() {
+    if (window.innerWidth > 650.01) return classes.Navigation;
+    else {
+      if (showLinks == false) return classes.HideNavigation;
+      return classes.Navigation;
+    }
+  }
 
   return (
     <div className={classes.Header}>
       <h1>PONGAME</h1>
-      <div className={BurgerMenuMode()} onClick={()=>setShowLinks(!showLinks)}>
+      <div
+        className={BurgerMenuMode()}
+        onClick={() => setShowLinks(!showLinks)}
+      >
         <div className={classes.BurgerMenuTop}></div>
         <div className={classes.BurgerMenuMiddle}></div>
         <div className={classes.BurgerMenuBottom}></div>
       </div>
-      <nav className={classes.Navigation}>
+      <nav className={showNavigation()}>
         <Link to="/Game">GAME</Link>
         <Link to="/Chat">CHAT</Link>
         <Link to="/Profile">PROFILE</Link>
@@ -65,14 +72,14 @@ function Header() {
           className={ftShowLogin(user)}
           text="LOGIN"
           onClick={() => {
-            window.location.href = 'http://localhost:3000/api/auth/login';
+            window.location.href = "http://localhost:3000/api/auth/login";
           }}
         />
         <Button
           className={ftShowLogout(user)}
           text="LOGOUT"
           onClick={() => {
-            window.location.href = 'http://localhost:3000/api/auth/logout';
+            window.location.href = "http://localhost:3000/api/auth/logout";
           }}
         />
       </nav>

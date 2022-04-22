@@ -12,6 +12,7 @@
     padding-right: 2%;
     border-bottom: 0.3px solid $grey2;
     height: 20vw;
+    position: relative;
 
     h1 {
       font-size: 7.5vw;
@@ -25,7 +26,7 @@
       cursor: pointer;
 
       div {
-        background-color: white;
+        background-color: $white1;
         width: 100%;
         height: 20%;
         transition: all .5s ease-in-out;
@@ -37,7 +38,7 @@
       height: 6vw;
       cursor: pointer;
       div {
-        background-color: white;
+        background-color: $white1;
         width: 100%;
         height: 20%;
         transition: all .5s ease-in-out;
@@ -61,8 +62,19 @@
       }
     }
 
-    .Navigation {
+    .HideNavigation {
       display: none;
+    }
+
+    .Navigation
+    {
+        position: absolute;
+        top:20.1vw;
+        left: -5.5%;
+        width: 100vw;
+        background-color: $blue3;
+        height: -webkit-calc(100vh - 24vw);
+        z-index: 10;
     }
   }
 }
@@ -80,9 +92,7 @@
     margin-bottom: 0;
 
     h1 {
-      font-size: 45px;
       font-size: 3vw;
-      //margin-left: 2%;
       font-weight: bold;
       font-family: "Quintessential", cursive;
       /*font-family: 'Permanent Marker', cursive;*/
