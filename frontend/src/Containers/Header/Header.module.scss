@@ -116,12 +116,22 @@
       .Link,
       .showLogin,
       .showLogout {
-        margin-top: 7vw;
         font-size: 5vw;
+      }
+
+      .Link
+      {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        padding: 5% 0%;
+        border-bottom: 0.01vw solid $grey2;
       }
 
       .showLogin,
       .showLogout {
+        margin-top: 25%;
         padding: 2vw;
         border: 0.05px solid $blue3;
         border-radius: 1.5vw;
