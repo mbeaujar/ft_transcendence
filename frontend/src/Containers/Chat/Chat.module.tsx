@@ -31,6 +31,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
 
+  const [showChatLeft, setShowChatLeft] = useState(true);
+
   useEffect(() => {
     ws.socket.emit("getAllChannels");
 
@@ -60,6 +62,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     ftChannelJoin();
   }, [channels]);
+
 
   function ftChannelJoin() {
     let i = 0;
@@ -143,10 +146,18 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     }
   };
 
+  function showOpenChatLeftButton() {
+    if (window.innerWidth > 650.01) return classes.HideButton;
+    return classes.OpenChatLeftButton;
+  }
+
   return (
     <>
       <div className={clsx(classes.Chat)}>
         <div className={classes.ChatLeft}>
+          <button className={showOpenChatLeftButton()} onClick={()=>{setShowChatLeft(!showChatLeft)}}>
+            <span className="material-icons">close</span>
+          </button>
           <button
             className={clsx(classes.ChatLeftButton, classes.SearchUserButton)}
             onClick={() => {

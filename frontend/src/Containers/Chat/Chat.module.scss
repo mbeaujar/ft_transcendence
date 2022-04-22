@@ -73,6 +73,11 @@
       max-width: 19vw;
       height: 81vh;
 
+      .HideButton 
+      {
+        display: none;
+      }
+
       .ChatLeftButton {
         margin-top: 1vw;
         margin-left: 3%;
@@ -118,6 +123,26 @@
       min-width: 50vw;
       max-width: 50vw;
       height: -webkit-calc(100vh - 20vw);
+      position: relative;
+
+      .OpenChatLeftButton
+      {
+        position: absolute;
+        border:none;
+        left:90%;
+        width: 5vw;
+        height: 5vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $red1;
+        cursor:pointer;
+        span 
+        {
+          font-size: 5vw;
+          color:$white1;
+        }
+      }
 
       .ChatLeftButton {
         margin-top: 3vw;
