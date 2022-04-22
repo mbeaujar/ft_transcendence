@@ -11,7 +11,8 @@
     padding-left: 2%;
     padding-right: 2%;
     border-bottom: 0.3px solid $grey2;
-    height: 20vw;
+    min-height: 20vw;
+    max-height: 20vw;
     position: relative;
 
     h1 {
@@ -64,22 +65,67 @@
 
     .HideNavigation {
       visibility: hidden;
-      right:-100vw;
+      right: -100vw;
+      .Link,
+      .showLogin,
+      .showLogout {
+        transform: translateX(100vw);
+      }
     }
 
     .ShowNavigation {
-        right: 0;
-        visibility: visible;
+      right: 0;
+      visibility: visible;
+      .Link,
+      .showLogin,
+      .showLogout {
+        transform: translateX(0);
       }
+
+      .Game 
+      {
+        transition: all 0.8s ease-out;
+      }
+      .Chat 
+      {
+        transition: all 0.9s ease-out;
+      }
+      .Profile 
+      {
+        transition: all 1s ease-out;
+      }
+      .showLogin,.showLogout 
+      {
+        transition: all 1.1s ease-out;
+      }
+    }
 
     .Navigation {
       position: fixed;
-      top: 22.1vw;
+      top: 22vw;
       transition: all 0.8s ease-out;
       width: 100vw;
       background-color: $black;
-      height: -webkit-calc(100vh - 24vw);
+      height: -webkit-calc(100vh - 20vw);
       z-index: 10;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .Link,
+      .showLogin,
+      .showLogout {
+        margin-top: 7vw;
+        font-size: 5vw;
+      }
+
+      .showLogin,
+      .showLogout {
+        padding: 2vw;
+        border: 0.05px solid $blue3;
+        border-radius: 1.5vw;
+      }
     }
   }
 }
@@ -114,44 +160,53 @@
       //margin-right: 2%;
 
       a {
-        text-decoration: none;
-        color: $blue2;
-        font-family: "Roboto Slab", serif;
-        font-weight: bold;
         font-size: 20px;
         font-size: 1.65vw;
         margin-right: 25px;
       }
 
-      a:hover {
-        color: $blue3;
-      }
-
       .showLogin,
       .showLogout {
-        cursor: pointer;
-        display: block;
         padding: 1vw;
-        background-color: $blue2;
+        font-size: 1.65vw;
         border: 0.05px solid $blue3;
         border-radius: 0.8vw;
-        font-family: "Roboto Slab", serif;
-        font-weight: bold;
-        font-size: 1.65vw;
-        color: $blue1;
-      }
-
-      .showLogin:hover,
-      .showLogout:hover {
-        background-color: $blue3;
-        border: 0.05px solid $blue2;
-        color: $blue2;
-      }
-
-      .hideLogin,
-      .hideLogout {
-        display: none;
       }
     }
+  }
+}
+
+.Navigation {
+  a {
+    text-decoration: none;
+    color: $blue2;
+    font-family: "Roboto Slab", serif;
+    font-weight: bold;
+  }
+
+  a:hover {
+    color: $blue3;
+  }
+
+  .showLogin,
+  .showLogout {
+    cursor: pointer;
+    display: block;
+    background-color: $blue2;
+    font-family: "Roboto Slab", serif;
+    font-weight: bold;
+    color: $blue1;
+  }
+
+  .showLogin:hover,
+  .showLogout:hover {
+    background-color: $blue3;
+    border: 0.05px solid $blue2;
+    color: $blue2;
+  }
+
+  .hideLogin,
+  .hideLogout {
+    display: none;
   }
 }

@@ -66,9 +66,9 @@ function Header() {
         <div className={classes.BurgerMenuBottom}></div>
       </div>
       <nav className={clsx(classes.Navigation,showNavigation())}>
-        <Link to="/Game">GAME</Link>
-        <Link to="/Chat">CHAT</Link>
-        <Link to="/Profile">PROFILE</Link>
+        <Link to="/Game" className={clsx(classes.Link, classes.Game)} onClick={() => setShowLinks(!showLinks)}>GAME</Link>
+        <Link to="/Chat" className={clsx(classes.Link, classes.Chat)} onClick={() => setShowLinks(!showLinks)}>CHAT</Link>
+        <Link to="/Profile" className={clsx(classes.Link, classes.Profile)} onClick={() => setShowLinks(!showLinks)}>PROFILE</Link>
         <Button
           className={ftShowLogin(user)}
           text="LOGIN"
