@@ -15,6 +15,7 @@ const Button = (props: any) => {
 
 function Header() {
   const [user, setUser] = useState<any>(null);
+  const [showLinks, setShowLinks] = useState(false);
 
   function ftShowLogin(user: any) {
     if (user === null) {
@@ -39,11 +40,23 @@ function Header() {
       .catch(() => setUser(null));
   }, []);
 
+  function BurgerMenuMode()
+  {
+    if (showLinks==false)
+      return (classes.BurgerMenu);
+    return (classes.BurgerMenuCross);
+  }
+
+
 
   return (
     <div className={classes.Header}>
       <h1>PONGAME</h1>
-      <div className={classes.BurgerMenu}></div>
+      <div className={BurgerMenuMode()} onClick={()=>setShowLinks(!showLinks)}>
+        <div className={classes.BurgerMenuTop}></div>
+        <div className={classes.BurgerMenuMiddle}></div>
+        <div className={classes.BurgerMenuBottom}></div>
+      </div>
       <nav className={classes.Navigation}>
         <Link to="/Game">GAME</Link>
         <Link to="/Chat">CHAT</Link>
