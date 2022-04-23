@@ -54,6 +54,8 @@
 
       p {
         font-size: 1.1vw;
+        margin-left: 0;
+        text-align: left;
       }
     }
   }
@@ -96,7 +98,15 @@
       flex-direction: row;
       align-items: center;
       font-size: 1vw;
+      margin-left: 0;
+      width: 100%;
 
+      p
+      {
+        min-width: 50%;
+        max-width: 50%;
+        text-align: left;
+      }
       input {
         background-color: $grey2;
         border: 1px solid $grey2;
@@ -109,7 +119,7 @@
         padding: 0.2vw 0.4vw;
       }
 
-      .BanUserInput {
+      /*.BanUserInput {
         margin-left: 2.2vw;
       }
 
@@ -123,7 +133,7 @@
 
       .UnmuteUserInput {
         margin-left: 0.5vw;
-      }
+      }*/
     }
 
     div {
@@ -136,19 +146,20 @@
     .BanUser {
       position: absolute;
       justify-content: space-between;
+      margin-top: 0.8vw;
       z-index: 3;
     }
 
     .UnbanUser {
       position: absolute;
-      margin-top: 6vw;
+      margin-top: 6.8vw;
       justify-content: space-between;
       z-index: 1;
     }
 
     .MuteUser {
       position: absolute;
-      margin-top: 9vw;
+      margin-top: 9.7vw;
       justify-content: space-between;
 
       z-index: 1;
@@ -156,7 +167,7 @@
 
     .UnmuteUser {
       position: absolute;
-      margin-top: 15vw;
+      margin-top: 15.7vw;
       justify-content: space-between;
       z-index: 0;
     }
