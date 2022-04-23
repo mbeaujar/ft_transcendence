@@ -9,7 +9,6 @@ import JoinChannel from "./Components/JoinChannel/JoinChannel.module";
 import CreateChannel from "./Components/CreateChannel/CreateChannel.module";
 import Discussion from "./Components/Discussion/Discussion.module";
 import { IMessage } from "../../interface/message.interface";
-import { Scope } from "../../interface/scope.enum";
 import { IJoinChannel } from "../../interface/join-channel.interface";
 import ChannelSettings from "./Components/ChannelSettings/ChannelSettings.module";
 
@@ -75,7 +74,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           i = 1;
         }
       });
-      if (i == 0) {
+      if (i === 0) {
         setChannelsNotJoin((prev) => [...prev, channel]);
       }
     });
@@ -151,7 +150,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function ftShowChatLeft() {
-    if (showChatLeft == true) return classes.ShowChatLeft;
+    if (showChatLeft === true) return classes.ShowChatLeft;
     return classes.HideChatLeft;
   }
 
