@@ -11,7 +11,7 @@
   width: 120%; //changement ici
   flex-wrap: wrap;
   position: absolute;
-  margin-top: 7.4vw; //changement ici
+  margin-top: 7vw; //changement ici
   padding-bottom: 1vw;
   z-index: 2;
   .header {
@@ -26,7 +26,8 @@
     .headerTitleP {
       font-weight: bold;
       font-size: 1vw;
-      text-align: center;
+      min-width:70%;
+      text-align: left;
       margin-left: 1vw;
       margin-right: 3vw;
     }

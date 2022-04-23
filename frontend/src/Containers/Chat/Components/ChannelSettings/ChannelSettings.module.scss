@@ -119,21 +119,6 @@
         padding: 0.2vw 0.4vw;
       }
 
-      /*.BanUserInput {
-        margin-left: 2.2vw;
-      }
-
-      .UnbanUserInput {
-        margin-left: 2.1vw;
-      }
-
-      .MuteUserInput {
-        margin-left: 1.8vw;
-      }
-
-      .UnmuteUserInput {
-        margin-left: 0.5vw;
-      }*/
     }
 
     div {
@@ -196,18 +181,19 @@
     }
     .NewAdmin {
       position: absolute;
-      margin-top: 3.4vw;
+      margin-top: 4.1vw;
       width: 100%;
       justify-content: space-between;
     }
 
     .SetPassword {
-      margin-top: 6.7vw;
+      margin-top: 6.8vw;
       justify-content: space-between;
     }
 
     .ConfirmSetPassword {
-      margin-top: -0.5vw;
+      margin-top: 0.5vw;
+      margin-bottom: 0.5vw;
       justify-content: space-between;
     }
 
@@ -229,11 +215,11 @@
     }
 
     .MarginZero {
-      margin-top: 0vw;
+      margin-top: 0.5vw;
     }
 
     .MarginSevenHalf {
-      margin-top: 7.5vw;
+      margin-top: 7.2vw;
     }
 
     .NewPassword {
@@ -241,7 +227,8 @@
     }
 
     .ConfirmNewPassword {
-      margin-top: -0.5vw;
+      margin-top: 0.5vw;
+      margin-bottom: 0.5vw;
       justify-content: space-between;
     }
 
@@ -273,6 +260,14 @@
       flex-direction: row;
       align-items: center;
       font-size: 1vw;
+      width: 100%;
+
+      p
+      {
+        min-width: 50%;
+        max-width: 50%;
+        text-align: left;
+      }
 
       input {
         background-color: $grey2;
@@ -292,6 +287,14 @@
       flex-direction: row;
       align-items: center;
       font-size: 1vw;
+      //width: 100%;
+
+      p
+      {
+        min-width: 50%;
+        max-width: 50%;
+        text-align: left;
+      }
 
       input {
         background-color: $grey2;
