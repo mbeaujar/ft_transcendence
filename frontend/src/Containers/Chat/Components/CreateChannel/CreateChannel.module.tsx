@@ -63,7 +63,7 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
         </div>
       ) : null}
       <div>
-        <button
+        <button className={classes.CreateChannelButton}
           onClick={() => {
             const channel: IChannel = {
               name,

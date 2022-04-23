@@ -3,18 +3,17 @@
 .CreateChannel {
   h2 {
     color: $white1;
-    margin-bottom: 10px;
   }
 
   input {
-    border: 2px solid $blue4;
-    border-radius: 10px;
     outline: none;
-    padding: 3px;
+    border: 0.5vw solid $grey2;
+    background-color: $grey2;
+    border-radius: 4vw;
+    color:$white1;
   }
 
   .ChannelName {
-    margin-bottom: 30px;
   }
 
   .ChannelType {
@@ -26,6 +25,42 @@
       color: $white1;
 
       .CheckboxPrivate {
+      }
+    }
+  }
+
+  .ChannelPassword {
+  }
+
+  .CreateChannelButton {
+    border: none;
+    background-color: $blue4;
+    color: $blue2;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $grey2;
+      color: $blue4;
+    }
+  }
+}
+
+@media screen and (min-width: 651px) {
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  input {
+    padding: 3px;
+  }
+
+  .ChannelName {
+    margin-bottom: 30px;
+  }
+
+  .ChannelType {
+    .ChannelCheckbox {
+      .CheckboxPrivate {
         margin: 0 15px;
       }
     }
@@ -35,19 +70,46 @@
     margin-top: 25px;
   }
 
-  button {
+  .CreateChannelButton {
     margin-top: 30px;
-    border: none;
-    background-color: $blue4;
-    color: $blue2;
     padding: 10px;
     font-size: 20px;
     border-radius: 10px;
-    cursor: pointer;
+  }
+}
 
-    &:hover {
-      background-color: $blue2;
-      color: $blue4;
+@media screen and (max-width: 650px) {
+  h2 {
+    margin-bottom: 5vw;
+    font-size:5vw;
+  }
+
+  input {
+    padding: 1vw;
+    font-size: 4vw;
+  }
+
+  .ChannelName {
+    margin-bottom: 5vw;
+  }
+
+  .ChannelType {
+    margin-bottom: 5vw;
+    .ChannelCheckbox {
+      
+      .CheckboxPrivate {
+        margin: 0 4vw;
+      }
     }
+  }
+
+  .ChannelPassword {
+    margin-bottom: 5vw;
+  }
+
+  .CreateChannelButton {
+    padding: 3vw;
+    font-size: 5vw;
+    border-radius: 2vw;
   }
 }
