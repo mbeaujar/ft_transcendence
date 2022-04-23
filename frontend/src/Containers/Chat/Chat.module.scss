@@ -73,8 +73,7 @@
       max-width: 19vw;
       height: 81vh;
 
-      .HideButton 
-      {
+      .HideButton {
         display: none;
       }
 
@@ -119,28 +118,60 @@
 
 @media screen and (max-width: 650px) {
   .Chat {
+    position: relative;
+    .OpenChatLeftButton{
+      z-index: 7;
+      position: absolute;
+      top:3vw;
+      left:5vw;
+      width: 6vw;
+      height: 4vw;
+      border:none;
+      background-color: $blue1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span 
+      {
+        color: $white1;
+        font-size: 8vw;
+      }
+    }
+    .HideChatLeft {
+      visibility: hidden;
+      left: -100vw;
+    }
+
+    .ShowChatLeft {
+      left: 0;
+      visibility: visible;
+
+    }
     .ChatLeft {
+      transition: all 0.8s ease-out;
+      background-color: $blue1;
+      z-index: 8;
+      position: fixed;
       min-width: 50vw;
       max-width: 50vw;
-      height: -webkit-calc(100vh - 20vw);
+      height: -webkit-calc(100vh - 25vw);
       position: relative;
 
-      .OpenChatLeftButton
-      {
+      .CloseChatLeftButton {
         position: absolute;
-        border:none;
-        left:90%;
+        border: none;
+        left: 90%;
         width: 5vw;
         height: 5vw;
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: $red1;
-        cursor:pointer;
-        span 
-        {
+        cursor: pointer;
+        span {
           font-size: 5vw;
-          color:$white1;
+          color: $white1;
         }
       }
 
@@ -156,8 +187,7 @@
         margin-top: 3vw;
       }
 
-      h3 
-      {
+      h3 {
         text-align: center;
         font-size: 4vw;
         padding: 2vw;

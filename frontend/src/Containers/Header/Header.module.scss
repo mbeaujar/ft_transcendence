@@ -102,11 +102,13 @@
 
     .Navigation {
       position: fixed;
-      top: 22vw;
+      top:22vw;
+      bottom: 0vw;
       transition: all 0.8s ease-out;
       width: 100vw;
       background-color: $black;
-      height: -webkit-calc(100vh - 20vw);
+      min-height: -webkit-calc(100vh - 23vw);
+      max-height: -webkit-calc(100vh - 23vw);
       z-index: 10;
 
       display: flex;

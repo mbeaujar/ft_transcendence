@@ -63,7 +63,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ftChannelJoin();
   }, [channels]);
 
-
   function ftChannelJoin() {
     let i = 0;
     setChannelsJoin([]);
@@ -146,16 +145,34 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     }
   };
 
-  function showOpenChatLeftButton() {
+  function showCloseChatLeftButton() {
     if (window.innerWidth > 650.01) return classes.HideButton;
-    return classes.OpenChatLeftButton;
+    return classes.CloseChatLeftButton;
+  }
+
+  function ftShowChatLeft() {
+    if (showChatLeft == true) return classes.ShowChatLeft;
+    return classes.HideChatLeft;
   }
 
   return (
     <>
       <div className={clsx(classes.Chat)}>
-        <div className={classes.ChatLeft}>
-          <button className={showOpenChatLeftButton()} onClick={()=>{setShowChatLeft(!showChatLeft)}}>
+        <button
+          className={classes.OpenChatLeftButton}
+          onClick={() => {
+            setShowChatLeft(!showChatLeft);
+          }}
+        >
+          <span className="material-icons">menu</span>
+        </button>
+        <div className={clsx(classes.ChatLeft, ftShowChatLeft())}>
+          <button
+            className={showCloseChatLeftButton()}
+            onClick={() => {
+              setShowChatLeft(!showChatLeft);
+            }}
+          >
             <span className="material-icons">close</span>
           </button>
           <button
