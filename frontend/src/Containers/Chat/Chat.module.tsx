@@ -144,11 +144,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     }
   };
 
-  function showCloseChatLeftButton() {
-    if (window.innerWidth > 650.01) return classes.HideButton;
-    return classes.CloseChatLeftButton;
-  }
-
   function ftShowChatLeft() {
     if (showChatLeft === true) return classes.ShowChatLeft;
     return classes.HideChatLeft;
@@ -167,7 +162,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         </button>
         <div className={clsx(classes.ChatLeft, ftShowChatLeft())}>
           <button
-            className={showCloseChatLeftButton()}
+            className={classes.CloseChatLeftButton}
             onClick={() => {
               setShowChatLeft(!showChatLeft);
             }}

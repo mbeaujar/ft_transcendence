@@ -1,10 +1,11 @@
-@import '../../../../utils.scss';
+@import "../../../../utils.scss";
 
-.SearchUser {
-  h1 {
-    margin-top: 0;
-    padding: 15px 0;
-    color: $white1;
-    background-color: $blue5;
+@media screen and (min-width: 651px) {
+  .SearchUser {
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .SearchUser {
   }
 }
