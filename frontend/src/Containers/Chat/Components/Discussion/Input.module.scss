@@ -5,6 +5,7 @@
 .Input {
   width: 100%;
   height: 100%;
+  @media screen and (min-width: 651px) {
   input {
     margin-top: 0;
     width: 80%;
@@ -18,5 +19,19 @@
     padding: 2vh;
     font-size: 1vw;
     padding: 1vw;
-  }
+  }}
+
+  @media screen and (max-width: 650px) {
+    input {
+      margin-top: 0;
+      width: 80%;
+      height: 100%;
+      border-radius: 3vw;
+      background-color: $grey7;
+      border: none;
+      color:$white1;
+      outline: none;
+      font-size: 3vw;
+      padding: 1vw 2vw;
+    }}
 }

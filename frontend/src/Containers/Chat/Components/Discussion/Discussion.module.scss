@@ -1,4 +1,4 @@
-@import '../../../../utils.scss';
+@import "../../../../utils.scss";
 
 .Discussion {
   position: relative;
@@ -20,9 +20,6 @@
   .Messages {
     overflow-y: scroll;
     overflow-x: hidden;
-    /*min-height: 78.6%;
-    max-height: 78.6%;*/
-    height: 62vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,56 +29,168 @@
       flex-direction: row;
       align-items: top;
       justify-content: top;
-      width: 80%;
       color: white;
-      padding: 0 5%;
-      border-top: 0.8px solid $grey8;
-
-      &:first-child {
-        border-top: 0;
-      }
-
-      img {
-        border-radius: 100%;
-        margin-top: 1.5vw;
-        margin-right: 1vw;
-        width: 2.5vw;
-        height: 2.5vw;
-      }
 
       .MessageRight {
         display: flex;
         flex-direction: column;
         align-items: left;
         justify-content: center;
-        width: 100%;
+        
 
         h4 {
           text-align: left;
-          margin-top: 20px;
-          margin-bottom: 5px;
-          margin-top: 1.6vw;
-          margin-bottom: 0.4vw;
-          font-size: 1.2vw;
         }
 
         p {
-          margin: 0;
-          margin-bottom: 20px;
-          padding: 1px !important;
-          width: 100%;
           word-wrap: break-word;
           text-align: left;
-          font-size: 1vw;
         }
       }
     }
   }
 
   .InputDiv {
-    margin-top: 2vh;
-    margin-bottom: 1vh !important;
-    height: 10%;
-    height: 1vw;
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .Discussion {
+    position: relative;
+
+    /*::-webkit-scrollbar {
+      width: 0.4vw;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: $blue5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: $blue5;
+      border: 0.01vw solid rgb(95, 93, 93);
+      border-radius: 1.5vw;
+    }*/
+
+    .Messages {
+      height: 62vh;
+
+      .Message {
+        width: 80%;
+        padding: 0 5%;
+        border-top: 0.8px solid $grey8;
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        img {
+          border-radius: 100%;
+          margin-top: 1.5vw;
+          margin-right: 1vw;
+          width: 2.5vw;
+          height: 2.5vw;
+        }
+
+        .MessageRight {
+          width: 100%;
+
+          h4 {
+            margin-top: 20px;
+            margin-bottom: 5px;
+            margin-top: 1.6vw;
+            margin-bottom: 0.4vw;
+            font-size: 1.2vw;
+          }
+
+          p {
+            margin: 0;
+            margin-bottom: 20px;
+            padding: 1px !important;
+            width: 100%;
+            font-size: 1vw;
+          }
+        }
+      }
+    }
+
+    .InputDiv {
+      position: absolute;
+      bottom: -4vh;
+      width: 100%;
+      height: 1vw;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Discussion {
+    position: relative;
+    //background-color: red;
+
+    /*::-webkit-scrollbar {
+      width: 0.4vw;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: $blue5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: $blue5;
+      border: 0.01vw solid rgb(95, 93, 93);
+      border-radius: 1.5vw;
+    }*/
+
+    .Messages {
+     // height: 62vh;
+      min-height: 62vh;
+      max-height: 62vh;
+      //background-color: green;
+
+      .Message {
+        width: 80%;
+        padding: 0 5%;
+        border-top: 0.8px solid $grey8;
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        img {
+          border-radius: 100%;
+          margin-top: 3vw;
+          margin-right: 3vw;
+          width: 7.5vw;
+          height: 7.5vw;
+        }
+
+        .MessageRight {
+          width: 100%;
+
+          h4 {
+            margin-top: 2.5vw;
+            margin-bottom: 0.4vw;
+            font-size: 3.5vw;
+          }
+
+          p {
+            margin: 0;
+            margin-bottom: 2.5vw;
+            padding: 1px !important;
+            width: 100%;
+            font-size: 3vw;
+          }
+        }
+      }
+    }
+
+    .InputDiv {
+      position: absolute;
+      bottom: 0vh;
+      width: 100%;
+      height: 1vw;
+      z-index: 8;
+    }
   }
 }
