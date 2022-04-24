@@ -31,6 +31,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
 
   const [showChatLeft, setShowChatLeft] = useState(true);
+  const [showChatRight, setShowChatRight] = useState(false);
 
   useEffect(() => {
     ws.socket.emit("getAllChannels");
@@ -106,6 +107,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             ws={ws}
             channel={channelChoose}
             messages={messages}
+            showChatRight={showChatRight}
+            setShowChatRight={setShowChatRight}
           />
         );
       } else return <p></p>;
@@ -148,6 +151,11 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   function ftShowChatLeft() {
     if (showChatLeft === true) return classes.ShowChatLeft;
     return classes.HideChatLeft;
+  }
+
+  function ftShowChatRight() {
+    if (showChatRight === true) return classes.ShowChatRight;
+    return classes.HideChatRight;
   }
 
   return (
@@ -219,7 +227,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
 
-        <div className={classes.ChatRight}>{ftActiveChatMenuRight()}</div>
+        <div className={clsx(classes.ChatRight,ftShowChatRight())}>{ftActiveChatMenuRight()}</div>
       </div>
     </>
   );

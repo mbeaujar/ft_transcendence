@@ -239,8 +239,21 @@
       
     }
 
-    .ChatRight {
+    .HideChatRight {
       visibility: hidden;
+      right: -100vw;
+    }
+
+    .ShowChatRight {
+      right: 0;
+      visibility: visible;
+    }
+
+    .ChatRight {
+      min-width: 50vw;
+      max-width: 50vw;
+      height: 81vh;
+      position: fixed;
     }
   }
 }

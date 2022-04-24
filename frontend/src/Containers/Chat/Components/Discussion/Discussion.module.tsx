@@ -1,26 +1,28 @@
-import React from 'react';
-import { useEffect } from 'react';
-import classes from './Discussion.module.scss';
-import { IUser } from '../../../../interface/user.interface';
-import { IChannel } from '../../../../interface/channel.interface';
-import { IMessage } from '../../../../interface/message.interface';
-import Avatar from '../../../Profile/components/Avatar/Avatar';
+import React from "react";
+import { useEffect } from "react";
+import classes from "./Discussion.module.scss";
+import { IUser } from "../../../../interface/user.interface";
+import { IChannel } from "../../../../interface/channel.interface";
+import { IMessage } from "../../../../interface/message.interface";
+import Avatar from "../../../Profile/components/Avatar/Avatar";
 
-import styles from './Discussion.module.scss';
-import Input from './Input';
+import styles from "./Discussion.module.scss";
+import Input from "./Input";
 
 interface Props {
   user: IUser;
   channel: IChannel;
   ws: any;
   messages: any;
+  showChatRight: any;
+  setShowChatRight: any;
 }
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
-  var messageBody = document.querySelector('#msg');
+  var messageBody = document.querySelector("#msg");
 
   useEffect(() => {
-    messageBody = document.querySelector('#msg');
+    messageBody = document.querySelector("#msg");
     if (messageBody) {
       messageBody.scrollTop = messageBody.scrollHeight;
     }
@@ -41,6 +43,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className={classes.Discussion}>
       <h1>{props.channel.name}</h1>
+      <button
+        className={classes.OpenChannelSettings}
+        onClick={() => props.setShowChatRight(!props.showChatRight)}
+      >
+        <span className="material-icons">settings</span>
+      </button>
       <div className={classes.Messages} id="msg">
         {renderedMessages}
       </div>
@@ -51,11 +59,11 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               text,
               user: props.user,
             };
-            props.ws.socket.emit('joinChannel', props.channel);
+            props.ws.socket.emit("joinChannel", props.channel);
             if (props.channel !== null) {
               Object.assign(message, { channel: props.channel });
             }
-            props.ws.socket.emit('addMessage', message);
+            props.ws.socket.emit("addMessage", message);
           }}
         />
       </div>

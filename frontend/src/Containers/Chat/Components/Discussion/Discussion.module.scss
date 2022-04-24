@@ -72,6 +72,11 @@
       border-radius: 1.5vw;
     }*/
 
+    .OpenChannelSettings
+    {
+      display: none;
+    }
+
     .Messages {
       height: 62vh;
 
@@ -141,6 +146,28 @@
       border: 0.01vw solid rgb(95, 93, 93);
       border-radius: 1.5vw;
     }*/
+
+    .OpenChannelSettings
+    {
+      position: absolute;
+      top:4.5vw;
+      right:6vw;
+      border:none;
+      outline: none;
+      width: 6vw;
+      height:6vw;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $green3;
+      cursor:pointer;
+      span 
+      {
+        font-size: 5vw;
+        color: $blue3;
+      }
+    }
 
     .Messages {
      // height: 62vh;
