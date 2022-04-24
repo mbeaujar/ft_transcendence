@@ -165,6 +165,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           className={classes.OpenChatLeftButton}
           onClick={() => {
             setShowChatLeft(!showChatLeft);
+            showChatRight
+              ? setShowChatRight(!showChatRight)
+              : setShowChatRight(showChatRight);
           }}
         >
           <span className="material-icons">menu</span>
@@ -227,7 +230,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
 
-        <div className={clsx(classes.ChatRight,ftShowChatRight())}>{ftActiveChatMenuRight()}</div>
+        <div className={clsx(classes.ChatRight, ftShowChatRight())}>
+          {ftActiveChatMenuRight()}
+        </div>
       </div>
     </>
   );

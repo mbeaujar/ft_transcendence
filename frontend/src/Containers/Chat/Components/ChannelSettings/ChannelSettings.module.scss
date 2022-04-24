@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: $blue1;
 
   height: 82vh;
   overflow-y: scroll;
@@ -26,8 +27,6 @@
   h3 {
     margin-top: 0;
     background-color: $blue5;
-    padding: 1vw;
-    font-size: 1.2vw;
     margin-bottom: 0;
   }
 
@@ -40,20 +39,13 @@
       align-items: center;
       justify-content: left;
       color: $white1;
-      margin-left: 1vw;
-      height: 3.5vw;
 
       img {
         border-radius: 100%;
         border: 0.1vw solid $white1;
-        margin-top: 0.425vw;
-        margin-right: 0.5vw;
-        width: 2.5vw;
-        height: 2.5vw;
       }
 
       p {
-        font-size: 1.1vw;
         margin-left: 0;
         text-align: left;
       }
@@ -61,7 +53,6 @@
   }
 
   .UserSettings {
-    margin-top: 0.2vw;
     width: 100%;
 
     button {
@@ -72,9 +63,9 @@
       border-radius: 0.5vw;
       width: 80%;
       font-size: 1.2vw;
-      cursor: pointer;
-      background-color: $red1;
       margin-bottom: 0.8vw;
+      background-color: $red1;
+      cursor: pointer;
     }
   }
 
@@ -83,9 +74,6 @@
   }
 
   .ShowAdminSettings {
-    margin-top: 0.2vw;
-    width: 100%;
-    width: 92%;
     position: relative;
 
     h3 {
@@ -97,62 +85,45 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 1vw;
-      margin-left: 0;
-      width: 100%;
 
-      p
-      {
-        min-width: 50%;
-        max-width: 50%;
+      p {
         text-align: left;
       }
       input {
         background-color: $grey2;
         border: 1px solid $grey2;
         border-radius: 3vw;
-        font-size: 1vw;
-        width: 42%;
-        height: 1.2vw;
         outline: none;
         color: $white1;
-        padding: 0.2vw 0.4vw;
       }
-
     }
 
     div {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 1vw;
     }
 
     .BanUser {
       position: absolute;
       justify-content: space-between;
-      margin-top: 0.8vw;
       z-index: 3;
     }
 
     .UnbanUser {
       position: absolute;
-      margin-top: 6.8vw;
       justify-content: space-between;
       z-index: 1;
     }
 
     .MuteUser {
       position: absolute;
-      margin-top: 9.7vw;
       justify-content: space-between;
-
       z-index: 1;
     }
 
     .UnmuteUser {
       position: absolute;
-      margin-top: 15.7vw;
       justify-content: space-between;
       z-index: 0;
     }
@@ -163,37 +134,27 @@
   }
 
   .ShowCreatorSettings {
-    margin-top: 18.2vw;
-    width: 93%;
     display: flex;
     flex-direction: column;
     position: relative;
 
     .HideChangeChannelMode,
     .HideChangePasswordSettings,
-    .HideSetPassword{
+    .HideSetPassword {
       display: none;
     }
 
-    h3 {
-      width: 110%;
-      margin-left: -10%;
-    }
     .NewAdmin {
       position: absolute;
-      margin-top: 4.1vw;
       width: 100%;
       justify-content: space-between;
     }
 
     .SetPassword {
-      margin-top: 6.8vw;
       justify-content: space-between;
     }
 
     .ConfirmSetPassword {
-      margin-top: 0.5vw;
-      margin-bottom: 0.5vw;
       justify-content: space-between;
     }
 
@@ -201,13 +162,9 @@
       background-color: $green1;
       border: 0.1vw solid $green3;
       color: $white1;
-      padding: 3%;
-      width: 70%;
       border-radius: 0.3vw;
       margin: auto;
-      margin-bottom: 1vw;
       cursor: pointer;
-      font-size: 1vw;
     }
 
     .ChangeChannelMode:hover {
@@ -227,28 +184,20 @@
     }
 
     .ConfirmNewPassword {
-      margin-top: 0.5vw;
-      margin-bottom: 0.5vw;
       justify-content: space-between;
     }
 
     .ActualPassword {
-      margin-top: -0.5vw;
       justify-content: space-between;
-      margin-bottom: 0vw;
     }
 
     .ChangePassword {
       background-color: $green1;
       border: 0.1vw solid $green3;
       color: $white1;
-      padding: 3%;
-      width: 60%;
       border-radius: 0.3vw;
       margin: auto;
-      margin-bottom: 1vw;
       cursor: pointer;
-      font-size: 1vw;
     }
 
     .ChangePassword:hover {
@@ -259,13 +208,9 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 1vw;
       width: 100%;
 
-      p
-      {
-        min-width: 50%;
-        max-width: 50%;
+      p {
         text-align: left;
       }
 
@@ -273,12 +218,8 @@
         background-color: $grey2;
         border: 1px solid $grey2;
         border-radius: 3vw;
-        font-size: 1vw;
-        width: 42%;
-        height: 1.2vw;
         outline: none;
         color: $white1;
-        padding: 0.2vw 0.4vw;
       }
     }
 
@@ -286,13 +227,8 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-size: 1vw;
-      //width: 100%;
 
-      p
-      {
-        min-width: 50%;
-        max-width: 50%;
+      p {
         text-align: left;
       }
 
@@ -300,12 +236,385 @@
         background-color: $grey2;
         border: 1px solid $grey2;
         border-radius: 3vw;
-        font-size: 1vw;
-        width: 42%;
-        height: 1.2vw;
         outline: none;
         color: $white1;
-        padding: 0.2vw 0.4vw;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .ChannelSettings {
+    h3 {
+      padding: 1vw;
+      font-size: 1.2vw;
+    }
+
+    .ChannelUsers {
+      .ChannelUser {
+        margin-left: 1vw;
+        height: 3.5vw;
+
+        img {
+          margin-top: 0.425vw;
+          margin-right: 0.5vw;
+          width: 2.5vw;
+          height: 2.5vw;
+        }
+
+        p {
+          font-size: 1.1vw;
+        }
+      }
+    }
+
+    .UserSettings {
+      margin-top: 0.2vw;
+
+      button {
+        margin-top: 1vw;
+        padding: 0.8vw;
+        border-radius: 0.5vw;
+        width: 80%;
+        font-size: 1.2vw;
+        margin-bottom: 0.8vw;
+      }
+    }
+
+    .ShowAdminSettings {
+      margin-top: 0.2vw;
+      width: 100%;
+      width: 92%;
+
+      h3 {
+        width: 110%;
+        margin-left: -10%;
+      }
+
+      form {
+        font-size: 1vw;
+        margin-left: 0;
+        width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+        }
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
+      }
+
+      div {
+        font-size: 1vw;
+      }
+
+      .BanUser {
+        margin-top: 0.8vw;
+      }
+
+      .UnbanUser {
+        margin-top: 6.8vw;
+      }
+
+      .MuteUser {
+        margin-top: 9.7vw;
+      }
+
+      .UnmuteUser {
+        margin-top: 15.7vw;
+      }
+    }
+
+    .ShowCreatorSettings {
+      margin-top: 18.2vw;
+      width: 93%;
+
+      h3 {
+        width: 110%;
+        margin-left: -10%;
+      }
+      .NewAdmin {
+        margin-top: 4.1vw;
+        width: 100%;
+      }
+
+      .SetPassword {
+        margin-top: 6.8vw;
+      }
+
+      .ConfirmSetPassword {
+        margin-top: 0.5vw;
+        margin-bottom: 0.5vw;
+      }
+
+      .ChangeChannelMode {
+        padding: 3%;
+        width: 70%;
+        margin-bottom: 1vw;
+        font-size: 1vw;
+      }
+
+      .ChangeChannelMode:hover {
+        background-color: $green2;
+      }
+
+      .MarginZero {
+        margin-top: 0.5vw;
+      }
+
+      .MarginSevenHalf {
+        margin-top: 7.2vw;
+      }
+
+      .NewPassword {
+      }
+
+      .ConfirmNewPassword {
+        margin-top: 0.5vw;
+        margin-bottom: 0.5vw;
+      }
+
+      .ActualPassword {
+        margin-top: -0.5vw;
+        margin-bottom: 0vw;
+      }
+
+      .ChangePassword {
+        padding: 3%;
+        width: 60%;
+        margin-bottom: 1vw;
+        font-size: 1vw;
+      }
+
+      form {
+        font-size: 1vw;
+        width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+        }
+
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
+      }
+
+      div {
+        font-size: 1vw;
+        //width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+          text-align: left;
+        }
+
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
+      }
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 650px) {
+  .ChannelSettings {
+    border-left: 0.4vw solid $blue5;
+
+    h3 {
+      font-size: 4vw;
+      padding: 2vw;
+    }
+
+
+
+    .ChannelUsers {
+      .ChannelUser {
+        margin-left: 3vw;
+        height: 10vw;
+
+        img {
+          margin-top: 2vw;
+          margin-right: 1.5vw;
+          width: 6vw;
+          height: 6vw;
+        }
+
+        p {
+          margin-top: 1vw;
+          font-size: 3vw;
+        }
+      }
+    }
+
+    .UserSettings {
+      margin-top: 1vw;
+
+      button {
+        margin-top: 3vw;
+        padding: 2vw;
+        border-radius: 1vw;
+        width: 60%;
+        font-size: 3.5vw;
+        margin-bottom: 0vw;
+      }
+    }
+
+    .ShowAdminSettings {
+      margin-top: 3vw;
+      width: 100%;
+      width: 92%;
+
+      h3 {
+        width: 110%;
+        margin-left: -10%;
+      }
+
+      form {
+        font-size: 1vw;
+        margin-left: 0;
+        width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+        }
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
+      }
+
+      div {
+        font-size: 1vw;
+      }
+
+      .BanUser {
+        margin-top: 0.8vw;
+      }
+
+      .UnbanUser {
+        margin-top: 6.8vw;
+      }
+
+      .MuteUser {
+        margin-top: 9.7vw;
+      }
+
+      .UnmuteUser {
+        margin-top: 15.7vw;
+      }
+    }
+
+    .ShowCreatorSettings {
+      margin-top: 18.2vw;
+      width: 93%;
+
+      h3 {
+        width: 110%;
+        margin-left: -10%;
+      }
+      .NewAdmin {
+        margin-top: 4.1vw;
+        width: 100%;
+      }
+
+      .SetPassword {
+        margin-top: 6.8vw;
+      }
+
+      .ConfirmSetPassword {
+        margin-top: 0.5vw;
+        margin-bottom: 0.5vw;
+      }
+
+      .ChangeChannelMode {
+        padding: 3%;
+        width: 70%;
+        margin-bottom: 1vw;
+        font-size: 1vw;
+      }
+
+      .ChangeChannelMode:hover {
+        background-color: $green2;
+      }
+
+      .MarginZero {
+        margin-top: 0.5vw;
+      }
+
+      .MarginSevenHalf {
+        margin-top: 7.2vw;
+      }
+
+      .NewPassword {
+      }
+
+      .ConfirmNewPassword {
+        margin-top: 0.5vw;
+        margin-bottom: 0.5vw;
+      }
+
+      .ActualPassword {
+        margin-top: -0.5vw;
+        margin-bottom: 0vw;
+      }
+
+      .ChangePassword {
+        padding: 3%;
+        width: 60%;
+        margin-bottom: 1vw;
+        font-size: 1vw;
+      }
+
+      form {
+        font-size: 1vw;
+        width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+        }
+
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
+      }
+
+      div {
+        font-size: 1vw;
+        //width: 100%;
+
+        p {
+          min-width: 50%;
+          max-width: 50%;
+          text-align: left;
+        }
+
+        input {
+          font-size: 1vw;
+          width: 42%;
+          height: 1.2vw;
+          padding: 0.2vw 0.4vw;
+        }
       }
     }
   }

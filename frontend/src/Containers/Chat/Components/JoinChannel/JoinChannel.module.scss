@@ -29,24 +29,31 @@
       cursor: pointer;
     }
 
+    button:hover
+    {
+      background-color: $green2;
+    }
+
   }
 }
 
 @media screen and (min-width: 651px) {
 
   .ChannelToJoin {
-    width: 60%;
-    padding: 0.5% 5%;
-    margin-bottom: 20px;
+    width: 50%;
+    padding: 1.5% 5%;
+    margin-bottom: 1.5vw;
     border-radius: 1.5vw;
 
     p {
       font-size: 1.2vw;
+      width: 40%;
+      text-align: left;
     }
 
     button {
       padding: 1%;
-      width: 25%;
+      width: 30%;
       font-size: 1.2vw;
 
       border-radius: 0.3vw;

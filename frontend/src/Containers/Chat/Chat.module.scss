@@ -59,7 +59,7 @@
   }
 
   p:hover {
-    background-color: $blue6;
+    //background-color: $blue6;
   }
 }
 
@@ -254,6 +254,8 @@
       max-width: 50vw;
       height: 81vh;
       position: fixed;
+      transition: all 0.8s ease-out;
+      z-index: 8;
     }
   }
 }
