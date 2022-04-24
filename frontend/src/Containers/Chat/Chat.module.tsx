@@ -89,6 +89,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             channel,
           };
           ws.socket.emit("joinChannel", joinChannel);
+          setShowChatLeft(!showChatLeft);
         }}
       >
         {channel.name}
@@ -174,6 +175,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             onClick={() => {
               setActiveChatMenu("SearchUser");
               setChannelChoose(null);
+              setShowChatLeft(!showChatLeft);
             }}
           >
             Search user
@@ -183,6 +185,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             onClick={() => {
               setActiveChatMenu("JoinChannel");
               setChannelChoose(null);
+              setShowChatLeft(!showChatLeft);
             }}
           >
             Join channel
@@ -195,6 +198,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             onClick={() => {
               setActiveChatMenu("CreateChannel");
               setChannelChoose(null);
+              setShowChatLeft(!showChatLeft);
             }}
           >
             Create channel
