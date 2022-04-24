@@ -478,25 +478,26 @@
       width: 100%;
       width: 92%;
 
-      h3 {
+     /* h3 {
         width: 110%;
         margin-left: -10%;
-      }
+      }*/
 
       form {
-        font-size: 1vw;
+        font-size: 3vw;
         margin-left: 0;
         width: 100%;
 
         p {
-          min-width: 50%;
-          max-width: 50%;
+          min-width: 40%;
+          max-width: 40%;
         }
         input {
-          font-size: 1vw;
-          width: 42%;
+          font-size: 3vw;
+          min-width: 50%;
+          max-width: 50%;
           height: 1.2vw;
-          padding: 0.2vw 0.4vw;
+          padding: 2vw 2vw;
         }
       }
 
@@ -505,24 +506,27 @@
       }
 
       .BanUser {
-        margin-top: 0.8vw;
+        margin-top: 3vw;
       }
 
       .UnbanUser {
         margin-top: 6.8vw;
+        margin-top: 150.7vw;
       }
 
       .MuteUser {
         margin-top: 9.7vw;
+        margin-top: 150.7vw;
       }
 
       .UnmuteUser {
-        margin-top: 15.7vw;
+        margin-top: 150.7vw;
       }
     }
 
     .ShowCreatorSettings {
       margin-top: 18.2vw;
+      margin-top: 150.7vw;
       width: 93%;
 
       h3 {
