@@ -36,7 +36,7 @@ const App: React.FC = (): JSX.Element => {
               }
             />
           ) : null}
-          {/* {user ? <Route path="/file" element={<File user={user} />} /> : null} */}
+          {user ? <Route path="/file" element={<File user={user} />} /> : null}
           {/* {user ? <Route path="/game" element={<Game />} /> : null} */}
           {user ? <Route path="/game" element={<Pong user={user} />} /> : null}
         </Routes>

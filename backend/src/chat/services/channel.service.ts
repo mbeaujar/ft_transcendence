@@ -8,6 +8,7 @@ import { promisify } from 'util';
 import { WsException } from '@nestjs/websockets';
 import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 import { State } from 'src/chat/interface/state.enum';
+
 const scrypt = promisify(_scrypt);
 
 @Injectable()

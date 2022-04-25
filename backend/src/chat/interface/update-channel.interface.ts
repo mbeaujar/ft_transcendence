@@ -3,3 +3,5 @@ export interface IUpdateChannel {
   state: number;
   password?: string;
 }
+
+// transform to dto for more security

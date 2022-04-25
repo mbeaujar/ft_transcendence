@@ -1,6 +1,4 @@
 import {
-  AfterInsert,
-  AfterRemove,
   Column,
   Entity,
   JoinColumn,
@@ -41,7 +39,6 @@ export class User {
   sensitivity: number;
 
   @OneToOne(() => LocalFile, { nullable: true })
-  @JoinColumn({ name: 'avatarId' })
   avatar: LocalFile;
 
   @Column({ nullable: true })

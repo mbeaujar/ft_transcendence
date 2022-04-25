@@ -40,6 +40,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setMessages(data);
     });
 
+    ws.socket.on('Error', data => {
+      console.log(data);
+    });
+
     ws.socket.on('messageAdded', data => {
       setMessages(prev => [...prev, data]);
     });
@@ -94,6 +98,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          ws.socket.emit('test', { test: 20 });
+        }}
+      >
+        TEST DTO
+      </button>
       <button
         onClick={() => {
           api

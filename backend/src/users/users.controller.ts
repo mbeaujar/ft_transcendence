@@ -68,7 +68,7 @@ export class UsersController {
       unlink(path, (err) => {
         if (err) console.log(err);
       });
-      await this.usersService.deleteFileById(user.avatarId);
+      await this.usersService.deleteFileById(avatar.id);
     }
     const localFile = await this.usersService.saveLocalFileData({
       path: file.path,
@@ -84,8 +84,7 @@ export class UsersController {
     @Param('id') id: string,
     @Res({ passthrough: true }) response: Response,
   ) {
-    console.log('id', id);
-    if (id && id != 'null') {
+    if (id && id !== 'null') {
       const file = await this.usersService.getFileById(parseInt(id));
       if (!file) {
         throw new NotFoundException('file not found');
