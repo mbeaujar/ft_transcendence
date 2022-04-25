@@ -6,4 +6,5 @@ export interface IUser {
   wins?: number;
   losses?: number;
   isTwoFactorEnabled:boolean;
+  elo:number;
 }

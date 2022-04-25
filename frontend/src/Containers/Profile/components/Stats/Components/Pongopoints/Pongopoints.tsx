@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { IUser } from '../../../../../../interface/user.interface';
 import './Pongopoints.scss';
 
-function Pongopoints(props: any) {
-  let speed = 1;
+interface Props {
+  user: IUser;
+}
+
+function Pongopoints(props: Props) {
+  const [elo,setElo] = useState(props.user.elo);
   useEffect(() => {
     let valuePongopoints: any = document.getElementById('valuePongopoints');
     let progressPongopoints = 0;
-    let speed = 1;
+    let speed = (100/elo);
     let progress2 = setInterval(() => {
       progressPongopoints++;
       if (valuePongopoints != null) {
         valuePongopoints.textContent = `${progressPongopoints}`;
       }
 
-      if (progressPongopoints >= 561) {
+      if (progressPongopoints >= elo) {
         clearInterval(progress2);
       }
     }, speed);
