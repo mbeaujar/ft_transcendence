@@ -48,7 +48,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setMessages(prev => [...prev, data]);
     });
     ws.socket.on('currentChannel', data => {
-      // console.log('users channel', data);
+      console.log('currentChannel', data);
       setChannelChoose(data);
     });
 
@@ -98,6 +98,37 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          api
+            .get(`/users/${74728}`)
+            .then(response =>
+              ws.socket.emit('createDiscussion', {
+                channel: {
+                  state: 3,
+                  name: 'arm',
+                  password: '',
+                  users: [],
+                },
+                user: response.data,
+              })
+            )
+            .catch(reject => console.error(reject));
+        }}
+      >
+        create discussion
+      </button>
+      <button
+        onClick={() => {
+          ws.socket.emit('changeChannelState', {
+            id: channelChoose?.id,
+            state: 2,
+            password: 'Mael',
+          });
+        }}
+      >
+        changeChannelState
+      </button>
       <button
         onClick={() => {
           ws.socket.emit('test', { test: 20 });

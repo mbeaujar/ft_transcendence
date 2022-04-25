@@ -31,6 +31,14 @@ import { JoinChannelDto } from './dtos/join-channel.dto';
 import { IUser } from 'src/users/model/user/user.interface';
 import { IChannelUser } from './model/channel-user/channel-user.interface';
 import { State } from './interface/state.enum';
+import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { promisify } from 'util';
+import { IMessage } from './model/message/message.interface';
+import { UpdateChannelDto } from './dtos/update-channel.dto';
+import { UpdateDateColumn } from 'typeorm';
+import { IDiscussion } from './interface/discussion.interface';
+
+const scrypt = promisify(_scrypt);
 
 @UsePipes(new ValidationPipe())
 @UseFilters(WsExceptionFilter)
@@ -119,10 +127,8 @@ export class ChatGateway
 
   /** ---------------------------  CHANNEL -------------------------------- */
 
-  private async sendChannelToEveryone(socket: Socket) {
-    const channels = await this.channelService.getChannels(
-      socket?.data?.user?.id,
-    );
+  private async sendChannelToEveryone(userId: number) {
+    const channels = await this.channelService.getChannels(userId);
     if (channels) {
       const connectedUsers = await this.connectedUserService.getAll();
       for (const user of connectedUsers) {
@@ -152,13 +158,7 @@ export class ChatGateway
     });
     this.server.to(socket.id).emit('messages', messagesFiltered);
 
-    const currentChannel: IChannel = {
-      id: channel.id,
-      name: channel.name,
-      state: channel.state,
-      users: channel.users,
-    };
-    this.server.to(socket.id).emit('currentChannel', currentChannel);
+    await this.updateCurrentChannel(channel.id);
 
     const channels = await this.channelService.getChannels(
       socket?.data?.user?.id,
@@ -166,60 +166,46 @@ export class ChatGateway
     return this.server.to(socket.id).emit('channels', channels);
   }
 
+  private async updateCurrentChannel(channelId: number) {
+    const channelUpdated = await this.channelService.getChannel(channelId);
+    const joinedChannelUsers = await this.joinedChannelService.findByChannel(
+      channelId,
+    );
+    if (joinedChannelUsers) {
+      for (const joinedChannelUser of joinedChannelUsers) {
+        this.server
+          .to(joinedChannelUser.socketId)
+          .emit('currentChannel', channelUpdated);
+      }
+    }
+  }
+
   private async getChannelAndUser(
     channel: IChannel,
     user: IUser,
   ): Promise<[IChannel, IChannelUser]> {
+    if (!channel || !channel.id) return [null, null];
     const channelDB = await this.channelService.getChannel(channel.id);
     const channelUser = await this.channelUserService.findUserInChannel(
-      channelDB,
+      channelDB.id,
       user,
     );
     return [channelDB, channelUser];
   }
 
-  //   @SubscribeMessage('createDiscussion')
-  //   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
-  //     const createdChannel: Channel = await this.channelService.createChannel(
-  //       discussion.channel,
-  //     );
-
-  //     const channelUser = await this.channelUserService.createUser({
-  //       administrator: true,
-  //       creator: true,
-  //       ban: false,
-  //       mute: false,
-  //       user: socket.data.user,
-  //       channelId: createdChannel.id,
-  //       channel: createdChannel,
-  //     });
-
-  //     const channelUserInvite = await this.channelUserService.createUser({
-  //       administrator: false,
-  //       creator: false,
-  //       ban: false,
-  //       mute: false,
-  //       user: discussion.user,
-  //       channelId: createdChannel.id,
-  //       channel: createdChannel,
-  //     });
-
-  //     const updateChannel = await this.channelService.updateChannel(
-  //       createdChannel,
-  //       { users: [channelUser, channelUserInvite] },
-  //     );
-  //     this.sendChannelToEveryone(socket);
-
-  //     this.switchToChannel(socket, updateChannel);
-  //   }
-
-  @SubscribeMessage('createChannel')
-  async onCreateChannel(socket: Socket, channel: IChannel) {
-    const createdChannel: IChannel = await this.channelService.createChannel(
-      channel,
+  @SubscribeMessage('createDiscussion')
+  async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
+    const channel = await this.channelService.getChannelByName(
+      discussion.channel.name,
+    );
+    if (channel) {
+      this.handleError(socket, 'channel already exist');
+    }
+    const createdChannel = await this.channelService.createChannel(
+      discussion.channel,
     );
     if (!createdChannel) {
-      this.handleError(socket, 'impossible to create channel');
+      this.handleError(socket, 'impossible to create discussion');
     }
     const channelUser = await this.channelUserService.createUser({
       administrator: true,
@@ -232,7 +218,71 @@ export class ChatGateway
     });
     if (!channelUser) {
       await this.channelService.deleteChannelById(createdChannel.id);
-      this.handleError(socket, 'impossible to create user in channel');
+      this.handleError(socket, 'impossible to create user in discussion');
+    }
+    const channelUserInvite = await this.channelUserService.createUser({
+      administrator: false,
+      creator: false,
+      ban: false,
+      mute: false,
+      user: discussion.user,
+      channelId: createdChannel.id,
+      channel: createdChannel,
+    });
+    if (!channelUserInvite) {
+      await this.channelService.deleteChannelById(createdChannel.id);
+      await this.channelUserService.deleteUserInChannel(
+        createdChannel.id,
+        channelUser.user,
+      );
+      this.handleError(socket, 'impossible to create user in discussion');
+    }
+    const updateChannel = await this.channelService.updateChannel(
+      createdChannel,
+      { users: [channelUser, channelUserInvite] },
+    );
+    if (!updateChannel) {
+      await this.channelService.deleteChannelById(createdChannel.id);
+      await this.channelUserService.deleteUserInChannel(
+        createdChannel.id,
+        channelUser.user,
+      );
+      await this.channelUserService.deleteUserInChannel(
+        createdChannel.id,
+        channelUserInvite.user,
+      );
+      this.handleError(socket, 'impossible to update discussion');
+    }
+    await this.sendChannelToEveryone(socket.data.user.id);
+    await this.switchToChannel(socket, updateChannel);
+  }
+
+  @SubscribeMessage('createChannel')
+  async onCreateChannel(socket: Socket, channel: IChannel) {
+    const channelExist = await this.channelService.getChannelByName(
+      channel.name,
+    );
+    if (channelExist) {
+      this.handleError(socket, 'channel already exist');
+    }
+    const createdChannel: IChannel = await this.channelService.createChannel(
+      channel,
+    );
+    if (!createdChannel) {
+      this.handleError(socket, 'impossible to create discussion');
+    }
+    const channelUser = await this.channelUserService.createUser({
+      administrator: true,
+      creator: true,
+      ban: false,
+      mute: false,
+      user: socket.data.user,
+      channelId: createdChannel.id,
+      channel: createdChannel,
+    });
+    if (!channelUser) {
+      await this.channelService.deleteChannelById(createdChannel.id);
+      this.handleError(socket, 'impossible to create user in discussion');
     }
     const updatedChannel = await this.channelService.updateChannel(
       createdChannel,
@@ -243,10 +293,10 @@ export class ChatGateway
     if (!updatedChannel) {
       await this.channelService.deleteChannelById(createdChannel.id);
       await this.channelUserService.deleteUser(channelUser);
-      this.handleError(socket, 'impossible to update user owner in channel');
+      this.handleError(socket, 'impossible to update user owner in discussion');
     }
-    this.sendChannelToEveryone(socket);
-    this.switchToChannel(socket, updatedChannel);
+    await this.sendChannelToEveryone(socket.data.user.id);
+    await this.switchToChannel(socket, updatedChannel);
   }
 
   @SubscribeMessage('removeChannel')
@@ -255,27 +305,37 @@ export class ChatGateway
     if (!channelDB) {
       this.handleError(socket, 'channel not found');
     }
-    await this.channelUserService.deleteAllUsersInChannel(channelDB);
+    await this.channelUserService.deleteAllUsersInChannel(channelDB.id);
     await this.joinedChannelService.deleteByChannel(channelDB);
-    await this.channelService.deleteChannel(channelDB);
-    this.sendChannelToEveryone(socket);
+    await this.channelService.deleteChannelById(channelDB.id);
+    await this.sendChannelToEveryone(socket.data.user.id);
   }
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
-    const [channelDB, user] = await this.getChannelAndUser(
-      joinChannel.channel,
-      socket.data.user,
+    const channelDB = await this.channelService.getChannelWithPassword(
+      joinChannel.channel.id,
     );
     if (!channelDB) {
       this.handleError(socket, 'channel not found');
     }
+    const user = await this.channelUserService.findUserInChannel(
+      channelDB.id,
+      socket.data.user,
+    );
     if (!user) {
+      if (channelDB.state === State.private) {
+        this.handleError(socket, 'impossible to join private discussion');
+      }
       if (channelDB.state === State.protected) {
-        await this.channelService.verifyPassword(
-          channelDB,
-          joinChannel.password,
-        );
+        if (!channelDB.password) {
+          this.handleError(socket, 'channel does not have a password');
+        }
+        const [salt, storedHash] = channelDB.password.split('.');
+        const hash = (await scrypt(joinChannel.password, salt, 64)) as Buffer;
+        if (hash.toString('hex') !== storedHash) {
+          this.handleError(socket, 'wrong password');
+        }
       }
       const newUser = await this.channelUserService.createUser({
         administrator: false,
@@ -292,7 +352,7 @@ export class ChatGateway
     } else {
       if (user.ban === true) {
         if (this.countdownIsDown(user.unban_at)) {
-          throw new WsException('user is banned');
+          this.handleError(socket, 'user is banned');
         }
         await this.channelUserService.updateUser(user, {
           ban: false,
@@ -303,139 +363,141 @@ export class ChatGateway
     }
   }
 
-  //   @SubscribeMessage('leaveChannel')
-  //   async onLeaveChannel(socket: Socket, channel: IChannel) {
-  //     const [channelDB, channelUser] = await this.getChannelAndUser(
-  //       channel,
-  //       socket.data.user,
-  //     );
-  //     // Quit channel
-  //     await this.joinedChannelService.deleteBySocketId(socket.id);
-  //     // Delete user in the channel
-  //     await this.channelUserService.deleteUser(channelUser);
-  //     // if there is no more user anymore in the channel we delete it
-  //     const users = await this.channelUserService.getUsersInChannel(channelDB);
-  //     if (users.length === 1) {
-  //       await this.channelUserService.deleteAllUsersInChannel(channelDB);
-  //       await this.messageService.deleteMessageByChannel(channelDB);
-  //       await this.channelService.deleteChannel(channelDB);
-  //       // Prevent everyone that a channel as been deleted
-  //       this.sendChannelToEveryone(socket);
-  //       return;
-  //     } else if (channelUser.creator === true) {
-  //       // if the deleted user was the owner we make a new user the owner of the channel
-  //       const admins: IChannelUser[] =
-  //         await this.channelUserService.getAdminsInChannel(channelDB);
-  //       // give it to a random admin user
-  //       if (admins.length > 0) {
-  //         await this.channelUserService.updateUser(admins[0], { creator: true });
-  //       } else {
-  //         // give it to a random user
-  //         await this.channelUserService.updateUser(users[0], {
-  //           creator: true,
-  //           administrator: true,
-  //         });
-  //       }
-  //     }
-  //     const joinedChannelUsers = await this.joinedChannelService.findByChannel(
-  //       channelDB,
-  //     );
-  //     for (const joinedChannelUser of joinedChannelUsers) {
-  //       this.server
-  //         .to(joinedChannelUser.socketId)
-  //         .emit('currentChannel', channelDB);
-  //     }
-  //   }
+  @SubscribeMessage('leaveChannel')
+  async onLeaveChannel(socket: Socket, channel: IChannel) {
+    const [channelDB, channelUser] = await this.getChannelAndUser(
+      channel,
+      socket.data.user,
+    );
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!channelUser) {
+      this.handleError(socket, 'user not found');
+    }
 
-  //   @SubscribeMessage('getAllChannels')
-  //   async getAllChannels(socket: Socket) {
-  //     const channels = await this.channelService.getChannels(
-  //       socket?.data?.user?.id,
-  //     );
-  //     return this.server.to(socket.id).emit('channels', channels);
-  //   }
+    await this.joinedChannelService.deleteBySocketId(socket.id);
+    await this.channelUserService.deleteUser(channelUser);
 
-  //   @SubscribeMessage('getChannels')
-  //   async getChannels(socket: Socket) {
-  //     const channels = await this.channelService.getChannelsForUser(
-  //       socket.data?.user?.id,
-  //     );
-  //     return this.server.to(socket.id).emit('channels', channels);
-  //   }
+    const users = await this.channelUserService.getUsersInChannel(channelDB);
+    if (users.length === 0) {
+      await this.channelUserService.deleteAllUsersInChannel(channelDB.id);
+      await this.messageService.deleteMessageByChannel(channelDB);
+      await this.channelService.deleteChannelById(channelDB.id);
+      return this.sendChannelToEveryone(socket.data.user.id);
+    } else if (channelUser.creator === true) {
+      const admins = await this.channelUserService.getAdminsInChannel(
+        channelDB,
+      );
+      if (admins && admins.length > 0) {
+        await this.channelUserService.updateUser(admins[0], { creator: true });
+      } else {
+        await this.channelUserService.updateUser(users[0], {
+          creator: true,
+          administrator: true,
+        });
+      }
+    }
+    return this.updateCurrentChannel(channelDB.id);
+  }
 
-  //   @SubscribeMessage('changeChannelState')
-  //   async onChangeChannelState(socket: Socket, updateChannel: UpdateChannelDto) {
-  //     const channel = await this.channelService.getChannel(updateChannel.id);
-  //     if (!channel) {
-  //       throw new WsException('channel not found');
-  //     }
-  //     const user = await this.channelUserService.findUserInChannel(
-  //       channel,
-  //       socket.data.user,
-  //     );
-  //     if (!user) {
-  //       throw new WsException('user not found');
-  //     }
-  //     if (user.administrator === false) {
-  //       throw new WsException('user does not have the rights');
-  //     }
-  //     if (
-  //       updateChannel.state === State.protected &&
-  //       updateChannel.password === undefined
-  //     ) {
-  //       throw new WsException('protected channel without password');
-  //     }
-  //     await this.channelService.updateChannel(channel, updateChannel);
-  //   }
+  @SubscribeMessage('getAllChannels')
+  async getAllChannels(socket: Socket) {
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
+    return this.server.to(socket.id).emit('channels', channels);
+  }
 
-  //   /** ---------------------------  MESSAGE  -------------------------------- */
+  @SubscribeMessage('getChannels')
+  async getChannels(socket: Socket) {
+    const channels = await this.channelService.getChannelsForUser(
+      socket.data?.user?.id,
+    );
+    return this.server.to(socket.id).emit('channels', channels);
+  }
 
-  //   @SubscribeMessage('addMessage')
-  //   async onAddMessage(socket: Socket, message: IMessage) {
-  //     const [channel, user] = await this.getChannelAndUser(
-  //       message.channel,
-  //       socket.data.user,
-  //     );
-  //     if (!user) {
-  //       throw new WsException('user not found');
-  //     }
-  //     if (user.mute === true) {
-  //       if (this.countdownIsDown(user.unmute_at) === false) {
-  //         throw new WsException('user is muted');
-  //       }
-  //       await this.channelUserService.updateUser(user, {
-  //         mute: false,
-  //         unmute_at: null,
-  //       });
-  //     }
-  //     if (user.ban === true) {
-  //       if (this.countdownIsDown(user.unban_at) === false) {
-  //         throw new WsException('user is ban');
-  //       }
-  //       await this.channelUserService.updateUser(user, {
-  //         ban: false,
-  //         unban_at: null,
-  //       });
-  //     }
-  //     const createdMessage: Message = await this.messageService.create({
-  //       ...message,
-  //       user: socket.data.user,
-  //     });
-  //     const joinedUsers: JoinedChannel[] =
-  //       await this.joinedChannelService.findByChannel(channel);
-  //     /** Send to all users (maybe check if there are users who are muted by the chat or by the users) */
-  //     for (const joinedUser of joinedUsers) {
-  //       // if the user is blocked we don't send the message
-  //       const userBlockedMe = joinedUser.user.blockedUsers.find(
-  //         (blockedUser) => blockedUser.id === user.user.id,
-  //       );
-  //       if (userBlockedMe === undefined) {
-  //         this.server
-  //           .to(joinedUser.socketId)
-  //           .emit('messageAdded', createdMessage);
-  //       }
-  //     }
-  //   }
+  @SubscribeMessage('changeChannelState')
+  async onChangeChannelState(socket: Socket, updateChannel: UpdateChannelDto) {
+    const channel = await this.channelService.getChannel(updateChannel.id);
+    if (!channel) {
+      this.handleError(socket, 'channel not found');
+    }
+    const user = await this.channelUserService.findUserInChannel(
+      channel.id,
+      socket.data.user,
+    );
+    if (!user) {
+      this.handleError(socket, 'user not found');
+    }
+    if (user.administrator === false) {
+      this.handleError(socket, 'user does not have the rights');
+    }
+    if (updateChannel.state === State.protected) {
+      if (updateChannel.password === undefined) {
+        this.handleError(socket, 'protected channel without password');
+      }
+      updateChannel.password = await this.channelService.hashPassword(
+        updateChannel.password,
+      );
+    }
+    await this.channelService.updateChannel(channel, updateChannel);
+    await this.sendChannelToEveryone(socket.data.user.id);
+    await this.updateCurrentChannel(channel.id);
+  }
+
+  /** ---------------------------  MESSAGE  -------------------------------- */
+
+  @SubscribeMessage('addMessage')
+  async onAddMessage(socket: Socket, message: IMessage) {
+    const [channel, user] = await this.getChannelAndUser(
+      message.channel,
+      socket.data.user,
+    );
+    if (!channel) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!user) {
+      this.handleError(socket, 'user not found');
+    }
+    if (user.mute === true) {
+      if (this.countdownIsDown(user.unmute_at) === false) {
+        this.handleError(socket, 'user is mute');
+      }
+      await this.channelUserService.updateUser(user, {
+        mute: false,
+        unmute_at: null,
+      });
+    }
+    if (user.ban === true) {
+      if (this.countdownIsDown(user.unban_at) === false) {
+        this.handleError(socket, 'user is ban');
+      }
+      await this.channelUserService.updateUser(user, {
+        ban: false,
+        unban_at: null,
+      });
+    }
+    const createdMessage = await this.messageService.create({
+      ...message,
+      user: socket.data.user,
+    });
+    const joinedUsers = await this.joinedChannelService.findByChannel(
+      channel.id,
+    );
+    if (joinedUsers) {
+      for (const joinedUser of joinedUsers) {
+        const userBlockedMe = joinedUser.user.blockedUsers.find(
+          (blockedUser) => blockedUser.id === user.user.id,
+        );
+        if (userBlockedMe === undefined) {
+          this.server
+            .to(joinedUser.socketId)
+            .emit('messageAdded', createdMessage);
+        }
+      }
+    }
+  }
 
   //   /** ---------------------------  ADMINISTRATOR  -------------------------------- */
 
@@ -462,17 +524,17 @@ export class ChatGateway
   //     return newAdminUser;
   //   }
 
-  //   @SubscribeMessage('addAdministrator')
-  //   async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
-  //     const target = await this.checkRightsAndFindUser(
-  //       socket.data.user,
-  //       newAdmin.channel,
-  //       newAdmin.user.user,
-  //     );
-  //     await this.channelUserService.updateUser(target, {
-  //       administrator: true,
-  //     });
-  //   }
+  // @SubscribeMessage('addAdministrator')
+  // async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
+  //   const target = await this.checkRightsAndFindUser(
+  //     socket.data.user,
+  //     newAdmin.channel,
+  //     newAdmin.user.user,
+  //   );
+  //   await this.channelUserService.updateUser(target, {
+  //     administrator: true,
+  //   });
+  // }
 
   //   @SubscribeMessage('removeAdministrator')
   //   async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
@@ -486,10 +548,10 @@ export class ChatGateway
 
   //   /** ---------------------------  BAN / MUTE  -------------------------------- */
 
-  //   private countdownIsDown(countdown: Date): boolean {
-  //     const now = new Date();
-  //     return now >= countdown;
-  //   }
+  private countdownIsDown(countdown: Date): boolean {
+    const now = new Date();
+    return now >= countdown;
+  }
 
   //   private async getTargetAndSecureRights(
   //     channel: IChannel,

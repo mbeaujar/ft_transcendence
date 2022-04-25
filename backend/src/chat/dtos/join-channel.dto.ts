@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { IChannel } from '../model/channel/channel.interface';
 
 export class JoinChannelDto {
@@ -6,5 +6,6 @@ export class JoinChannelDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   password?: string;
 }

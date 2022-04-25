@@ -32,11 +32,11 @@ export class JoinedChannelService {
     });
   }
 
-  async findByChannel(channel: IChannel): Promise<JoinedChannel[]> {
+  async findByChannel(channelId: number): Promise<JoinedChannel[]> {
     return this.joinedChannelRepository
       .createQueryBuilder('joinChannel')
       .leftJoinAndSelect('joinChannel.user', 'join_user')
-      .where('joinChannel.channelId = :channelId', { channelId: channel.id })
+      .where('joinChannel.channelId = :channelId', { channelId })
       .leftJoinAndSelect('join_user.blockedUsers', 'blocked_users')
       .getMany();
   }

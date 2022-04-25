@@ -13,5 +13,3 @@ export interface IChannelUser {
   user: IUser;
   channel: IChannel;
 }
-
-// change to dto for more security

@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class UpdateChannelDto {
   @IsNumber()
@@ -11,5 +17,6 @@ export class UpdateChannelDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   password?: string;
 }

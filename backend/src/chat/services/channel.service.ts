@@ -57,10 +57,6 @@ export class ChannelService {
     return this.channelRepository.delete({ id });
   }
 
-  async deleteChannel(channel: IChannel): Promise<any> {
-    return this.channelRepository.delete(channel.id);
-  }
-
   async addUser(channelI: IChannel, user: ChannelUser): Promise<Channel> {
     const channel = await this.channelRepository.findOne(channelI.id, {
       relations: ['users'],
@@ -69,12 +65,31 @@ export class ChannelService {
     return this.channelRepository.save(channel);
   }
 
+  async getChannelByName(name: string): Promise<Channel> {
+    return this.channelRepository.findOne({ name });
+  }
+
   async getChannel(channelId: number): Promise<Channel> {
     return this.channelRepository
       .createQueryBuilder('channel')
       .where('channel.id = :channelId', { channelId })
       .leftJoinAndSelect('channel.users', 'channel_user')
       .leftJoinAndSelect('channel_user.user', 'user')
+      .getOne();
+  }
+
+  async getChannelWithPassword(channelId: number): Promise<Channel> {
+    return this.channelRepository
+      .createQueryBuilder('channel')
+      .where('channel.id = :channelId', { channelId })
+      .leftJoinAndSelect('channel.users', 'channel_user')
+      .leftJoinAndSelect('channel_user.user', 'user')
+      .select([
+        'channel.id',
+        'channel.state',
+        'channel.password',
+        'channel.name',
+      ])
       .getOne();
   }
 

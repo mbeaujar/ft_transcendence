@@ -7,5 +7,3 @@ export interface IConnectedUser {
   socketId: string;
   user: IUser;
 }
-
-// change to dto for more security

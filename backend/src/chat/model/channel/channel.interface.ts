@@ -1,8 +1,4 @@
 import { IChannelUser } from '../channel-user/channel-user.interface';
-import { IMessage } from '../message/message.interface';
-import { IsString } from 'class-validator';
-import { MinLength } from 'class-validator';
-import { MaxLength } from 'class-validator';
 
 export interface IChannel {
   id?: number;
@@ -11,5 +7,3 @@ export interface IChannel {
   name: string;
   users: IChannelUser[];
 }
-
-// transform to dto for more security

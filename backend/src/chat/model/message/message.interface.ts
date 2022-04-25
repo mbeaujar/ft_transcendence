@@ -9,5 +9,3 @@ export interface IMessage {
   created_at: Date;
   updated_at: Date;
 }
-
-// change to dto for more security

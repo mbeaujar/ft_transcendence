@@ -4,7 +4,7 @@ import { ChannelUser } from 'src/chat/model/channel-user/channel-user.entity';
 import { IChannelUser } from 'src/chat/model/channel-user/channel-user.interface';
 import { IChannel } from 'src/chat/model/channel/channel.interface';
 import { IUser } from 'src/users/model/user/user.interface';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ChannelUserService {
@@ -26,7 +26,7 @@ export class ChannelUserService {
     return this.channelUserRepository.save(userDetails);
   }
 
-  async deleteUser(user: IChannelUser): Promise<any> {
+  async deleteUser(user: IChannelUser): Promise<DeleteResult> {
     return this.channelUserRepository.delete(user);
   }
 
@@ -45,24 +45,27 @@ export class ChannelUserService {
   }
 
   async findUserInChannel(
-    channel: IChannel,
+    channelId: number,
     user: IUser,
   ): Promise<ChannelUser> {
     return this.channelUserRepository.findOne(
-      { channelId: channel.id, user },
+      { channelId: channelId, user },
       { relations: ['user', 'channel'] }, // can add channel if needed
     );
   }
 
-  async deleteUserInChannel(channel: IChannel, user: IUser) {
-    return this.channelUserRepository.delete({ channelId: channel.id, user });
+  async deleteUserInChannel(
+    channelId: number,
+    user: IUser,
+  ): Promise<DeleteResult> {
+    return this.channelUserRepository.delete({ channelId, user });
   }
 
-  async deleteAllUsersInChannel(channel: IChannel) {
-    return this.channelUserRepository.delete({ channelId: channel.id });
+  async deleteAllUsersInChannel(channelId: number): Promise<DeleteResult> {
+    return this.channelUserRepository.delete({ channelId });
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<DeleteResult> {
     return this.channelUserRepository.delete({ id });
   }
 }
