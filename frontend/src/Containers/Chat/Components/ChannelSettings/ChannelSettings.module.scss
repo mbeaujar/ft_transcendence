@@ -455,6 +455,7 @@
       justify-content: center;
       background-color: $red1;
       cursor: pointer;
+      z-index: 10;
       span {
         font-size: 5vw;
         color: $white1;
@@ -568,12 +569,12 @@
       }
 
       .SetPassword {
-        margin-top: 6.8vw;
+        margin-top: 19.9vw;
       }
 
       .ConfirmSetPassword {
-        margin-top: 0.5vw;
-        margin-bottom: 0.5vw;
+        margin-top: 1.5vw;
+        margin-bottom: -0.8vw;
       }
 
       .ChangeChannelMode {
