@@ -3,8 +3,8 @@ export interface IUser {
   username: string;
   avatarDefault?: string;
   avatarId?: number;
-  wins?: number;
-  losses?: number;
+  wins: number;
+  losses: number;
   isTwoFactorEnabled:boolean;
   elo:number;
 }

@@ -24,7 +24,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
     <div className="Stats">
       <div className="StatsGeneral">
         <Pongopoints user={props.user}/>
-        <Ratio />
+        <Ratio user={props.user}/>
         <Rank />
         <Level />
       </div>
