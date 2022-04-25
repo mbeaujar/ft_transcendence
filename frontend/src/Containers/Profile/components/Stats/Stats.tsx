@@ -29,7 +29,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
         <Level user={props.user}/>
       </div>
       <div className="Bottom">
-        <HistoryBlock />
+        <HistoryBlock user={props.user}/>
         <FriendsBlock />
         
       </div>

@@ -6,7 +6,13 @@ import './Leaderboard.scss';
 import { IUser } from '../../../../interface/user.interface';
 
 const Leaderboard: React.FC = (): JSX.Element => {
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    api
+    .get('/users/leaderboard')
+    .then((response) => console.log("leaderboard=",response.data))
+    .catch((reject) => console.error(reject));
+  }, []);
 
   return (
     <div className="Leaderboard">
