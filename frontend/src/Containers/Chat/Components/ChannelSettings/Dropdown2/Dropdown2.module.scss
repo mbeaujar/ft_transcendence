@@ -1,35 +1,74 @@
-@import '../../../../../utils.scss';
+@import "../../../../../utils.scss";
 
 @mixin styling() {
   background-color: $blue1;
   border: 0.1vw solid $blue3;
-  border-radius: 0.5vw;
+  @media screen and (min-width: 651px) {
+    border-radius: 0.5vw;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 1vw;
+  }
 }
 
 .Dropdown {
   display: flex;
-  width: 120%; //changement ici
   flex-wrap: wrap;
   position: absolute;
-  margin-top: 7vw; //changement ici
-  padding-bottom: 1vw;
   z-index: 2;
+
+
+  @media screen and (min-width: 651px) {
+    width: 120%; //changement ici
+    margin-top: 7vw; //changement ici
+   // padding-bottom: 1vw;
+  }
+  @media screen and (max-width: 650px) {
+    min-width: 80%;
+    max-width: 80%; //changement ici
+    margin-top: 20vw; //changement ici
+    padding-bottom: 1vw;
+    margin-left:10% !important;
+  }
   .header {
     @include styling();
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     cursor: pointer;
-    width: 80%; //changement ici
-    height: 2.5vw;
+
+    @media screen and (min-width: 651px) {
+      width: 80%;
+      height: 2.5vw;
+    }
+    @media screen and (max-width: 650px) {
+      width: 60%;
+      height: 7vw;
+    }
 
     .headerTitleP {
       font-weight: bold;
-      font-size: 1vw;
-      min-width:70%;
       text-align: left;
-      margin-left: 1vw;
-      margin-right: 3vw;
+
+      @media screen and (min-width: 651px) {
+        font-size: 1vw;
+        min-width: 70%;
+        margin-left: 1vw;
+        margin-right: 3vw;
+      }
+      @media screen and (max-width: 650px) {
+        font-size: 2.5vw;
+        margin-left: 2vw;
+        min-width: 80%;
+      }
+    }
+
+    .headerChoice {
+      @media screen and (max-width: 650px) {
+        font-size: 2.5vw;
+        width:50%;
+        margin-left: -2vw !important;
+      }
     }
   }
 
@@ -37,6 +76,10 @@
     padding: 0;
     margin: 0;
     width: 80%;
+
+    @media screen and (max-width: 650px) {
+      //margin-left: 10%;
+    }
 
     li {
       list-style-type: none;
@@ -60,24 +103,38 @@
         align-items: center;
         background-color: black;
         color: $blue2;
-        font-size: 1vw;
-        height: 3vw;
         border: 0;
-        width: 100%;
         text-align: left;
         border-bottom: 0.1vw solid $blue3;
         border-left: 0.1vw solid $blue3;
         border-right: 0.1vw solid $blue3;
-
+        @media screen and (min-width: 651px) {
+          font-size: 1vw;
+          height: 3vw;
+          width: 100%;
+          padding: 0% 1vw;
+        }
+        @media screen and (max-width: 650px) {
+          font-size: 2.5vw;
+          height: 6vw;
+          width: 125%;
+          padding: 0% 7.5%;
+        }
         &:hover {
           cursor: pointer;
-          background-color: $blue2;
-          color: $blue4;
+          background-color: $blue3;
+         // color: $blue4;
         }
 
-        .checkLogo {
-          font-size: 0.01vw;
-        }
+        @media screen and (min-width: 651px) {
+          span {
+            font-size: 1.5vw;
+          }}
+
+        @media screen and (max-width: 650px) {
+        span {
+          font-size: 3vw;
+        }}
       }
     }
   }

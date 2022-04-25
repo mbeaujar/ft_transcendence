@@ -350,6 +350,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
 
   return (
     <div className={classes.ChannelSettings}>
+      {/*<button className={classes.OpenChatRightButton}><span className="material-icons">menu</span></button>*/}
       <div className={classes.ChannelUsers}>
         <h3>Users</h3>
         {props.channel.users.map((user: any) => (

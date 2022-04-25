@@ -67,6 +67,10 @@
       background-color: $red1;
       cursor: pointer;
     }
+
+    button:hover {
+      background-color: $red2;
+    }
   }
 
   .HideAdminSettings {
@@ -171,9 +175,9 @@
       background-color: $green2;
     }
 
-    .MarginZero {
+    /*.MarginZero {
       margin-top: 0.5vw;
-    }
+    }*/
 
     .MarginSevenHalf {
       margin-top: 7.2vw;
@@ -355,6 +359,7 @@
         padding: 3%;
         width: 70%;
         margin-bottom: 1vw;
+        margin-top: 6.7vw !important;
         font-size: 1vw;
       }
 
@@ -363,7 +368,7 @@
       }
 
       .MarginZero {
-        margin-top: 0.5vw;
+        margin-top: 0vw !important;
       }
 
       .MarginSevenHalf {
@@ -489,13 +494,13 @@
         width: 100%;
 
         p {
-          min-width: 40%;
-          max-width: 40%;
+          min-width: 45%;
+          max-width: 45%;
         }
         input {
           font-size: 3vw;
-          min-width: 48%;
-          max-width: 48%;
+          min-width: 43%;
+          max-width: 43%;
           height: 1.2vw;
           padding: 2vw 2vw;
         }
@@ -523,16 +528,15 @@
     }
 
     .ShowCreatorSettings {
-      margin-top: 18.2vw;
-      margin-top: 150.7vw;
-      width: 93%;
+      margin-top: 55.5vw;
+      width: 92%;
 
       h3 {
         width: 110%;
         margin-left: -10%;
       }
       .NewAdmin {
-        margin-top: 4.1vw;
+        margin-top: 11.6vw;
         width: 100%;
       }
 
@@ -546,10 +550,11 @@
       }
 
       .ChangeChannelMode {
-        padding: 3%;
-        width: 70%;
+        padding: 4% 0%;
+        width: 68%;
         margin-bottom: 1vw;
-        font-size: 1vw;
+        font-size: 2.8vw;
+        border-radius: 1vw;
       }
 
       .ChangeChannelMode:hover {
@@ -557,19 +562,21 @@
       }
 
       .MarginZero {
-        margin-top: 0.5vw;
+        margin-top: 2.25vw !important;
       }
 
       .MarginSevenHalf {
-        margin-top: 7.2vw;
+        margin-top: 19.85vw;
+        
       }
 
       .NewPassword {
+        margin-top: 21.5vw;
       }
 
       .ConfirmNewPassword {
-        margin-top: 0.5vw;
-        margin-bottom: 0.5vw;
+        margin-top: 1.75vw;
+        margin-bottom: 1.75vw;
       }
 
       .ActualPassword {
@@ -578,46 +585,32 @@
       }
 
       .ChangePassword {
-        padding: 3%;
-        width: 60%;
+        padding: 4% 3%;
+        width: 65%;
         margin-bottom: 1vw;
-        font-size: 1vw;
+        font-size: 3vw;
+        border-radius: 1vw;
       }
 
-      form {
-        font-size: 1vw;
+      form,div {
+        font-size: 3vw;
+        margin-left: 0;
         width: 100%;
 
         p {
-          min-width: 50%;
-          max-width: 50%;
+          min-width: 45%;
+          max-width: 45%;
         }
-
         input {
-          font-size: 1vw;
-          width: 42%;
+          font-size: 3vw;
+          min-width: 43%;
+          max-width: 43%;
           height: 1.2vw;
-          padding: 0.2vw 0.4vw;
+          padding: 2vw 2vw;
         }
       }
 
-      div {
-        font-size: 1vw;
-        //width: 100%;
 
-        p {
-          min-width: 50%;
-          max-width: 50%;
-          text-align: left;
-        }
-
-        input {
-          font-size: 1vw;
-          width: 42%;
-          height: 1.2vw;
-          padding: 0.2vw 0.4vw;
-        }
-      }
     }
   }
 }

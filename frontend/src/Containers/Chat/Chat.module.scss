@@ -58,8 +58,8 @@
     cursor: pointer;
   }
 
-  p:hover {
-    //background-color: $blue6;
+  .ChannelName:hover {
+   background-color: $blue6;
   }
 }
 
@@ -190,6 +190,10 @@
           font-size: 5vw;
           color: $white1;
         }
+      }
+
+      .CloseChatLeftButton:hover {
+        background-color: $red2;
       }
 
       .ChatLeftButton {

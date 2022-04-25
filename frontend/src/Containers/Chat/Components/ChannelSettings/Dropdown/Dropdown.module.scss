@@ -118,18 +118,20 @@
         &:hover {
           cursor: pointer;
           background-color: $blue3;
-         // color: $blue4;
+          // color: $blue4;
         }
 
         @media screen and (min-width: 651px) {
           span {
             font-size: 1.5vw;
-          }}
+          }
+        }
 
         @media screen and (max-width: 650px) {
-        span {
-          font-size: 3vw;
-        }}
+          span {
+            font-size: 3vw;
+          }
+        }
       }
     }
   }

@@ -63,7 +63,7 @@ function Dropdown(props: any) {
                 type="button"
                 onClick={() => handleOnClick(item, props.multiselect)}
               >
-                <span>{item.value}</span>
+                <p>{item.value}</p>
                 <span className={classes.checkLogo}>
                   {isItemInSelection(item)}
                 </span>

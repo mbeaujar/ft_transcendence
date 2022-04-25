@@ -84,6 +84,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayJoinChannel = () => {
     return channelsJoin.map((channel: IChannel) => (
       <p
+      className={classes.ChannelName}
         key={channel.id}
         onClick={() => {
           const joinChannel: IJoinChannel = {
@@ -218,14 +219,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <h3 className={clsx(classes.Channels)}>Channels</h3>
           {ftDisplayJoinChannel()}
           <h3 className={clsx(classes.Messages)}>Messages</h3>
-          <p>Sommecaise</p>
-          <p>Ramzi</p>
-          <p>Hassan</p>
-          <p>Arthur</p>
-          <p>Sofiane</p>
-          <p>Miguel</p>
-          <p>Yanis</p>
-          <p>Ramzi Zoukidiev</p>
+          <p className={classes.ChannelName}>Sommecaise</p>
+          <p className={classes.ChannelName}>Ramzi</p>
+          <p className={classes.ChannelName}>Hassan</p>
+          <p className={classes.ChannelName}>Arthur</p>
+          <p className={classes.ChannelName}>Sofiane</p>
+          <p className={classes.ChannelName}>Miguel</p>
+          <p className={classes.ChannelName}>Yanis</p>
+          <p className={classes.ChannelName}>Ramzi Zoukidiev</p>
         </div>
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>
