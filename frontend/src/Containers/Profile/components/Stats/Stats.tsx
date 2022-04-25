@@ -26,7 +26,7 @@ const Stats: React.FC<Props> = (props: Props): JSX.Element => {
         <Pongopoints user={props.user}/>
         <Ratio user={props.user}/>
         <Rank user={props.user}/>
-        <Level />
+        <Level user={props.user}/>
       </div>
       <div className="Bottom">
         <HistoryBlock />
