@@ -6,11 +6,10 @@ import { MaxLength } from 'class-validator';
 
 export interface IChannel {
   id?: number;
-  state?: number;
+  state: number;
   password?: string;
   name: string;
   users: IChannelUser[];
-  messages?: IMessage[];
 }
 
 // transform to dto for more security

@@ -1,11 +1,13 @@
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
   WsException,
 } from '@nestjs/websockets';
 import {
+  InternalServerErrorException,
   OnModuleDestroy,
   OnModuleInit,
   UnauthorizedException,
@@ -24,7 +26,11 @@ import { MessageService } from './services/message.service';
 import { ChannelUserService } from './services/channel-user.service';
 import { Mode } from './model/connected-user/mode.enum';
 import { WsExceptionFilter } from './ws.exception';
-import { UpdateChannelDto } from './dtos/update-channel.dto';
+import { IChannel } from './model/channel/channel.interface';
+import { JoinChannelDto } from './dtos/join-channel.dto';
+import { IUser } from 'src/users/model/user/user.interface';
+import { IChannelUser } from './model/channel-user/channel-user.interface';
+import { State } from './interface/state.enum';
 
 @UsePipes(new ValidationPipe())
 @UseFilters(WsExceptionFilter)
@@ -102,7 +108,7 @@ export class ChatGateway
   }
 
   private handleError(socket: Socket, message: string) {
-    socket.emit('Error', new UnauthorizedException());
+    socket.emit('Error', new InternalServerErrorException(message));
     throw new WsException(message);
   }
 
@@ -113,68 +119,64 @@ export class ChatGateway
 
   /** ---------------------------  CHANNEL -------------------------------- */
 
-  //   private async sendChannelToEveryone(socket: Socket) {
-  //     const channels = await this.channelService.getChannels(
-  //       socket?.data?.user?.id,
-  //     );
-  //     const connectedUsers = await this.connectedUserService.getAll();
-  //     for (const user of connectedUsers) {
-  //       this.server.to(user.socketId).emit('channels', channels);
-  //     }
-  //   }
+  private async sendChannelToEveryone(socket: Socket) {
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
+    if (channels) {
+      const connectedUsers = await this.connectedUserService.getAll();
+      for (const user of connectedUsers) {
+        this.server.to(user.socketId).emit('channels', channels);
+      }
+    }
+  }
 
-  //   private async switchToChannel(socket: Socket, channel: IChannel) {
-  //     // Quit channel if the user is already in a channel
-  //     await this.joinedChannelService.deleteBySocketId(socket.id);
+  private async switchToChannel(socket: Socket, channel: IChannel) {
+    await this.joinedChannelService.deleteBySocketId(socket.id);
 
-  //     // Join the channel
-  //     await this.joinedChannelService.create({
-  //       socketId: socket.id,
-  //       user: socket.data.user,
-  //       channelId: channel.id,
-  //     });
-  //     // Get the message history
-  //     const messages = await this.messageService.findMessageByChannel(channel);
-  //     // console.log('messages', messages);
-  //     // BIG OVERKILL (when we get the message history we see the messages of the users blocked)
-  //     const messagesWithoutBlockedUsers = messages.filter((message) => {
-  //       const userBlockedMe = socket.data.user?.blockedUsers?.find(
-  //         (blockedUser: any) => blockedUser.id === message.user.id,
-  //       );
-  //       if (!userBlockedMe) {
-  //         return message;
-  //       }
-  //     });
-  //     this.server.to(socket.id).emit('messages', messagesWithoutBlockedUsers);
-  //     // Send the current channel of the user
-  //     const currentChannel: IChannel = {
-  //       id: channel.id,
-  //       name: channel.name,
-  //       state: channel.state,
-  //       users: channel.users,
-  //     };
-  //     this.server.to(socket.id).emit('currentChannel', currentChannel);
-  //     const channels = await this.channelService.getChannels(
-  //       socket?.data?.user?.id,
-  //     );
-  //     return this.server.to(socket.id).emit('channels', channels);
-  //   }
+    await this.joinedChannelService.create({
+      socketId: socket.id,
+      user: socket.data.user,
+      channelId: channel.id,
+    });
 
-  //   private async getChannelAndUser(
-  //     channel: IChannel,
-  //     user: IUser,
-  //   ): Promise<[IChannel, IChannelUser]> {
-  //     const channelDB = await this.channelService.getChannel(channel.id);
-  //     // console.log('channel users', channelDB);
-  //     if (!channelDB) {
-  //       throw new WsException('channel not found');
-  //     }
-  //     const channelUser = await this.channelUserService.findUserInChannel(
-  //       channelDB,
-  //       user,
-  //     );
-  //     return [channelDB, channelUser];
-  //   }
+    // Filter messages
+    const messages = await this.messageService.findMessageByChannel(channel);
+    const messagesFiltered = messages.filter((message) => {
+      const userBlockedMe = socket.data.user?.blockedUsers?.find(
+        (blockedUser: any) => blockedUser.id === message.user.id,
+      );
+      if (!userBlockedMe) {
+        return message;
+      }
+    });
+    this.server.to(socket.id).emit('messages', messagesFiltered);
+
+    const currentChannel: IChannel = {
+      id: channel.id,
+      name: channel.name,
+      state: channel.state,
+      users: channel.users,
+    };
+    this.server.to(socket.id).emit('currentChannel', currentChannel);
+
+    const channels = await this.channelService.getChannels(
+      socket?.data?.user?.id,
+    );
+    return this.server.to(socket.id).emit('channels', channels);
+  }
+
+  private async getChannelAndUser(
+    channel: IChannel,
+    user: IUser,
+  ): Promise<[IChannel, IChannelUser]> {
+    const channelDB = await this.channelService.getChannel(channel.id);
+    const channelUser = await this.channelUserService.findUserInChannel(
+      channelDB,
+      user,
+    );
+    return [channelDB, channelUser];
+  }
 
   //   @SubscribeMessage('createDiscussion')
   //   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
@@ -211,92 +213,95 @@ export class ChatGateway
   //     this.switchToChannel(socket, updateChannel);
   //   }
 
-  //   @SubscribeMessage('createChannel')
-  //   async onCreateChannel(socket: Socket, channel: IChannel) {
-  //     // Create channel
-  //     const createdChannel: Channel = await this.channelService.createChannel(
-  //       channel,
-  //     );
-  //     // Create user owner
-  //     const channelUser = await this.channelUserService.createUser({
-  //       administrator: true,
-  //       creator: true,
-  //       ban: false,
-  //       mute: false,
-  //       user: socket.data.user,
-  //       channelId: createdChannel.id,
-  //       channel: createdChannel,
-  //     });
-  //     const updatedChannel = await this.channelService.updateChannel(
-  //       createdChannel,
-  //       {
-  //         users: [channelUser],
-  //       },
-  //     );
-  //     // Prevent everyone that a new channel is created
-  //     this.sendChannelToEveryone(socket);
-  //     // Switch to the channel created
-  //     this.switchToChannel(socket, updatedChannel);
-  //   }
+  @SubscribeMessage('createChannel')
+  async onCreateChannel(socket: Socket, channel: IChannel) {
+    const createdChannel: IChannel = await this.channelService.createChannel(
+      channel,
+    );
+    if (!createdChannel) {
+      this.handleError(socket, 'impossible to create channel');
+    }
+    const channelUser = await this.channelUserService.createUser({
+      administrator: true,
+      creator: true,
+      ban: false,
+      mute: false,
+      user: socket.data.user,
+      channelId: createdChannel.id,
+      channel: createdChannel,
+    });
+    if (!channelUser) {
+      await this.channelService.deleteChannelById(createdChannel.id);
+      this.handleError(socket, 'impossible to create user in channel');
+    }
+    const updatedChannel = await this.channelService.updateChannel(
+      createdChannel,
+      {
+        users: [channelUser],
+      },
+    );
+    if (!updatedChannel) {
+      await this.channelService.deleteChannelById(createdChannel.id);
+      await this.channelUserService.deleteUser(channelUser);
+      this.handleError(socket, 'impossible to update user owner in channel');
+    }
+    this.sendChannelToEveryone(socket);
+    this.switchToChannel(socket, updatedChannel);
+  }
 
-  //   @SubscribeMessage('removeChannel')
-  //   async onRemoveChannel(socket: Socket, channel: IChannel) {
-  //     const channelDB = await this.channelService.getChannel(channel.id);
-  //     if (!channelDB) {
-  //       throw new WsException('channel not found');
-  //     }
-  //     // Delete all users
-  //     await this.channelUserService.deleteAllUsersInChannel(channelDB);
-  //     // Delete users who are connected in the channel
-  //     await this.joinedChannelService.deleteByChannel(channelDB);
-  //     // Delete channel
-  //     await this.channelService.deleteChannel(channelDB);
-  //     // Prevent everyone that a channel as been deleted
-  //     this.sendChannelToEveryone(socket);
-  //   }
+  @SubscribeMessage('removeChannel')
+  async onRemoveChannel(socket: Socket, channel: IChannel) {
+    const channelDB = await this.channelService.getChannel(channel.id);
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    await this.channelUserService.deleteAllUsersInChannel(channelDB);
+    await this.joinedChannelService.deleteByChannel(channelDB);
+    await this.channelService.deleteChannel(channelDB);
+    this.sendChannelToEveryone(socket);
+  }
 
-  //   @SubscribeMessage('joinChannel')
-  //   async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
-  //     const [channelDB, user] = await this.getChannelAndUser(
-  //       joinChannel.channel,
-  //       socket.data.user,
-  //     );
-  //     // Check if user is already in the channel
-  //     if (!user) {
-  //       if (channelDB.state === State.private) {
-  //       }
-  //       if (channelDB.state === State.protected) {
-  //         // throw if invalid password
-  //         await this.channelService.verifyPassword(
-  //           channelDB,
-  //           joinChannel.password,
-  //         );
-  //       }
-  //       const newUser = await this.channelUserService.createUser({
-  //         administrator: false,
-  //         creator: false,
-  //         ban: false,
-  //         mute: false,
-  //         user: socket.data.user,
-  //         channelId: channelDB.id,
-  //         channel: channelDB,
-  //       });
-  //       await this.channelService.addUser(channelDB, newUser);
-  //       const newChannelDB = await this.channelService.getChannel(channelDB.id);
-  //       await this.switchToChannel(socket, newChannelDB);
-  //     } else {
-  //       if (user.ban === true) {
-  //         if (this.countdownIsDown(user.unban_at)) {
-  //           throw new WsException('user is banned');
-  //         }
-  //         await this.channelUserService.updateUser(user, {
-  //           ban: false,
-  //           unban_at: null,
-  //         });
-  //       }
-  //       await this.switchToChannel(socket, channelDB);
-  //     }
-  //   }
+  @SubscribeMessage('joinChannel')
+  async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
+    const [channelDB, user] = await this.getChannelAndUser(
+      joinChannel.channel,
+      socket.data.user,
+    );
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!user) {
+      if (channelDB.state === State.protected) {
+        await this.channelService.verifyPassword(
+          channelDB,
+          joinChannel.password,
+        );
+      }
+      const newUser = await this.channelUserService.createUser({
+        administrator: false,
+        creator: false,
+        ban: false,
+        mute: false,
+        user: socket.data.user,
+        channelId: channelDB.id,
+        channel: channelDB,
+      });
+      await this.channelService.addUser(channelDB, newUser);
+      const newChannelDB = await this.channelService.getChannel(channelDB.id);
+      await this.switchToChannel(socket, newChannelDB);
+    } else {
+      if (user.ban === true) {
+        if (this.countdownIsDown(user.unban_at)) {
+          throw new WsException('user is banned');
+        }
+        await this.channelUserService.updateUser(user, {
+          ban: false,
+          unban_at: null,
+        });
+      }
+      await this.switchToChannel(socket, channelDB);
+    }
+  }
 
   //   @SubscribeMessage('leaveChannel')
   //   async onLeaveChannel(socket: Socket, channel: IChannel) {

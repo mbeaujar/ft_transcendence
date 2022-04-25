@@ -1,4 +1,9 @@
-import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  BadRequestException,
+  Catch,
+  HttpException,
+} from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 
@@ -12,8 +17,10 @@ export class WsExceptionFilter {
   public handleError(client: Socket, exception: HttpException | WsException) {
     if (exception instanceof HttpException) {
       // handle http exception
+      client.emit('Error', new BadRequestException('bad request'));
     } else {
       // handle websocket exception
+      // exception already emit before
     }
   }
 }

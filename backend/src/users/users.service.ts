@@ -85,7 +85,7 @@ export class UsersService {
   async ranking(elo: number): Promise<User[]> {
     return this.usersRepository
       .createQueryBuilder('user')
-      .where('user.elo >= :elo', { elo })
+      .where('user.elo > :elo', { elo })
       .orderBy('user.elo', 'DESC')
       .getMany();
   }
