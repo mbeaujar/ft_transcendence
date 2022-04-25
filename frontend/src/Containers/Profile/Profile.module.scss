@@ -1,72 +1,30 @@
-@import '../../utils.scss';
+@import "../../utils.scss";
 
 .Profile {
-  padding-top: 20px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
 
   .ProfileLeft {
     display: flex;
-    flex-direction: column;
-    height: 38.8vw;
+    
 
     .User {
-      margin-bottom: 15%;
-      margin-right: 2vw;
       background-color: $grey6;
-      width: 15vw;
-      border-radius: 1.5vw;
-      height: 40%;
-      img {
-        margin-top: 10%;
-        width: 10vw;
-        height: 10vw;
-        border-radius: 50%;
-      }
-      h1 {
-        margin-top: 3%;
-        font-size: 2vw;
-      }
     }
 
     .Menu {
       display: flex;
       flex-direction: column;
       align-items: left;
-      margin-right: 2vw;
       background-color: $grey6;
-      width: 15vw;
-      border-radius: 1.5vw;
 
       div {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: left;
-        /*border-radius: 1.5vw;*/
         cursor: pointer;
-
-        span {
-          margin-left: 1vw;
-          font-size: 1.5vw;
-        }
-
-        p {
-          margin-left: 1vw;
-          font-size: 1.1vw;
-        }
-      }
-
-      .Stats {
-        border-top-left-radius: 1.5vw;
-        border-top-right-radius: 1.5vw;
-      }
-
-      .Settings {
-        border-bottom-left-radius: 1.5vw;
-        border-bottom-right-radius: 1.5vw;
       }
 
       div.disactiveMenu:hover {
@@ -90,5 +48,123 @@
 
   .disactiveInfo {
     display: none;
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .Profile {
+    flex-direction: row;
+    padding-top: 20px;
+
+    .ProfileLeft {
+      flex-direction: column;
+      height: 38.8vw;
+
+      .User {
+        margin-bottom: 15%;
+        margin-right: 2vw;
+        width: 15vw;
+        border-radius: 1.5vw;
+        height: 40%;
+        img {
+          margin-top: 10%;
+          width: 10vw;
+          height: 10vw;
+          border-radius: 50%;
+        }
+        h1 {
+          margin-top: 3%;
+          font-size: 2vw;
+        }
+      }
+
+      .Menu {
+        margin-right: 2vw;
+        width: 15vw;
+        border-radius: 1.5vw;
+
+        div {
+          span {
+            margin-left: 1vw;
+            font-size: 1.5vw;
+          }
+
+          p {
+            margin-left: 1vw;
+            font-size: 1.1vw;
+          }
+        }
+
+        .Stats {
+          border-top-left-radius: 1.5vw;
+          border-top-right-radius: 1.5vw;
+        }
+
+        .Settings {
+          border-bottom-left-radius: 1.5vw;
+          border-bottom-right-radius: 1.5vw;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Profile {
+    flex-direction: column;
+    padding-top: 20px;
+
+    .ProfileLeft {
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 5vw;
+      height: 36vw;
+      width: 80vw;
+      .User {
+        margin-bottom: 15%;
+        margin-right: 2vw;
+        width: 47%;
+        border-radius: 5.5vw;
+        height: 100%;
+        img {
+          margin-top: 10%;
+          width: 22Vw;
+          height: 22vw;
+          border-radius: 50%;
+        }
+        h1 {
+          margin-top: 3%;
+          font-size: 6vw;
+        }
+      }
+
+      .Menu {
+        width: 47%;
+        border-radius: 3.5vw;
+
+        div {
+          height: 25%;
+          span {
+            margin-left: 3vw;
+            font-size: 5vw;
+          }
+
+          p {
+            margin-left: 3vw;
+            font-size: 3.5vw;
+          }
+        }
+
+        .Stats {
+          border-top-left-radius: 3.5vw;
+          border-top-right-radius: 3.5vw;
+        }
+
+        .Settings {
+          border-bottom-left-radius: 3.5vw;
+          border-bottom-right-radius: 3.5vw;
+        }
+      }
+    }
   }
 }

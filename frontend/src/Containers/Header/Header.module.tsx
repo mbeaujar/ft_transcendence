@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Header.module.scss";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import api from "../../apis/api";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const Button = (props: any) => {
   return (
@@ -65,10 +65,28 @@ function Header() {
         <div className={classes.BurgerMenuMiddle}></div>
         <div className={classes.BurgerMenuBottom}></div>
       </div>
-      <nav className={clsx(classes.Navigation,showNavigation())}>
-        <Link to="/Game" className={clsx(classes.Link, classes.Game)} onClick={() => setShowLinks(!showLinks)}>GAME</Link>
-        <Link to="/Chat" className={clsx(classes.Link, classes.Chat)} onClick={() => setShowLinks(!showLinks)}>CHAT</Link>
-        <Link to="/Profile" className={clsx(classes.Link, classes.Profile)} onClick={() => setShowLinks(!showLinks)}>PROFILE</Link>
+      <nav className={clsx(classes.Navigation, showNavigation())}>
+        <Link
+          to="/Game"
+          className={clsx(classes.Link, classes.Game)}
+          onClick={() => setShowLinks(!showLinks)}
+        >
+          GAME
+        </Link>
+        <Link
+          to="/Chat"
+          className={clsx(classes.Link, classes.Chat)}
+          onClick={() => setShowLinks(!showLinks)}
+        >
+          CHAT
+        </Link>
+        <Link
+          to="/Profile"
+          className={clsx(classes.Link, classes.Profile)}
+          onClick={() => setShowLinks(!showLinks)}
+        >
+          PROFILE
+        </Link>
         <Button
           className={ftShowLogin(user)}
           text="LOGIN"
