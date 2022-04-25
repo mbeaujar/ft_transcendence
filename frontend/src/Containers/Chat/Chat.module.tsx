@@ -144,6 +144,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           channels={channels}
           setChannelChoose={setChannelChoose}
           setActiveChatMenu={setActiveChatMenu}
+          showChatRight={showChatRight}
+          setShowChatRight={setShowChatRight}
         />
       );
     }

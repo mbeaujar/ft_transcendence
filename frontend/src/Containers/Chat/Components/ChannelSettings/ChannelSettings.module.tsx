@@ -18,6 +18,8 @@ interface Props {
   ws: any;
   setChannelChoose: any;
   setActiveChatMenu: any;
+  showChatRight: any;
+  setShowChatRight: any;
 }
 
 const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
@@ -39,9 +41,9 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   useEffect(() => {
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
-    console.log("channel=",props.channel);
-    console.log("channels=",props.channels);
-  }, [props.channel,props.channels]);
+    console.log("channel=", props.channel);
+    console.log("channels=", props.channels);
+  }, [props.channel, props.channels]);
 
   useEffect(() => {
     console.log("ban=", banUserDuration);
@@ -54,7 +56,6 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   useEffect(() => {
     console.log("mode=", newChallengeMode);
   }, [newChallengeMode]);
-
 
   function ifShowAdminSettings() {
     let i = 0;
@@ -350,7 +351,14 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
 
   return (
     <div className={classes.ChannelSettings}>
-      {/*<button className={classes.OpenChatRightButton}><span className="material-icons">menu</span></button>*/}
+      <button
+        className={classes.CloseChatRightButton}
+        onClick={() => {
+          props.setShowChatRight(!props.showChatRight);
+        }}
+      >
+        <span className="material-icons">close</span>
+      </button>
       <div className={classes.ChannelUsers}>
         <h3>Users</h3>
         {props.channel.users.map((user: any) => (
