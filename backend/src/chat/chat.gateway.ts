@@ -35,8 +35,13 @@ import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { IMessage } from './model/message/message.interface';
 import { UpdateChannelDto } from './dtos/update-channel.dto';
-import { UpdateDateColumn } from 'typeorm';
+import {
+  UpdateDateColumn,
+  UsingJoinColumnOnlyOnOneSideAllowedError,
+} from 'typeorm';
 import { IDiscussion } from './interface/discussion.interface';
+import { IUpdateAdmin } from './interface/update-admin.interface';
+import { IUpdateUser } from './interface/update-user.interface';
 
 const scrypt = promisify(_scrypt);
 
@@ -503,163 +508,171 @@ export class ChatGateway
 
   //   /** ---------------------------  ADMINISTRATOR  -------------------------------- */
 
-  // private async checkRightsAndFindUser(
-  //   user: IUser,
-  //   channel: IChannel,
-  //   target: IUser,
-  // ): Promise<IChannelUser> {
-  //   const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
-  //   if (!userDB) {
-  //     throw new WsException('user not found');
-  //   }
-  //   if (userDB.administrator === false) {
-  //     throw new WsException('user does not have the rights');
-  //   }
-  //   // Get target
-  //   const newAdminUser = await this.channelUserService.findUserInChannel(
-  //     channelDB,
-  //     target,
-  //   );
-  //   if (!newAdminUser) {
-  //     throw new WsException('user target not found');
-  //   }
-  //   return newAdminUser;
-  // }
+  private async checkRightsAndFindUser(
+    socket: Socket,
+    user: IUser,
+    channel: IChannel,
+    target: IUser,
+  ): Promise<IChannelUser> {
+    const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!userDB) {
+      this.handleError(socket, 'user not found in the channel');
+    }
+    if (userDB.administrator === false) {
+      this.handleError(socket, 'user does not have the rights');
+    }
+    const newAdminUser = await this.channelUserService.findUserInChannel(
+      channelDB.id,
+      target,
+    );
+    if (!newAdminUser) {
+      this.handleError(socket, 'user target not found');
+    }
+    return newAdminUser;
+  }
 
-  // @SubscribeMessage('addAdministrator')
-  // async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
-  //   const target = await this.checkRightsAndFindUser(
-  //     socket.data.user,
-  //     newAdmin.channel,
-  //     newAdmin.user.user,
-  //   );
-  //   await this.channelUserService.updateUser(target, {
-  //     administrator: true,
-  //   });
-  // }
+  @SubscribeMessage('addAdministrator')
+  async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
+    const target = await this.checkRightsAndFindUser(
+      socket,
+      socket.data.user,
+      newAdmin.channel,
+      newAdmin.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      administrator: true,
+    });
+  }
 
-  // @SubscribeMessage('removeAdministrator')
-  // async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
-  //   const target = await this.checkRightsAndFindUser(
-  //     socket.data.user,
-  //     removeAdmin.channel,
-  //     removeAdmin.user.user,
-  //   );
-  //   await this.channelUserService.updateUser(target, { administrator: false });
-  // }
+  @SubscribeMessage('removeAdministrator')
+  async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
+    const target = await this.checkRightsAndFindUser(
+      socket,
+      socket.data.user,
+      removeAdmin.channel,
+      removeAdmin.user,
+    );
+    await this.channelUserService.updateUser(target, { administrator: false });
+  }
 
-  //   /** ---------------------------  BAN / MUTE  -------------------------------- */
+  /** ---------------------------  BAN / MUTE  -------------------------------- */
 
   private countdownIsDown(countdown: Date): boolean {
     const now = new Date();
     return now >= countdown;
   }
 
-  //   private async getTargetAndSecureRights(
-  //     channel: IChannel,
-  //     target: IUser,
-  //     user: IUser,
-  //   ) {
-  //     const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
-  //     if (!userDB) {
-  //       throw new WsException('user not found');
-  //     }
-  //     if (userDB.administrator === false) {
-  //       throw new WsException('user does not have the rights');
-  //     }
-  //     const targetDB = await this.channelUserService.findUserInChannel(
-  //       channel,
-  //       target,
-  //     );
-  //     if (!targetDB) {
-  //       throw new WsException('user target not found');
-  //     }
-  //     return targetDB;
-  //   }
+  private async getTargetAndSecureRights(
+    socket: Socket,
+    channel: IChannel,
+    target: IUser,
+    user: IUser,
+  ) {
+    const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!userDB) {
+      this.handleError(socket, 'user not found');
+    }
+    if (userDB.administrator === false) {
+      this.handleError(socket, 'user does not have the rights');
+    }
+    const targetDB = await this.channelUserService.findUserInChannel(
+      channel.id,
+      target,
+    );
+    if (!targetDB) {
+      this.handleError(socket, 'user target not found');
+    }
+    return targetDB;
+  }
 
-  //   @SubscribeMessage('banUser')
-  //   async onBanUser(socket: Socket, banUser: IUpdateUser) {
-  //     console.log('banUser', banUser);
-  //     if (socket.data.user.id === banUser.user.id) {
-  //       throw new BadRequestException('impossible to ban yourself');
-  //     }
-  //     const target = await this.getTargetAndSecureRights(
-  //       banUser.channel,
-  //       banUser.user,
-  //       socket.data.user,
-  //     );
-  //     const now = new Date();
-  //     await this.channelUserService.updateUser(target, {
-  //       ban: true,
-  //       unban_at: new Date(now.getTime() + banUser.milliseconds),
-  //     });
+  @SubscribeMessage('banUser')
+  async onBanUser(socket: Socket, banUser: IUpdateUser) {
+    if (socket.data.user.id === banUser.user.id) {
+      this.handleError(socket, 'impossible to ban yourself');
+    }
+    const target = await this.getTargetAndSecureRights(
+      socket,
+      banUser.channel,
+      banUser.user,
+      socket.data.user,
+    );
+    const now = new Date();
+    await this.channelUserService.updateUser(target, {
+      ban: true,
+      unban_at: new Date(now.getTime() + banUser.milliseconds),
+    });
 
-  //     // kick user of channel if user is connected to the channel
-  //     const bannedUser = await this.connectedUserService.findByUserAndMode(
-  //       target.user,
-  //       Mode.chat,
-  //     );
-  //     // Tell frontend that the user is not anymore in the channel
-  //     if (bannedUser) {
-  //       this.server.to(bannedUser.socketId).emit('currentChannel', null);
-  //     }
-  //     const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
-  //       banUser.channel,
-  //       target.user,
-  //     );
-  //     // kick user of the channel
-  //     if (joinedChannel) {
-  //       await this.joinedChannelService.delete(joinedChannel);
-  //     }
-  //   }
+    const bannedUser = await this.connectedUserService.findByUserAndMode(
+      target.user,
+      Mode.chat,
+    );
+    if (bannedUser) {
+      this.server.to(bannedUser.socketId).emit('currentChannel', null);
+    }
+    const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
+      banUser.channel,
+      target.user,
+    );
+    if (joinedChannel) {
+      await this.joinedChannelService.delete(joinedChannel);
+    }
+  }
 
-  //   @SubscribeMessage('unbanUser')
-  //   async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
-  //     if (socket.data.user.id === unbanUser.user.id) {
-  //       throw new BadRequestException('impossible to unban yourself');
-  //     }
-  //     const target = await this.getTargetAndSecureRights(
-  //       unbanUser.channel,
-  //       unbanUser.user,
-  //       socket.data.user,
-  //     );
-  //     await this.channelUserService.updateUser(target, {
-  //       ban: false,
-  //       unban_at: null,
-  //     });
-  //   }
+  @SubscribeMessage('unbanUser')
+  async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
+    if (socket.data.user.id === unbanUser.user.id) {
+      this.handleError(socket, 'impossible to unban yourself');
+    }
+    const target = await this.getTargetAndSecureRights(
+      socket,
+      unbanUser.channel,
+      unbanUser.user,
+      socket.data.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      ban: false,
+      unban_at: null,
+    });
+  }
 
-  //   @SubscribeMessage('muteUser')
-  //   async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
-  //     if (socket.data.user.id === muteUser.user.id) {
-  //       throw new BadRequestException('impossible to mute yourself');
-  //     }
-  //     const target = await this.getTargetAndSecureRights(
-  //       muteUser.channel,
-  //       muteUser.user,
-  //       socket.data.user,
-  //     );
-  //     const now = new Date();
-  //     await this.channelUserService.updateUser(target, {
-  //       mute: true,
-  //       unmute_at: new Date(now.getTime() + muteUser.milliseconds),
-  //     });
-  //   }
+  @SubscribeMessage('muteUser')
+  async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
+    if (socket.data.user.id === muteUser.user.id) {
+      this.handleError(socket, 'impossible to mute yourself');
+    }
+    const target = await this.getTargetAndSecureRights(
+      socket,
+      muteUser.channel,
+      muteUser.user,
+      socket.data.user,
+    );
+    const now = new Date();
+    await this.channelUserService.updateUser(target, {
+      mute: true,
+      unmute_at: new Date(now.getTime() + muteUser.milliseconds),
+    });
+  }
 
-  //   @SubscribeMessage('unmuteUser')
-  //   async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
-  //     if (socket.data.user.id === unmuteUser.user.id) {
-  //       throw new BadRequestException('impossible to unmute yourself');
-  //     }
-  //     const target = await this.getTargetAndSecureRights(
-  //       unmuteUser.channel,
-  //       unmuteUser.user,
-  //       socket.data.user,
-  //     );
-  //     await this.channelUserService.updateUser(target, {
-  //       mute: false,
-  //       unmute_at: null,
-  //     });
-  //   }
-  // }
+  @SubscribeMessage('unmuteUser')
+  async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
+    if (socket.data.user.id === unmuteUser.user.id) {
+      this.handleError(socket, 'impossible to unmute yourself');
+    }
+    const target = await this.getTargetAndSecureRights(
+      socket,
+      unmuteUser.channel,
+      unmuteUser.user,
+      socket.data.user,
+    );
+    await this.channelUserService.updateUser(target, {
+      mute: false,
+      unmute_at: null,
+    });
+  }
 }

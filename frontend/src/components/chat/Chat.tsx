@@ -244,7 +244,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           api
             .get('/users/74632')
             .then(response => {
-              ws.socket.emit('addAdministrator', {
+              ws.socket.emit('removeAdministrator', {
                 channel: channelChoose,
                 user: response.data,
               });

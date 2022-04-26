@@ -38,7 +38,7 @@ export class ChannelService {
   }
 
   async createChannel(channel: IChannel): Promise<Channel> {
-    if (channel.state === 2) {
+    if (channel.state === State.protected) {
       channel.password = await this.hashPassword(channel.password);
     }
     const newChannel = this.channelRepository.create(channel);
