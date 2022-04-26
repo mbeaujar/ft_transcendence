@@ -1,69 +1,141 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.Ratio {
-  width: 44%;
-  height: 75%;
-  border-radius: 1.5vw;
-  background-color: $grey6;
-  //margin-left: 2.39%;
-  margin-left: 4.8%;
+@media screen and (min-width: 650px) {
+  .Ratio {
+    width: 44%;
+    height: 75%;
+    border-radius: 1.5vw;
+    background-color: $grey6;
+    //margin-left: 2.39%;
+    margin-left: 4.8%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .Top {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 65%;
-    margin-left: 0;
-    z-index: 1;
-    .container {
-      margin-bottom: 15%;
-      width: 50%;
-      height: 80%;
-      width: 6vw;
-      height: 6vw;
-      position: relative;
-      transform: translate(-4%, 25%);
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      #circular_progress {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        border-radius: 50%;
+    .Top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+      .container {
+        margin-bottom: 15%;
+        width: 50%;
+        height: 80%;
+        width: 6vw;
+        height: 6vw;
+        position: relative;
+        transform: translate(-4%, 25%);
+        border-radius: 8px;
         display: grid;
         place-items: center;
-        background-color: $black;
+        #circular_progress {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          background-color: $black;
+        }
+        #circular_progress:before {
+          content: "";
+          position: absolute;
+          height: 70%;
+          width: 70%;
+          background-color: $blue1;
+          border-radius: 50%;
+        }
       }
-      #circular_progress:before {
-        content: '';
-        position: absolute;
-        height: 70%;
-        width: 70%;
-        background-color: $blue1;
-        border-radius: 50%;
+    }
+
+    .Bottom {
+      width: 100%;
+      height: 35%;
+      margin-left: 0;
+      background-color: $grey6;
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 1.2vw;
+      }
+      .Wins {
+        color: $green3;
+      }
+      .Losses {
+        color: $red2;
       }
     }
   }
+}
 
-  .Bottom {
-    width: 100%;
-    height: 35%;
-    margin-left: 0;
+@media screen and (max-width: 650px) {
+  .Ratio {
+    width: 40%;
+    height: 78%;
+    border-radius: 2.5vw;
     background-color: $grey6;
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1.2vw;
+    margin-left: 3%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .Top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+      .container {
+        margin-bottom: 15%;
+        min-width: 50%;
+        min-height: 80%;
+        width: 6vw;
+        height: 6vw;
+        position: relative;
+        transform: translate(-4%, 25%);
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        #circular_progress {
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          background-color: $black;
+        }
+        #circular_progress:before {
+          content: "";
+          position: absolute;
+          height: 70%;
+          width: 70%;
+          background-color: $blue1;
+          border-radius: 50%;
+        }
+      }
     }
-    .Wins {
-      color: $green3;
-    }
-    .Losses {
-      color: $red2;
+
+    .Bottom {
+      width: 100%;
+      height: 35%;
+      margin-left: 0;
+      border-radius: 2.5vw;
+      background-color: $grey6;
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 3vw;
+      }
+      .Wins {
+        color: $green3;
+      }
+      .Losses {
+        color: $red2;
+      }
     }
   }
 }

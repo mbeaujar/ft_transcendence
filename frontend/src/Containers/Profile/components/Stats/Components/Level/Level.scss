@@ -1,39 +1,82 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.Level {
-  width: 44%;
-  height: 75%;
-  border-radius: 1.5vw;
-  background-color: $grey6;
-  //margin-left: 2.39%;
-  margin-left: 4.8%;
+@media screen and (min-width: 651px) {
+  .Level {
+    width: 44%;
+    height: 75%;
+    border-radius: 1.5vw;
+    background-color: $grey6;
+    //margin-left: 2.39%;
+    margin-left: 4.8%;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .Top {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 65%;
-    margin-left: 0;
-    z-index: 1;
-    #imgLevelElement {
-      margin-top: 15%;
-      width: 0%;
+
+    .Top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+      #imgLevelElement {
+        margin-top: 15%;
+        width: 0%;
+      }
+    }
+
+    .Bottom {
+      width: 100%;
+      height: 35%;
+      background-color: $grey6;
+      margin-left: 0;
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 1.2vw;
+      }
     }
   }
+}
 
-  .Bottom {
-    width: 100%;
-    height: 35%;
+@media screen and (max-width: 650px) {
+  .Level {
+    width: 40%;
+    height: 78%;
+    border-radius: 2.5vw;
     background-color: $grey6;
-    margin-left: 0;
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1.2vw;
+    //margin-left: 2.39%;
+    margin-left: 3%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+      #imgLevelElement {
+        margin-top: 15%;
+        width: 0%;
+      }
+    }
+
+    .Bottom {
+      width: 100%;
+      height: 35%;
+      background-color: $grey6;
+      border-radius: 2.5vw;
+      margin-left: 0;
+      p {
+        font-family: "Roboto", sans-serif;
+        font-size: 3vw;
+      }
     }
   }
 }
