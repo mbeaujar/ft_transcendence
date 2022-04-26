@@ -42,6 +42,7 @@ import {
 import { IDiscussion } from './interface/discussion.interface';
 import { IUpdateAdmin } from './interface/update-admin.interface';
 import { IUpdateUser } from './interface/update-user.interface';
+import { CreateChannelDto } from './dtos/create-channel.dto';
 
 const scrypt = promisify(_scrypt);
 
@@ -263,7 +264,7 @@ export class ChatGateway
   }
 
   @SubscribeMessage('createChannel')
-  async onCreateChannel(socket: Socket, channel: IChannel) {
+  async onCreateChannel(socket: Socket, channel: CreateChannelDto) {
     const channelExist = await this.channelService.getChannelByName(
       channel.name,
     );

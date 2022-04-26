@@ -17,7 +17,7 @@ export class WsExceptionFilter {
   public handleError(client: Socket, exception: HttpException | WsException) {
     if (exception instanceof HttpException) {
       // handle http exception
-      client.emit('Error', new BadRequestException('bad request'));
+      client.emit('Error', new BadRequestException('password format invalid'));
     } else {
       // handle websocket exception
       // exception already emit before

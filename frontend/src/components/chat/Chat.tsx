@@ -36,7 +36,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.on('messages', data => {
-      // console.log('messages', data);
       setMessages(data);
     });
 
