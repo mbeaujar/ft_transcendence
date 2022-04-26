@@ -1,5 +1,9 @@
 @import "../../../../../../utils.scss";
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 @media screen and (min-width: 651px) {
   .FriendsRequest {
     padding-left: 1vw;
@@ -8,6 +12,7 @@
     border-radius: 1.5vw;
     background-color: $black;
     height: 70%;
+    overflow-y: auto;
 
     .request {
       margin-top: -2%;
@@ -63,7 +68,9 @@
     width: 100%;
     border-radius: 2.5vw;
     background-color: $black;
-    height: 58.5%;
+    min-height: 39%;
+    max-height: 39%;
+    overflow-y: auto;
 
     h3 
     {
@@ -72,13 +79,14 @@
 
     .request {
       margin-top: -3%;
-      margin-left: 10%;
+      margin-left: 5.5%;
+      width: 87%;
       .friendsRequestsElement {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        width: 86%;
+        width: 100%;
         padding: 0.4vw;
         border-bottom: 1px solid $grey1;
         height:12vw;
