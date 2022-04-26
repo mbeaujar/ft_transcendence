@@ -38,6 +38,34 @@ function MyFriends(props: any) {
               </button>
             </div>
           ))}
+          <div className="friendsListElement" >
+            <div><img src={"../Dd"}/></div>
+            <p>Sommecaise</p>
+            <button className="delete">
+              Delete
+            </button>
+          </div>
+          <div className="friendsListElement" >
+            <div><img src={"../Dd"}/></div>
+            <p>Sommecaise</p>
+            <button className="delete">
+              Delete
+            </button>
+          </div>
+          <div className="friendsListElement" >
+            <div><img src={"../Dd"}/></div>
+            <p>Sommecaise</p>
+            <button className="delete">
+              Delete
+            </button>
+          </div>
+          <div className="friendsListElement" >
+            <div><img src={"../Dd"}/></div>
+            <p>Sommecaise</p>
+            <button className="delete">
+              Delete
+            </button>
+          </div>
         </div>
       )}
     </div>

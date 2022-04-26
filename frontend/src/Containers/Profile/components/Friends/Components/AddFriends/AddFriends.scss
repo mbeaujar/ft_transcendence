@@ -1,53 +1,113 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.AddFriends {
-  border-radius: 1.5vw;
-  background-color: $black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  border-bottom: 1px solid $grey1;
-  padding-bottom: 1.5vw;
-  padding-left: 1vw;
-
-  form {
-    align-self: center;
+@media screen and (min-width: 651px) {
+  .AddFriends {
+    border-radius: 1.5vw;
+    background-color: $black;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
-    margin: 1vw 0;
-    margin-left: 3%;
-    font-size: 1.3vw;
+    border-bottom: 1px solid $grey1;
+    padding-bottom: 1.5vw;
+    padding-left: 1vw;
 
-    input {
-      padding: 0.5vw;
-      margin-left: 0.5vw;
-      width: 10vw;
-      border-radius: 1.5vw;
-      border: 1px solid $blue1;
-      background-color: $grey7;
-      color: $white1;
-      font-size: 1vw;
+    form {
+      align-self: center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin: 1vw 0;
+      margin-left: 3%;
+      font-size: 1.3vw;
+
+      input {
+        padding: 0.5vw;
+        margin-left: 0.5vw;
+        width: 10vw;
+        border-radius: 1.5vw;
+        border: 1px solid $blue1;
+        background-color: $grey7;
+        color: $white1;
+        font-size: 1vw;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      button {
+        background-color: $blue4;
+        color: $blue2;
+        border: 1px solid $blue2;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: $blue2;
+        color: $blue1;
+        border: 1px solid $blue4;
+      }
     }
+  }
+}
 
-    input:focus {
-      outline: none;
-    }
+@media screen and (max-width: 650px) {
+  .AddFriends {
+    border-radius: 2.5vw;
+    background-color: $black;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    border-bottom: 1px solid $grey1;
+    //padding-bottom: 1.5vw;
+    //padding-left: 1vw;
+    margin-bottom: 5%;
+    height: 30%;
 
-    button {
-      background-color: $blue4;
-      color: $blue2;
-      border: 1px solid $blue2;
-      border-radius: 5px;
-      cursor: pointer;
-    }
 
-    button:hover {
-      background-color: $blue2;
-      color: $blue1;
-      border: 1px solid $blue4;
+    form {
+      align-self: center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin: 1vw 0;
+      margin-left: 10%;
+      font-size: 3vw;
+
+
+      input {
+        padding: 1vw;
+        margin-left: 3%;
+        width: 40%;
+        border-radius: 3.5vw;
+        border: 1px solid $blue1;
+        background-color: $grey7;
+        color: $white1;
+        font-size: 3vw;
+      }
+
+      input:focus {
+        outline: none;
+      }
+
+      button {
+        background-color: $blue4;
+        color: $blue2;
+        border: 1px solid $blue2;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: $blue2;
+        color: $blue1;
+        border: 1px solid $blue4;
+      }
     }
   }
 }

@@ -1,56 +1,121 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.FriendsRequest {
-  padding-left: 1vw;
-  width: 100%;
-  margin-top: 1.75vw;
-  border-radius: 1.5vw;
-  background-color: $black;
-  height: 70%;
+@media screen and (min-width: 651px) {
+  .FriendsRequest {
+    padding-left: 1vw;
+    width: 100%;
+    margin-top: 1.75vw;
+    border-radius: 1.5vw;
+    background-color: $black;
+    height: 70%;
 
-  .request {
-    margin-top: -2%;
-    .friendsRequestsElement {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      width: 86%;
-      margin-left: 3%;
-      padding: 0.4vw;
-      border-bottom: 1px solid $grey1;
-
-      img {
-        width: 35px;
-        width: 2.5vw;
-        height: 2.5vw;
-        border-radius: 100%;
-        border: 0.2vw solid $white1;
-      }
-
-      p {
+    .request {
+      margin-top: -2%;
+      .friendsRequestsElement {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 86%;
         margin-left: 3%;
-        font-size: 1.1vw;
-      }
+        padding: 0.4vw;
+        border-bottom: 1px solid $grey1;
 
-      button {
-        font-size: 0.8vw;
-        border-radius: 0.7vw;
-        padding: 0.5vw;
-        border: 1px solid black;
-        color: $white1;
-        cursor: pointer;
-      }
+        img {
+          width: 35px;
+          width: 2.5vw;
+          height: 2.5vw;
+          border-radius: 100%;
+          border: 0.2vw solid $white1;
+        }
 
-      .accept {
-        margin-left: auto;
-        background-color: $green1;
-      }
+        p {
+          margin-left: 3%;
+          font-size: 1.1vw;
+        }
 
-      .refuse {
-        margin-right: 2%;
-        margin-left: 2%;
-        background-color: $red1;
+        button {
+          font-size: 0.8vw;
+          border-radius: 0.7vw;
+          padding: 0.5vw;
+          border: 1px solid black;
+          color: $white1;
+          cursor: pointer;
+        }
+
+        .accept {
+          margin-left: auto;
+          background-color: $green1;
+        }
+
+        .refuse {
+          margin-right: 2%;
+          margin-left: 2%;
+          background-color: $red1;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .FriendsRequest {
+    width: 100%;
+    border-radius: 2.5vw;
+    background-color: $black;
+    height: 58.5%;
+
+    h3 
+    {
+      margin-bottom: 0%;
+    }
+
+    .request {
+      margin-top: -3%;
+      margin-left: 10%;
+      .friendsRequestsElement {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 86%;
+        padding: 0.4vw;
+        border-bottom: 1px solid $grey1;
+        height:12vw;
+
+        img {
+          margin-left: 30%;
+          width: 8vw;
+          height: 8vw;
+          border-radius: 100%;
+          border: 0.4vw solid $white1;
+        }
+
+        p {
+          margin-left: 8%;
+          font-size: 3.5vw;
+          margin-bottom: 7%;
+        }
+
+        button {
+          font-size: 3vw;
+          padding: 1vw;
+          border-radius: 1.5vw;
+          border: 0.1vw solid $black;
+          color: $white1;
+          cursor: pointer;
+        }
+
+        .accept {
+          margin-left: auto;
+          background-color: $green1;
+        }
+
+        .refuse {
+          margin-right: 2%;
+          margin-left: 2%;
+          background-color: $red1;
+        }
       }
     }
   }

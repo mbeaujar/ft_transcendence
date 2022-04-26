@@ -1,32 +1,65 @@
 @import "../../../../utils.scss";
 
-.Friends {
-  background-color: $grey6;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 1.5vw;
-  width: 65vw;
-  height: 38.8vw;
-
-  h2 {
-    color: $white1;
-    font-size: 1.8vw;
-  }
-
-  .FriendsRight {
+@media screen and (min-width: 651px) {
+  .Friends {
+    background-color: $grey6;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    width: 40%;
-    height: 87%;
-    margin-left: -2%;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 1.5vw;
+    width: 65vw;
+    height: 38.8vw;
 
     h2 {
-      align-self: flex-start;
-      text-align: left;
-      margin-left: 3%;
+      color: $white1;
+      font-size: 1.8vw;
+    }
+
+    .FriendsRight {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      width: 40%;
+      height: 87%;
+      margin-left: -2%;
+
+      h2 {
+        align-self: flex-start;
+        text-align: left;
+        margin-left: 3%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Friends {
+    background-color: $grey6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 2.5vw;
+    width: 85vw;
+    height: 150vw;
+
+    h2 {
+      color: $white1;
+      font-size: 3.5vw;
+    }
+
+    .FriendsRight {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 90%;
+      height: 87%;
+
+      h2 {
+        align-self: flex-start;
+        text-align: left;
+       margin-left: 10%;
+      }
     }
   }
 }
