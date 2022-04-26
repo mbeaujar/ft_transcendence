@@ -1,85 +1,43 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.Username {
-  height: 25%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  h3 {
-    margin-left: 10%;
-    margin-top: 5%;
-    margin-bottom: 1%;
-    font-size: 1.5vw;
-  }
-
-  .HideUsernameBottom,
-  .HideUsernameBottomChange {
-    display: none;
-  }
-  .ShowUsernameBottom {
+@media screen and (min-width: 651px) {
+  .Username {
+    height: 25%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 10%;
-    width: 80%;
-    height: 45%;
-    p {
+    flex-direction: column;
+    align-items: flex-start;
+    h3 {
+      margin-left: 10%;
+      margin-top: 5%;
+      margin-bottom: 1%;
+      font-size: 1.5vw;
+    }
+
+    .HideUsernameBottom,
+    .HideUsernameBottomChange {
+      display: none;
+    }
+    .ShowUsernameBottom {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: left;
-      width: 50%;
-      padding-left: 3%;
-      background-color: $grey4;
-      color: $grey2;
-      font-size: 1.2vw;
-      height: 55%;
-      border-radius: 0.1vw;
-      border: 0.1vw solid $blue3;
-    }
-
-    button {
-      width: 12%;
-      height: 60%;
-      margin-left: 2.5%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: 0.1vw solid $blue3;
-
-      span {
-        font-size: 1.5vw;
-      }
-    }
-
-    button:hover {
-      background-color: $blue3;
-    }
-  }
-
-  .ShowUsernameBottomChange {
-    margin-left: 10%;
-    width: 80%;
-    height: 45%;
-
-    form {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      .NewName {
+      margin-left: 10%;
+      width: 80%;
+      height: 45%;
+      p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: left;
         width: 50%;
         padding-left: 3%;
-        background-color: $grey10;
-        font-size: 1vw;
+        background-color: $grey4;
+        color: $grey2;
+        font-size: 1.2vw;
         height: 55%;
-        color: $black;
         border-radius: 0.1vw;
         border: 0.1vw solid $blue3;
-        outline: none;
       }
 
       button {
@@ -90,36 +48,219 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        background-color: $blue1;
+        border: 0.1vw solid $blue3;
 
         span {
           font-size: 1.5vw;
         }
       }
 
-      .ValidNewName {
-        border: 0.1vw solid $green3;
+      button:hover {
+        background-color: $blue3;
+      }
+    }
+
+    .ShowUsernameBottomChange {
+      margin-left: 10%;
+      width: 80%;
+      height: 45%;
+
+      form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        .NewName {
+          width: 50%;
+          padding-left: 3%;
+          background-color: $grey10;
+          font-size: 1vw;
+          height: 55%;
+          color: $black;
+          border-radius: 0.1vw;
+          border: 0.1vw solid $blue3;
+          outline: none;
+        }
+
+        button {
+          width: 12%;
+          height: 60%;
+          margin-left: 2.5%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background-color: $blue1;
+
+          span {
+            font-size: 1.5vw;
+          }
+        }
+
+        .ValidNewName {
+          border: 0.1vw solid $green3;
+
+          span {
+            color: $green3;
+          }
+        }
+
+        .ValidNewName:hover {
+          background-color: $green1;
+        }
+
+        .NoValidNewName {
+          border: 0.1vw solid $red1;
+
+          span {
+            color: $red2;
+          }
+        }
+
+        .NoValidNewName:hover {
+          background-color: $red1;
+          border: 0.1vw solid $red2;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Username {
+    margin-top: 5%;
+    margin-bottom: 15%;
+    min-height: 20vw;
+    max-height: 20vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    h3 {
+      margin-left: 10%;
+      margin-top: 5%;
+      margin-bottom: 1%;
+      font-size: 3.5vw;
+    }
+
+    .HideUsernameBottom,
+    .HideUsernameBottomChange {
+      display: none;
+    }
+    .ShowUsernameBottom {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: 10%;
+      width: 80%;
+      margin-top: 0%;
+      min-height: 10vw;
+      max-height: 10vw;
+      p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: left;
+        width: 50%;
+        padding-left: 3%;
+        background-color: $grey4;
+        color: $grey2;
+        font-size: 3vw;
+        height: 55%;
+        border-radius: 0.1vw;
+        padding: 1vw;
+        border: 0.1vw solid $blue3;
+      }
+
+      button {
+        width: 5.5vw;
+        height:5.5vw;
+        margin-left: 2.5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 0.1vw solid $blue3;
 
         span {
-          color: $green3;
+          font-size: 4vw;
         }
       }
 
-      .ValidNewName:hover {
-        background-color: $green1;
+      button:hover {
+        background-color: $blue3;
       }
+    }
 
-      .NoValidNewName {
-        border: 0.1vw solid $red1;
+    .ShowUsernameBottomChange {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: 10%;
+      width: 80%;
+      margin-top: 0%;
+      min-height: 10vw;
+      max-height: 10vw;
 
-        span {
-          color: $red2;
+      form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        .NewName {
+          width: 50%;
+          padding-left: 3%;
+          background-color: $grey10;
+          font-size: 3vw;
+          height: 55%;
+          color: $black;
+          border-radius: 0.1vw;
+          padding: 1vw;
+          border: 0.1vw solid $blue3;
+          outline: none;
         }
-      }
 
-      .NoValidNewName:hover {
-        background-color: $red1;
-        border: 0.1vw solid $red2;
+        button {
+          width: 6vw;
+          height: 6vw;
+          margin-left: 2.5%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          background-color: $blue1;
+
+          span {
+            font-size: 4vw;
+          }
+        }
+
+        .ValidNewName {
+          border: 0.1vw solid $green3;
+
+          span {
+            color: $green3;
+          }
+        }
+
+        .ValidNewName:hover {
+          background-color: $green1;
+        }
+
+        .NoValidNewName {
+          border: 0.1vw solid $red1;
+
+          span {
+            color: $red2;
+          }
+        }
+
+        .NoValidNewName:hover {
+          background-color: $red1;
+          border: 0.1vw solid $red2;
+        }
       }
     }
   }
