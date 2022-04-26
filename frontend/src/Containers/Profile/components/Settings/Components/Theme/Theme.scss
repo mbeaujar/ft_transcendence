@@ -1,7 +1,9 @@
 @import '../../../../../../utils.scss';
 
 .Theme {
-  height: 25%;
+  margin-bottom: 5%;
+  min-height: 20vw;
+  max-height: 20vw;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,7 +11,7 @@
   h3 {
     margin-left: 10%;
     margin-top: 5%;
-    margin-bottom: 5%;
-    font-size: 1.5vw;
+    margin-bottom: 1%;
+    font-size: 3.5vw;
   }
 }
