@@ -1,148 +1,296 @@
 @import "../../../../../../utils.scss";
 
-
-
-.DoubleAuthSettings {
-  width: 100%;
-  height: 46%;
-  background-color: $blue1;
-  border-radius: 1.5vw;
-
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  position: relative;
-
-  h3 {
-    text-align: left;
-    margin-left: 10%;
-    font-size: 1.5vw;
-    margin-bottom: 4%;
-  }
-
-  .DoubleAuthMiddle {
+@media screen and (min-width: 651px) {
+  .DoubleAuthSettings {
     width: 100%;
-    height: 60%;
-    margin-top: 0;
-    margin-left: 10%;
-    //z-index: 2;
-  }
+    height: 46%;
+    background-color: $blue1;
+    border-radius: 1.5vw;
 
-  .hideDoubleAuthEnable2faInProgress,
-  .hideDoubleAuthDisable2faInProgress {
-    display: none;
-  }
-
-  .showDoubleAuthDisable2faInProgress {
-    position: absolute;
-    margin-top: 31%;
-    margin-top: 31%;
-    //margin-left: 15%;
-    z-index: 1;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+    flex-direction: column;
+    align-items: left;
+    position: relative;
 
-    .Right {
-      //margin-left: 9%;
+    h3 {
+      text-align: left;
+      margin-left: 10%;
+      font-size: 1.5vw;
+      margin-bottom: 4%;
+    }
+
+    .DoubleAuthMiddle {
+      width: 100%;
+      height: 60%;
+      margin-top: 0;
+      margin-left: 10%;
+      //z-index: 2;
+    }
+
+    .hideDoubleAuthEnable2faInProgress,
+    .hideDoubleAuthDisable2faInProgress {
+      display: none;
+    }
+
+    .showDoubleAuthDisable2faInProgress {
+      position: absolute;
+      margin-top: 31%;
+      margin-top: 31%;
+      //margin-left: 15%;
+      z-index: 1;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      width: 46%;
+      justify-content: center;
+      width: 100%;
 
-      input {
-        margin-top: 2%;
-        margin-bottom: 8%;
-        width: 90%;
-        background-color: $grey2;
-        border: 1px solid $grey2;
-        border-radius: 3vw;
-        font-size: 1vw;
-        height: 1.2vw;
-        outline: none;
-        color: $white1;
-        padding: 0.2vw 0.4vw;
-        text-align: center;
+      .Right {
+        //margin-left: 9%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 46%;
+
+        input {
+          margin-top: 2%;
+          margin-bottom: 8%;
+          width: 90%;
+          background-color: $grey2;
+          border: 1px solid $grey2;
+          border-radius: 3vw;
+          font-size: 1vw;
+          height: 1.2vw;
+          outline: none;
+          color: $white1;
+          padding: 0.2vw 0.4vw;
+          text-align: center;
+        }
+
+        input::placeholder {
+          color: $grey6;
+          font-size: 0.8vw;
+        }
+
+        button {
+          background-color: $grey4;
+          color: $white1;
+          width: 50%;
+          border: 0.1vw solid $blue3;
+          border-radius: 0.3vw;
+          padding: 3%;
+          cursor: pointer;
+          font-size: 1vw;
+        }
+
+        button:hover {
+          background-color: $grey6;
+        }
+      }
+    }
+
+    .showDoubleAuthEnable2faInProgress {
+      position: absolute;
+      margin-top: 31%;
+      margin-top: 31%;
+      margin-left: 15%;
+      z-index: 1;
+      display: flex;
+      flex-direction: row;
+      width: 90%;
+
+      img {
+        width: 5vw;
+        height: 5vw;
       }
 
-      input::placeholder {
-        color: $grey6;
-        font-size: 0.8vw;
-      }
+      .Right {
+        margin-left: 9%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 46%;
 
-      button {
-        background-color: $grey4;
-        color: $white1;
-        width: 50%;
-        border: 0.1vw solid $blue3;
-        border-radius: 0.3vw;
-        padding: 3%;
-        cursor: pointer;
-        font-size: 1vw;
-      }
+        input {
+          margin-top: 4%;
+          margin-bottom: 6%;
+          width: 95%;
+          background-color: $grey2;
+          border: 1px solid $grey2;
+          border-radius: 3vw;
+          font-size: 1vw;
+          height: 1.2vw;
+          outline: none;
+          color: $white1;
+          padding: 0.2vw 0.4vw;
+          text-align: center;
+        }
+        input::placeholder {
+          color: $grey6;
+          font-size: 0.8vw;
+        }
 
-      button:hover {
-        background-color: $grey6;
+        button {
+          background-color: $grey4;
+          color: $white1;
+          width: 60%;
+          border: 0.1vw solid $blue3;
+          border-radius: 0.3vw;
+          padding: 3%;
+          cursor: pointer;
+          font-size: 1vw;
+        }
+
+        button:hover {
+          background-color: $grey6;
+        }
       }
     }
   }
+}
 
-  .showDoubleAuthEnable2faInProgress {
-    position: absolute;
-    margin-top: 31%;
-    margin-top: 31%;
-    margin-left: 15%;
-    z-index: 1;
+@media screen and (min-width: 651px) {
+  .DoubleAuthSettings {
+    width: 100%;
+    height: 46%;
+    background-color: $blue1;
+    border-radius: 1.5vw;
+
     display: flex;
-    flex-direction: row;
-    width: 90%;
+    flex-direction: column;
+    align-items: left;
+    position: relative;
 
-    img {
-      width: 5vw;
-      height: 5vw;
+    h3 {
+      text-align: left;
+      margin-left: 10%;
+      font-size: 1.5vw;
+      margin-bottom: 4%;
     }
 
-    .Right {
-      margin-left: 9%;
+    .DoubleAuthMiddle {
+      width: 100%;
+      height: 60%;
+      margin-top: 0;
+      margin-left: 10%;
+      //z-index: 2;
+    }
+
+    .hideDoubleAuthEnable2faInProgress,
+    .hideDoubleAuthDisable2faInProgress {
+      display: none;
+    }
+
+    .showDoubleAuthDisable2faInProgress {
+      position: absolute;
+      margin-top: 31%;
+      margin-top: 31%;
+      //margin-left: 15%;
+      z-index: 1;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      width: 46%;
+      justify-content: center;
+      width: 100%;
 
-      input {
-        margin-top: 4%;
-        margin-bottom: 6%;
-        width: 95%;
-        background-color: $grey2;
-        border: 1px solid $grey2;
-        border-radius: 3vw;
-        font-size: 1vw;
-        height: 1.2vw;
-        outline: none;
-        color: $white1;
-        padding: 0.2vw 0.4vw;
-        text-align: center;
+      .Right {
+        //margin-left: 9%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 46%;
+
+        input {
+          margin-top: 2%;
+          margin-bottom: 8%;
+          width: 90%;
+          background-color: $grey2;
+          border: 1px solid $grey2;
+          border-radius: 3vw;
+          font-size: 1vw;
+          height: 1.2vw;
+          outline: none;
+          color: $white1;
+          padding: 0.2vw 0.4vw;
+          text-align: center;
+        }
+
+        input::placeholder {
+          color: $grey6;
+          font-size: 0.8vw;
+        }
+
+        button {
+          background-color: $grey4;
+          color: $white1;
+          width: 50%;
+          border: 0.1vw solid $blue3;
+          border-radius: 0.3vw;
+          padding: 3%;
+          cursor: pointer;
+          font-size: 1vw;
+        }
+
+        button:hover {
+          background-color: $grey6;
+        }
       }
-      input::placeholder {
-        color: $grey6;
-        font-size: 0.8vw;
+    }
+
+    .showDoubleAuthEnable2faInProgress {
+      position: absolute;
+      margin-top: 31%;
+      margin-top: 31%;
+      margin-left: 15%;
+      z-index: 1;
+      display: flex;
+      flex-direction: row;
+      width: 90%;
+
+      img {
+        width: 5vw;
+        height: 5vw;
       }
 
-      button {
-        background-color: $grey4;
-        color: $white1;
-        width: 60%;
-        border: 0.1vw solid $blue3;
-        border-radius: 0.3vw;
-        padding: 3%;
-        cursor: pointer;
-        font-size: 1vw;
-      }
+      .Right {
+        margin-left: 9%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 46%;
 
-      button:hover {
-        background-color: $grey6;
+        input {
+          margin-top: 4%;
+          margin-bottom: 6%;
+          width: 95%;
+          background-color: $grey2;
+          border: 1px solid $grey2;
+          border-radius: 3vw;
+          font-size: 1vw;
+          height: 1.2vw;
+          outline: none;
+          color: $white1;
+          padding: 0.2vw 0.4vw;
+          text-align: center;
+        }
+        input::placeholder {
+          color: $grey6;
+          font-size: 0.8vw;
+        }
+
+        button {
+          background-color: $grey4;
+          color: $white1;
+          width: 60%;
+          border: 0.1vw solid $blue3;
+          border-radius: 0.3vw;
+          padding: 3%;
+          cursor: pointer;
+          font-size: 1vw;
+        }
+
+        button:hover {
+          background-color: $grey6;
+        }
       }
     }
   }

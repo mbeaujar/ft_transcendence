@@ -45,18 +45,21 @@
     background-color: $grey6;
     display: flex;
     flex-direction: row;
-    border-radius: 1.5vw;
+    border-radius: 2.5vw;
     width: 85vw;
-    min-height: 200vw;
-    max-height: 200vw;
+    min-height: 165vw;
+    max-height: 165vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
 
     .SettingsLeft {
+      background-color: coral;
       width: 90%;
-      height: 79%;
+      min-height: 81vw;
+      max-height: 81vw;
+      margin-bottom: 5%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -73,10 +76,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      background-color: coral;
       width: 90%;
-      min-height: 100vw;
-      max-height: 100vw;
-      border-radius: 2.5vw;
+      min-height: 81vw;
+      max-height: 81vw;
+      margin-bottom: 5%;
     }
   }
 }

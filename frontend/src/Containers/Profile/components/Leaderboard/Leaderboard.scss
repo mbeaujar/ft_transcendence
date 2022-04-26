@@ -183,6 +183,8 @@
         padding-top: 0.5vw;
         padding-bottom: 0.5vw;
         border-bottom: 1px solid $grey2;
+        min-height: 10vw;
+        max-height: 10vw;
 
         .UserLeft {
           z-index: 5;
@@ -206,11 +208,21 @@
           div {
             min-width: 25%;
             max-width: 25%;
+            min-height: 5vw;
+            max-height: 5vw;
             img {
               width: 5vw;
-              height: 5vw;
+              min-height: 5vw;
+              max-height: 5vw;
               border-radius: 100%;
             }
+          }
+
+          .Username
+          {
+            //margin-bottom: 27%;
+            min-height: 3.2vw;
+            max-height: 3.2vw;
           }
         }
 
