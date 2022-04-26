@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IUser } from '../interface/user.interface';
 import api from '../../apis/api';
 import './Auth.css';
@@ -16,6 +16,26 @@ const Auth: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div>
       <div className="container">
+        <button
+          onClick={() => {
+            api
+              .get('/users/leaderboard')
+              .then(resp => console.log(resp.data))
+              .catch(reject => console.error(reject));
+          }}
+        >
+          Leaderboard
+        </button>
+        <button
+          onClick={() => {
+            api
+              .get('/users/ranking')
+              .then(resp => console.log(resp.data))
+              .catch(reject => console.error(reject));
+          }}
+        >
+          ranking
+        </button>
         {props.user ? <p>{props.user.username}</p> : <p>Not authenticated</p>}
         <button
           onClick={() => {

@@ -185,7 +185,7 @@ export class UsersController {
   @Get('/ranking')
   async ranking(@CurrentUser() user: IUser): Promise<number> {
     const position = await this.usersService.ranking(user.elo);
-    return position.length;
+    return position.length + 1;
   }
 
   @Auth()

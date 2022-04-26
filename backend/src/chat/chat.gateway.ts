@@ -398,6 +398,8 @@ export class ChatGateway
         });
       }
     }
+    const channels = await this.channelService.getChannels(socket.data.user.id);
+    this.server.to(socket.id).emit('channels', channels);
     return this.updateCurrentChannel(channelDB.id);
   }
 
@@ -501,28 +503,28 @@ export class ChatGateway
 
   //   /** ---------------------------  ADMINISTRATOR  -------------------------------- */
 
-  //   private async checkRightsAndFindUser(
-  //     user: IUser,
-  //     channel: IChannel,
-  //     target: IUser,
-  //   ): Promise<IChannelUser> {
-  //     const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
-  //     if (!userDB) {
-  //       throw new WsException('user not found');
-  //     }
-  //     if (userDB.administrator === false) {
-  //       throw new WsException('user does not have the rights');
-  //     }
-  //     // Get target
-  //     const newAdminUser = await this.channelUserService.findUserInChannel(
-  //       channelDB,
-  //       target,
-  //     );
-  //     if (!newAdminUser) {
-  //       throw new WsException('user target not found');
-  //     }
-  //     return newAdminUser;
+  // private async checkRightsAndFindUser(
+  //   user: IUser,
+  //   channel: IChannel,
+  //   target: IUser,
+  // ): Promise<IChannelUser> {
+  //   const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
+  //   if (!userDB) {
+  //     throw new WsException('user not found');
   //   }
+  //   if (userDB.administrator === false) {
+  //     throw new WsException('user does not have the rights');
+  //   }
+  //   // Get target
+  //   const newAdminUser = await this.channelUserService.findUserInChannel(
+  //     channelDB,
+  //     target,
+  //   );
+  //   if (!newAdminUser) {
+  //     throw new WsException('user target not found');
+  //   }
+  //   return newAdminUser;
+  // }
 
   // @SubscribeMessage('addAdministrator')
   // async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
@@ -536,15 +538,15 @@ export class ChatGateway
   //   });
   // }
 
-  //   @SubscribeMessage('removeAdministrator')
-  //   async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
-  //     const target = await this.checkRightsAndFindUser(
-  //       socket.data.user,
-  //       removeAdmin.channel,
-  //       removeAdmin.user.user,
-  //     );
-  //     await this.channelUserService.updateUser(target, { administrator: false });
-  //   }
+  // @SubscribeMessage('removeAdministrator')
+  // async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
+  //   const target = await this.checkRightsAndFindUser(
+  //     socket.data.user,
+  //     removeAdmin.channel,
+  //     removeAdmin.user.user,
+  //   );
+  //   await this.channelUserService.updateUser(target, { administrator: false });
+  // }
 
   //   /** ---------------------------  BAN / MUTE  -------------------------------- */
 
