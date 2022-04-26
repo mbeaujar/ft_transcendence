@@ -14,43 +14,58 @@ export class JoinedChannelService {
   ) {}
 
   async create(joinedChannel: IJoinedChannel): Promise<JoinedChannel> {
-    const newJoinedChannel = this.joinedChannelRepository.create(joinedChannel);
-    return this.joinedChannelRepository.save(newJoinedChannel);
+    if (joinedChannel) {
+      const newJoinedChannel =
+        this.joinedChannelRepository.create(joinedChannel);
+      return this.joinedChannelRepository.save(newJoinedChannel);
+    }
   }
 
   async findByUser(user: IUser): Promise<JoinedChannel> {
-    return this.joinedChannelRepository.findOne({ user });
+    if (user) {
+      return this.joinedChannelRepository.findOne({ user });
+    }
   }
 
   async findByUserAndChannel(
     channel: IChannel,
     user: IUser,
   ): Promise<JoinedChannel> {
-    return this.joinedChannelRepository.findOne({
-      user,
-      channelId: channel.id,
-    });
+    if (channel && user) {
+      return this.joinedChannelRepository.findOne({
+        user,
+        channelId: channel.id,
+      });
+    }
   }
 
   async findByChannel(channelId: number): Promise<JoinedChannel[]> {
-    return this.joinedChannelRepository
-      .createQueryBuilder('joinChannel')
-      .leftJoinAndSelect('joinChannel.user', 'join_user')
-      .where('joinChannel.channelId = :channelId', { channelId })
-      .leftJoinAndSelect('join_user.blockedUsers', 'blocked_users')
-      .getMany();
+    if (channelId) {
+      return this.joinedChannelRepository
+        .createQueryBuilder('joinChannel')
+        .leftJoinAndSelect('joinChannel.user', 'join_user')
+        .where('joinChannel.channelId = :channelId', { channelId })
+        .leftJoinAndSelect('join_user.blockedUsers', 'blocked_users')
+        .getMany();
+    }
   }
 
   async deleteBySocketId(socketId: string): Promise<any> {
-    return this.joinedChannelRepository.delete({ socketId });
+    if (socketId) {
+      return this.joinedChannelRepository.delete({ socketId });
+    }
   }
 
   async delete(joinedChannel: IJoinedChannel) {
-    return this.joinedChannelRepository.delete(joinedChannel);
+    if (joinedChannel) {
+      return this.joinedChannelRepository.delete(joinedChannel);
+    }
   }
 
   async deleteByChannel(channel: IChannel): Promise<any> {
-    return this.joinedChannelRepository.delete({ channelId: channel.id });
+    if (channel) {
+      return this.joinedChannelRepository.delete({ channelId: channel.id });
+    }
   }
 
   async deleteAll() {

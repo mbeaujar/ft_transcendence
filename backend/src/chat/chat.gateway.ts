@@ -104,7 +104,6 @@ export class ChatGateway
           user,
           mode: Mode.chat,
         });
-        console.log('connect', socket.id, user.username);
         return this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
@@ -113,7 +112,6 @@ export class ChatGateway
   }
 
   async handleDisconnect(socket: Socket) {
-    console.log('disconnect', socket.id);
     if (socket.data.user) {
       await this.connectedUserService.deleteByUser(socket.data.user);
       await this.joinedChannelService.deleteBySocketId(socket.id);
@@ -269,7 +267,7 @@ export class ChatGateway
       channel.name,
     );
     if (channelExist) {
-      this.handleError(socket, 'channel already exist');
+      this.handleError(socket, 'channel name already exist');
     }
     const createdChannel: IChannel = await this.channelService.createChannel(
       channel,
@@ -438,7 +436,7 @@ export class ChatGateway
     if (!user) {
       this.handleError(socket, 'user not found');
     }
-    if (user.administrator === false) {
+    if (user.creator === false) {
       this.handleError(socket, 'user does not have the rights');
     }
     if (updateChannel.state === State.protected) {

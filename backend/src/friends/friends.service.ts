@@ -21,11 +21,13 @@ export class FriendsService {
   ) {}
 
   async getFriendsRequest(id: number): Promise<FriendsRequest[]> {
-    return this.friendsRequestRepository
-      .createQueryBuilder('friends')
-      .where('friends.target = :id', { id })
-      .leftJoinAndSelect('friends.userInfo', 'user_info')
-      .getMany();
+    if (id) {
+      return this.friendsRequestRepository
+        .createQueryBuilder('friends')
+        .where('friends.target = :id', { id })
+        .leftJoinAndSelect('friends.userInfo', 'user_info')
+        .getMany();
+    }
   }
 
   RemoveFriendOnFriendsList(user: Friends, target: number): void {
@@ -41,7 +43,6 @@ export class FriendsService {
     await this.friendsRequestRepository.delete({ user, target });
   }
 
-  /** No check it can be called if users are not friends */
   async deleteFriendship(user: User, target: number): Promise<Friends> {
     const friendsUser = await this.friendsRepository.findOne({ id: user.id });
     const friendsTarget = await this.friendsRepository.findOne({ id: target });
@@ -109,15 +110,12 @@ export class FriendsService {
     const requestExist = await this.findFriendsRequest(user.id, targetUser.id);
 
     if (!requestExist) {
-      /** friends request doesn't exist */
       const targetRequest = await this.findFriendsRequest(
         targetUser.id,
         user.id,
       );
 
       if (!targetRequest) {
-        /** target did not send us a friend request */
-        // console.log('user', user);
         const request = this.friendsRequestRepository.create({
           user: user.id,
           userInfo: user,
@@ -125,11 +123,10 @@ export class FriendsService {
         });
         return this.friendsRequestRepository.save(request);
       } else {
-        /** tagret has already sent a friend request -> create friendship */
         await this.friendsRequestRepository.delete({
           user: targetUser.id,
           target: user.id,
-        }); // delete tagret request
+        });
         const friendsTarget = await this.findFriends(targetUser.id);
 
         await this.addFriendOnList(friendsTarget, user);

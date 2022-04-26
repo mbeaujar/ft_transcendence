@@ -19,59 +19,76 @@ export class UsersService {
   ) {}
 
   async getFileById(fileId: number) {
-    if (!fileId) return;
-    return this.localFilesRepository.findOne(fileId);
+    if (fileId) {
+      return this.localFilesRepository.findOne(fileId);
+    }
   }
 
   async deleteFileById(fileId: number) {
-    return this.localFilesRepository.delete(fileId);
+    if (fileId) {
+      return this.localFilesRepository.delete(fileId);
+    }
   }
 
   async saveLocalFileData(fileData: LocalFileDto) {
-    const newFile = this.localFilesRepository.create(fileData);
-    await this.localFilesRepository.save(newFile);
-    return newFile;
+    if (fileData) {
+      const newFile = this.localFilesRepository.create(fileData);
+      await this.localFilesRepository.save(newFile);
+      return newFile;
+    }
   }
 
   async turnOnTwoFactorAuthentication(userId: number) {
-    return this.usersRepository.update(userId, {
-      isTwoFactorEnabled: true,
-    });
+    if (userId) {
+      return this.usersRepository.update(userId, {
+        isTwoFactorEnabled: true,
+      });
+    }
   }
 
   async turnOffTwoFactorAuthentication(userId: number) {
-    return this.usersRepository.update(userId, {
-      isTwoFactorEnabled: false,
-      twoFactorAuthenticationSecret: null,
-    });
+    if (userId) {
+      return this.usersRepository.update(userId, {
+        isTwoFactorEnabled: false,
+        twoFactorAuthenticationSecret: null,
+      });
+    }
   }
 
   async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
-    return this.usersRepository.update(userId, {
-      twoFactorAuthenticationSecret: secret,
-    });
+    if (userId) {
+      return this.usersRepository.update(userId, {
+        twoFactorAuthenticationSecret: secret,
+      });
+    }
   }
 
   async findUser(id: number): Promise<User> {
-    return this.usersRepository.findOne(id, {
-      relations: ['blockedUsers'],
-    });
+    if (id) {
+      return this.usersRepository.findOne(id, {
+        relations: ['blockedUsers'],
+      });
+    }
   }
 
   async findUserALIKEWithUsername(username: string) {
-    return this.usersRepository.find({
-      where: [
-        {
-          username: Like(`${username}%`),
-        },
-      ],
-    });
+    if (username) {
+      return this.usersRepository.find({
+        where: [
+          {
+            username: Like(`${username}%`),
+          },
+        ],
+      });
+    }
   }
 
   async changeSensitivity(sensitivity: number, id: number) {
-    return this.usersRepository.update(id, {
-      sensitivity,
-    });
+    if (id && sensitivity) {
+      return this.usersRepository.update(id, {
+        sensitivity,
+      });
+    }
   }
 
   async leaderboard(): Promise<User[]> {
@@ -83,49 +100,60 @@ export class UsersService {
   }
 
   async ranking(elo: number): Promise<User[]> {
-    return this.usersRepository
-      .createQueryBuilder('user')
-      .where('user.elo > :elo', { elo })
-      .orderBy('user.elo', 'DESC')
-      .getMany();
+    if (elo) {
+      return this.usersRepository
+        .createQueryBuilder('user')
+        .where('user.elo > :elo', { elo })
+        .orderBy('user.elo', 'DESC')
+        .getMany();
+    }
   }
 
-  // ATTENTION -> https://typeorm.io/#/repository-api
-  // Todo: check chaque appel de findOne si on envoie null ou undefined (+ de precision sur la doc)
-
   async createUser(userDetails: IUser): Promise<User> {
-    const friends = this.friendsRepository.create({
-      id: userDetails.id,
-      friends: [],
-    });
-    await this.friendsRepository.save(friends);
-    if (userDetails.blockedUsers === undefined) {
-      userDetails.blockedUsers = [];
+    if (userDetails) {
+      const friends = this.friendsRepository.create({
+        id: userDetails.id,
+        friends: [],
+      });
+      await this.friendsRepository.save(friends);
+      if (userDetails.blockedUsers === undefined) {
+        userDetails.blockedUsers = [];
+      }
+      const user = this.usersRepository.create(userDetails);
+      return this.login(user);
     }
-    const user = this.usersRepository.create(userDetails);
-    return this.login(user);
   }
 
   async updateUser(user: IUser, attrs: Partial<User>): Promise<User> {
-    Object.assign(user, attrs);
-    return this.usersRepository.save(user);
+    if (user) {
+      Object.assign(user, attrs);
+      return this.usersRepository.save(user);
+    }
   }
 
   async saveUser(user: IUser): Promise<User> {
-    return this.usersRepository.save(user);
+    if (user) {
+      return this.usersRepository.save(user);
+    }
   }
 
   async deleteUser(user: IUser): Promise<any> {
-    return this.usersRepository.delete({ id: user.id });
+    if (user) {
+      return this.usersRepository.delete({ id: user.id });
+    }
   }
 
   async login(user: IUser): Promise<User> {
-    user.state = State.online;
-    return this.usersRepository.save(user);
+    if (user) {
+      user.state = State.online;
+      return this.usersRepository.save(user);
+    }
   }
 
   async logout(user: IUser): Promise<User> {
-    user.state = State.offline;
-    return this.usersRepository.save(user);
+    if (user) {
+      user.state = State.offline;
+      return this.usersRepository.save(user);
+    }
   }
 }

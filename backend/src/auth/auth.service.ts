@@ -20,20 +20,22 @@ export class AuthService {
   // --------------------------------------------------------------------------- //
 
   public async generateTwoFactorAuthenticationSecret(user: User) {
-    const secret = authenticator.generateSecret();
+    if (user) {
+      const secret = authenticator.generateSecret();
 
-    const otpauthUrl = authenticator.keyuri(
-      user.username,
-      this.configService.get<string>('2FA_SECRET'),
-      secret,
-    );
+      const otpauthUrl = authenticator.keyuri(
+        user.username,
+        this.configService.get<string>('2FA_SECRET'),
+        secret,
+      );
 
-    await this.usersService.setTwoFactorAuthenticationSecret(secret, user.id);
+      await this.usersService.setTwoFactorAuthenticationSecret(secret, user.id);
 
-    return {
-      secret,
-      otpauthUrl,
-    };
+      return {
+        secret,
+        otpauthUrl,
+      };
+    }
   }
 
   async pipeQrCodeStream(stream: Response, otpauthUrl: string) {

@@ -21,9 +21,11 @@ export class ChannelService {
   ) {}
 
   async hashPassword(password: string) {
-    const salt = randomBytes(16).toString('hex');
-    const hash = (await scrypt(password, salt, 64)) as Buffer;
-    return salt + '.' + hash.toString('hex');
+    if (password) {
+      const salt = randomBytes(16).toString('hex');
+      const hash = (await scrypt(password, salt, 64)) as Buffer;
+      return salt + '.' + hash.toString('hex');
+    }
   }
 
   async verifyPassword(channel: IChannel, password: string) {
@@ -49,48 +51,60 @@ export class ChannelService {
     channel: IChannel,
     attrs: Partial<Channel>,
   ): Promise<Channel> {
-    Object.assign(channel, attrs);
-    return this.channelRepository.save(channel);
+    if (channel && attrs) {
+      Object.assign(channel, attrs);
+      return this.channelRepository.save(channel);
+    }
   }
 
   async deleteChannelById(id: number): Promise<any> {
-    return this.channelRepository.delete({ id });
+    if (id) {
+      return this.channelRepository.delete({ id });
+    }
   }
 
-  async addUser(channelI: IChannel, user: ChannelUser): Promise<Channel> {
-    const channel = await this.channelRepository.findOne(channelI.id, {
-      relations: ['users'],
-    });
-    channel.users.push(user);
-    return this.channelRepository.save(channel);
+  async addUser(channelId: IChannel, user: ChannelUser): Promise<Channel> {
+    if (channelId && user) {
+      const channel = await this.channelRepository.findOne(channelId, {
+        relations: ['users'],
+      });
+      channel.users.push(user);
+      return this.channelRepository.save(channel);
+    }
   }
 
   async getChannelByName(name: string): Promise<Channel> {
-    return this.channelRepository.findOne({ name });
+    if (name) {
+      return this.channelRepository.findOne({ name });
+    }
   }
 
   async getChannel(channelId: number): Promise<Channel> {
-    return this.channelRepository
-      .createQueryBuilder('channel')
-      .where('channel.id = :channelId', { channelId })
-      .leftJoinAndSelect('channel.users', 'channel_user')
-      .leftJoinAndSelect('channel_user.user', 'user')
-      .getOne();
+    if (channelId) {
+      return this.channelRepository
+        .createQueryBuilder('channel')
+        .where('channel.id = :channelId', { channelId })
+        .leftJoinAndSelect('channel.users', 'channel_user')
+        .leftJoinAndSelect('channel_user.user', 'user')
+        .getOne();
+    }
   }
 
   async getChannelWithPassword(channelId: number): Promise<Channel> {
-    return this.channelRepository
-      .createQueryBuilder('channel')
-      .where('channel.id = :channelId', { channelId })
-      .leftJoinAndSelect('channel.users', 'channel_user')
-      .leftJoinAndSelect('channel_user.user', 'user')
-      .select([
-        'channel.id',
-        'channel.state',
-        'channel.password',
-        'channel.name',
-      ])
-      .getOne();
+    if (channelId) {
+      return this.channelRepository
+        .createQueryBuilder('channel')
+        .where('channel.id = :channelId', { channelId })
+        .leftJoinAndSelect('channel.users', 'channel_user')
+        .leftJoinAndSelect('channel_user.user', 'user')
+        .select([
+          'channel.id',
+          'channel.state',
+          'channel.password',
+          'channel.name',
+        ])
+        .getOne();
+    }
   }
 
   async getChannelsWithoutDiscussion(): Promise<Channel[]> {
@@ -103,29 +117,37 @@ export class ChannelService {
   }
 
   async getChannelsDiscussionForUser(userId: number): Promise<Channel[]> {
-    return this.channelRepository
-      .createQueryBuilder('channel')
-      .leftJoinAndSelect('channel.users', 'users')
-      .leftJoinAndSelect('users.user', 'user')
-      .where('user.id = :userId', { userId })
-      .andWhere('channel.state = :state', { state: State.discussion })
-      .getMany();
+    if (userId) {
+      return this.channelRepository
+        .createQueryBuilder('channel')
+        .leftJoinAndSelect('channel.users', 'users')
+        .leftJoinAndSelect('users.user', 'user')
+        .where('user.id = :userId', { userId })
+        .andWhere('channel.state = :state', { state: State.discussion })
+        .getMany();
+    }
   }
 
   async getChannels(userId: number): Promise<Channel[]> {
-    const channels = await this.getChannelsWithoutDiscussion();
-    const channelsDiscussion = await this.getChannelsDiscussionForUser(userId);
-    channels.push(...channelsDiscussion);
-    return channels;
+    if (userId) {
+      const channels = await this.getChannelsWithoutDiscussion();
+      const channelsDiscussion = await this.getChannelsDiscussionForUser(
+        userId,
+      );
+      channels.push(...channelsDiscussion);
+      return channels;
+    }
   }
 
   async getChannelsForUser(userId: number): Promise<Channel[]> {
-    return this.channelRepository
-      .createQueryBuilder('channel')
-      .leftJoin('channel.users', 'users')
-      .leftJoin('users.user', 'user')
-      .where('user.id = :userId', { userId })
-      .leftJoinAndSelect('channel.users', 'all_users')
-      .getMany();
+    if (userId) {
+      return this.channelRepository
+        .createQueryBuilder('channel')
+        .leftJoin('channel.users', 'users')
+        .leftJoin('users.user', 'user')
+        .where('user.id = :userId', { userId })
+        .leftJoinAndSelect('channel.users', 'all_users')
+        .getMany();
+    }
   }
 }

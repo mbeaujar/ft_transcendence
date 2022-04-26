@@ -57,8 +57,6 @@ export class GameGateway
         return this.disconnect(client);
       } else {
         client.data.user = user;
-        console.log('connect', client.id, user.username);
-        // await this.connectedUserService.deleteByUser(user);
         await this.connectedUserService.create({
           socketId: client.id,
           user,
@@ -71,9 +69,7 @@ export class GameGateway
   }
 
   async handleDisconnect(client: Socket) {
-    console.log('disconnect', client.id, client.data.user?.username);
     if (client.data.user) {
-      // await this.connectedUserService.deleteByUser(client.data.user);
       await this.connectedUserService.deleteBySocketId(client.id);
       await this.queueService.delete(client.data.user?.id);
     }

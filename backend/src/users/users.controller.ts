@@ -172,7 +172,9 @@ export class UsersController {
   @Auth()
   @Get('/history/:id')
   async getHistoryMatch(@Param('id') id: string): Promise<Match[]> {
-    return this.matchService.findMatchUser(parseInt(id));
+    if (id && id !== 'null') {
+      return this.matchService.findMatchUser(parseInt(id));
+    }
   }
 
   @Auth()
@@ -192,11 +194,14 @@ export class UsersController {
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {
-    const user = await this.usersService.findUser(parseInt(id));
-    if (!user) {
-      throw new NotFoundException('user not found');
+    console.log('id', id);
+    if (id && id !== 'null') {
+      const user = await this.usersService.findUser(parseInt(id));
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      return user;
     }
-    return user;
   }
 
   @Auth()

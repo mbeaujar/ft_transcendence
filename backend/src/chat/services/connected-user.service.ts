@@ -14,19 +14,24 @@ export class ConnectedUserService {
   ) {}
 
   async create(connectedUser: IConnectedUser): Promise<ConnectedUser> {
-    const newConnectedUser = this.connetedUserRepository.create(connectedUser);
-    return this.connetedUserRepository.save(newConnectedUser);
+    if (connectedUser) {
+      const newConnectedUser =
+        this.connetedUserRepository.create(connectedUser);
+      return this.connetedUserRepository.save(newConnectedUser);
+    }
   }
 
   async findByUserAndMode(user: IUser, mode: Mode): Promise<ConnectedUser> {
-    return this.connetedUserRepository
-      .createQueryBuilder('connected')
-      .leftJoinAndSelect('connected.user', 'user')
-      .where('user.id = :id', { id: user.id })
-      .andWhere('connected.mode = :mode', { mode })
-      .orderBy('connected.created_at', 'DESC')
-      .limit(1)
-      .getOne();
+    if (user && mode) {
+      return this.connetedUserRepository
+        .createQueryBuilder('connected')
+        .leftJoinAndSelect('connected.user', 'user')
+        .where('user.id = :id', { id: user.id })
+        .andWhere('connected.mode = :mode', { mode })
+        .orderBy('connected.created_at', 'DESC')
+        .limit(1)
+        .getOne();
+    }
   }
 
   async getAll() {
@@ -34,16 +39,20 @@ export class ConnectedUserService {
   }
 
   async deleteByUser(user: IUser): Promise<DeleteResult> {
-    return this.connetedUserRepository
-      .createQueryBuilder('connected')
-      .leftJoinAndSelect('connected.user', 'user')
-      .where('user.id = :id', { id: user.id })
-      .delete()
-      .execute();
+    if (user) {
+      return this.connetedUserRepository
+        .createQueryBuilder('connected')
+        .leftJoinAndSelect('connected.user', 'user')
+        .where('user.id = :id', { id: user.id })
+        .delete()
+        .execute();
+    }
   }
 
   async deleteBySocketId(socketId: string): Promise<any> {
-    return this.connetedUserRepository.delete({ socketId });
+    if (socketId) {
+      return this.connetedUserRepository.delete({ socketId });
+    }
   }
 
   async deleteAll() {

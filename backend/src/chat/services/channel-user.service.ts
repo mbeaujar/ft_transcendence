@@ -14,58 +14,76 @@ export class ChannelUserService {
   ) {}
 
   async createUser(user: IChannelUser): Promise<ChannelUser> {
-    const createdUser = this.channelUserRepository.create(user);
-    return this.channelUserRepository.save(createdUser);
+    if (user) {
+      const createdUser = this.channelUserRepository.create(user);
+      return this.channelUserRepository.save(createdUser);
+    }
   }
 
   async updateUser(
     userDetails: IChannelUser,
     attrs: Partial<ChannelUser>,
   ): Promise<ChannelUser> {
-    Object.assign(userDetails, attrs);
-    return this.channelUserRepository.save(userDetails);
+    if (userDetails) {
+      Object.assign(userDetails, attrs);
+      return this.channelUserRepository.save(userDetails);
+    }
   }
 
   async deleteUser(user: IChannelUser): Promise<DeleteResult> {
-    return this.channelUserRepository.delete(user);
+    if (user) {
+      return this.channelUserRepository.delete(user);
+    }
   }
 
   async getAdminsInChannel(channel: IChannel): Promise<IChannelUser[]> {
-    return this.channelUserRepository.find({
-      channelId: channel.id,
-      administrator: true,
-    });
+    if (channel) {
+      return this.channelUserRepository.find({
+        channelId: channel.id,
+        administrator: true,
+      });
+    }
   }
 
   async getUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
-    return this.channelUserRepository.find({
-      channelId: channel.id,
-      ban: false,
-    });
+    if (channel) {
+      return this.channelUserRepository.find({
+        channelId: channel.id,
+        ban: false,
+      });
+    }
   }
 
   async findUserInChannel(
     channelId: number,
     user: IUser,
   ): Promise<ChannelUser> {
-    return this.channelUserRepository.findOne(
-      { channelId: channelId, user },
-      { relations: ['user', 'channel'] }, // can add channel if needed
-    );
+    if (channelId && user) {
+      return this.channelUserRepository.findOne(
+        { channelId: channelId, user },
+        { relations: ['user', 'channel'] },
+      );
+    }
   }
 
   async deleteUserInChannel(
     channelId: number,
     user: IUser,
   ): Promise<DeleteResult> {
-    return this.channelUserRepository.delete({ channelId, user });
+    if (channelId && user) {
+      return this.channelUserRepository.delete({ channelId, user });
+    }
   }
 
   async deleteAllUsersInChannel(channelId: number): Promise<DeleteResult> {
-    return this.channelUserRepository.delete({ channelId });
+    if (channelId) {
+      return this.channelUserRepository.delete({ channelId });
+    }
   }
 
   async delete(id: number): Promise<DeleteResult> {
-    return this.channelUserRepository.delete({ id });
+    if (id) {
+      return this.channelUserRepository.delete({ id });
+    }
   }
 }

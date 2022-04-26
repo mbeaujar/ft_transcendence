@@ -58,6 +58,8 @@ export class FriendsController {
     @Param('id') id: string,
     @CurrentUser() user: User,
   ): Promise<Friends> {
-    return this.friendsService.deleteFriendship(user, parseInt(id));
+    if (id && id !== 'null') {
+      return this.friendsService.deleteFriendship(user, parseInt(id));
+    }
   }
 }
