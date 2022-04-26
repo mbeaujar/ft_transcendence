@@ -1,34 +1,71 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
-.HistoryBlock {
-  margin-top: -20px;
-  margin-top: -2.25%;
-  width: 48%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: 1.5vw;
-  h3 {
-    background-color: $grey6;
-    padding: 3px 10px;
-    padding: 0.3vw 1vw;
-    border-radius: 5px;
-    border-radius: 0.4vw;
-    color: $white1;
-    font-size: 1.3vw;
-  }
-  div {
+@media screen and (min-width: 651px) {
+  .HistoryBlock {
+    margin-top: -20px;
+    margin-top: -2.25%;
+    width: 48%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    width: 92%;
-    height: 75%;
-    max-height: 75%;
-    background-color: $grey6;
-    margin-top: -4%;
+    justify-content: space-around;
     border-radius: 1.5vw;
+    h3 {
+      background-color: $grey6;
+      padding: 3px 10px;
+      padding: 0.3vw 1vw;
+      border-radius: 5px;
+      border-radius: 0.4vw;
+      color: $white1;
+      font-size: 1.3vw;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 92%;
+      height: 75%;
+      max-height: 75%;
+      background-color: $grey6;
+      margin-top: -4%;
+      border-radius: 1.5vw;
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .HistoryBlock {
+    width: 91%;
+    min-height: 87vw;
+    min-height: 87vw;
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 2.5vw;
+    h3 {
+      background-color: $grey6;
+      padding: 2vw 2vw;
+      border-radius: 1vw;
+      color: $white1;
+      font-size: 3.5vw;
+      margin-top: -7.5%;
+      margin-bottom: 0;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 92%;
+      min-height: 75%;
+      max-height: 75%;
+      background-color: $grey6;
+      margin-top: -20%;
+      border-radius: 2.5vw;
+    }
   }
 }

@@ -57,7 +57,14 @@ function FriendsBlock(props: any) {
             </div>
             <p>Jon</p>
           </div>
+          <div className="friendsListElement">
+            <div>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU" />
+            </div>
+            <p>Livaï</p>
+          </div>
         </div>
+        
       )}
     </div>
   </div>

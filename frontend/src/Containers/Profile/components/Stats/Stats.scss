@@ -48,18 +48,19 @@
 @media screen and (max-width: 650px) {
   .Stats {
     width: 75vw;
-    height: 160vw;
+    height: 250vw;
     background-color: $grey6;
     border-radius: 2.5vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 5vw;
 
     .StatsGeneral {
-      margin-top: 2.25%;
-      margin-bottom: 2.25%;
+      margin-top: 5%;
+      margin-bottom: 5%;
       width: 90%;
-      height: 42%;
+      height: 67.2vw;
       background-color: $blue1;
       border-radius: 2.5vw;
       display: flex;
@@ -84,13 +85,13 @@
 
     .Bottom {
       width: 90%;
-      height: 47%;
+      height: 68.5%;
       background-color: $blue1;
       border-radius: 2.5vw;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       margin-top: 0;
     }
   }
