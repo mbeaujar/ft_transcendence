@@ -20,6 +20,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    .StatsGeneralLeft,.StatsGeneralRight
+    {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   .Bottom {
