@@ -148,12 +148,14 @@
   }
 }
 
-@media screen and (min-width: 651px) {
+@media screen and (max-width: 650px) {
   .DoubleAuthSettings {
     width: 100%;
-    height: 46%;
+    min-height: 36.5vw;
+    max-height: 36.5vw;
     background-color: $blue1;
-    border-radius: 1.5vw;
+    border-radius: 2.5vw;
+    margin-bottom: 5%;
 
     display: flex;
     flex-direction: column;
@@ -163,8 +165,9 @@
     h3 {
       text-align: left;
       margin-left: 10%;
-      font-size: 1.5vw;
-      margin-bottom: 4%;
+      margin-top: 5%;
+      margin-bottom: 1%;
+      font-size: 3.5vw;
     }
 
     .DoubleAuthMiddle {
