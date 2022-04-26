@@ -3,8 +3,24 @@
 body
 {
   margin-left: 0;
+  div 
+  {
+  }
 }
 
+::-webkit-scrollbar {
+  width: 1vw;
+}
+
+::-webkit-scrollbar-track {
+  background: $blue4;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $blue5;
+  border: 0.01vw solid rgb(95, 93, 93);
+  border-radius: 1.5vw;
+}
 .Layout {
   background-color: $blue1;
   color: $blue2;

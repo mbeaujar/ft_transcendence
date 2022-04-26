@@ -23,10 +23,10 @@
     font-size: 1.3vw;
   }
 
-  ::-webkit-scrollbar {
-    width: 0.1vw;
-  }
 
+  ::-webkit-scrollbar {
+    width: 0;
+  }
   .Friends {
     display: flex;
     flex-direction: column;
