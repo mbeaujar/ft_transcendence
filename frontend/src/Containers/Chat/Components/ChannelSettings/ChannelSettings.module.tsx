@@ -309,7 +309,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
         state: 0,
       });
     } else if (newChallengeMode == "Private") {
-      console.log('change to privzte');
+      console.log('change to privzte id  = ', props.channel.id);
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,
