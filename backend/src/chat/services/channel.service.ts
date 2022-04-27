@@ -85,6 +85,7 @@ export class ChannelService {
         .createQueryBuilder('channel')
         .where('channel.id = :channelId', { channelId })
         .leftJoinAndSelect('channel.users', 'channel_user')
+        .andWhere('channel_user.ban = :ban', { ban: false })
         .leftJoinAndSelect('channel_user.user', 'user')
         .getOne();
     }
