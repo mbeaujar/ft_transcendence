@@ -12,7 +12,6 @@ export class UpdateChannelDto {
   id: number;
 
   @IsNumber()
-  @IsPositive()
   state: number;
 
   @IsString()
