@@ -191,6 +191,21 @@ export class UsersController {
   }
 
   @Auth()
+  @ApiOperation({ summary: 'Find user by username' })
+  @Get('/username/:username')
+  async findUserByUsername(
+    @Param('username') username: string,
+  ): Promise<IUser> {
+    if (username !== 'null') {
+      const user = await this.usersService.findUserByUsername(username);
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      return user;
+    }
+  }
+
+  @Auth()
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {
