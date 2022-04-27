@@ -39,7 +39,7 @@ export class UsersService {
   }
 
   async turnOnTwoFactorAuthentication(userId: number) {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       return this.usersRepository.update(userId, {
         isTwoFactorEnabled: true,
       });
@@ -47,7 +47,7 @@ export class UsersService {
   }
 
   async turnOffTwoFactorAuthentication(userId: number) {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       return this.usersRepository.update(userId, {
         isTwoFactorEnabled: false,
         twoFactorAuthenticationSecret: null,
@@ -56,7 +56,7 @@ export class UsersService {
   }
 
   async setTwoFactorAuthenticationSecret(secret: string, userId: number) {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       return this.usersRepository.update(userId, {
         twoFactorAuthenticationSecret: secret,
       });

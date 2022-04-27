@@ -58,7 +58,7 @@ export class ChannelService {
   }
 
   async deleteChannelById(id: number): Promise<any> {
-    if (id) {
+    if (id !== undefined && id !== null) {
       return this.channelRepository.delete({ id });
     }
   }
@@ -80,7 +80,7 @@ export class ChannelService {
   }
 
   async getChannel(channelId: number): Promise<Channel> {
-    if (channelId) {
+    if (channelId !== undefined && channelId !== null) {
       return this.channelRepository
         .createQueryBuilder('channel')
         .where('channel.id = :channelId', { channelId })
@@ -91,7 +91,7 @@ export class ChannelService {
   }
 
   async getChannelWithPassword(channelId: number): Promise<Channel> {
-    if (channelId) {
+    if (channelId !== undefined && channelId !== null) {
       return this.channelRepository
         .createQueryBuilder('channel')
         .where('channel.id = :channelId', { channelId })
@@ -117,7 +117,7 @@ export class ChannelService {
   }
 
   async getChannelsDiscussionForUser(userId: number): Promise<Channel[]> {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       return this.channelRepository
         .createQueryBuilder('channel')
         .leftJoinAndSelect('channel.users', 'users')
@@ -129,7 +129,7 @@ export class ChannelService {
   }
 
   async getChannels(userId: number): Promise<Channel[]> {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       const channels = await this.getChannelsWithoutDiscussion();
       const channelsDiscussion = await this.getChannelsDiscussionForUser(
         userId,
@@ -140,7 +140,7 @@ export class ChannelService {
   }
 
   async getChannelsForUser(userId: number): Promise<Channel[]> {
-    if (userId) {
+    if (userId !== undefined && userId !== null) {
       return this.channelRepository
         .createQueryBuilder('channel')
         .leftJoin('channel.users', 'users')

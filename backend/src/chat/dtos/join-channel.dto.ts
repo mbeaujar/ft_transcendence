@@ -5,7 +5,7 @@ export class JoinChannelDto {
   channel: IChannel;
 
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsOptional()
   password?: string;
 }

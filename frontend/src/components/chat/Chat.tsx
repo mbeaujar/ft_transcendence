@@ -51,7 +51,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setChannelChoose(data);
     });
 
-    ws.socket.emit('getAllChannels');
+    // ws.socket.emit('getAllChannels');
     return () => {
       ws.disconnect();
       // ws?.socket.on('disconnect', () => {});
@@ -66,7 +66,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             const joinChannel: IJoinChannel = {
               channel,
             };
-            // console.log('users', channel.users);
             if (channel.state === Scope.protected) {
               Object.assign(joinChannel, { password: prompt('password') });
             }

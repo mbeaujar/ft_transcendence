@@ -31,14 +31,10 @@ import { JoinChannelDto } from './dtos/join-channel.dto';
 import { IUser } from 'src/users/model/user/user.interface';
 import { IChannelUser } from './model/channel-user/channel-user.interface';
 import { State } from './interface/state.enum';
-import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { IMessage } from './model/message/message.interface';
 import { UpdateChannelDto } from './dtos/update-channel.dto';
-import {
-  UpdateDateColumn,
-  UsingJoinColumnOnlyOnOneSideAllowedError,
-} from 'typeorm';
 import { IDiscussion } from './interface/discussion.interface';
 import { IUpdateAdmin } from './interface/update-admin.interface';
 import { IUpdateUser } from './interface/update-user.interface';

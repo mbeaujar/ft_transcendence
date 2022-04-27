@@ -6,7 +6,7 @@ export class CreateChannelDto {
   state: number;
 
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsOptional()
   password?: string;
   name: string;

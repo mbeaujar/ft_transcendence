@@ -40,7 +40,7 @@ export class JoinedChannelService {
   }
 
   async findByChannel(channelId: number): Promise<JoinedChannel[]> {
-    if (channelId) {
+    if (channelId !== undefined && channelId !== null) {
       return this.joinedChannelRepository
         .createQueryBuilder('joinChannel')
         .leftJoinAndSelect('joinChannel.user', 'join_user')

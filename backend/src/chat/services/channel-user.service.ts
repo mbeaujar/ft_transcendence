@@ -58,7 +58,7 @@ export class ChannelUserService {
     channelId: number,
     user: IUser,
   ): Promise<ChannelUser> {
-    if (channelId && user) {
+    if (channelId !== undefined && channelId !== null && user) {
       return this.channelUserRepository.findOne(
         { channelId: channelId, user },
         { relations: ['user', 'channel'] },
@@ -70,19 +70,19 @@ export class ChannelUserService {
     channelId: number,
     user: IUser,
   ): Promise<DeleteResult> {
-    if (channelId && user) {
+    if (channelId !== undefined && channelId !== null && user) {
       return this.channelUserRepository.delete({ channelId, user });
     }
   }
 
   async deleteAllUsersInChannel(channelId: number): Promise<DeleteResult> {
-    if (channelId) {
+    if (channelId !== undefined && channelId !== null) {
       return this.channelUserRepository.delete({ channelId });
     }
   }
 
   async delete(id: number): Promise<DeleteResult> {
-    if (id) {
+    if (id !== undefined && id !== null) {
       return this.channelUserRepository.delete({ id });
     }
   }
