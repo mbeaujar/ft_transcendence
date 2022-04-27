@@ -43,10 +43,12 @@ export class ChannelUserService {
 
   async getBannedUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
     if (channel) {
-      return this.channelUserRepository.find({
-        channelId: channel.id,
-        ban: true,
-      });
+      return this.channelUserRepository
+        .createQueryBuilder('channelUser')
+        .leftJoinAndSelect('channelUser.user', 'user_info')
+        .where('channelUser.id = :id', { id: channel.id })
+        .andWhere('channelUser.ban = :ban', { ban: true })
+        .getMany();
     }
   }
 
