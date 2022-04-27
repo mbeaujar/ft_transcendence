@@ -112,7 +112,8 @@ export class ChannelService {
       .createQueryBuilder('channel')
       .leftJoinAndSelect('channel.users', 'all_users')
       .leftJoinAndSelect('all_users.user', 'all_users_info')
-      .where('channel.state != :state', { state: State.discussion })
+      .where('all_users.ban = :ban', { ban: false })
+      .andWhere('channel.state != :state', { state: State.discussion })
       .getMany();
   }
 

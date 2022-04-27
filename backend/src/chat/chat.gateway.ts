@@ -609,12 +609,10 @@ export class ChatGateway
       unban_at: new Date(now.getTime() + banUser.milliseconds),
     });
 
-    console.log('target', target);
     const bannedUser = await this.connectedUserService.findByUserAndMode(
       target.user,
       Mode.chat,
     );
-    console.log('bannedUser', bannedUser);
     if (bannedUser) {
       this.server.to(bannedUser.socketId).emit('currentChannel', null);
       this.server.to(bannedUser.socketId).emit('messages', []);
@@ -626,6 +624,7 @@ export class ChatGateway
     if (joinedChannel) {
       await this.joinedChannelService.delete(joinedChannel);
     }
+    await this.updateCurrentChannel(banUser.channel.id);
   }
 
   @SubscribeMessage('unbanUser')
