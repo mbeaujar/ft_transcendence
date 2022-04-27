@@ -1,7 +1,39 @@
 @import "../../../../utils.scss";
 
+.SearchUser {
+    form 
+    {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+}
+
 @media screen and (min-width: 651px) {
   .SearchUser {
+    form 
+    {
+      margin-top: 5vw;
+      width:100%;
+      p 
+      {
+        font-size: 2vw;
+        margin-bottom: 2vw;
+        width: 22%;
+      }
+      input 
+      {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        outline: none;
+        color: $white1;
+        margin-left: 0;
+        padding: 1vw;
+        font-size: 1.5vw;
+      }
+    }
   }
 }
 

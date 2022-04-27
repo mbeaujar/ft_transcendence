@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import classes from "./ChannelSettings.module.scss";
 import { IUser } from "../../../../interface/user.interface";
+import { IChannelUser } from "../../../../interface/channel-user.interface";
 import { IChannel } from "../../../../interface/channel.interface";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import Dropdown from "./Dropdown/Dropdown.module";
@@ -10,6 +11,7 @@ import Dropdown3 from "./Dropdown3/Dropdown3.module";
 import { channel } from "diagnostics_channel";
 import { Scope } from "../../../../interface/scope.enum";
 import clsx from "clsx";
+import api from "../../../../apis/api";
 
 interface Props {
   user: IUser;
@@ -37,25 +39,21 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [bannedUsers, setBannedUsers] = useState<IChannelUser[] | null>(null);
 
   useEffect(() => {
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
-    console.log("channel=", props.channel);
-    console.log("channels=", props.channels);
   }, [props.channel, props.channels]);
 
   useEffect(() => {
-    console.log("ban=", banUserDuration);
-  }, [banUserDuration]);
+    props.ws.socket.on("bannedUsers", (data: IChannelUser[]) => {
+      setBannedUsers(data);
+      console.log("bannedUsers:", bannedUsers);
+    });
 
-  useEffect(() => {
-    console.log("mute=", muteUserDuration);
-  }, [muteUserDuration]);
-
-  useEffect(() => {
-    console.log("mode=", newChallengeMode);
-  }, [newChallengeMode]);
+    props.ws.socket.emit("getBannedUsers", props.channel);
+  }, []);
 
   function ifShowAdminSettings() {
     let i = 0;
@@ -116,18 +114,19 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   //Ban User
   function handleSubmitFormBan(event: any) {
     let userToBan: IUser | null = null;
-    //let time = setMuteTime();
+    let time = setBanTime();
     userToBan = findUser(banUser);
     if (userToBan != null) {
       console.log(userToBan.username, " is ban during ", banUserDuration);
       props.ws.socket.emit("banUser", {
         channel: props.channel,
         user: userToBan,
-        milliseconds: 100000,
+        milliseconds: time,
       });
     } else {
       console.log("Ban : User not found");
     }
+    console.log("bannedUsersss:", bannedUsers);
     setBanUser("");
     event.preventDefault();
   }
@@ -139,17 +138,15 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
 
   //Unban User
   function handleSubmitFormUnban(event: any) {
-    let userToUnban: IUser | null = null;
-    userToUnban = findUser(unbanUser);
-    if (userToUnban != null) {
-      console.log(userToUnban.username, " is unban");
-      props.ws.socket.emit("unmuteUser", {
-        channel: props.channel,
-        user: userToUnban,
-      });
-    } else {
-      console.log("Unban : User not found");
-    }
+    api
+      .get(`/users/username/${unbanUser}`)
+      .then((response) => {
+        props.ws.socket.emit("unbanUser", {
+          channel: props.channel,
+          user: response.data,
+        });
+      })
+      .catch(() => console.log("Unban : User not found"));
     setUnbanUser("");
     event.preventDefault();
   }
@@ -157,6 +154,18 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   function handleChangeUnban(event: any) {
     var value = event.target.value;
     setUnbanUser(value);
+  }
+
+  function setBanTime() {
+    if (banUserDuration === "1 day") {
+      return 86400000;
+    } else if (banUserDuration === "1 week") {
+      return 604800000;
+    } else if (banUserDuration === "Unlimited") {
+      return 999999999999999999999999;
+    }
+    console.log("ban inconnu time");
+    return 0;
   }
 
   //Mute User
@@ -295,12 +304,12 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   //Set Password
   function handleSubmitFormSetPassword(event: any) {
     if (newChallengeMode == "Public") {
-      console.log("publiiiiic");
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 0,
       });
     } else if (newChallengeMode == "Private") {
+      console.log('change to privzte');
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,

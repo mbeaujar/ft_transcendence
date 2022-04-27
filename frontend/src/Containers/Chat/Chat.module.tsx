@@ -13,6 +13,7 @@ import { IJoinChannel } from "../../interface/join-channel.interface";
 import ChannelSettings from "./Components/ChannelSettings/ChannelSettings.module";
 
 const ws = new WebSocket("http://localhost:3000/chat");
+ws.disconnect();
 
 interface Props {
   user: IUser;
@@ -33,7 +34,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [showChatLeft, setShowChatLeft] = useState(true);
   const [showChatRight, setShowChatRight] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     ws.socket.emit("getAllChannels");
 
     ws.socket.on("channels", (data) => {
@@ -52,13 +53,42 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setChannelChoose(data);
     });
 
-    ws.socket.on("memberChannel", (data) => {
-      console.log("member", data);
+  }, []);*/
+
+  useEffect(() => {
+    ws.connect();
+    /*ws.socket.on('connect',() => {
+      ws.socket.emit('getAllChannels');
+    });*/
+
+    ws.socket.on('channels', data => {
+      //console.log('channels', data);
+      setChannels(data);
     });
 
-    ws.socket.emit("getAllChannels");
-  }, []);
+    ws.socket.on('messages', data => {
+      setMessages(data);
+    });
 
+    ws.socket.on('Error', data => {
+      console.log(data);
+    });
+
+    ws.socket.on('messageAdded', data => {
+      setMessages(prev => [...prev, data]);
+    });
+    ws.socket.on('currentChannel', data => {
+      //console.log('currentChannel', data);
+      setChannelChoose(data);
+    });
+    //ws.socket.emit('getAllChannels');
+
+    return () => {
+      ws.disconnect();
+      // ws?.socket.on('disconnect', () => {});
+    };
+  }, []);
+  
   useEffect(() => {
     ftChannelJoin();
   }, [channels]);
