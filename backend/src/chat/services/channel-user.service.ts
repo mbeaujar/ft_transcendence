@@ -41,6 +41,15 @@ export class ChannelUserService {
     }
   }
 
+  async getBannedUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
+    if (channel) {
+      return this.channelUserRepository.find({
+        channelId: channel.id,
+        ban: true,
+      });
+    }
+  }
+
   async getUsersInChannel(channel: IChannel): Promise<IChannelUser[]> {
     if (channel) {
       return this.channelUserRepository.find({

@@ -35,6 +35,11 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       setChannels(data);
     });
 
+    ws.socket.on('connect', () => {
+      console.log('oui');
+      ws.socket.emit('getAllChannels');
+    });
+
     ws.socket.on('messages', data => {
       setMessages(data);
     });

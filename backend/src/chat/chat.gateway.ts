@@ -678,4 +678,28 @@ export class ChatGateway
       unmute_at: null,
     });
   }
+
+  @SubscribeMessage('getBannedUsers')
+  async getBannedUsers(socket: Socket, channel: IChannel) {
+    const [channelDB, userDB] = await this.getChannelAndUser(
+      channel,
+      socket.data.user,
+    );
+    if (!channelDB) {
+      this.handleError(socket, 'channel not found');
+    }
+    if (!userDB) {
+      this.handleError(socket, 'user not found');
+    }
+    if (userDB.administrator === false) {
+      this.handleError(
+        socket,
+        'only administrator can access of the banned users',
+      );
+    }
+    const bannedUsers = await this.channelUserService.getBannedUsersInChannel(
+      channelDB,
+    );
+    this.server.to(socket.id).emit('bannedUsers', bannedUsers);
+  }
 }
