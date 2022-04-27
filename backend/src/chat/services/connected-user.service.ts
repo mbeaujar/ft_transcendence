@@ -22,7 +22,7 @@ export class ConnectedUserService {
   }
 
   async findByUserAndMode(user: IUser, mode: Mode): Promise<ConnectedUser> {
-    if (user && mode) {
+    if (user) {
       return this.connetedUserRepository
         .createQueryBuilder('connected')
         .leftJoinAndSelect('connected.user', 'user')

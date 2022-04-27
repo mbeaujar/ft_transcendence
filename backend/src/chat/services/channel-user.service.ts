@@ -20,13 +20,9 @@ export class ChannelUserService {
     }
   }
 
-  async updateUser(
-    userDetails: IChannelUser,
-    attrs: Partial<ChannelUser>,
-  ): Promise<ChannelUser> {
+  async updateUser(userDetails: IChannelUser, attrs: Partial<ChannelUser>) {
     if (userDetails) {
-      Object.assign(userDetails, attrs);
-      return this.channelUserRepository.save(userDetails);
+      await this.channelUserRepository.update(userDetails.id, { ...attrs });
     }
   }
 
@@ -60,7 +56,7 @@ export class ChannelUserService {
   ): Promise<ChannelUser> {
     if (channelId !== undefined && channelId !== null && user) {
       return this.channelUserRepository.findOne(
-        { channelId: channelId, user },
+        { channelId, user },
         { relations: ['user', 'channel'] },
       );
     }

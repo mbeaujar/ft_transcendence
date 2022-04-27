@@ -275,7 +275,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
               ws.socket.emit('banUser', {
                 channel: channelChoose,
                 user: response.data,
-                milliseconds: 100000,
+                milliseconds: 10000000000,
               });
             })
             .catch(reject => console.error(reject));

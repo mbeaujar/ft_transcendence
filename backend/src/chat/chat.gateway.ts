@@ -313,7 +313,10 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
-    if (!joinChannel.channel.id) {
+    if (
+      joinChannel.channel.id === undefined ||
+      joinChannel.channel.id === null
+    ) {
       this.handleError(socket, 'channel id not found');
     }
     const channelDB = await this.channelService.getChannelWithPassword(
@@ -354,7 +357,7 @@ export class ChatGateway
       await this.switchToChannel(socket, newChannelDB);
     } else {
       if (user.ban === true) {
-        if (this.countdownIsDown(user.unban_at)) {
+        if (this.countdownIsDown(user.unban_at) === false) {
           this.handleError(socket, 'user is banned');
         }
         await this.channelUserService.updateUser(user, {
@@ -591,27 +594,30 @@ export class ChatGateway
 
   @SubscribeMessage('banUser')
   async onBanUser(socket: Socket, banUser: IUpdateUser) {
-    if (socket.data.user.id === banUser.user.id) {
-      this.handleError(socket, 'impossible to ban yourself');
-    }
     const target = await this.getTargetAndSecureRights(
       socket,
       banUser.channel,
       banUser.user,
       socket.data.user,
     );
+    if (socket.data.user.id === banUser.user.id) {
+      this.handleError(socket, 'impossible to ban yourself');
+    }
     const now = new Date();
     await this.channelUserService.updateUser(target, {
       ban: true,
       unban_at: new Date(now.getTime() + banUser.milliseconds),
     });
 
+    console.log('target', target);
     const bannedUser = await this.connectedUserService.findByUserAndMode(
       target.user,
       Mode.chat,
     );
+    console.log('bannedUser', bannedUser);
     if (bannedUser) {
       this.server.to(bannedUser.socketId).emit('currentChannel', null);
+      this.server.to(bannedUser.socketId).emit('messages', []);
     }
     const joinedChannel = await this.joinedChannelService.findByUserAndChannel(
       banUser.channel,
@@ -624,15 +630,15 @@ export class ChatGateway
 
   @SubscribeMessage('unbanUser')
   async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
-    if (socket.data.user.id === unbanUser.user.id) {
-      this.handleError(socket, 'impossible to unban yourself');
-    }
     const target = await this.getTargetAndSecureRights(
       socket,
       unbanUser.channel,
       unbanUser.user,
       socket.data.user,
     );
+    if (socket.data.user.id === unbanUser.user.id) {
+      this.handleError(socket, 'impossible to unban yourself');
+    }
     await this.channelUserService.updateUser(target, {
       ban: false,
       unban_at: null,
@@ -641,15 +647,15 @@ export class ChatGateway
 
   @SubscribeMessage('muteUser')
   async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
-    if (socket.data.user.id === muteUser.user.id) {
-      this.handleError(socket, 'impossible to mute yourself');
-    }
     const target = await this.getTargetAndSecureRights(
       socket,
       muteUser.channel,
       muteUser.user,
       socket.data.user,
     );
+    if (socket.data.user.id === muteUser.user.id) {
+      this.handleError(socket, 'impossible to mute yourself');
+    }
     const now = new Date();
     await this.channelUserService.updateUser(target, {
       mute: true,
@@ -659,15 +665,15 @@ export class ChatGateway
 
   @SubscribeMessage('unmuteUser')
   async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
-    if (socket.data.user.id === unmuteUser.user.id) {
-      this.handleError(socket, 'impossible to unmute yourself');
-    }
     const target = await this.getTargetAndSecureRights(
       socket,
       unmuteUser.channel,
       unmuteUser.user,
       socket.data.user,
     );
+    if (socket.data.user.id === unmuteUser.user.id) {
+      this.handleError(socket, 'impossible to unmute yourself');
+    }
     await this.channelUserService.updateUser(target, {
       mute: false,
       unmute_at: null,

@@ -194,7 +194,6 @@ export class UsersController {
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {
-    console.log('id', id);
     if (id && id !== 'null') {
       const user = await this.usersService.findUser(parseInt(id));
       if (!user) {
