@@ -64,6 +64,7 @@ export class GameController {
       throw new NotFoundException('user who send invite not found');
     }
     await this.inviteService.delete(invite.id);
+    // Start game
     return targetUser;
   }
 }

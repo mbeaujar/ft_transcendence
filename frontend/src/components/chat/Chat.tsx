@@ -127,28 +127,11 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       >
         changeChannelState
       </button>
-      <button
-        onClick={() => {
-          ws.socket.emit('test', { test: 20 });
-        }}
-      >
-        TEST DTO
-      </button>
-      <button
-        onClick={() => {
-          api
-            .post('/game/invite', { target: 74728 })
-            .then(response => console.log(response.data))
-            .catch(reject => console.error(reject));
-        }}
-      >
-        invite ramzi to play
-      </button>
       <Link
         to="/game"
         onClick={() => {
           api
-            .post('/game/invite', { target: 74728 })
+            .post('/game/invite', { target: 74632 })
             .then(response => console.log(response.data))
             .catch(reject => console.error(reject));
         }}

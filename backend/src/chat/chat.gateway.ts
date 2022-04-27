@@ -313,6 +313,9 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
+    if (!joinChannel.channel.id) {
+      this.handleError(socket, 'channel id not found');
+    }
     const channelDB = await this.channelService.getChannelWithPassword(
       joinChannel.channel.id,
     );
