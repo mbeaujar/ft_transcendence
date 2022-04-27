@@ -46,7 +46,7 @@ export class ChannelUserService {
       return this.channelUserRepository
         .createQueryBuilder('channelUser')
         .leftJoinAndSelect('channelUser.user', 'user_info')
-        .where('channelUser.id = :id', { id: channel.id })
+        .where('channelUser.channelId = :channelId', { channelId: channel.id })
         .andWhere('channelUser.ban = :ban', { ban: true })
         .getMany();
     }

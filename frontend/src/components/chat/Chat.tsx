@@ -48,6 +48,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       console.log(data);
     });
 
+    ws.socket.on('bannedUsers', data => {
+      console.log(data);
+    });
+
     ws.socket.on('messageAdded', data => {
       setMessages(prev => [...prev, data]);
     });
@@ -101,6 +105,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          ws.socket.emit('getBannedUsers', channelChoose);
+        }}
+      >
+        get users ban
+      </button>
       <button
         onClick={() => {
           api
