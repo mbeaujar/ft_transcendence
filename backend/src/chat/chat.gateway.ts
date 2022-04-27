@@ -700,6 +700,8 @@ export class ChatGateway
     const bannedUsers = await this.channelUserService.getBannedUsersInChannel(
       channelDB,
     );
-    this.server.to(socket.id).emit('bannedUsers', bannedUsers);
+    this.server
+      .to(socket.id)
+      .emit('bannedUsers', bannedUsers ? bannedUsers : []);
   }
 }
