@@ -119,7 +119,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     //let time = setMuteTime();
     userToBan = findUser(banUser);
     if (userToBan != null) {
-      //console.log(userToBan.username," is ban during ",muteUserDuration);
+      console.log(userToBan.username, " is ban during ", banUserDuration);
       props.ws.socket.emit("banUser", {
         channel: props.channel,
         user: userToBan,
@@ -291,12 +291,33 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     }
     return classes.MarginSevenHalf;
   }
+
   //Set Password
   function handleSubmitFormSetPassword(event: any) {
-    console.log("setpassword=", setPassword);
-    setSetPassword("");
-    console.log("confirmsetpassword=", confirmSetPassword);
-    setConfirmSetPassword("");
+    if (newChallengeMode == "Public") {
+      console.log("publiiiiic");
+      props.ws.socket.emit("changeChannelState", {
+        id: props.channel.id,
+        state: 0,
+      });
+    } else if (newChallengeMode == "Private") {
+      props.ws.socket.emit("changeChannelState", {
+        id: props.channel.id,
+        state: 1,
+      });
+    } else if (newChallengeMode == "Protected") {
+      if (setPassword != confirmSetPassword) {
+        console.log("Password and confirm password are different");
+      } else {
+        props.ws.socket.emit("changeChannelState", {
+          id: props.channel.id,
+          state: 2,
+          password: setPassword,
+        });
+      }
+      setSetPassword("");
+      setConfirmSetPassword("");
+    }
     event.preventDefault();
   }
 
@@ -332,9 +353,16 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   }
 
   function handleSubmitFormNewPassword(event: any) {
-    console.log("newpassword=", newPassword);
+    if (newPassword != confirmNewPassword) {
+      console.log("Password and confirm password are different");
+    } else {
+      props.ws.socket.emit("changeChannelState", {
+        id: props.channel.id,
+        state: 2,
+        password: newPassword,
+      });
+    }
     setNewPassword("");
-    console.log("confirmnewpassword=", confirmNewPassword);
     setConfirmNewPassword("");
     event.preventDefault();
   }
