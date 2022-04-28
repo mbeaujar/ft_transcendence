@@ -656,9 +656,6 @@ export class ChatGateway
       muteUser.user,
       socket.data.user,
     );
-    if (target.mute === false) {
-      this.handleError(socket, 'user is not muted');
-    }
     if (socket.data.user.id === muteUser.user.id) {
       this.handleError(socket, 'impossible to mute yourself');
     }
@@ -677,6 +674,9 @@ export class ChatGateway
       unmuteUser.user,
       socket.data.user,
     );
+    if (target.mute === false) {
+      this.handleError(socket, 'user is not muted');
+    }
     if (socket.data.user.id === unmuteUser.user.id) {
       this.handleError(socket, 'impossible to unmute yourself');
     }
