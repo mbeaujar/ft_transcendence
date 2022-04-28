@@ -52,8 +52,9 @@ export class ChannelService {
     attrs: Partial<Channel>,
   ): Promise<Channel> {
     if (channel && attrs) {
-      Object.assign(channel, attrs);
-      return this.channelRepository.save(channel);
+      // Object.assign(channel, attrs);
+      await this.channelRepository.update(channel.id, attrs);
+      return this.getChannel(channel.id);
     }
   }
 
