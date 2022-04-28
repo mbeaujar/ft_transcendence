@@ -195,6 +195,7 @@ export class ChatGateway
 
   @SubscribeMessage('createDiscussion')
   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
+    if (socket.data.user === undefined) return;
     const channel = await this.channelService.getChannelByName(
       discussion.channel.name,
     );
@@ -259,6 +260,7 @@ export class ChatGateway
 
   @SubscribeMessage('createChannel')
   async onCreateChannel(socket: Socket, channel: CreateChannelDto) {
+    if (socket.data.user === undefined) return;
     const channelExist = await this.channelService.getChannelByName(
       channel.name,
     );
@@ -301,6 +303,7 @@ export class ChatGateway
 
   @SubscribeMessage('removeChannel')
   async onRemoveChannel(socket: Socket, channel: IChannel) {
+    if (socket.data.user === undefined) return;
     const channelDB = await this.channelService.getChannel(channel.id);
     if (!channelDB) {
       this.handleError(socket, 'channel not found');
@@ -369,6 +372,7 @@ export class ChatGateway
 
   @SubscribeMessage('leaveChannel')
   async onLeaveChannel(socket: Socket, channel: IChannel) {
+    if (socket.data.user === undefined) return;
     const [channelDB, channelUser] = await this.getChannelAndUser(
       channel,
       socket.data.user,
@@ -409,6 +413,7 @@ export class ChatGateway
 
   @SubscribeMessage('getAllChannels')
   async getAllChannels(socket: Socket) {
+    if (socket.data.user === undefined) return;
     const channels = await this.channelService.getChannels(
       socket?.data?.user?.id,
     );
@@ -417,6 +422,7 @@ export class ChatGateway
 
   @SubscribeMessage('getChannels')
   async getChannels(socket: Socket) {
+    if (socket.data.user === undefined) return;
     const channels = await this.channelService.getChannelsForUser(
       socket.data?.user?.id,
     );
@@ -425,6 +431,7 @@ export class ChatGateway
 
   @SubscribeMessage('changeChannelState')
   async onChangeChannelState(socket: Socket, updateChannel: UpdateChannelDto) {
+    if (socket.data.user === undefined) return;
     const channel = await this.channelService.getChannel(updateChannel.id);
     if (!channel) {
       this.handleError(socket, 'channel not found');
@@ -456,6 +463,7 @@ export class ChatGateway
 
   @SubscribeMessage('addMessage')
   async onAddMessage(socket: Socket, message: IMessage) {
+    if (socket.data.user === undefined) return;
     const [channel, user] = await this.getChannelAndUser(
       message.channel,
       socket.data.user,
@@ -535,6 +543,7 @@ export class ChatGateway
 
   @SubscribeMessage('addAdministrator')
   async addingUserToAdministrator(socket: Socket, newAdmin: IUpdateAdmin) {
+    if (socket.data.user === undefined) return;
     const target = await this.checkRightsAndFindUser(
       socket,
       socket.data.user,
@@ -548,6 +557,7 @@ export class ChatGateway
 
   @SubscribeMessage('removeAdministrator')
   async removeUserToAdministrator(socket: Socket, removeAdmin: IUpdateAdmin) {
+    if (socket.data.user === undefined) return;
     const target = await this.checkRightsAndFindUser(
       socket,
       socket.data.user,
@@ -592,6 +602,7 @@ export class ChatGateway
 
   @SubscribeMessage('banUser')
   async onBanUser(socket: Socket, banUser: IUpdateUser) {
+    if (socket.data.user === undefined) return;
     const target = await this.getTargetAndSecureRights(
       socket,
       banUser.channel,
@@ -627,6 +638,7 @@ export class ChatGateway
 
   @SubscribeMessage('unbanUser')
   async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
+    if (socket.data.user === undefined) return;
     const target = await this.getTargetAndSecureRights(
       socket,
       unbanUser.channel,
@@ -647,6 +659,7 @@ export class ChatGateway
 
   @SubscribeMessage('muteUser')
   async onMuteUser(socket: Socket, muteUser: IUpdateUser) {
+    if (socket.data.user === undefined) return;
     const target = await this.getTargetAndSecureRights(
       socket,
       muteUser.channel,
@@ -665,6 +678,7 @@ export class ChatGateway
 
   @SubscribeMessage('unmuteUser')
   async onUnmuteUser(socket: Socket, unmuteUser: IUpdateUser) {
+    if (socket.data.user === undefined) return;
     const target = await this.getTargetAndSecureRights(
       socket,
       unmuteUser.channel,
@@ -685,6 +699,7 @@ export class ChatGateway
 
   @SubscribeMessage('getBannedUsers')
   async getBannedUsers(socket: Socket, channel: IChannel) {
+    if (socket.data.user === undefined) return;
     const [channelDB, userDB] = await this.getChannelAndUser(
       channel,
       socket.data.user,
