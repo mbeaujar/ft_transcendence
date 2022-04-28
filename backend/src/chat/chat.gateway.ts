@@ -454,7 +454,13 @@ export class ChatGateway
         updateChannel.password,
       );
     }
-    await this.channelService.updateChannel(channel, updateChannel);
+    const attrs: { state: number; password?: string } = {
+      state: updateChannel.state,
+    };
+    if (attrs.state === State.protected) {
+      attrs.password = updateChannel.password;
+    }
+    await this.channelService.updateChannel(channel, attrs);
     await this.sendChannelToEveryone(socket.data.user.id);
     await this.updateCurrentChannel(channel.id);
   }
