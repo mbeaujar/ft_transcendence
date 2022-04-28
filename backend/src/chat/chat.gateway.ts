@@ -636,6 +636,9 @@ export class ChatGateway
       unbanUser.user,
       socket.data.user,
     );
+    if (target.ban === false) {
+      this.handleError(socket, 'user is not banned');
+    }
     if (socket.data.user.id === unbanUser.user.id) {
       this.handleError(socket, 'impossible to unban yourself');
     }
@@ -653,6 +656,9 @@ export class ChatGateway
       muteUser.user,
       socket.data.user,
     );
+    if (target.mute === false) {
+      this.handleError(socket, 'user is not muted');
+    }
     if (socket.data.user.id === muteUser.user.id) {
       this.handleError(socket, 'impossible to mute yourself');
     }
