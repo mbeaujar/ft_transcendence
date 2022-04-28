@@ -68,12 +68,11 @@
     width: 100%;
     border-radius: 2.5vw;
     background-color: $black;
-    min-height: 39%;
-    max-height: 39%;
+    min-height: 48%;
+    max-height: 48%;
     overflow-y: auto;
 
-    h3 
-    {
+    h3 {
       margin-bottom: 0%;
     }
 
@@ -89,7 +88,7 @@
         width: 100%;
         padding: 0.4vw;
         border-bottom: 1px solid $grey1;
-        height:12vw;
+        height: 12vw;
 
         img {
           margin-left: 30%;

@@ -39,21 +39,21 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  const [bannedUsers, setBannedUsers] = useState<IChannelUser[] | null>(null);
+  //const [bannedUsers, setBannedUsers] = useState<IChannelUser[]>([]);
 
   useEffect(() => {
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel, props.channels]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     props.ws.socket.on("bannedUsers", (data: IChannelUser[]) => {
       setBannedUsers(data);
-      console.log("bannedUsers:", bannedUsers);
+      console.log("bannedUserssss:", bannedUsers);
     });
 
     props.ws.socket.emit("getBannedUsers", props.channel);
-  }, []);
+  }, []);*/
 
   function ifShowAdminSettings() {
     let i = 0;
@@ -116,8 +116,10 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     let userToBan: IUser | null = null;
     let time = setBanTime();
     userToBan = findUser(banUser);
+
     if (userToBan != null) {
-      console.log(userToBan.username, " is ban during ", banUserDuration);
+      if (userToBan?.username !== props.user.username)
+        console.log(userToBan.username, " is ban during ", banUserDuration);
       props.ws.socket.emit("banUser", {
         channel: props.channel,
         user: userToBan,
@@ -126,7 +128,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     } else {
       console.log("Ban : User not found");
     }
-    console.log("bannedUsersss:", bannedUsers);
+
     setBanUser("");
     event.preventDefault();
   }
@@ -197,6 +199,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     let time = setMuteTime();
     userToMute = findUser(muteUser);
     if (userToMute != null) {
+    if (userToMute?.username !== props.user.username)
       console.log(userToMute.username, " is mute during ", muteUserDuration);
       props.ws.socket.emit("muteUser", {
         channel: props.channel,
@@ -261,16 +264,16 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
 
   //Change channel mode
   function initChangeChannelMode() {
-    if (props.channel.state == 0) return "Public";
-    if (props.channel.state == 1) return "Private";
-    if (props.channel.state == 2) return "Protected";
+    if (props.channel.state === 0) return "Public";
+    if (props.channel.state === 1) return "Private";
+    if (props.channel.state === 2) return "Protected";
   }
 
   function showChangeChannelMode() {
     let state: string = "";
-    if (props.channel.state == 0) state = "Public";
-    if (props.channel.state == 1) state = "Private";
-    if (props.channel.state == 2) state = "Protected";
+    if (props.channel.state === 0) state = "Public";
+    if (props.channel.state === 1) state = "Private";
+    if (props.channel.state === 2) state = "Protected";
     if (state !== newChallengeMode) {
       return classes.ChangeChannelMode;
     }
@@ -282,9 +285,9 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
       props.channel.state !== Scope.protected &&
       newChallengeMode === "Protected"
     ) {
-      if (classname == "SetPassword") {
+      if (classname === "SetPassword") {
         return classes.SetPassword;
-      } else if (classname == "ConfirmSetPassword") {
+      } else if (classname === "ConfirmSetPassword") {
         return classes.ConfirmSetPassword;
       }
     }
@@ -303,18 +306,18 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
 
   //Set Password
   function handleSubmitFormSetPassword(event: any) {
-    if (newChallengeMode == "Public") {
+    if (newChallengeMode === "Public") {
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 0,
       });
-    } else if (newChallengeMode == "Private") {
-      console.log('change to privzte id  = ', props.channel.id);
+    } else if (newChallengeMode === "Private") {
+      console.log("id=",props.channel.id);
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,
       });
-    } else if (newChallengeMode == "Protected") {
+    } else if (newChallengeMode === "Protected") {
       if (setPassword != confirmSetPassword) {
         console.log("Password and confirm password are different");
       } else {

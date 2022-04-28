@@ -59,7 +59,6 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               text,
               user: props.user,
             };
-            props.ws.socket.emit("joinChannel", props.channel);
             if (props.channel !== null) {
               Object.assign(message, { channel: props.channel });
             }
