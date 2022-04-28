@@ -313,6 +313,7 @@ export class ChatGateway
 
   @SubscribeMessage('joinChannel')
   async onJoinChannel(socket: Socket, joinChannel: JoinChannelDto) {
+    if (socket.data.user === undefined) return;
     if (
       joinChannel.channel.id === undefined ||
       joinChannel.channel.id === null

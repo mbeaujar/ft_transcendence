@@ -25,6 +25,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userid, setUserid] = useState<string>('');
+  const [invites, setInvites] = useState<any>([]);
   const [user, setUser] = useState<IUser>();
 
   /** Listen event from backend socket */
@@ -33,11 +34,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ws.socket.on('channels', data => {
       console.log('channels', data);
       setChannels(data);
-    });
-
-    ws.socket.on('connect', () => {
-      console.log('oui');
-      ws.socket.emit('getAllChannels');
     });
 
     ws.socket.on('messages', data => {
@@ -101,7 +97,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
     );
   });
-  const [invites, setInvites] = useState<any>([]);
 
   return (
     <div>
