@@ -1,29 +1,29 @@
 @import "../../../../utils.scss";
 
 .SearchUser {
-    form 
-    {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media screen and (min-width: 651px) {
   .SearchUser {
-    form 
-    {
+    form {
       margin-top: 5vw;
-      width:100%;
-      p 
-      {
+      width: 100%;
+      p {
         font-size: 2vw;
         margin-bottom: 2vw;
         width: 22%;
       }
-      input 
-      {
+      input {
         background-color: $grey2;
         border: 1px solid $grey2;
         border-radius: 3vw;
@@ -35,14 +35,46 @@
       }
     }
 
-    .UserFind
-    {
-      div 
-      {
-        img
-        {
-          width: 10vw;
-          height: 10vw;
+    .UserFind {
+      margin-top: 5vw;
+      border: 0.1vw solid $white1;
+      border-radius: 1vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      height: 15vw;
+      width: 50%;
+      .UserFindLeft {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 8.5%;
+        div {
+          img {
+            width: 10vw;
+            height: 10vw;
+            border-radius: 100%;
+          }
+        }
+        p {
+          margin-top: 5%;
+        }
+      }
+      .UserFindRight {
+        button {
+          width: 80%;
+          font-size: 2vw;
+          background-color: $green1;
+          border: 0.2vw solid $green3;
+          border-radius: 1vw;
+          color: $white1;
+          cursor: pointer;
+          padding: 1vw 0;
+        }
+        button:hover {
+          background-color: $green2;
         }
       }
     }
@@ -51,5 +83,74 @@
 
 @media screen and (max-width: 650px) {
   .SearchUser {
+    form {
+      margin-top: 5vw;
+      width: 100%;
+      p {
+        font-size: 4vw;
+        margin-bottom: 2vw;
+        width: 40%;
+      }
+      input {
+        background-color: $grey2;
+        border: 1px solid $grey2;
+        border-radius: 3vw;
+        outline: none;
+        color: $white1;
+        margin-left: 0;
+        padding: 1vw;
+        font-size: 3vw;
+      }
+    }
+
+    .UserFind {
+      margin-top: 5vw;
+      border: 0.1vw solid $white1;
+      border-radius: 1vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      height: 25vw;
+      width: 50%;
+      .UserFindLeft {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5vw;
+        div {
+          img {
+            width: 12vw;
+            height: 12vw;
+            border-radius: 100%;
+          }
+        }
+        p {
+          margin-top: 5%;
+          font-size: 3vw;
+        }
+      }
+      .UserFindRight {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        button {
+          width: 70%;
+          font-size: 3vw;
+          background-color: $green1;
+          border: 0.2vw solid $green3;
+          border-radius: 1vw;
+          color: $white1;
+          cursor: pointer;
+          padding: 1vw 0;
+        }
+        button:hover {
+          background-color: $green2;
+        }
+      }
+    }
   }
 }

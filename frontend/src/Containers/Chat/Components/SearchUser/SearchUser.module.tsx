@@ -56,8 +56,13 @@ function SearchUser() {
       </form>
       {userToFind ? (
         <div className={classes.UserFind}>
-          <Avatar user={userToFind} />
-          <p>{userToFind.username}</p>
+          <div className={classes.UserFindLeft}>
+            <Avatar user={userToFind} />
+            <p>{userToFind.username}</p>
+          </div>
+          <div className={classes.UserFindRight}>
+            <button>Start Conversation</button>
+          </div>
         </div>
       ) : null}
     </div>
