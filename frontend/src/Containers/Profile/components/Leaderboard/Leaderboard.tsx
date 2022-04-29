@@ -55,8 +55,9 @@ const Leaderboard: React.FC = (): JSX.Element => {
             <div className="Right">
               <p className="Level">{ftSetLevel(user.elo)}</p>
               <p className="Ratio">
-                {user.wins}W / {user.losses}L
-              </p>
+          <span className="Wins">{user.wins}W</span> /{' '}
+          <span className="Losses">{user.losses}L</span>
+        </p>
               <p className="Pongopoints">{user.elo}</p>
             </div>
           </div>
