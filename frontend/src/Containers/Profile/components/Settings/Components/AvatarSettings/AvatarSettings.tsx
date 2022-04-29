@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../../../../apis/api";
 import Avatar from "../../../Avatar/Avatar";
+import { toast } from "react-toastify";
 import "./AvatarSettings.scss";
 
 function AvatarSettings(props: any) {
@@ -47,8 +48,8 @@ function AvatarSettings(props: any) {
       formData.append("file", uploadedFile, selectedFileName);
       api
         .post("/users/avatar/", formData)
-        .then((response) => setRefresh(refresh + 1))
-        .catch((reject) => console.log(reject));
+        .then((response) => {setRefresh(refresh + 1);toast.success("Avatar succesfully change")})
+        .catch((reject) => {console.log(reject);toast.error("Incorrect file format")});
     }
     setUploadedFile(null);
   };
