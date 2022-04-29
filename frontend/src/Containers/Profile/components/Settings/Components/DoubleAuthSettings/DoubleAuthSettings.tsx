@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../../../../apis/api";
 import Dropdown from "../Dropdown/Dropdown.module";
+import { toast } from "react-toastify";
 import "./DoubleAuthSettings.scss";
 
 function DoubleAuthSettings(props: any) {
@@ -44,23 +45,16 @@ function DoubleAuthSettings(props: any) {
       .post("/auth/2fa/enable", { code: twofaCode })
       .then((response) => {
         setTwofaCode("");
-        console.log("success");
+        toast.success("Google authenticator is now enable");
         props.user.isTwoFactorEnabled = true;
         setRefresh(refresh + 1);
       })
       .catch((reject) => {
-        setTwofaCode("");
-        console.log("failure");
-        setInputPlaceholder("Wrong code");
+        toast.error("Wrong code");
       });
-    setTwofaCode("");
   }
 
   function handleChangeEnable2faInProgressCode(event: any) {
-    if (twofaCode === "Wrong code!") {
-      console.log(twofaCode);
-      setTwofaCode("");
-    }
     var value = event.target.value;
     setTwofaCode(value);
   }
@@ -70,16 +64,13 @@ function DoubleAuthSettings(props: any) {
       .post("/auth/2fa/disable", { code: twofaCode })
       .then((response) => {
         setTwofaCode("");
-        console.log("success");
+        toast.success("Google authenticator is now disable");
         props.user.isTwoFactorEnabled = false;
         setRefresh(refresh + 1);
       })
       .catch((reject) => {
-        setTwofaCode("");
-        console.log("failure");
-        setInputPlaceholder("Wrong code");
+        toast.error("Wrong code");
       });
-    setTwofaCode("");
   }
 
   function handleChangeDisable2faInProgressCode(event: any) {
