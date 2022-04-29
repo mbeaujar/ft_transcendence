@@ -1,5 +1,5 @@
 import React from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useState, useEffect, useRef } from "react";
 import classes from "./ChannelSettings.module.scss";
 import { IUser } from "../../../../interface/user.interface";
@@ -119,12 +119,12 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     userToBan = findUser(banUser);
 
     if (userToBan != null) {
-      if (userToBan?.username !== props.user.username)
-      {
-        if (banUserDuration!=="Unlimited")
-        toast.success(userToBan.username + " is ban during " + banUserDuration);
-        else 
-        toast.success(userToBan.username + " is ban");
+      if (userToBan?.username !== props.user.username) {
+        if (banUserDuration !== "Unlimited")
+          toast.success(
+            userToBan.username + " is ban during " + banUserDuration
+          );
+        else toast.success(userToBan.username + " is ban");
       }
       props.ws.socket.emit("banUser", {
         channel: props.channel,
@@ -132,7 +132,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
         milliseconds: time,
       });
     } else {
-      toast.error("Ban : User not found")
+      toast.error("Ban : User not found");
     }
 
     setBanUser("");
@@ -205,8 +205,10 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     let time = setMuteTime();
     userToMute = findUser(muteUser);
     if (userToMute != null) {
-    if (userToMute?.username !== props.user.username)
-    toast.success(userToMute.username+ " is mute during "+ muteUserDuration);
+      if (userToMute?.username !== props.user.username)
+        toast.success(
+          userToMute.username + " is mute during " + muteUserDuration
+        );
       props.ws.socket.emit("muteUser", {
         channel: props.channel,
         user: userToMute,
@@ -225,11 +227,24 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   }
 
   //Unmute User
+
+  function ifUserMute(username: string) {
+    let i = 0;
+    while (props.channel.users[i]) {
+      if (props.channel.users[i].user.username == username)
+        return props.channel.users[i].mute;
+      i++;
+    }
+    return null;
+  }
+
   function handleSubmitFormUnmute(event: any) {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
     if (userToUnmute != null) {
-      toast.success(userToUnmute.username + " is unmute");
+      console.log("res=", ifUserMute(unmuteUser));
+      if (ifUserMute(unmuteUser))
+        toast.success(userToUnmute.username + " is unmute");
       props.ws.socket.emit("unmuteUser", {
         channel: props.channel,
         user: userToUnmute,
@@ -247,15 +262,27 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   }
 
   //New admin
+  function ifUserAdmin(username: string) {
+    let i = 0;
+    while (props.channel.users[i]) {
+      if (props.channel.users[i].user.username == username)
+        return props.channel.users[i].administrator;
+      i++;
+    }
+    return null;
+  }
+
   function handleSubmitFormNewAdmin(event: any) {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
     if (userToPromoteAdmin != null) {
+      if (!ifUserAdmin(newAdmin))
+        toast.success(userToPromoteAdmin.username + " is now admin");
+      else toast.error(userToPromoteAdmin.username + " is already admin");
       props.ws.socket.emit("addAdministrator", {
         channel: props.channel,
         user: userToPromoteAdmin,
       });
-      toast.success(userToPromoteAdmin.username + " is now admin");
     } else {
       toast.error("Admin : User not found");
     }
@@ -317,23 +344,25 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
         id: props.channel.id,
         state: 0,
       });
-      toast.success("Channel is now public")
+      toast.success("Channel is now public");
     } else if (newChallengeMode === "Private") {
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,
       });
-      toast.success("Channel is now private")
+      toast.success("Channel is now private");
     } else if (newChallengeMode === "Protected") {
       if (setPassword != confirmSetPassword) {
         toast.error("Password and confirm password are different");
+      } else if (!setPassword || !confirmSetPassword) {
+        toast.error("Password cannot be an empty string");
       } else {
         props.ws.socket.emit("changeChannelState", {
           id: props.channel.id,
           state: 2,
           password: setPassword,
         });
-        toast.success("Channel is now protected")
+        toast.success("Channel is now protected");
       }
       setSetPassword("");
       setConfirmSetPassword("");
@@ -375,6 +404,8 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   function handleSubmitFormNewPassword(event: any) {
     if (newPassword != confirmNewPassword) {
       toast.error("Password and confirm password are different");
+    } else if (!setPassword || !confirmSetPassword) {
+      toast.error("Password cannot be an empty string");
     } else {
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
