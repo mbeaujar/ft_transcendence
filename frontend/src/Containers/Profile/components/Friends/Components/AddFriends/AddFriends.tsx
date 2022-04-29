@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../../../../apis/api";
+import { toast } from "react-toastify";
 import "./AddFriends.scss";
 import { IFriendsRequest } from "../../../../../../interface/friends-request.interface";
 import Input from "../../../Input/Input";
@@ -20,8 +21,11 @@ function AddFriends(props: any) {
           }
           api
             .post("/friends/add", { username: text })
-            .then((response) => setRefresh(refresh + 1))
-            .catch((reject) => console.log(reject));
+            .then((response) => {
+              setRefresh(refresh + 1);
+              toast.success("Your friend request was sent to " + text);
+            })
+            .catch((reject) => {console.log(reject);toast.error("Your friend request wasn't send")});
         }}
       />
     </div>

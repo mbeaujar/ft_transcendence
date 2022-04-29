@@ -1,24 +1,56 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../../../../apis/api";
+import { toast } from "react-toastify";
 import "./Username.scss";
 
 function Username(props: any) {
   const [activeUsernameBottom, setActiveUsernameBottom] =
     useState<boolean>(true);
-    const [newName, setNewName] = useState<string>(props.user?.username);
-    const [refresh, setRefresh] = useState<number>(0);
+  const [newName, setNewName] = useState<string>(props.user?.username);
+  const [refresh, setRefresh] = useState<number>(0);
 
-    useEffect(()=>{
-      props.setRefresh(props.refresh + 1);
-      props.user.username = newName;
-    },[refresh]);
+  useEffect(() => {
+    props.setRefresh(props.refresh + 1);
+    props.user.username = newName;
+  }, [refresh]);
+
+  function isValidUsername() {
+    let i = 0;
+    while (i < newName.length) {
+      if (
+        !(
+          (newName.charCodeAt(i) >= 48 && newName.charCodeAt(i) <= 57) ||
+          (newName.charCodeAt(i) >= 65 && newName.charCodeAt(i) <= 90) ||
+          (newName.charCodeAt(i) >= 97 && newName.charCodeAt(i) <= 122) ||
+          newName.charCodeAt(i) == 45 ||
+          newName.charCodeAt(i) == 95
+        )
+      ) {
+        return false;
+      }
+      i++;
+    }
+    return true;
+  }
 
   function handleSubmitFormUsername(event: any) {
-    api
-      .post("/users/username", { username: newName })
-      .then((response) => setRefresh(refresh + 1))
-      .catch((reject) => console.error(reject));
-    setActiveUsernameBottom(!activeUsernameBottom);
+    if (isValidUsername() === false)
+      toast.error("Your username can only containe number,letter,- and _");
+    else if (newName.length < 4 || newName.length > 10) {
+      toast.error("Your username must contain between 4 and 10 letters");
+    } else {
+      api
+        .post("/users/username", { username: newName })
+        .then((response) => {
+          setRefresh(refresh + 1);
+          toast.success("Username successfully change");
+        })
+        .catch((reject) => {
+          console.error(reject);
+          toast.error("This username is already choosen");
+        });
+      setActiveUsernameBottom(!activeUsernameBottom);
+    }
     event.preventDefault();
   }
 
