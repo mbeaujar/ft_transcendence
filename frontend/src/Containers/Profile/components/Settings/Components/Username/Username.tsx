@@ -36,8 +36,8 @@ function Username(props: any) {
   function handleSubmitFormUsername(event: any) {
     if (isValidUsername() === false)
       toast.error("Your username can only containe number,letter,- and _");
-    else if (newName.length < 4 || newName.length > 10) {
-      toast.error("Your username must contain between 4 and 10 letters");
+    else if (newName.length < 4 || newName.length > 9) {
+      toast.error("Your username must contain between 4 and 9 letters");
     } else {
       api
         .post("/users/username", { username: newName })
