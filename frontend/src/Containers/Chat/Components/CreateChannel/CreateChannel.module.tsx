@@ -93,12 +93,24 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
             } else if (name.length < 4 || name.length > 9) {
               toast.error("Your channel name must contain between 4 and 9 letters");
             } else {
-              const channel: IChannel = {
-                name,
-                state: scope,
-                password,
-                users: [],
-              };
+              let channel: IChannel;
+              if (scope===Scope.public||scope===Scope.private)
+              {
+                channel = {
+                  name,
+                  state: scope,
+                  users: [],
+                };
+              }
+              else 
+              {
+                channel = {
+                  name,
+                  state: scope,
+                  password,
+                  users: [],
+                };
+              }
               props.socketEmit(channel);
               setName("");
               setPassword("");
