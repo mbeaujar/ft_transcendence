@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -108,6 +110,7 @@ const App: React.FC = (): JSX.Element => {
           </h1>
         )}
       </Router>
+      <ToastContainer theme="colored"/>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from 'react-toastify';
 import { useState, useEffect, useRef } from "react";
 import classes from "./ChannelSettings.module.scss";
 import { IUser } from "../../../../interface/user.interface";
@@ -126,7 +127,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
         milliseconds: time,
       });
     } else {
-      console.log("Ban : User not found");
+      toast.error("Ban : User not found")
     }
 
     setBanUser("");

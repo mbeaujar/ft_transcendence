@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
 import clsx from "clsx";
 import classes from "./Chat.module.scss";
 import { WebSocket } from "./Socket.module";
@@ -71,7 +72,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     });
 
     ws.socket.on('Error', data => {
-      console.log(data);
+      toast.error(data.message);
     });
 
     ws.socket.on('messageAdded', data => {
