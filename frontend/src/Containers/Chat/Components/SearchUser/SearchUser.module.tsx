@@ -6,6 +6,7 @@ import styles from "./SearchUser.module.scss";
 import { IUser } from "../../../../interface/user.interface";
 import api from "../../../../apis/api";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
+import { toast } from "react-toastify";
 
 function SearchUser() {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
@@ -16,15 +17,7 @@ function SearchUser() {
     setSearchUserInput(value);
   }
 
-  function findUser(username: string) {
-    let i = 0;
-    /*while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username == username)
-        return props.channel.users[i].user;
-      i++;
-    }*/
-    return null;
-  }
+
 
   function handleSubmitFormSearchUser(event: any) {
     console.log("userr=", searchUserInput);
@@ -33,7 +26,7 @@ function SearchUser() {
       .then((response) => {
         setUserToFind(response.data);
       })
-      .catch(() => setUserToFind(null));
+      .catch(() => {setUserToFind(null);toast.error("User not find")});
 
     setSearchUserInput("");
     event.preventDefault();
