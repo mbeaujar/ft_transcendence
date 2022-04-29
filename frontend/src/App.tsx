@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -25,7 +25,10 @@ function MainApp(props: IMainProps) {
     <Routes>
       <Route path="/" element={<Game />} />
       <Route path="/Game" element={<Game />} />
-      <Route path="/Chat" element={<Chat user={user}  refresh={refresh} setRefresh={setRefresh}/>} />
+      <Route
+        path="/Chat"
+        element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
+      />
       <Route
         path="/Profile"
         element={
@@ -68,18 +71,11 @@ const App: React.FC = (): JSX.Element => {
       .post("/auth/2fa/authenticate", { code: twofaCode })
       .then((response) => window.location.reload())
       .catch((reject) => {
-        setTwofaCode("");
-        setInputPlaceholder("Wrong code");
+        toast.error("Wrong code");
       });
-    console.log("code:", twofaCode);
-    setTwofaCode("");
   }
 
   function handleChange2faCode(event: any) {
-    if (twofaCode === "Wrong code!") {
-      console.log(twofaCode);
-      setTwofaCode("");
-    }
     var value = event.target.value;
     setTwofaCode(value);
   }
@@ -90,8 +86,7 @@ const App: React.FC = (): JSX.Element => {
         <Header />
         {user ? (
           <MainApp user={user} refresh={refresh} setRefresh={setRefresh} />
-        )
-        : !googleAuth ? (
+        ) : !googleAuth ? (
           <div className="DoubleAuth">
             <img src={googleAuthImg} />
             <input
@@ -110,7 +105,7 @@ const App: React.FC = (): JSX.Element => {
           </h1>
         )}
       </Router>
-      <ToastContainer theme="colored"/>
+      <ToastContainer theme="colored" />
     </div>
   );
 };
