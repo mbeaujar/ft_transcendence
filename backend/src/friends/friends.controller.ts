@@ -52,6 +52,12 @@ export class FriendsController {
   }
 
   @Auth()
+  @Get('/:id')
+  async getFriendsList(@Param('id') id: string) {
+    return this.friendsService.getFriendsList(parseInt(id));
+  }
+
+  @Auth()
   @ApiOperation({ summary: 'Delete a friendship between users' })
   @Delete('/:id')
   async deleteFriendship(

@@ -21,7 +21,7 @@ export class FriendsService {
   ) {}
 
   async getFriendsRequest(id: number): Promise<FriendsRequest[]> {
-    if (id) {
+    if (id !== undefined && id !== null) {
       return this.friendsRequestRepository
         .createQueryBuilder('friends')
         .where('friends.target = :id', { id })
@@ -53,7 +53,9 @@ export class FriendsService {
   }
 
   async getFriendsList(id: number): Promise<Friends> {
-    return this.friendsRepository.findOne({ id });
+    if (id !== undefined && id !== null) {
+      return this.friendsRepository.findOne({ id });
+    }
   }
 
   isAlreadyOnFriendList(user: Friends, target: number): boolean {
