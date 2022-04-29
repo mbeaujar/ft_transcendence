@@ -100,7 +100,12 @@ export class ChatGateway
           user,
           mode: Mode.chat,
         });
-        return this.server.to(socket.id).emit('channels', channels);
+        // const discussion =
+        // await this.channelService.getChannelsDiscussionForUser(user.id);
+        // console.log('connect discussion', discussion);
+        // console.log('connect discussion user', discussion[0].users);
+        // this.server.to(socket.id).emit('discussion', discussion);
+        this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
       return this.disconnect(socket);
@@ -196,9 +201,14 @@ export class ChatGateway
   @SubscribeMessage('createDiscussion')
   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
     if (socket.data.user === undefined) return;
-    const channel = await this.channelService.getChannelByName(
-      discussion.channel.name,
+    // const channel = await this.channelService.getChannelByName(
+    //   discussion.channel.name,
+    // );
+    const channel = await this.channelService.getDiscussion(
+      socket.data.user.id,
+      discussion.user.id,
     );
+    console.log('channel', channel);
     if (channel) {
       this.handleError(socket, 'channel already exist');
     }
@@ -238,10 +248,11 @@ export class ChatGateway
       );
       this.handleError(socket, 'impossible to create user in discussion');
     }
-    const updateChannel = await this.channelService.updateChannel(
+    const updateChannel = await this.channelService.updateWithSaveChannel(
       createdChannel,
       { users: [channelUser, channelUserInvite] },
     );
+    console.log('updateChannel', updateChannel);
     if (!updateChannel) {
       await this.channelService.deleteChannelById(createdChannel.id);
       await this.channelUserService.deleteUserInChannel(
@@ -254,7 +265,17 @@ export class ChatGateway
       );
       this.handleError(socket, 'impossible to update discussion');
     }
-    await this.sendChannelToEveryone(socket.data.user.id);
+    for (const user of updateChannel.users) {
+      const connectedUsers = await this.connectedUserService.findByUserAndMode(
+        user.user,
+        Mode.chat,
+      );
+      if (connectedUsers) {
+        this.server
+          .to(connectedUsers.socketId)
+          .emit('newDiscussion', updateChannel);
+      }
+    }
     await this.switchToChannel(socket, updateChannel);
   }
 

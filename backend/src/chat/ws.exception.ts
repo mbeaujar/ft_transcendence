@@ -17,7 +17,12 @@ export class WsExceptionFilter {
   public handleError(client: Socket, exception: HttpException | WsException) {
     if (exception instanceof HttpException) {
       // handle http exception
-      client.emit('Error', new BadRequestException('password format invalid'));
+      client.emit(
+        'Error',
+        new BadRequestException(
+          JSON.parse(JSON.stringify(exception.getResponse())).message[0],
+        ),
+      );
     } else {
       // handle websocket exception
       // exception already emit before

@@ -47,6 +47,22 @@ export class ChannelService {
     return this.channelRepository.save(newChannel);
   }
 
+  async getDiscussion(userId1: number, userId2: number) {
+    if (
+      userId1 !== undefined &&
+      userId1 !== null &&
+      userId2 !== undefined &&
+      userId2 !== null
+    ) {
+      return this.channelRepository
+        .createQueryBuilder('discussion')
+        .leftJoinAndSelect('discussion.users', 'users')
+        .where('users.id = :userId1', { userId1 })
+        .andWhere('users.id = :userId2', { userId2 })
+        .getOne();
+    }
+  }
+
   async updateWithSaveChannel(
     channel: IChannel,
     attrs: Partial<Channel>,
@@ -85,7 +101,11 @@ export class ChannelService {
 
   async getChannelByName(name: string): Promise<Channel> {
     if (name) {
-      return this.channelRepository.findOne({ name });
+      return this.channelRepository
+        .createQueryBuilder('channel')
+        .where('channel.name = :name', { name })
+        .andWhere('channel.state != :state', { state: State.discussion })
+        .getOne();
     }
   }
 
@@ -131,11 +151,11 @@ export class ChannelService {
   async getChannelsDiscussionForUser(userId: number): Promise<Channel[]> {
     if (userId !== undefined && userId !== null) {
       return this.channelRepository
-        .createQueryBuilder('channel')
-        .leftJoinAndSelect('channel.users', 'users')
-        .leftJoinAndSelect('users.user', 'user')
-        .where('user.id = :userId', { userId })
-        .andWhere('channel.state = :state', { state: State.discussion })
+        .createQueryBuilder('discussion')
+        .leftJoinAndSelect('discussion.users', 'dis_users')
+        .leftJoinAndSelect('dis_users.user', 'dis_user')
+        .where('dis_user.id = :userId', { userId })
+        .andWhere('discussion.state = :state', { state: State.discussion })
         .getMany();
     }
   }
@@ -143,10 +163,10 @@ export class ChannelService {
   async getChannels(userId: number): Promise<Channel[]> {
     if (userId !== undefined && userId !== null) {
       const channels = await this.getChannelsWithoutDiscussion();
-      const channelsDiscussion = await this.getChannelsDiscussionForUser(
-        userId,
-      );
-      channels.push(...channelsDiscussion);
+      // const channelsDiscussion = await this.getChannelsDiscussionForUser(
+      //   userId,
+      // );
+      // channels.push(...channelsDiscussion);
       return channels;
     }
   }

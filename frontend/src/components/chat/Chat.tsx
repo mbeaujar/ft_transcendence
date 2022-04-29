@@ -22,6 +22,7 @@ interface Props {
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
+  const [discussion, setDiscussion] = useState<any>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [userid, setUserid] = useState<string>('');
@@ -42,6 +43,17 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
     ws.socket.on('Error', data => {
       console.log(data);
+    });
+
+    ws.socket.on('discussion', data => {
+      console.log('discussion', data);
+      setDiscussion(data);
+    });
+
+    ws.socket.on('newDiscussion', data => {
+      console.log('newDiscussion', data);
+
+      setDiscussion([...discussion, data]);
     });
 
     ws.socket.on('bannedUsers', data => {
@@ -78,7 +90,11 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             ws.socket.emit('joinChannel', joinChannel);
           }}
         >
-          {channel.name}
+          {channel.state !== Scope.discussion
+            ? channel.name
+            : channel.users[0]?.user?.id === props.user.id
+            ? `Discussion - ${channel.users[1]?.user?.username}`
+            : `Discussion - ${channel.users[0]?.user?.username}`}
         </button>
       </div>
     );
@@ -160,7 +176,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             .catch(reject => console.error(reject));
         }}
       >
-        get invite (click before accept)
+        get invite (click before accept) // const channelsDiscussion = await
+        this.getChannelsDiscussionForUser( // userId, // );
       </button>
       <button
         onClick={() => {
@@ -212,8 +229,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       </button>
       <CreateChannel
         user={props.user}
-        socketEmit={(channel: IChannel) => {
-          ws.socket.emit('createChannel', channel);
+        socketEmit={(message: string, channel: any) => {
+          ws.socket.emit(message, channel);
         }}
       />
       <button

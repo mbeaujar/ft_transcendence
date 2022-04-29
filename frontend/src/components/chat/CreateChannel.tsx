@@ -3,6 +3,7 @@ import { IChannel } from '../interface/channel.interface';
 import { IUser } from '../interface/user.interface';
 import Checkbox from './Checkbox';
 import { Scope } from '../interface/scope.enum';
+import api from '../../apis/api';
 
 interface Props {
   user: IUser;
@@ -12,6 +13,7 @@ interface Props {
 const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [user, setUser] = useState<string>('');
   const [scope, setScope] = useState<Scope>(Scope.public);
 
   return (
@@ -55,6 +57,16 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
           />
         </div>
       ) : null}
+      {scope === Scope.discussion ? (
+        <div>
+          <label>user: </label>
+          <input
+            type="text"
+            value={user}
+            onChange={e => setUser(e.target.value)}
+          />
+        </div>
+      ) : null}
       <div>
         <button
           onClick={() => {
@@ -63,8 +75,22 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
               state: scope,
               users: [],
             };
-            // password,
-            props.socketEmit(channel);
+            if (channel.state === Scope.protected) {
+              channel.password = password;
+            }
+            if (channel.state !== Scope.discussion) {
+              props.socketEmit('createChannel', channel);
+            } else {
+              api
+                .get(`/users/username/${user}`)
+                .then(resp =>
+                  props.socketEmit('createDiscussion', {
+                    channel,
+                    user: resp.data,
+                  })
+                )
+                .catch(reject => console.error(reject));
+            }
             setName('');
             setPassword('');
             setScope(Scope.public);

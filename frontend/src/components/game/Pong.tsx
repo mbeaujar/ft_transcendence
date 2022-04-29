@@ -83,6 +83,7 @@ const Pong = (props: any) => {
     });
     ws.socket.on('listAllGame', data => {
       console.log(data);
+      setListGame(data);
     });
 
     const canvas: any = canvasRef.current;
@@ -130,7 +131,10 @@ const Pong = (props: any) => {
       <button onClick={() => ws.socket.emit('leaveQueue')}>Leave queue</button>
       <button onClick={() => ws.socket.emit('listGame')}>get all game </button>
       <button
-        onClick={() => ws.socket.emit('joinGame', { id: listGame[0].id })}
+        onClick={() => {
+          console.log('spectate', listGame);
+          ws.socket.emit('joinGame', { id: listGame[0].id });
+        }}
       >
         Spectate Game
       </button>

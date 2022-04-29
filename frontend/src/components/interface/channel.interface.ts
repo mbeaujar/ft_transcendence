@@ -5,5 +5,5 @@ export interface IChannel {
   name: string;
   state: number;
   password?: string;
-  users: IUser[];
+  users: any;
 }
