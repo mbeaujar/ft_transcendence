@@ -21,7 +21,7 @@ function ftSetLevel(pongopoints: number) {
 }
 
 const Leaderboard: React.FC = (): JSX.Element => {
-  const [leaderboard, setLeaderboard] = useState([]);
+  const [leaderboard, setLeaderboard] = useState<any>([]);
 
   useEffect(() => {
     api
@@ -45,19 +45,24 @@ const Leaderboard: React.FC = (): JSX.Element => {
       </div>
 
       <div className="Users">
-        {leaderboard.map((user: any,index:number) => (
-          <div className="User">
+        {leaderboard.map((user: any, index: number) => (
+          <div className="User" key={index}>
             <div className="UserLeft">
-              <p className="Rank">{index+1}</p>
+              <p className="Rank">
+                {leaderboard[index - 1] &&
+                leaderboard[index - 1].elo === leaderboard[index].elo
+                  ? "-"
+                  : index + 1}
+              </p>
               <Avatar user={user} />
               <p className="Username">{user.username}</p>
             </div>
             <div className="Right">
               <p className="Level">{ftSetLevel(user.elo)}</p>
               <p className="Ratio">
-          <span className="Wins">{user.wins}W</span> /{' '}
-          <span className="Losses">{user.losses}L</span>
-        </p>
+                <span className="Wins">{user.wins}W</span> /{" "}
+                <span className="Losses">{user.losses}L</span>
+              </p>
               <p className="Pongopoints">{user.elo}</p>
             </div>
           </div>
