@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../apis/api';
-import clsx from 'clsx';
-import classes from './OtherUserProfile.module.scss';
-import { IUser } from '../../interface/user.interface';
-import { IFriends } from '../../interface/friends.interface';
-import Avatar from '../Profile/components/Avatar/Avatar';
+import React, { useEffect, useState } from "react";
+import api from "../../apis/api";
+import clsx from "clsx";
+import classes from "./OtherUserProfile.module.scss";
+import { IUser } from "../../interface/user.interface";
+import { IFriends } from "../../interface/friends.interface";
+import Avatar from "../Profile/components/Avatar/Avatar";
 
 interface Props {
   user: IUser;
@@ -12,14 +12,31 @@ interface Props {
 
 const OtherUserProfile: React.FC<Props> = (props: Props): JSX.Element => {
   const [friendsList, setFriendsList] = useState<IFriends>();
-  const [refresh, setRefresh] = useState<number>(0);
+  const [user,setUser] = useState<IUser|null>(null);
+
+  function getUser() {
+    let path = window.location.pathname;
+    let cutPath = path.split("/");
+    console.log("cutPath==", cutPath);
+    if (cutPath.length != 3) {
+      setUser(null);
+      return;
+    }
+    api
+    .get(`/users/username/${cutPath[2]}`)
+    .then((response) => {
+      setUser(response.data);
+    })
+    .catch(() => {setUser(null);});
+  }
 
   useEffect(() => {
+    getUser();
     api
-      .get('/friends/list')
+      .get("/friends/list")
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
-  }, [refresh]);
+  }, []);
 
   return (
     <div className={classes.OtherUserProfile}>

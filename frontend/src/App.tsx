@@ -36,7 +36,7 @@ function MainApp(props: IMainProps) {
         }
       />
       <Route
-        path="/OtherUserProfile"
+        path="/OtherUserProfile/:name"
         element={<OtherUserProfile user={user} />}
       />
     </Routes>
