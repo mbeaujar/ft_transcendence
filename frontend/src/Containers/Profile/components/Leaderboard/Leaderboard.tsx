@@ -45,10 +45,10 @@ const Leaderboard: React.FC = (): JSX.Element => {
       </div>
 
       <div className="Users">
-        {leaderboard.map((user: any) => (
+        {leaderboard.map((user: any,index:number) => (
           <div className="User">
             <div className="UserLeft">
-              <p className="Rank">1</p>
+              <p className="Rank">{index+1}</p>
               <Avatar user={user} />
               <p className="Username">{user.username}</p>
             </div>

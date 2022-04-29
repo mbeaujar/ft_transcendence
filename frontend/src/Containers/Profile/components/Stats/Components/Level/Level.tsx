@@ -96,7 +96,7 @@ function Level(props: Props) {
         <img id="imgLevelElement" src={imgLevel.get(actualLevel)}></img>
       </div>
       <div className="Bottom">
-        <p>ELITE 1</p>
+        <p>{actualLevel}</p>
       </div>
     </div>
   );
