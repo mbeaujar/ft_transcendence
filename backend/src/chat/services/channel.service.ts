@@ -47,6 +47,16 @@ export class ChannelService {
     return this.channelRepository.save(newChannel);
   }
 
+  async updateWithSaveChannel(
+    channel: IChannel,
+    attrs: Partial<Channel>,
+  ): Promise<Channel> {
+    if (channel && attrs) {
+      Object.assign(channel, attrs);
+      return this.channelRepository.save(channel);
+    }
+  }
+
   async updateChannel(
     channel: IChannel,
     attrs: Partial<Channel>,

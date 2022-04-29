@@ -61,9 +61,9 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
             const channel: IChannel = {
               name,
               state: scope,
-              password,
               users: [],
             };
+            // password,
             props.socketEmit(channel);
             setName('');
             setPassword('');

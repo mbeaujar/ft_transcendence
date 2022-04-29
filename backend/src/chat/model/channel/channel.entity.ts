@@ -10,7 +10,7 @@ export class Channel {
   @Column()
   state: number;
 
-  @Column({ select: false })
+  @Column({ select: false, nullable: true })
   password: string;
 
   @Column({ unique: true })

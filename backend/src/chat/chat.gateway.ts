@@ -286,7 +286,7 @@ export class ChatGateway
       await this.channelService.deleteChannelById(createdChannel.id);
       this.handleError(socket, 'impossible to create user in discussion');
     }
-    const updatedChannel = await this.channelService.updateChannel(
+    const updatedChannel = await this.channelService.updateWithSaveChannel(
       createdChannel,
       {
         users: [channelUser],
