@@ -93,8 +93,7 @@ export class ChatGateway
         return this.disconnect(socket);
       } else {
         socket.data.user = user;
-        // const channels = await this.channelService.getChannels(user.id);
-        const channels = await this.channelService.getChannelsForUser(user.id);
+        const channels = await this.channelService.getChannels(user.id);
         await this.connectedUserService.deleteByUser(user);
         await this.connectedUserService.create({
           socketId: socket.id,
@@ -200,16 +199,12 @@ export class ChatGateway
   @SubscribeMessage('createDiscussion')
   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
     if (socket.data.user === undefined) return;
-    // const channel = await this.channelService.getChannelByName(
-    //   discussion.channel.name,
-    // );
     const channel = await this.channelService.getDiscussion(
       socket.data.user.id,
       discussion.user.id,
     );
-    console.log('channel', channel);
     if (channel) {
-      this.handleError(socket, 'channel already exist');
+      this.handleError(socket, 'discussion already exist');
     }
     const createdChannel = await this.channelService.createChannel(
       discussion.channel,
@@ -251,7 +246,6 @@ export class ChatGateway
       createdChannel,
       { users: [channelUser, channelUserInvite] },
     );
-    console.log('updateChannel', updateChannel);
     if (!updateChannel) {
       await this.channelService.deleteChannelById(createdChannel.id);
       await this.channelUserService.deleteUserInChannel(

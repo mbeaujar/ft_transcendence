@@ -47,6 +47,15 @@ export class ChannelService {
     return this.channelRepository.save(newChannel);
   }
 
+  // .createQueryBuilder('channel')
+  // .leftJoin('channel.users', 'users')
+  // .leftJoin('users.user', 'user')
+  // .where('user.id = :userId', { userId })
+  // .leftJoinAndSelect('channel.users', 'all_users')
+  // .leftJoinAndSelect('all_users.user', 'all_user')
+  // .andWhere('channel.state = :state', { state: State.discussion })
+  // .getMany();
+
   async getDiscussion(userId1: number, userId2: number) {
     if (
       userId1 !== undefined &&
@@ -56,10 +65,13 @@ export class ChannelService {
     ) {
       return this.channelRepository
         .createQueryBuilder('discussion')
-        .leftJoinAndSelect('discussion.users', 'users')
-        .leftJoinAndSelect('users.user', 'user')
-        .where('user.id = :userId1', { userId1 })
-        .andWhere('user.id = :userId2', { userId2 })
+        .where('discussion.state = :state', { state: State.discussion })
+        .leftJoin('discussion.users', 'users')
+        .leftJoin('users.user', 'user')
+        .andWhere('user.id = :userId1', { userId1 })
+        .leftJoinAndSelect('discussion.users', 'all_users')
+        .leftJoinAndSelect('all_users.user', 'all_user')
+        .andWhere('all_user.id = :userId2', { userId2 })
         .getOne();
     }
   }
@@ -182,6 +194,7 @@ export class ChannelService {
         .leftJoin('users.user', 'user')
         .where('user.id = :userId', { userId })
         .leftJoinAndSelect('channel.users', 'all_users')
+        .andWhere('channel.state != :state', { state: State.discussion })
         .getMany();
     }
   }
