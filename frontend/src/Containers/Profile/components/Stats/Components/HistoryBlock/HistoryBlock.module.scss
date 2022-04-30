@@ -1,0 +1,198 @@
+@import "../../../../../../utils.scss";
+
+@media screen and (min-width: 651px) {
+  .HistoryBlock {
+    margin-top: -20px;
+    margin-top: -2.25%;
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 1.5vw;
+    h3 {
+      background-color: $grey6;
+      padding: 3px 10px;
+      padding: 0.3vw 1vw;
+      border-radius: 5px;
+      border-radius: 0.4vw;
+      color: $white1;
+      font-size: 1.3vw;
+    }
+    width: 35vw;
+    ::-webkit-scrollbar {
+      width: 0vw;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: $blue6;
+      border-radius: 1.5vw;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: $blue5;
+      border: 0.01vw solid $black2;
+      border-radius: 1.5vw;
+    }
+    .History {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      min-width: 30vw;
+      max-width: 30vw;
+      min-height: 75%;
+      max-height: 75%;
+      background-color: $grey6;
+      margin-top: -4%;
+      border-radius: 1.5vw;
+      .MatchsList {
+        overflow-y: auto;
+        width: 92%;
+        height: 98%;
+        .Match {
+          width: 100%;
+          min-height: 35%;
+          max-height: 35%;
+          border-bottom: 1px solid $grey2;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          h4 {
+            width: 12%;
+            font-size: 1.3vw;
+            padding: 0.5vw;
+            border-right: 0.25vw solid $white1;
+          }
+          .MatchUserLeft,
+          .MatchUserRight {
+            width: 40%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            div {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              width: 19%;
+              height: 3vw;
+              img {
+                width: 2vw;
+                min-height: 2vw;
+                max-height: 2vw;
+                border-radius: 100%;
+              }
+            }
+            .Username {
+              min-width: 40%;
+              max-width: 40%;
+              font-size: 1vw;
+            }
+            .UsernameLeft {
+              span {
+                text-align: center;
+                width: 100%;
+              }
+            }
+            .UsernameRight {
+              span {
+                text-align: center;
+                width: 100%;
+              }
+            }
+            .ImgLevelElementRight {
+              width: 2vw;
+              margin-left: 2%;
+            }
+            .ImgLevelElementLeft {
+              width: 2vw;
+              margin-right: 2%;
+            }
+
+            .Score {
+              font-size: 1.5vw;
+            }
+            .ScoreWinner {
+              color: $green3;
+            }
+            .ScoreLoser {
+              color: $red2;
+            }
+          }
+          .ScoreSeparator 
+          {
+            font-size: 2vw;
+            padding-bottom: 0.5vw;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .HistoryBlock {
+    width: 91%;
+    min-height: 89vw;
+    min-height: 89vw;
+    margin-top: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 2.5vw;
+    h3 {
+      background-color: $grey6;
+      padding: 2vw 2vw;
+      border-radius: 1vw;
+      color: $white1;
+      font-size: 3.5vw;
+      margin-top: -7.5%;
+      margin-bottom: 0;
+    }
+    .History {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 92%;
+      min-height: 75%;
+      max-height: 75%;
+      background-color: $grey6;
+      margin-top: -20%;
+      border-radius: 2.5vw;
+
+      .Match {
+        display: flex;
+        flex-direction: row;
+        h4 {
+        }
+        .MatchUserLeft,
+        .MatchUserRight {
+          div {
+            width: 10%;
+            height: 3vw;
+            img {
+              max-width: 1vw;
+              max-height: 1vw;
+              border-radius: 100%;
+            }
+          }
+          .ImgLevelElement {
+            max-width: 1vw;
+            max-height: 1vw;
+          }
+          .Score {
+          }
+        }
+        .ScoreSeparator {
+        }
+      }
+    }
+  }
+}

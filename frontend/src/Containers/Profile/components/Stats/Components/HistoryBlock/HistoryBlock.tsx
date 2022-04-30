@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./HistoryBlock.scss";
+import styles from "./HistoryBlock.module.scss";
+import classes from "./HistoryBlock.module.scss"
+import clsx from "clsx";
 import api from "../../../../../../apis/api";
 import { IUser } from "../../../../../../interface/user.interface";
 import Avatar from "../../../Avatar/Avatar";
@@ -86,28 +88,45 @@ function HistoryBlock(props: Props) {
       .catch((reject) => console.error(reject));
   }, []);
 
+  function divScore(score1: number, score2: number) {
+    if (score1 < score2) return classes.ScoreLoser;
+    return classes.ScoreWinner;
+  }
+
   return (
-    <div className="HistoryBlock">
-      <h3 className="title">History</h3>
-      <div className="History">
-        {historic.map((match: any, index: number) => (
-          <div className={"Match"} key={index}>
-            <h4>26/04</h4>
-            <div className="MatchUserLeft">
-              <Avatar user={match.players[0].user} />
-              <p className="Username UsernameLeft">{match.players[0].user.username}</p>
-              <img className="ImgLevelElement" src={imgLevel.get(ftSetLevel(match.players[0].elo))}></img>
-              <p className="Score">{match.players[0].score}</p>
+    <div className={classes.HistoryBlock}>
+      <h3 className={classes.title}>History</h3>
+      <div className={classes.History}>
+        <div className={classes.MatchsList}>
+          {historic.map((match: any, index: number) => (
+            <div className={classes.Match} key={index}>
+              <h4>26/04</h4>
+              <div className={classes.MatchUserLeft}>
+                <Avatar user={match.players[0].user} />
+                <p className={clsx(classes.Username, classes.UsernameLeft)}>
+                  <span>{match.players[0].user.username}</span>
+                </p>
+                <img
+                  className={clsx(classes.ImgLevelElement, classes.ImgLevelElementLeft)}
+                  src={imgLevel.get(ftSetLevel(match.players[0].elo))}
+                ></img>
+                <p className={clsx(classes.Score, divScore(match.players[0].score,match.players[1].score))}>{match.players[0].score}</p>
+              </div>
+              <p className={classes.ScoreSeparator}>-</p>
+              <div className={classes.MatchUserRight}>
+                <p className={clsx(classes.Score,divScore(match.players[1].score,match.players[0].score))}>{match.players[1].score}</p>
+                <img
+                  className={clsx(classes.ImgLevelElement, classes.ImgLevelElementRight)}
+                  src={imgLevel.get(ftSetLevel(match.players[1].elo))}
+                ></img>
+                <p className={clsx(classes.Username, classes.UsernameRight)}>
+                  <span>{match.players[1].user.username}</span>
+                </p>
+                <Avatar user={match.players[1].user} />
+              </div>
             </div>
-            <p className="ScoreSeparator">-</p>
-            <div className="MatchUserRight">
-              <p className="Score">{match.players[1].score}</p>
-              <img className="ImgLevelElement " src={imgLevel.get(ftSetLevel(match.players[1].elo))}></img>
-              <p className="Username UsernameRight">{match.players[1].user.username}</p>
-              <Avatar user={match.players[1].user} />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
