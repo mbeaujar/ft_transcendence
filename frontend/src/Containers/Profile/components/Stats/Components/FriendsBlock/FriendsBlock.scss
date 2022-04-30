@@ -3,7 +3,10 @@
 @media screen and (min-width: 651px) {
 .FriendsBlock {
   margin-top: -2.25%;
-  width: 48%;
+  //width: 48%;
+  min-width: 26vw;
+  max-width: 26vw;
+  margin-left: -2vw;
   height: 100%;
   display: flex;
   flex-direction: column;

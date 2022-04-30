@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: space-around;
     border-radius: 1.5vw;
+    margin-left: -1.5vw;
     h3 {
       background-color: $grey6;
       padding: 3px 10px;
@@ -24,12 +25,12 @@
     ::-webkit-scrollbar {
       width: 0vw;
     }
-    
+
     ::-webkit-scrollbar-track {
       background: $blue6;
       border-radius: 1.5vw;
     }
-    
+
     ::-webkit-scrollbar-thumb {
       background-color: $blue5;
       border: 0.01vw solid $black2;
@@ -52,6 +53,9 @@
         overflow-y: auto;
         width: 92%;
         height: 98%;
+        .Match:last-child {
+          border-bottom: none;
+        }
         .Match {
           width: 100%;
           min-height: 35%;
@@ -124,8 +128,7 @@
               color: $red2;
             }
           }
-          .ScoreSeparator 
-          {
+          .ScoreSeparator {
             font-size: 2vw;
             padding-bottom: 0.5vw;
           }
