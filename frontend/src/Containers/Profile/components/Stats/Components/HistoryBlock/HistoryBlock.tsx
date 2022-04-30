@@ -93,6 +93,20 @@ function HistoryBlock(props: Props) {
     return classes.ScoreWinner;
   }
 
+  function getMatchDay(matchDate:string)
+  {
+    let cutDate = matchDate.split('T');
+    let cutDate2= cutDate[0].split('-')
+    return (cutDate2[2]);
+  }
+
+  function getMatchMounth(matchDate:string)
+  {
+    let cutDate = matchDate.split('T');
+    let cutDate2= cutDate[0].split('-')
+    return (cutDate2[1]);
+  }
+
   return (
     <div className={classes.HistoryBlock}>
       <h3 className={classes.title}>History</h3>
@@ -100,7 +114,7 @@ function HistoryBlock(props: Props) {
         <div className={classes.MatchsList}>
           {historic.map((match: any, index: number) => (
             <div className={classes.Match} key={index}>
-              <h4>26/04</h4>
+              <h4>{getMatchDay(match.created_at)}/{getMatchMounth(match.created_at)}</h4>
               <div className={classes.MatchUserLeft}>
                 <Avatar user={match.players[0].user} />
                 <p className={clsx(classes.Username, classes.UsernameLeft)}>
