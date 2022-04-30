@@ -44,12 +44,12 @@ function Username(props: any) {
         .then((response) => {
           setRefresh(refresh + 1);
           toast.success("Username successfully change");
+          setActiveUsernameBottom(!activeUsernameBottom);
         })
         .catch((reject) => {
           console.error(reject);
           toast.error("This username is already choosen");
         });
-      setActiveUsernameBottom(!activeUsernameBottom);
     }
     event.preventDefault();
   }

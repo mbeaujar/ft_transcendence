@@ -41,14 +41,14 @@ function AvatarSettings(props: any) {
   };
 
   const validNewAvatar = () => {
-    setActiveAvatarBottom(!activeAvatarBottom);
+    
     setSelectedFileName("Choose a file...");
     if (uploadedFile) {
       const formData = new FormData();
       formData.append("file", uploadedFile, selectedFileName);
       api
         .post("/users/avatar/", formData)
-        .then((response) => {setRefresh(refresh + 1);toast.success("Avatar succesfully change")})
+        .then((response) => {setRefresh(refresh + 1);toast.success("Avatar succesfully change");setActiveAvatarBottom(!activeAvatarBottom);})
         .catch((reject) => {console.log(reject);toast.error("Incorrect file format")});
     }
     setUploadedFile(null);
