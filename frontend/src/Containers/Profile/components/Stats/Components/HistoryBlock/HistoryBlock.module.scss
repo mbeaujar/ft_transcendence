@@ -170,30 +170,89 @@
       margin-top: -20%;
       border-radius: 2.5vw;
 
-      .Match {
-        display: flex;
-        flex-direction: row;
-        h4 {
+      .MatchsList {
+        overflow-y: auto;
+        width: 92%;
+        height: 98%;
+        .Match:last-child {
+          border-bottom: none;
         }
-        .MatchUserLeft,
-        .MatchUserRight {
-          div {
-            width: 10%;
-            height: 3vw;
-            img {
-              max-width: 1vw;
-              max-height: 1vw;
-              border-radius: 100%;
+        .Match {
+          width: 100%;
+          min-height: 18%;
+          max-height: 18%;
+          border-bottom: 1px solid $grey2;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+          h4 {
+            width: 15%;
+            font-size: 3.5vw;
+            padding: 0.5vw;
+            border-right: 0.25vw solid $white1;
+          }
+          .MatchUserLeft,
+          .MatchUserRight {
+            width: 40%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            div {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              width: 19%;
+              height: 3vw;
+              img {
+                width: 5vw;
+                min-height: 5vw;
+                max-height: 5vw;
+                border-radius: 100%;
+              }
+            }
+            .Username {
+              min-width: 40%;
+              max-width: 40%;
+              font-size: 2vw;
+            }
+            .UsernameLeft {
+              span {
+                text-align: center;
+                width: 100%;
+              }
+            }
+            .UsernameRight {
+              span {
+                text-align: center;
+                width: 100%;
+              }
+            }
+            .ImgLevelElementRight {
+              width: 5vw;
+              margin-left: 2%;
+            }
+            .ImgLevelElementLeft {
+              width: 5vw;
+              margin-right: 2%;
+            }
+
+            .Score {
+              font-size: 3vw;
+            }
+            .ScoreWinner {
+              color: $green3;
+            }
+            .ScoreLoser {
+              color: $red2;
             }
           }
-          .ImgLevelElement {
-            max-width: 1vw;
-            max-height: 1vw;
+          .ScoreSeparator {
+            font-size: 3vw;
+            padding-bottom: 0.5vw;
           }
-          .Score {
-          }
-        }
-        .ScoreSeparator {
         }
       }
     }
