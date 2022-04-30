@@ -93,18 +93,17 @@ export class ChatGateway
         return this.disconnect(socket);
       } else {
         socket.data.user = user;
-        const channels = await this.channelService.getChannels(user.id);
+        // const channels = await this.channelService.getChannels(user.id);
+        const channels = await this.channelService.getChannelsForUser(user.id);
         await this.connectedUserService.deleteByUser(user);
         await this.connectedUserService.create({
           socketId: socket.id,
           user,
           mode: Mode.chat,
         });
-        // const discussion =
-        // await this.channelService.getChannelsDiscussionForUser(user.id);
-        // console.log('connect discussion', discussion);
-        // console.log('connect discussion user', discussion[0].users);
-        // this.server.to(socket.id).emit('discussion', discussion);
+        const discussion =
+          await this.channelService.getChannelsDiscussionForUser(user.id);
+        this.server.to(socket.id).emit('discussion', discussion);
         this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {

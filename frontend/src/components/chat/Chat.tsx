@@ -176,8 +176,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             .catch(reject => console.error(reject));
         }}
       >
-        get invite (click before accept) // const channelsDiscussion = await
-        this.getChannelsDiscussionForUser( // userId, // );
+        get invite (click before accept)
       </button>
       <button
         onClick={() => {

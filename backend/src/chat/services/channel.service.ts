@@ -57,8 +57,9 @@ export class ChannelService {
       return this.channelRepository
         .createQueryBuilder('discussion')
         .leftJoinAndSelect('discussion.users', 'users')
-        .where('users.id = :userId1', { userId1 })
-        .andWhere('users.id = :userId2', { userId2 })
+        .leftJoinAndSelect('users.user', 'user')
+        .where('user.id = :userId1', { userId1 })
+        .andWhere('user.id = :userId2', { userId2 })
         .getOne();
     }
   }
@@ -151,11 +152,13 @@ export class ChannelService {
   async getChannelsDiscussionForUser(userId: number): Promise<Channel[]> {
     if (userId !== undefined && userId !== null) {
       return this.channelRepository
-        .createQueryBuilder('discussion')
-        .leftJoinAndSelect('discussion.users', 'dis_users')
-        .leftJoinAndSelect('dis_users.user', 'dis_user')
-        .where('dis_user.id = :userId', { userId })
-        .andWhere('discussion.state = :state', { state: State.discussion })
+        .createQueryBuilder('channel')
+        .leftJoin('channel.users', 'users')
+        .leftJoin('users.user', 'user')
+        .where('user.id = :userId', { userId })
+        .leftJoinAndSelect('channel.users', 'all_users')
+        .leftJoinAndSelect('all_users.user', 'all_user')
+        .andWhere('channel.state = :state', { state: State.discussion })
         .getMany();
     }
   }
