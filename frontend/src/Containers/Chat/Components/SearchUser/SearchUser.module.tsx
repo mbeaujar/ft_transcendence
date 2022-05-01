@@ -7,8 +7,9 @@ import { IUser } from "../../../../interface/user.interface";
 import api from "../../../../apis/api";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { toast } from "react-toastify";
+import { IChannel } from "../../../../interface/channel.interface";
 
-function SearchUser() {
+function SearchUser(props:any) {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
 
@@ -30,6 +31,20 @@ function SearchUser() {
 
     setSearchUserInput("");
     event.preventDefault();
+  }
+
+  function ftCreateDiscussion()
+  {
+    const channel: IChannel = {
+      name:"DM",
+      state: 3,
+      users: [],
+    };
+
+    props.ws.socketEmit('createDiscussion', {
+      channel,
+      user: userToFind,
+    })
   }
 
   return (
@@ -54,7 +69,7 @@ function SearchUser() {
             <p>{userToFind.username}</p>
           </div>
           <div className={classes.UserFindRight}>
-            <button>Start Conversation</button>
+            <button onClick={()=>ftCreateDiscussion()}>Start Conversation</button>
           </div>
         </div>
       ) : null}

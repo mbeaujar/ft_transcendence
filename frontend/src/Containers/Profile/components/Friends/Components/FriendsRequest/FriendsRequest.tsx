@@ -55,66 +55,6 @@ function FriendsRequest(props: any) {
               </button>
             </div>
           ))}
-          <div className="friendsRequestsElement" >
-            <div>
-              <img
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"
-                }
-              />
-            </div>
-            <p>Sommecaise</p>
-            <button className="accept">Accept</button>
-            <button className="refuse">Refuse</button>
-          </div>
-          <div className="friendsRequestsElement" >
-            <div>
-              <img
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"
-                }
-              />
-            </div>
-            <p>Sommecaise</p>
-            <button className="accept">Accept</button>
-            <button className="refuse">Refuse</button>
-          </div>
-          <div className="friendsRequestsElement" >
-            <div>
-              <img
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"
-                }
-              />
-            </div>
-            <p>Sommecaise</p>
-            <button className="accept">Accept</button>
-            <button className="refuse">Refuse</button>
-          </div>
-          <div className="friendsRequestsElement" >
-            <div>
-              <img
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"
-                }
-              />
-            </div>
-            <p>Sommecaise</p>
-            <button className="accept">Accept</button>
-            <button className="refuse">Refuse</button>
-          </div>
-          <div className="friendsRequestsElement" >
-            <div>
-              <img
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSppkq9EOR9dtyDFm5mDlJ0-eJ2ddp8G9MSVw&usqp=CAU"
-                }
-              />
-            </div>
-            <p>Sommecaise</p>
-            <button className="accept">Accept</button>
-            <button className="refuse">Refuse</button>
-          </div>
         </div>
       )}
     </div>

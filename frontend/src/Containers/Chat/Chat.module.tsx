@@ -24,6 +24,7 @@ interface Props {
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
+  const [discussion, setDiscussion] = useState<any>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
 
@@ -35,49 +36,38 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [showChatLeft, setShowChatLeft] = useState(true);
   const [showChatRight, setShowChatRight] = useState(false);
 
-  /*useEffect(() => {
-    ws.socket.emit("getAllChannels");
 
-    ws.socket.on("channels", (data) => {
-      setChannels(data);
-    });
-
-    ws.socket.on("messages", (data) => {
-      setMessages(data);
-    });
-
-    ws.socket.on("messageAdded", (data) => {
-      setMessages((prev) => [...prev, data]);
-    });
-
-    ws.socket.on("currentChannel", (data) => {
-      setChannelChoose(data);
-    });
-
-  }, []);*/
 
   useEffect(() => {
     ws.connect();
-    /*ws.socket.on('connect',() => {
-      ws.socket.emit('getAllChannels');
-    });*/
 
     ws.socket.on('channels', data => {
       //console.log('channels', data);
       setChannels(data);
     });
 
-    ws.socket.on('messages', data => {
-      setMessages(data);
+    ws.socket.on('discussion', data => {
+      console.log('discussion', data);
+      setDiscussion(data);
     });
 
-    ws.socket.on('Error', data => {
-      toast.error(data.message);
+    ws.socket.on('newDiscussion', data => {
+      console.log('newDiscussion', data);
+
+      setDiscussion([...discussion, data]);
+    });
+
+    ws.socket.on('messages', data => {
+      setMessages(data);
     });
 
     ws.socket.on('messageAdded', data => {
       setMessages(prev => [...prev, data]);
     });
+    ws.socket.on('Error', data => {
+      toast.error(data.message);
+    });
+
     ws.socket.on('currentChannel', data => {
       //console.log('currentChannel', data);
       setChannelChoose(data);
@@ -144,7 +134,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           />
         );
       } else return <p></p>;
-    else if (activeChatMenu === "SearchUser") return <SearchUser />;
+    else if (activeChatMenu === "SearchUser") return <SearchUser ws={ws}/>;
     else if (activeChatMenu === "JoinChannel") {
       return (
         <JoinChannel
