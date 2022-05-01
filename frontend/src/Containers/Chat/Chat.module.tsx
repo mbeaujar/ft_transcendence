@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import clsx from "clsx";
 import classes from "./Chat.module.scss";
 import { WebSocket } from "./Socket.module";
@@ -12,6 +12,7 @@ import Discussion from "./Components/Discussion/Discussion.module";
 import { IMessage } from "../../interface/message.interface";
 import { IJoinChannel } from "../../interface/join-channel.interface";
 import ChannelSettings from "./Components/ChannelSettings/ChannelSettings.module";
+import { Scope } from "../../interface/scope.enum";
 
 const ws = new WebSocket("http://localhost:3000/chat");
 ws.disconnect();
@@ -36,39 +37,37 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [showChatLeft, setShowChatLeft] = useState(true);
   const [showChatRight, setShowChatRight] = useState(false);
 
-
-
   useEffect(() => {
     ws.connect();
 
-    ws.socket.on('channels', data => {
+    ws.socket.on("channels", (data) => {
       //console.log('channels', data);
       setChannels(data);
     });
 
-    ws.socket.on('discussion', data => {
-      console.log('discussion', data);
+    ws.socket.on("discussion", (data) => {
+      console.log("discussion", data);
       setDiscussion(data);
     });
 
-    ws.socket.on('newDiscussion', data => {
-      console.log('newDiscussion', data);
+    ws.socket.on("newDiscussion", (data) => {
+      console.log("newDiscussion", data);
 
       setDiscussion([...discussion, data]);
     });
 
-    ws.socket.on('messages', data => {
+    ws.socket.on("messages", (data) => {
       setMessages(data);
     });
 
-    ws.socket.on('messageAdded', data => {
-      setMessages(prev => [...prev, data]);
+    ws.socket.on("messageAdded", (data) => {
+      setMessages((prev) => [...prev, data]);
     });
-    ws.socket.on('Error', data => {
+    ws.socket.on("Error", (data) => {
       toast.error(data.message);
     });
 
-    ws.socket.on('currentChannel', data => {
+    ws.socket.on("currentChannel", (data) => {
       //console.log('currentChannel', data);
       setChannelChoose(data);
     });
@@ -79,7 +78,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       // ws?.socket.on('disconnect', () => {});
     };
   }, []);
-  
+
   useEffect(() => {
     ftChannelJoin();
   }, [channels]);
@@ -105,7 +104,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayJoinChannel = () => {
     return channelsJoin.map((channel: IChannel) => (
       <p
-      className={classes.ChannelName}
+        className={classes.ChannelName}
         key={channel.id}
         onClick={() => {
           const joinChannel: IJoinChannel = {
@@ -116,6 +115,26 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         }}
       >
         {channel.name}
+      </p>
+    ));
+  };
+
+  const ftDisplayDM = () => {
+    return discussion.map((channel: IChannel) => (
+      <p
+        className={classes.DMName}
+        key={channel.id}
+        onClick={() => {
+          const joinChannel: IJoinChannel = {
+            channel,
+          };
+          ws.socket.emit("joinChannel", joinChannel);
+          /*setShowChatLeft(!showChatLeft);*/
+        }}
+      >
+        {channel.users[0]?.user?.id === props.user.id
+            ? `${channel.users[1]?.user?.username}`
+            : `${channel.users[0]?.user?.username}`}
       </p>
     ));
   };
@@ -134,7 +153,14 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           />
         );
       } else return <p></p>;
-    else if (activeChatMenu === "SearchUser") return <SearchUser ws={ws}/>;
+    else if (activeChatMenu === "SearchUser")
+      return (
+        <SearchUser
+          socketEmit={(channel: IChannel) => {
+            ws.socket.emit("createChannel", channel);
+          }}
+        />
+      );
     else if (activeChatMenu === "JoinChannel") {
       return (
         <JoinChannel
@@ -156,7 +182,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const ftActiveChatMenuRight = () => {
-    if (channelChoose) {
+    if (channelChoose && channelChoose.state!==Scope.discussion) {
       return (
         <ChannelSettings
           user={props.user}
@@ -242,14 +268,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <h3 className={clsx(classes.Channels)}>Channels</h3>
           {ftDisplayJoinChannel()}
           <h3 className={clsx(classes.Messages)}>Messages</h3>
-          <p className={classes.ChannelName}>Sommecaise</p>
-          <p className={classes.ChannelName}>Ramzi</p>
-          <p className={classes.ChannelName}>Hassan</p>
-          <p className={classes.ChannelName}>Arthur</p>
-          <p className={classes.ChannelName}>Sofiane</p>
-          <p className={classes.ChannelName}>Miguel</p>
-          <p className={classes.ChannelName}>Yanis</p>
-          <p className={classes.ChannelName}>Ramzi Zoukidiev</p>
+          {ftDisplayDM()}
         </div>
 
         <div className={classes.ChatCenter}>{ftActiveChatMenuCenter()}</div>

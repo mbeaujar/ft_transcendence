@@ -8,17 +8,18 @@ import api from "../../../../apis/api";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { toast } from "react-toastify";
 import { IChannel } from "../../../../interface/channel.interface";
+import { Scope } from "../../../../interface/scope.enum";
 
-function SearchUser(props:any) {
+function SearchUser(props: any) {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
+  const [name, setName] = useState<string>("");
+  const [scope, setScope] = useState<Scope>(Scope.discussion);
 
   function handleChangesearchUserInput(event: any) {
     var value = event.target.value;
     setSearchUserInput(value);
   }
-
-
 
   function handleSubmitFormSearchUser(event: any) {
     console.log("userr=", searchUserInput);
@@ -27,24 +28,28 @@ function SearchUser(props:any) {
       .then((response) => {
         setUserToFind(response.data);
       })
-      .catch(() => {setUserToFind(null);toast.error("User not find")});
+      .catch(() => {
+        setUserToFind(null);
+        toast.error("User not find");
+      });
 
     setSearchUserInput("");
     event.preventDefault();
   }
 
-  function ftCreateDiscussion()
-  {
+  function ftCreateDiscussion() {
     const channel: IChannel = {
-      name:"DM",
-      state: 3,
+      name,
+      state: scope,
       users: [],
     };
 
-    props.ws.socketEmit('createDiscussion', {
-      channel,
-      user: userToFind,
-    })
+    if (channel.state == Scope.discussion) {
+      props.socketEmit("createDiscussion", {
+        channel,
+        user: userToFind,
+      });
+    }
   }
 
   return (
@@ -69,7 +74,9 @@ function SearchUser(props:any) {
             <p>{userToFind.username}</p>
           </div>
           <div className={classes.UserFindRight}>
-            <button onClick={()=>ftCreateDiscussion()}>Start Conversation</button>
+            <button onClick={() => ftCreateDiscussion()}>
+              Start Conversation
+            </button>
           </div>
         </div>
       ) : null}

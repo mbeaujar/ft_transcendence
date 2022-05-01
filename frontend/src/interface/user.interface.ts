@@ -7,4 +7,5 @@ export interface IUser {
   losses: number;
   isTwoFactorEnabled:boolean;
   elo:number;
+  user:any;
 }
