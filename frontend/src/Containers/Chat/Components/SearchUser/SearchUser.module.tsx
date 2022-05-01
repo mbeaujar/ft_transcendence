@@ -13,7 +13,7 @@ import { Scope } from "../../../../interface/scope.enum";
 function SearchUser(props: any) {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("sdfdszed");
   const [scope, setScope] = useState<Scope>(Scope.discussion);
 
   function handleChangesearchUserInput(event: any) {
@@ -38,17 +38,19 @@ function SearchUser(props: any) {
   }
 
   function ftCreateDiscussion() {
-    const channel: IChannel = {
+    let channel: IChannel;
+
+    channel = {
       name,
       state: scope,
       users: [],
     };
 
-    if (channel.state == Scope.discussion) {
-      props.socketEmit("createDiscussion", {
+    if (channel.state === Scope.discussion) {
+      props.socketEmit('createDiscussion', {
         channel,
         user: userToFind,
-      });
+      })
     }
   }
 

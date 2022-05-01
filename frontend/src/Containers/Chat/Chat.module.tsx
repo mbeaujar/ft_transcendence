@@ -122,7 +122,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const ftDisplayDM = () => {
     return discussion.map((channel: IChannel) => (
       <p
-        className={classes.DMName}
+        className={classes.ChannelName}
         key={channel.id}
         onClick={() => {
           const joinChannel: IJoinChannel = {
@@ -133,8 +133,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         }}
       >
         {channel.users[0]?.user?.id === props.user.id
-            ? `${channel.users[1]?.user?.username}`
-            : `${channel.users[0]?.user?.username}`}
+          ? `${channel.users[1]?.user?.username}`
+          : `${channel.users[0]?.user?.username}`}
       </p>
     ));
   };
@@ -156,8 +156,8 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     else if (activeChatMenu === "SearchUser")
       return (
         <SearchUser
-          socketEmit={(channel: IChannel) => {
-            ws.socket.emit("createChannel", channel);
+          socketEmit={(message: string, channel: any) => {
+            ws.socket.emit(message, channel);
           }}
         />
       );
@@ -182,7 +182,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const ftActiveChatMenuRight = () => {
-    if (channelChoose && channelChoose.state!==Scope.discussion) {
+    if (channelChoose && channelChoose.state !== Scope.discussion) {
       return (
         <ChannelSettings
           user={props.user}
