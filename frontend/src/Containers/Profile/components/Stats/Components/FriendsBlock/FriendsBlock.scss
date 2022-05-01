@@ -1,94 +1,118 @@
-@import '../../../../../../utils.scss';
+@import "../../../../../../utils.scss";
 
 @media screen and (min-width: 651px) {
-.FriendsBlock {
-  margin-top: -2.25%;
-  //width: 48%;
-  min-width: 26vw;
-  max-width: 26vw;
-  margin-left: -2vw;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  
-  padding-top: 0;
-  border-radius: 0;
-
-  h3 {
-    background-color: $grey6;
-    padding: 3px 10px;
-    padding: 0.3vw 1vw;
-    border-radius: 5px;
-    border-radius: 0.4vw;
-    color: $white1;
-    font-size: 1.3vw;
-  }
-
-
-  ::-webkit-scrollbar {
-    width: 0;
-  }
-  .Friends {
+  .FriendsBlock {
+    margin-top: -2.25%;
+    //width: 48%;
+    min-width: 26vw;
+    max-width: 26vw;
+    margin-left: -2vw;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    width: 92%;
-    max-height: 75%;
-    background-color: $grey6;
-    margin-top: -4%;
-    border-radius: 1.5vw;
-    overflow-y: auto;
-    //padding-right: 10px;
-    .list {
-      margin-top: 0;
-      padding-top: 0;
-      width: 90%;
-      .friendsListElement {
-        width: 100%;
+    justify-content: space-around;
+
+    padding-top: 0;
+    border-radius: 0;
+
+    h3 {
+      background-color: $grey6;
+      padding: 3px 10px;
+      padding: 0.3vw 1vw;
+      border-radius: 5px;
+      border-radius: 0.4vw;
+      color: $white1;
+      font-size: 1.3vw;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+    .Friends {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 92%;
+      max-height: 75%;
+      background-color: $grey6;
+      margin-top: -4%;
+      border-radius: 1.5vw;
+      overflow-y: auto;
+      //padding-right: 10px;
+      .list {
         margin-top: 0;
-        margin-left: 0;
+        padding-top: 0;
+        width: 90%;
+        .friendsListElement {
+          width: 100%;
+          margin-top: 0;
+          margin-left: 0;
 
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: left;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom: 1px solid $grey2;
-        height: 80px;
-        height: 4vw;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: left;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border-bottom: 1px solid $grey2;
+          height: 80px;
+          height: 4vw;
 
-        div {
-          margin-top: -1%;
-          width: 3.8vw;
-          height: 2.2vw;
-          img {
-            width: 2.2vw;
-            min-height: 2.2vw;
-            max-height: 2.2vw;
-            border-radius: 100%;
-            border: 0.2vw solid $white1;
-            border: 0.1vw solid $grey2;
-            margin-right: 0;
+          div {
+            margin-top: -1%;
+            width: 3.8vw;
+            height: 2.2vw;
+            img {
+              width: 2.2vw;
+              min-height: 2.2vw;
+              max-height: 2.2vw;
+              border-radius: 100%;
+              border: 0.2vw solid $white1;
+              border: 0.1vw solid $grey2;
+              margin-right: 0;
+            }
+          }
+
+          .FriendName {
+            width: 30%;
+            font-size: 1.2vw;
+            color: $white1;
+            text-align: left;
+            margin-left: 0;
+          }
+
+          .Online,
+          .Offline,
+          .Ingame {
+            font-size: 1.2vw;
+            color: $white1;
+            text-align: left;
+            margin-left: 28%;
+            padding: 0.4vw;
+            border-radius: 0.5vw;
+            border: 0.1vw solid $white1;
+          }
+
+          .Online {
+            background-color: $green1;
+          }
+          .Offline {
+            background-color: $red1;
+          }
+          .Ingame {
+            background-color: $blue3;
           }
         }
 
-        p {
-          font-size: 1.2vw;
-          color: $white1;
-          margin-left: 0;
+        .friendsListElement:last-child {
+          border-bottom: 0px solid $grey2;
         }
-      }
-
-      .friendsListElement:last-child {
-        border-bottom: 0px solid $grey2;
       }
     }
   }
-}}
+}
 
 @media screen and (max-width: 650px) {
   .FriendsBlock {
@@ -101,10 +125,10 @@
     align-items: center;
     justify-content: space-around;
     border-radius: 2.5vw;
-    
+
     padding-top: 0;
     border-radius: 0;
-  
+
     h3 {
       background-color: $grey6;
       padding: 2vw 2vw;
@@ -114,8 +138,7 @@
       margin-top: -7.5%;
       margin-bottom: 0;
     }
-  
-  
+
     ::-webkit-scrollbar {
       width: 0;
     }
@@ -139,7 +162,7 @@
           width: 100%;
           margin-top: 0;
           margin-left: 0;
-  
+
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -148,7 +171,7 @@
           border-bottom-right-radius: 0;
           border-bottom: 1px solid $grey2;
           height: 12vw;
-  
+
           div {
             margin-top: -10%;
             width: 3.8vw;
@@ -164,17 +187,18 @@
               margin-left: 30%;
             }
           }
-  
+
           p {
             font-size: 3vw;
             color: $white1;
             margin-left: 15%;
           }
         }
-  
+
         .friendsListElement:last-child {
           border-bottom: 0px solid $grey2;
         }
       }
     }
-  }}
+  }
+}

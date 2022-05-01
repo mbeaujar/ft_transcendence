@@ -11,9 +11,18 @@ function FriendsBlock(props: any) {
   useEffect(() => {
     api
       .get("/friends/list")
-      .then((response) => {setFriendsList(response.data);console.log(response.data)})
+      .then((response) => {
+        setFriendsList(response.data);
+        console.log("friiiiends:", response.data);
+      })
       .catch((reject) => console.error(reject));
   }, []);
+
+  function stateClassName(state: number) {
+    if (state === 0) return "Online";
+    else if (state === 1) return "Offline";
+    return "Ingame";
+  }
 
   return (
     <div className="FriendsBlock">
@@ -24,7 +33,14 @@ function FriendsBlock(props: any) {
             {friendsList.friends.map((friend: IUser) => (
               <div className="friendsListElement" key={friend.id}>
                 <Avatar user={friend} />
-                <p>{friend.username}</p>
+                <p className="FriendName">{friend.username}</p>
+                <p className={stateClassName(friend.state)}>
+                  {friend.state === 0
+                    ? "Online"
+                    : friend.state === 1
+                    ? "Offline"
+                    : "Ingame"}
+                </p>
               </div>
             ))}
           </div>

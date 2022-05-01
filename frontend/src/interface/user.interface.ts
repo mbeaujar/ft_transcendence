@@ -8,4 +8,5 @@ export interface IUser {
   isTwoFactorEnabled:boolean;
   elo:number;
   user:any;
+  state:number;
 }
