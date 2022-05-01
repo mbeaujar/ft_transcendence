@@ -42,7 +42,9 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div className={classes.Discussion}>
-      <h1>{props.channel.name}</h1>
+      <h1>{props.channel.state!==3?props.channel.name:props.channel.users[0]?.user?.id === props.user.id
+            ? `${props.channel.users[1]?.user?.username}`
+            : `${props.channel.users[0]?.user?.username}`}</h1>
       <button
         className={classes.OpenChannelSettings}
         onClick={() => props.setShowChatRight(!props.showChatRight)}
