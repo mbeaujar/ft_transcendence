@@ -54,6 +54,19 @@ function Header() {
     }
   }
 
+  useEffect(()=>{
+    if (showLinks == true && window.innerWidth < 650.01)
+      {
+          $("body").css('overflow-y', 'hidden');
+          $(".Header").css('overflow-y', 'visible');
+      }
+      else 
+      {
+          $("body").css('overflow-y', 'visible');
+      }
+
+  },[showLinks])
+
   return (
     <div className={classes.Header}>
       <h1>PONGAME</h1>

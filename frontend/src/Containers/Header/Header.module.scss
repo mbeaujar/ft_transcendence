@@ -2,6 +2,7 @@
 
 @media screen and (max-width: 650px) {
   .Header {
+    overflow-y:hidden;
     display: flex;
     flex-direction: row;
     align-items: center;

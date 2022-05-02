@@ -28,6 +28,16 @@ function BlockedUsers(props: any) {
           <p>{props.user.username}</p>
           <button onClick={() => ftUnblockUser()}>Unblock</button>
         </div>
+        <div className="BlockedUser">
+          <Avatar user={props.user} />
+          <p>{props.user.username}</p>
+          <button onClick={() => ftUnblockUser()}>Unblock</button>
+        </div>
+        <div className="BlockedUser">
+          <Avatar user={props.user} />
+          <p>{props.user.username}</p>
+          <button onClick={() => ftUnblockUser()}>Unblock</button>
+        </div>
       </div>
     </div>
   );

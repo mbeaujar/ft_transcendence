@@ -25,6 +25,10 @@
       overflow-y: auto;
       min-height: 69%;
       max-height: 69%;
+      .BlockedUser:last-child
+      {
+        border-bottom: none;
+      }
 
       .BlockedUser {
         margin-left: 10%;
@@ -86,49 +90,54 @@
     h3 {
       margin-left: 10%;
       margin-top: 5%;
-      margin-bottom: 1%;
+      margin-bottom: 3%;
       font-size: 3.5vw;
     }
 
     .BlockedUsers {
       overflow-y: auto;
-      min-height: 69%;
-      max-height: 69%;
+      min-height: 25.5vw;
+      max-height: 25.5vw;
 
+      .BlockedUser:last-child
+      {
+        border-bottom: none;
+      }
       .BlockedUser {
         margin-left: 10%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        min-height: 40%;
+        min-height: 10vw;
+        max-height: 10vw;
         width: 80%;
         border-bottom: 0.1vw solid $grey2;
         div {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-left: 2.5%;
+          margin-left: 5%;
           img {
-            width: 2.5vw;
-            min-height: 2.5vw;
-            max-height: 2.5vw;
+            width: 6vw;
+            min-height: 6vw;
+            max-height: 6vw;
             border-radius: 100%;
           }
         }
         p {
           margin-left: 2.5%;
-          font-size: 1vw;
+          font-size: 3.5vw;
           width: 25%;
           text-align: left;
         }
         button {
           color: $white1;
           background-color: $green1;
-          border:0.1vw solid $white1;
-          border-radius: 0.5vw;
-          font-size:1vw;
-          padding: 0.3vw;
+          border:0.2vw solid $white1;
+          border-radius: 1vw;
+          font-size:3vw;
+          padding: 1vw;
           cursor: pointer;
           margin-left: 33%;
         }
