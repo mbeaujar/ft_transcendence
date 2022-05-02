@@ -3,7 +3,8 @@
 @media screen and (min-width: 651px) {
   .BlockedUsers {
     width: 100%;
-    height: 46%;
+    min-height: 46%;
+    max-height: 46%;
     background-color: $blue1;
     border-radius: 1.5vw;
 
@@ -16,6 +17,57 @@
       margin-left: 10%;
       font-size: 1.5vw;
       margin-bottom: 3%;
+    }
+
+
+
+    .BlockedUsers {
+      overflow-y: auto;
+      min-height: 69%;
+      max-height: 69%;
+
+      .BlockedUser {
+        margin-left: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 40%;
+        width: 80%;
+        border-bottom: 0.1vw solid $grey2;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 2.5%;
+          img {
+            width: 2.5vw;
+            min-height: 2.5vw;
+            max-height: 2.5vw;
+            border-radius: 100%;
+          }
+        }
+        p {
+          margin-left: 2.5%;
+          font-size: 1vw;
+          width: 25%;
+          text-align: left;
+        }
+        button {
+          color: $white1;
+          background-color: $green1;
+          border:0.1vw solid $white1;
+          border-radius: 0.5vw;
+          font-size:1vw;
+          padding: 0.3vw;
+          cursor: pointer;
+          margin-left: 33%;
+        }
+
+        button:hover {
+          background-color: $green2;
+        }
+      }
     }
   }
 }
@@ -36,6 +88,55 @@
       margin-top: 5%;
       margin-bottom: 1%;
       font-size: 3.5vw;
+    }
+
+    .BlockedUsers {
+      overflow-y: auto;
+      min-height: 69%;
+      max-height: 69%;
+
+      .BlockedUser {
+        margin-left: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 40%;
+        width: 80%;
+        border-bottom: 0.1vw solid $grey2;
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 2.5%;
+          img {
+            width: 2.5vw;
+            min-height: 2.5vw;
+            max-height: 2.5vw;
+            border-radius: 100%;
+          }
+        }
+        p {
+          margin-left: 2.5%;
+          font-size: 1vw;
+          width: 25%;
+          text-align: left;
+        }
+        button {
+          color: $white1;
+          background-color: $green1;
+          border:0.1vw solid $white1;
+          border-radius: 0.5vw;
+          font-size:1vw;
+          padding: 0.3vw;
+          cursor: pointer;
+          margin-left: 33%;
+        }
+
+        button:hover {
+          background-color: $green2;
+        }
+      }
     }
   }
 }

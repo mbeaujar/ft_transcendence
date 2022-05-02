@@ -41,7 +41,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           refresh={props.refresh}
           setRefresh={props.setRefresh}
         />
-        <BlockedUsers />
+        <BlockedUsers user={props.user}/>
       </div>
     </div>
   );

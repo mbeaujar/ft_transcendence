@@ -9,5 +9,5 @@ export interface IUser {
   elo:number;
   user:any;
   state:number;
-  blockedUsers:[IUser]
+  blockedUsers:any;
 }
