@@ -5,7 +5,7 @@ import { IUser } from "../../../../interface/user.interface";
 import { IChannel } from "../../../../interface/channel.interface";
 import { IMessage } from "../../../../interface/message.interface";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
-
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import styles from "./Discussion.module.scss";
 import Input from "./Input";
 
@@ -32,7 +32,8 @@ interface Props {
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector("#msg");
-  const [userActif, setUserActif] = useState<IUser>();
+  const [messageUser, setMessageUser] = useState<IUser>();
+  const [pathProfile, setPathProfile] = useState<String>("");
 
   useEffect(() => {
     messageBody = document.querySelector("#msg");
@@ -45,41 +46,20 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     id: MENU_ID,
   });
 
-  function handleItemClick(
-    event: any,
-    props: any,
-    triggerEvent: any,
-    data: any
-  ) {
-    console.log(event, props, triggerEvent, data);
-    console.log("okkkkk");
-  }
-
-  function RightClickProfile() {
-    console.log("RightClickProfile:", userActif);
-    let path = "/OtherUserProfile/" + userActif?.username;
-    window.location.href = path;
-  }
-
   function RightClickBlock() {
-    console.log("RightClickBlock", userActif);
+    console.log("RightClickBlock", messageUser);
   }
 
   function RightClickInviteToPlay() {
-    console.log("RightClickInviteToPlay", userActif);
+    console.log("RightClickInviteToPlay", messageUser);
   }
 
   function displayMenu(e: any, userToVisit: IUser) {
-    console.log("usermenu=", userToVisit.username);
-    setUserActif(userToVisit);
-    // put whatever custom logic you need
-    // you can even decide to not display the Menu
+    setMessageUser(userToVisit);
     if (userToVisit.username != props.user.username) show(e);
   }
 
   const renderedMessages = props.messages.map((message: any, index: number) => {
-    let userClick: IUser = message.user;
-    console.log("userclick=", props.messages);
     return (
       <div key={message.id} className={classes.Message}>
         <Avatar user={message.user} />
@@ -89,12 +69,13 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
           </h4>
           <p> {message.text}</p>
           <Menu id={MENU_ID} theme="dark">
-            <Item
-              onClick={() => {
-                RightClickProfile();
-              }}
-            >
-              See profile
+            <Item>
+              <Link
+                className={classes.Link}
+                to={"/OtherUserProfile/" + messageUser?.username}
+              >
+                See profile
+              </Link>
             </Item>
             <Item onClick={() => RightClickBlock()}>Block this user</Item>
             <Item onClick={() => RightClickInviteToPlay()}>Invite to play</Item>
