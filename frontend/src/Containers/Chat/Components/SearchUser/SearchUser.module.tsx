@@ -13,8 +13,6 @@ import { Scope } from "../../../../interface/scope.enum";
 function SearchUser(props: any) {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
-  const [name, setName] = useState<string>("sdfdszed");
-  const [scope, setScope] = useState<Scope>(Scope.discussion);
 
   function handleChangesearchUserInput(event: any) {
     var value = event.target.value;
@@ -23,9 +21,15 @@ function SearchUser(props: any) {
 
   function handleSubmitFormSearchUser(event: any) {
     console.log("userr=", searchUserInput);
+    if (searchUserInput === props.user.username) {
+      toast.error("You can't search yourself");
+      event.preventDefault();
+      return;
+    }
     api
       .get(`/users/username/${searchUserInput}`)
       .then((response) => {
+        setSearchUserInput("");
         setUserToFind(response.data);
       })
       .catch(() => {
@@ -33,7 +37,6 @@ function SearchUser(props: any) {
         toast.error("User not find");
       });
 
-    setSearchUserInput("");
     event.preventDefault();
   }
 
@@ -41,16 +44,16 @@ function SearchUser(props: any) {
     let channel: IChannel;
 
     channel = {
-      name,
-      state: scope,
+      name: "DM",
+      state: 3,
       users: [],
     };
 
     if (channel.state === Scope.discussion) {
-      props.socketEmit('createDiscussion', {
+      props.socketEmit("createDiscussion", {
         channel,
         user: userToFind,
-      })
+      });
     }
   }
 

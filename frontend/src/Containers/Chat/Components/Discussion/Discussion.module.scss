@@ -1,7 +1,7 @@
 @import "../../../../utils.scss";
 
-.Link 
-{
+
+.Link {
   color: $white1;
   text-decoration: none;
 }
@@ -41,10 +41,11 @@
         flex-direction: column;
         align-items: left;
         justify-content: center;
-        
 
         h4 {
           text-align: left;
+          width: max-content;
+          cursor: pointer;
         }
 
         p {
@@ -55,8 +56,6 @@
     }
   }
 
-  .InputDiv {
-  }
 }
 
 @media screen and (min-width: 651px) {
@@ -77,8 +76,7 @@
       border-radius: 1.5vw;
     }*/
 
-    .OpenChannelSettings
-    {
+    .OpenChannelSettings {
       display: none;
     }
 
@@ -151,31 +149,33 @@
       border: 0.01vw solid rgb(95, 93, 93);
       border-radius: 1.5vw;
     }*/
-
-    .OpenChannelSettings
+    .HideOpenChannelSettings
     {
+      visibility: hidden;
+    }
+
+    .OpenChannelSettings {
       position: absolute;
-      top:4.5vw;
-      right:6vw;
-      border:none;
+      top: 4.5vw;
+      right: 6vw;
+      border: none;
       outline: none;
       width: 6vw;
-      height:6vw;
+      height: 6vw;
       border-radius: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: $green3;
-      cursor:pointer;
-      span 
-      {
+      cursor: pointer;
+      span {
         font-size: 5vw;
         color: $blue3;
       }
     }
 
     .Messages {
-     // height: 62vh;
+      // height: 62vh;
       min-height: 62vh;
       max-height: 62vh;
       //background-color: green;

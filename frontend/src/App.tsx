@@ -4,8 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-
-
 import Game from "./Containers/Game/Game.module";
 import Chat from "./Containers/Chat/Chat.module";
 import Profile from "./Containers/Profile/Profile.module";
@@ -26,21 +24,18 @@ function MainApp(props: IMainProps) {
   return (
     <Routes>
       <Route path="/" element={<Game />} />
-      <Route path="/Game" element={<Game />} />
+      <Route path="/game" element={<Game />} />
       <Route
-        path="/Chat"
+        path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
       />
       <Route
-        path="/Profile"
+        path="/profile"
         element={
           <Profile user={user} refresh={refresh} setRefresh={setRefresh} />
         }
       />
-      <Route
-        path="/OtherUserProfile/:name"
-        element={<OtherUserProfile user={user} />}
-      />
+      <Route path="/profile/:name" element={<OtherUserProfile user={user} />} />
     </Routes>
   );
 }

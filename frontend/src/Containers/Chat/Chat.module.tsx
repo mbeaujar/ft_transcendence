@@ -129,7 +129,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
             channel,
           };
           ws.socket.emit("joinChannel", joinChannel);
-          /*setShowChatLeft(!showChatLeft);*/
+          setShowChatLeft(!showChatLeft);
         }}
       >
         {channel.users[0]?.user?.id === props.user.id
@@ -159,6 +159,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           socketEmit={(message: string, channel: any) => {
             ws.socket.emit(message, channel);
           }}
+          user={props.user}
         />
       );
     else if (activeChatMenu === "JoinChannel") {

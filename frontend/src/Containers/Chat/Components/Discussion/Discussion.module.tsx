@@ -18,6 +18,7 @@ import {
 } from "react-contexify";
 
 import "react-contexify/dist/ReactContexify.css";
+import clsx from "clsx";
 
 const MENU_ID = "menu-id";
 
@@ -33,7 +34,6 @@ interface Props {
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector("#msg");
   const [messageUser, setMessageUser] = useState<IUser>();
-  const [pathProfile, setPathProfile] = useState<String>("");
 
   useEffect(() => {
     messageBody = document.querySelector("#msg");
@@ -72,7 +72,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
             <Item>
               <Link
                 className={classes.Link}
-                to={"/OtherUserProfile/" + messageUser?.username}
+                to={"/profile/" + messageUser?.username}
               >
                 See profile
               </Link>
@@ -95,7 +95,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
           : `${props.channel.users[0]?.user?.username}`}
       </h1>
       <button
-        className={classes.OpenChannelSettings}
+        className={clsx(classes.OpenChannelSettings,props.channel.name=="DM"?classes.HideOpenChannelSettings:null)}
         onClick={() => props.setShowChatRight(!props.showChatRight)}
       >
         <span className="material-icons">settings</span>

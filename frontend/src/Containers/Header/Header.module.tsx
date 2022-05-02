@@ -67,21 +67,21 @@ function Header() {
       </div>
       <nav className={clsx(classes.Navigation, showNavigation())}>
         <Link
-          to="/Game"
+          to="/game"
           className={clsx(classes.Link, classes.Game)}
           onClick={() => setShowLinks(!showLinks)}
         >
           GAME
         </Link>
         <Link
-          to="/Chat"
+          to="/chat"
           className={clsx(classes.Link, classes.Chat)}
           onClick={() => setShowLinks(!showLinks)}
         >
           CHAT
         </Link>
         <Link
-          to="/Profile"
+          to="/profile"
           className={clsx(classes.Link, classes.Profile)}
           onClick={() => setShowLinks(!showLinks)}
         >
