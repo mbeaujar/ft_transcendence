@@ -7,6 +7,7 @@ import { IMessage } from "../../../../interface/message.interface";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import styles from "./Discussion.module.scss";
+import { toast } from "react-toastify";
 import Input from "./Input";
 
 import {
@@ -19,6 +20,7 @@ import {
 
 import "react-contexify/dist/ReactContexify.css";
 import clsx from "clsx";
+import api from "../../../../apis/api";
 
 const MENU_ID = "menu-id";
 
@@ -36,6 +38,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   const [messageUser, setMessageUser] = useState<IUser>();
 
   useEffect(() => {
+    console.log("uuuuu=", props.user);
     messageBody = document.querySelector("#msg");
     if (messageBody) {
       messageBody.scrollTop = messageBody.scrollHeight;
@@ -48,6 +51,27 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
 
   function RightClickBlock() {
     console.log("RightClickBlock", messageUser);
+    props.user.blockedUsers.map((userBlock: IUser) => {
+      if (userBlock.username === userToBlock.username) {
+        toast.error(messageUser?.username + " was already blocked");
+        return;
+      }
+    });
+    let userToBlock: IUser;
+    api
+      .get(`/users/username/${messageUser?.username}`)
+      .then((response) => {
+        userToBlock = response.data;
+        api
+          .post("/users/block", { id: userToBlock.id })
+          .then((response) =>
+            toast.success(userToBlock.username + " was blocked")
+          )
+          .catch((reject) => console.error(reject));
+      })
+      .catch(() => {
+        toast.error("User not find");
+      });
   }
 
   function RightClickInviteToPlay() {
@@ -95,7 +119,10 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
           : `${props.channel.users[0]?.user?.username}`}
       </h1>
       <button
-        className={clsx(classes.OpenChannelSettings,props.channel.name=="DM"?classes.HideOpenChannelSettings:null)}
+        className={clsx(
+          classes.OpenChannelSettings,
+          props.channel.name == "DM" ? classes.HideOpenChannelSettings : null
+        )}
         onClick={() => props.setShowChatRight(!props.showChatRight)}
       >
         <span className="material-icons">settings</span>
