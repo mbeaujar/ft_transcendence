@@ -51,22 +51,22 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
 
   function RightClickBlock() {
     console.log("RightClickBlock", messageUser);
-    props.user.blockedUsers.map((userBlock: IUser) => {
-      if (userBlock.username === userToBlock.username) {
-        toast.error(messageUser?.username + " was already blocked");
-        return;
-      }
-    });
     let userToBlock: IUser;
     api
-      .get(`/users/username/${messageUser?.username}`)
+    .get(`/users/username/${messageUser?.username}`)
+    .then((response) => {
+      userToBlock = response.data;
+      api
+      .post("/users/block", { id: userToBlock.id })
       .then((response) => {
-        userToBlock = response.data;
-        api
-          .post("/users/block", { id: userToBlock.id })
-          .then((response) =>
-            toast.success(userToBlock.username + " was blocked")
-          )
+            props.user.blockedUsers.map((userBlock: IUser) => {
+              if (userBlock.username === userToBlock.username) {
+                toast.error(messageUser?.username + " was already blocked");
+                return;
+              }
+            });
+            toast.success(userToBlock.username + " was blocked");
+          })
           .catch((reject) => console.error(reject));
       })
       .catch(() => {
