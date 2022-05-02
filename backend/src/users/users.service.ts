@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TwoFactorAuthenticationDto } from 'src/auth/2fa.dto';
 import { LocalFileDto } from 'src/users/dtos/local-file.dto';
 import { LocalFile } from 'src/users/model/localFile.entity';
 import { User } from 'src/users/model/user/user.entity';
@@ -61,6 +62,10 @@ export class UsersService {
         twoFactorAuthenticationSecret: secret,
       });
     }
+  }
+
+  async findSecret(id: number): Promise<User> {
+    return this.usersRepository.findOne(id, { select: ['twoFactorAuthenticationSecret']});
   }
 
   async findUser(id: number): Promise<User> {

@@ -63,7 +63,7 @@ export class AuthController {
     @Body() body: TwoFactorAuthenticationDto,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
       body.code,
       user,
     );
@@ -80,7 +80,7 @@ export class AuthController {
     @Body() body: TwoFactorAuthenticationDto,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
       body.code,
       user,
     );
@@ -98,7 +98,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = this.authService.isTwoFactorAuthenticationCodeValid(
+    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
       body.code,
       user,
     );

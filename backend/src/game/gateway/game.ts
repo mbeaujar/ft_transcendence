@@ -116,12 +116,12 @@ export class Game {
       let loser = this.player1.score === 3 ? 1 : 0;
       this.match.players[winner].user.elo += 30;
       this.match.players[winner].user.wins++;
+      this.match.players[loser].user.losses++;
       if (this.match.players[loser].user.elo > 30) {
         this.match.players[loser].user.elo -= 30;
       } else {
         this.match.players[loser].user.elo = 0;
       }
-      this.match.players[loser].user.losses++;
     }
     this.match.players[0].user.state = State.online;
     this.match.players[1].user.state = State.online;

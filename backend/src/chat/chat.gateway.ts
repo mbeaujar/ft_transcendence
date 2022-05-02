@@ -123,6 +123,11 @@ export class ChatGateway
     throw new WsException(message);
   }
 
+  private handleSuccess(socket: Socket, message: string) {
+    socket.emit('Success', new InternalServerErrorException(message)); // pas le bon throw
+    throw new WsException(message);
+  }
+
   private disconnect(socket: Socket) {
     socket.emit('Error', new UnauthorizedException());
     socket.disconnect();
@@ -570,9 +575,13 @@ export class ChatGateway
       newAdmin.channel,
       newAdmin.user,
     );
+    if (target.administrator === true) {
+      this.handleError(socket, 'user alredy administrator');
+    }
     await this.channelUserService.updateUser(target, {
       administrator: true,
     });
+    this.handleSuccess(socket, 'user is now administrator');
   }
 
   @SubscribeMessage('removeAdministrator')
@@ -631,6 +640,8 @@ export class ChatGateway
     );
     if (socket.data.user.id === banUser.user.id) {
       this.handleError(socket, 'impossible to ban yourself');
+    } else if (socket.data.user.ban === true) {
+      this.handleError(socket, 'user alredy banned');
     }
     const now = new Date();
     await this.channelUserService.updateUser(target, {
@@ -665,16 +676,17 @@ export class ChatGateway
       unbanUser.user,
       socket.data.user,
     );
-    if (target.ban === false) {
-      this.handleError(socket, 'user is not banned');
-    }
     if (socket.data.user.id === unbanUser.user.id) {
       this.handleError(socket, 'impossible to unban yourself');
+    }
+    if (target.ban === false) {
+      this.handleError(socket, 'user is not banned');
     }
     await this.channelUserService.updateUser(target, {
       ban: false,
       unban_at: null,
     });
+    this.handleSuccess(socket, 'user successfully unbanned');
   }
 
   @SubscribeMessage('muteUser')
@@ -715,6 +727,7 @@ export class ChatGateway
       mute: false,
       unmute_at: null,
     });
+    this.handleSuccess(socket, 'user successfully unmuted');
   }
 
   @SubscribeMessage('getBannedUsers')

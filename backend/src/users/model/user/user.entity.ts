@@ -29,7 +29,7 @@ export class User {
   @Column({ default: false })
   isTwoFactorEnabled: boolean;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   twoFactorAuthenticationSecret: string;
 
   @Column({ unique: true })

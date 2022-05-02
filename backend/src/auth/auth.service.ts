@@ -42,13 +42,15 @@ export class AuthService {
     return toFileStream(stream, otpauthUrl);
   }
 
-  isTwoFactorAuthenticationCodeValid(
+  async isTwoFactorAuthenticationCodeValid(
     twoFactorAuthenticationCode: string,
     user: User,
   ) {
+    const secret = await this.usersService.findSecret(user.id);
+    console.log(secret.twoFactorAuthenticationSecret);
     return authenticator.verify({
       token: twoFactorAuthenticationCode,
-      secret: user.twoFactorAuthenticationSecret,
+      secret: secret.twoFactorAuthenticationSecret,
     });
   }
 
