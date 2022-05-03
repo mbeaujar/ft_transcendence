@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import api from "../../apis/api";
-import Input from "../Chat/Components/Discussion/Input";
-import { WebSocket } from "../Chat/Socket.module";
-import { IGame } from "../../interface/game.interface";
-import useWindowSize from "./Components/useWindowSize";
+import api from "../../../../apis/api";
+import Input from "../../../Chat/Components/Discussion/Input";
+import { WebSocket } from "../../../Chat/Socket.module";
+import { IGame } from "../../../../interface/game.interface";
+import "./Pong.scss";
+import useWindowSize from "../useWindowSize";
 
 let WIDTH = 800;
 let HEIGHT = 400;
@@ -24,26 +25,6 @@ const Pong = (props: any) => {
   const [mode, setMode] = useState<number>(0);
 
   const windowSize = useWindowSize();
-
-  /* if (window.innerWidth < 160.01) {
-    WIDTH = 100;
-    HEIGHT = 50;
-  } else if (window.innerWidth < 215.01) {
-    WIDTH = 150;
-    HEIGHT = 75;
-  } else if (window.innerWidth < 330.01) {
-    WIDTH = 200;
-    HEIGHT = 100;
-  } else if (window.innerWidth < 430.01) {
-    WIDTH = 300;
-    HEIGHT = 150;
-  } else if (window.innerWidth < 650.01) {
-    WIDTH = 400;
-    HEIGHT = 200;
-  } else {
-    WIDTH = 800;
-    HEIGHT = 400;
-  }*/
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -143,8 +124,34 @@ const Pong = (props: any) => {
     setContext(context);
   }, []);
 
+
+  const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
+    if (event.code === 'ArrowLeft') {
+      //stateGame.current.player1Top = true;
+    }
+
+    if (event.code === 'ArrowRight') {
+      //stateGame.current.player1Bottom = true;
+    }
+
+  };
+
+  const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
+    if (event.code === 'ArrowLeft') {
+      //stateGame.current.player1Top = false;
+    }
+
+    if (event.code === 'ArrowRight') {
+      //stateGame.current.player1Bottom = false;
+    }
+
+  };
+
+
+
+
   return (
-    <div className="Pong">
+    <div className="Pong" style={{width:WIDTH,height:HEIGHT,fontSize:WIDTH/20}}>
       <div>
         {/* <button
           onClick={() => {
@@ -153,16 +160,22 @@ const Pong = (props: any) => {
         >
           delete connected user
         </button>*/}
-        <button
-          onClick={() => {
-            ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });
-          }}
-        >
-          joinQueue
-        </button>
       </div>
 
+      <div className="Score">
+        {score[0]} | {score[1]}
+      </div>
+      <button
+        className="ButtonJoinQueue"
+        style={{fontSize:WIDTH/20}}
+        onClick={() => {
+          ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });
+        }}
+      >
+        Start Game
+      </button>
       <canvas
+        className="canva"
         style={{ backgroundColor: BACKGROUND }}
         width={WIDTH}
         height={HEIGHT}
@@ -174,11 +187,7 @@ const Pong = (props: any) => {
           if (event.code === "ArrowDown")
             ws.socket.emit("moveBotPaddle", { id });
         }}
-      >
-        <div className="Score">
-          {score[0]} | {score[1]}
-        </div>
-      </canvas>
+      />
       {/* <button onClick={() => ws.socket.emit("info", { id })}>
         print info backend
       </button>

@@ -1,0 +1,44 @@
+@import "../../../../utils.scss";
+
+.Pong {
+  position: relative;
+  margin-top: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+
+  .Score {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: 20%;
+    //font-size: 3vw;
+    z-index: 3;
+  }
+
+	
+	.ButtonJoinQueue
+	{
+		position: absolute;
+    top: 20%;
+    left: 30%;
+		cursor: pointer;
+		z-index: 3;
+		width: 40%;
+		padding: 1%;
+		color: $white1;
+		background-color: $black2;
+		border:2px solid $white1;
+		border-radius:2vw;
+	}
+	button:hover
+	{
+		background-color: $black;
+	}
+
+  .canva {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+}
