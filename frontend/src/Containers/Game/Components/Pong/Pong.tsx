@@ -3,8 +3,9 @@ import api from "../../../../apis/api";
 import Input from "../../../Chat/Components/Discussion/Input";
 import { WebSocket } from "../../../Chat/Socket.module";
 import { IGame } from "../../../../interface/game.interface";
-import "./Pong.scss";
+import classes from "./Pong.module.scss";
 import useWindowSize from "../useWindowSize";
+import clsx from'clsx';
 
 let WIDTH = 800;
 let HEIGHT = 400;
@@ -23,6 +24,7 @@ const Pong = (props: any) => {
   const [id, setId] = useState<number>();
   const [listGame, setListGame] = useState<any>();
   const [mode, setMode] = useState<number>(0);
+  const [hideButton, setHideButton] = useState<boolean>(false);
 
   const windowSize = useWindowSize();
 
@@ -125,33 +127,17 @@ const Pong = (props: any) => {
   }, []);
 
 
-  const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
-    if (event.code === 'ArrowLeft') {
-      //stateGame.current.player1Top = true;
-    }
-
-    if (event.code === 'ArrowRight') {
-      //stateGame.current.player1Bottom = true;
-    }
-
-  };
-
-  const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
-    if (event.code === 'ArrowLeft') {
-      //stateGame.current.player1Top = false;
-    }
-
-    if (event.code === 'ArrowRight') {
-      //stateGame.current.player1Bottom = false;
-    }
-
-  };
 
 
-
+function showButton()
+{
+  if (hideButton==false)
+    return(classes.ShowButton);
+  return (classes.HideButton);
+}
 
   return (
-    <div className="Pong" style={{width:WIDTH,height:HEIGHT,fontSize:WIDTH/20}}>
+    <div className={classes.Pong} style={{width:WIDTH,height:HEIGHT,fontSize:WIDTH/20}}>
       <div>
         {/* <button
           onClick={() => {
@@ -162,20 +148,20 @@ const Pong = (props: any) => {
         </button>*/}
       </div>
 
-      <div className="Score">
+      <div className={classes.Score}>
         {score[0]} | {score[1]}
       </div>
       <button
-        className="ButtonJoinQueue"
+        className={clsx(classes.ButtonJoinQueue,showButton())}
         style={{fontSize:WIDTH/20}}
         onClick={() => {
-          ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });
+          ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });setHideButton(!hideButton);
         }}
       >
         Start Game
       </button>
       <canvas
-        className="canva"
+        className={classes.canva}
         style={{ backgroundColor: BACKGROUND }}
         width={WIDTH}
         height={HEIGHT}
