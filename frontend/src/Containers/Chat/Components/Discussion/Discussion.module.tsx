@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import styles from "./Discussion.module.scss";
 import { toast } from "react-toastify";
 import Input from "./Input";
+import styled from "styled-components";
 
 import {
   Menu,
@@ -53,12 +54,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     console.log("RightClickBlock", messageUser);
     let userToBlock: IUser;
     api
-    .get(`/users/username/${messageUser?.username}`)
-    .then((response) => {
-      userToBlock = response.data;
-      api
-      .post("/users/block", { id: userToBlock.id })
+      .get(`/users/username/${messageUser?.username}`)
       .then((response) => {
+        userToBlock = response.data;
+        api
+          .post("/users/block", { id: userToBlock.id })
+          .then((response) => {
             props.user.blockedUsers.map((userBlock: IUser) => {
               if (userBlock.username === userToBlock.username) {
                 toast.error(messageUser?.username + " was already blocked");

@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import api from '../../apis/api';
 import clsx from 'clsx';
-import classes from './Game.module.scss';
-import styles from './Game.module.scss';
+import classes from './Game2.module.scss';
+import styles from './Game2.module.scss';
 import Dropdown from './components/Dropdown/Dropdown.module';
 import Pong from './components/Pong/Pong.module';
 
