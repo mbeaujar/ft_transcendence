@@ -132,6 +132,17 @@ export class UsersController {
   }
 
   @Auth()
+  @ApiOperation({ summary: 'get blocked user list' })
+  @Get('/getBlockedUser')
+  async getBlockedUser(@CurrentUser() user: IUser) {
+    const currentUser = await this.usersService.findUser(user.id);
+    if (!currentUser) {
+      throw new NotFoundException('user not found');
+    }
+    return currentUser;
+  }
+
+  @Auth()
   @ApiOperation({ summary: 'unblock a user' })
   @Post('/unblock')
   async unblockUser(@Body() body: BlockUserDto, @CurrentUser() user: IUser) {
