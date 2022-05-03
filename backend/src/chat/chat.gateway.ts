@@ -155,9 +155,10 @@ export class ChatGateway
     });
 
     // Filter messages
+    const blockedUsers = await this.usersService.findUser(socket.data.user.id);
     const messages = await this.messageService.findMessageByChannel(channel);
     const messagesFiltered = messages.filter((message) => {
-      const userBlockedMe = socket.data.user?.blockedUsers?.find(
+      const userBlockedMe = blockedUsers.blockedUsers.find(
         (blockedUser: any) => blockedUser.id === message.user.id,
       );
       if (!userBlockedMe) {
