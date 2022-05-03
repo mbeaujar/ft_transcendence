@@ -67,6 +67,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       toast.error(data.message);
     });
 
+    ws.socket.on("Success", (data) => {
+      toast.success(data.message);
+    });
+
     ws.socket.on("currentChannel", (data) => {
       //console.log('currentChannel', data);
       setChannelChoose(data);

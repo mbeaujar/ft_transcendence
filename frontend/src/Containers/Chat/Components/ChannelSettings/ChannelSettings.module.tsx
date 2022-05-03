@@ -276,9 +276,6 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
     if (userToPromoteAdmin != null) {
-      if (!ifUserAdmin(newAdmin))
-        toast.success(userToPromoteAdmin.username + " is now admin");
-      else toast.error(userToPromoteAdmin.username + " is already admin");
       props.ws.socket.emit("addAdministrator", {
         channel: props.channel,
         user: userToPromoteAdmin,
@@ -404,7 +401,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   function handleSubmitFormNewPassword(event: any) {
     if (newPassword != confirmNewPassword) {
       toast.error("Password and confirm password are different");
-    } else if (!setPassword || !confirmSetPassword) {
+    } else if (!newPassword || !confirmNewPassword) {
       toast.error("Password cannot be an empty string");
     } else {
       props.ws.socket.emit("changeChannelState", {
