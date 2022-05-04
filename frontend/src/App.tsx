@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Game from "./Containers/Game/Components/Pong/Pong";
+import Game from "./Containers/Game/Game";
 import Chat from "./Containers/Chat/Chat.module";
 import Profile from "./Containers/Profile/Profile.module";
 import Header from "./Containers/Header/Header.module";

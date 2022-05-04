@@ -2,7 +2,7 @@
 
 .Pong {
   position: relative;
-  margin-top: 5vw;
+  //margin-top: 5vw;
   margin-left: auto;
   margin-right: auto;
 
@@ -26,9 +26,11 @@
     top: 20%;
     left: 30%;
 		cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
 		z-index: 3;
 		width: 40%;
-		padding: 1%;
+		padding: 2%;
 		color: $white1;
 		background-color: $black2;
 		border:2px solid $white1;
@@ -44,5 +46,9 @@
     top: 0;
     left: 0;
     z-index: 2;
+  }
+
+  .canva:focus {
+    outline: none;
   }
 }

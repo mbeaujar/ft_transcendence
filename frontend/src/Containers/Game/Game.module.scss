@@ -1,0 +1,63 @@
+@import "../../utils.scss";
+
+.Game {
+  background-color: $black2;
+  position: relative;
+  margin-top: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .showGameVue {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hideGameVue {
+    display: none;
+  }
+
+  .configButton {
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    width: 40%;
+		padding: 2%;
+		color: $white1;
+		background-color: $black2;
+		border:0.3vw solid $white1;
+		border-radius:2vw;
+  }
+
+  .configButton:hover {
+    background-color: $black;
+  }
+
+  .configButtonTop 
+  {
+    margin-bottom: 3%;
+  }
+
+  .configButtonBottom
+  {
+    margin-top: 3%;
+  }
+
+
+
+  #canvas {
+    background-color: $black;
+    /*width: 800px;
+        height: 400px;*/
+  }
+
+  #canvas:focus {
+    outline: none;
+  }
+}

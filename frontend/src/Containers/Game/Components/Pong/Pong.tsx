@@ -26,7 +26,6 @@ const Pong = (props: any) => {
   const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
 
-  const windowSize = useWindowSize();
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -77,7 +76,6 @@ const Pong = (props: any) => {
       WIDTH = 800;
       HEIGHT = 400;
     }
-    console.log("width=", WindowSize.innerWidth);
   }, [WindowSize]);
 
   useEffect(() => {
@@ -153,7 +151,7 @@ function showButton()
       </div>
       <button
         className={clsx(classes.ButtonJoinQueue,showButton())}
-        style={{fontSize:WIDTH/20}}
+        style={{fontSize:WIDTH/40}}
         onClick={() => {
           ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });setHideButton(!hideButton);
         }}
