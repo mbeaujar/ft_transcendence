@@ -5,7 +5,7 @@ import { WebSocket } from "../../../Chat/Socket.module";
 import { IGame } from "../../../../interface/game.interface";
 import classes from "./Pong.module.scss";
 import useWindowSize from "../useWindowSize";
-import clsx from'clsx';
+import clsx from "clsx";
 
 let WIDTH = 800;
 let HEIGHT = 400;
@@ -25,7 +25,6 @@ const Pong = (props: any) => {
   const [listGame, setListGame] = useState<any>();
   const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
-
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -124,18 +123,16 @@ const Pong = (props: any) => {
     setContext(context);
   }, []);
 
-
-
-
-function showButton()
-{
-  if (hideButton==false)
-    return(classes.ShowButton);
-  return (classes.HideButton);
-}
+  function showButton() {
+    if (hideButton == false) return classes.ShowButton;
+    return classes.HideButton;
+  }
 
   return (
-    <div className={classes.Pong} style={{width:WIDTH,height:HEIGHT,fontSize:WIDTH/20}}>
+    <div
+      className={classes.Pong}
+      style={{ width: WIDTH, height: HEIGHT, fontSize: WIDTH / 20 }}
+    >
       <div>
         {/* <button
           onClick={() => {
@@ -147,13 +144,15 @@ function showButton()
       </div>
 
       <div className={classes.Score}>
-        {score[0]} | {score[1]}
+        <span style={{ fontSize: WIDTH / 21 }}>{score[0]}</span> |{" "}
+        <span style={{ fontSize: WIDTH / 21 }}>{score[1]}</span>
       </div>
       <button
-        className={clsx(classes.ButtonJoinQueue,showButton())}
-        style={{fontSize:WIDTH/40}}
+        className={clsx(classes.ButtonJoinQueue, showButton())}
+        style={{ fontSize: WIDTH / 40 }}
         onClick={() => {
-          ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });setHideButton(!hideButton);
+          ws.socket.emit("joinQueue", { mode, invite: 0, target: 0 });
+          setHideButton(!hideButton);
         }}
       >
         Start Game

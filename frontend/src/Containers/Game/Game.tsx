@@ -6,6 +6,7 @@ import classes from "./Game.module.scss";
 import styles from "./Game.module.scss";
 import Pong from "./Components/Pong/Pong";
 import useWindowSize from "./Components/useWindowSize";
+import WatchGame from "./Components/WatchGame/WatchGame";
 
 let WIDTH = 800;
 let HEIGHT = 400;
@@ -58,14 +59,23 @@ function Game() {
         )}
       >
         <button
-          className={clsx(classes.configButton, classes.butttonGame,classes.configButtonTop)}
+          className={clsx(
+            classes.configButton,
+            classes.butttonGame,
+            classes.configButtonTop
+          )}
           onClick={() => setActiveGameVue("chooseGameType")}
           style={{ fontSize: WIDTH / 40 }}
         >
           Play a game
         </button>
         <button
-          className={clsx(classes.configButton, classes.butttonGame,classes.configButtonBottom)}
+          className={clsx(
+            classes.configButton,
+            classes.butttonGame,
+            classes.configButtonBottom
+          )}
+          onClick={() => setActiveGameVue("watchGame")}
           style={{ fontSize: WIDTH / 40 }}
         >
           Watch other users play
@@ -79,18 +89,30 @@ function Game() {
         )}
       >
         <button
-          className={clsx(classes.configButton, classes.butttonGame,classes.configButtonTop)}
+          className={clsx(
+            classes.configButton,
+            classes.butttonGame,
+            classes.configButtonTop
+          )}
           onClick={() => setActiveGameVue("pong")}
           style={{ fontSize: WIDTH / 40 }}
         >
           Room
         </button>
         <button
-          className={clsx(classes.configButton, classes.butttonGame,classes.configButtonBottom)}
+          className={clsx(
+            classes.configButton,
+            classes.butttonGame,
+            classes.configButtonBottom
+          )}
           style={{ fontSize: WIDTH / 40 }}
         >
           Current game invites
         </button>
+      </div>
+
+      <div className={clsx(classes.WatchGame, ftShowGameVue("watchGame"))}>
+        <WatchGame />
       </div>
 
       <div className={clsx(classes.pong, ftShowGameVue("pong"))}>

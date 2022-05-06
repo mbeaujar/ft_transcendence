@@ -1,0 +1,9 @@
+@import "../../../../utils.scss";
+
+.WatchGame {
+  width: 60%;
+  height: 60%;
+  overflow-y: auto;
+  border: 0.2vw solid $white1;
+  border-radius: 1.5vw;
+}
