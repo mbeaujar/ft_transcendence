@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import api from "../../../../apis/api";
 import Input from "../../../Chat/Components/Discussion/Input";
-import { WebSocket } from "../../../Chat/Socket.module";
+import { WebSocket } from "../../../Chat/Socket";
 import { IGame } from "../../../../interface/game.interface";
 import classes from "./Pong.module.scss";
-import useWindowSize from "../useWindowSize";
+import useWindowSize from "../useWindow/useWindowSize";
 import clsx from "clsx";
 
 let WIDTH = 800;

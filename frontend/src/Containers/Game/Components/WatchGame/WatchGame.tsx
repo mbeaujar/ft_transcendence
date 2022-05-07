@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import classes from "./WatchGame.module.scss";
-import { WebSocket } from "../../../Chat/Socket.module";
+import { WebSocket } from "../../../Chat/Socket";
 import { IGame } from "../../../../interface/game.interface";
 
 const ws = new WebSocket("http://localhost:3000/game");

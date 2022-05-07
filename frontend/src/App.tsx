@@ -5,10 +5,10 @@ import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Game from "./Containers/Game/Game";
-import Chat from "./Containers/Chat/Chat.module";
-import Profile from "./Containers/Profile/Profile.module";
-import Header from "./Containers/Header/Header.module";
-import OtherUserProfile from "./Containers/OtherUserProfile/OtherUserProfile.module";
+import Chat from "./Containers/Chat/Chat";
+import Profile from "./Containers/Profile/Profile";
+import Header from "./Containers/Header/Header";
+import OtherUserProfile from "./Containers/OtherUserProfile/OtherUserProfile";
 import { IUser } from "./interface/user.interface";
 import api from "./apis/api";
 import googleAuthImg from "./assets/Google_Authenticator_for_Android_icon.png";

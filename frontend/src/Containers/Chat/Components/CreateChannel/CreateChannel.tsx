@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IChannel } from "../../../../interface/channel.interface";
 import { IUser } from "../../../../interface/user.interface";
 import { Scope } from "../../../../interface/scope.enum";
-import Checkbox from "../Checkbox/Checkbox.module";
+import Checkbox from "../Checkbox/Checkbox";
 import classes from "./CreateChannel.module.scss";
 import { toast } from "react-toastify";
 

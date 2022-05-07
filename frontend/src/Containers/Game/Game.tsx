@@ -5,7 +5,7 @@ import clsx from "clsx";
 import classes from "./Game.module.scss";
 import styles from "./Game.module.scss";
 import Pong from "./Components/Pong/Pong";
-import useWindowSize from "./Components/useWindowSize";
+import useWindowSize from "./Components/useWindow/useWindowSize";
 import WatchGame from "./Components/WatchGame/WatchGame";
 
 let WIDTH = 800;
