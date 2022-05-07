@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import classes from './Input.module.scss';
 
 interface Props {
-  style?: any;
   label?: string;
   onSubmit?: any;
 }

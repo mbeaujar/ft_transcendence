@@ -3,6 +3,7 @@ import classes from "./Header.module.scss";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import api from "../../apis/api";
 import clsx from "clsx";
+import { IUser } from "../../interface/user.interface";
 
 const Button = (props: any) => {
   return (
@@ -15,17 +16,17 @@ const Button = (props: any) => {
 };
 
 function Header() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<IUser|null>(null);
   const [showLinks, setShowLinks] = useState(false);
 
-  function ftShowLogin(user: any) {
+  function ftShowLogin(user: IUser|null) {
     if (user === null) {
       return classes.showLogin;
     }
     return classes.hideLogin;
   }
 
-  function ftShowLogout(user: any) {
+  function ftShowLogout(user: IUser|null) {
     if (user === null) {
       return classes.hideLogout;
     }

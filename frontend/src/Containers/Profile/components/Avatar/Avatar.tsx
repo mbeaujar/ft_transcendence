@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
-  const [avatar, setAvatar] = useState<any>(); // Blob | string
+  const [avatar, setAvatar] = useState<Blob | MediaSource>(); // Blob | string
 
   {
     useEffect(() => {

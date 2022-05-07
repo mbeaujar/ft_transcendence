@@ -6,19 +6,14 @@ import { IUser } from "../../interface/user.interface";
 import { IFriends } from "../../interface/friends.interface";
 import Avatar from "../Profile/components/Avatar/Avatar";
 import Stats from "../Profile/components/Stats/Stats";
-/*
-interface Props {
-  user: IUser;
-}*/
 
-function OtherUserProfile (props: any) {
+function OtherUserProfile() {
   const [friendsList, setFriendsList] = useState<IFriends>();
   const [user, setUser] = useState<IUser | null>(null);
 
   function getUser() {
     let path = window.location.pathname;
     let cutPath = path.split("/");
-    console.log("cutPath==", cutPath);
     if (cutPath.length != 3) {
       setUser(null);
       return;
@@ -46,10 +41,10 @@ function OtherUserProfile (props: any) {
       {user ? (
         <div className={classes.OtherUserProfile}>
           <div className={classes.OtherUserProfileLeft}>
-          <div className={classes.User}>
-            <Avatar user={user} />
-            <h1>{user.username}</h1>
-          </div>
+            <div className={classes.User}>
+              <Avatar user={user} />
+              <h1>{user.username}</h1>
+            </div>
           </div>
           <div className={classes.OtherUserProfileRight}>
             <Stats user={user} />
@@ -60,6 +55,6 @@ function OtherUserProfile (props: any) {
       )}
     </>
   );
-};
+}
 
 export default OtherUserProfile;

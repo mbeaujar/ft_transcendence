@@ -36,7 +36,7 @@ function MainApp(props: IMainProps) {
           <Profile /*user={user}*/ refresh={refresh} setRefresh={setRefresh} />
         }
       />
-      <Route path="/profile/:name" element={<OtherUserProfile user={user} />} />
+      <Route path="/profile/:name" element={<OtherUserProfile />} />
     </Routes>
   );
 }

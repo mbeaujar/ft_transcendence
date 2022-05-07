@@ -42,7 +42,7 @@ function Game() {
     }
   }, [WindowSize]);
 
-  const ftShowGameVue: any = (divName: string) => {
+  const ftShowGameVue = (divName: string) => {
     if (divName === activeGameVue) return classes.showGameVue;
     else return classes.hideGameVue;
   };

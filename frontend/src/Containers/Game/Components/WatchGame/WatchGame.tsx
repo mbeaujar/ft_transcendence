@@ -5,7 +5,12 @@ import { IGame } from "../../../../interface/game.interface";
 
 const ws = new WebSocket("http://localhost:3000/game");
 
-function WatchGame(props: any) {
+interface Props 
+{
+
+}
+
+function WatchGame(props: Props) {
   const [listGame, setListGame] = useState<[IGame|null]>([null]);
 
   useEffect(() => {

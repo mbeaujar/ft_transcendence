@@ -9,7 +9,7 @@ const getSize = () => {
 };
 
 const useWindowSize = () => {
-  let [windowSize, setWindowSize]: any = useState(getSize());
+  let [windowSize, setWindowSize] = useState(getSize());
 
   const handleResize = () => {
     setWindowSize(getSize());
