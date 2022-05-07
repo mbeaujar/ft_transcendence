@@ -2,7 +2,20 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import classes from "./Dropdown2.module.scss";
 
-function Dropdown(props: any) {
+interface Iitem {
+  id: number; value: string
+}
+
+interface Props {
+  items: Iitem[];
+  title: String;
+  multiselect: boolean;
+  channelState:number;
+  refreshDropdown:number;
+  setNewChallengeMode:(value: string) => void;
+}
+
+function Dropdown(props: Props) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<string>(
     props.items[props.channelState].value
@@ -22,7 +35,7 @@ function Dropdown(props: any) {
     };
   }, [props.refreshDropdown]);
 
-  function handleOnClick(item: any, multiSelect: boolean) {
+  function handleOnClick(item: Iitem, multiSelect: boolean) {
     if (selection != item.value) {
       setSelection(item.value);
       props.setNewChallengeMode(item.value);
@@ -32,7 +45,7 @@ function Dropdown(props: any) {
     }
   }
 
-  function isItemInSelection(item: any) {
+  function isItemInSelection(item: Iitem) {
     if (selection === item.value) {
       return <span className="material-icons">done</span>;
     }
@@ -57,7 +70,7 @@ function Dropdown(props: any) {
       </div>
       {open && (
         <ul className={classes.list} onClick={() => close()}>
-          {props.items.map((item: any) => (
+          {props.items.map((item: Iitem) => (
             <li className={classes.dd_list_item} key={item.id}>
               <button
                 type="button"

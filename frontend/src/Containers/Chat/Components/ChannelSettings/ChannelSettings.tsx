@@ -471,6 +471,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           title="Ban Duration"
           items={itemsBanDuration}
           setBanUserDuration={setBanUserDuration}
+          multiselect={false}
         />
         <form
           className={classes.UnbanUser}
@@ -500,6 +501,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           title="Mute Duration"
           items={itemsMuteDuration}
           setMuteUserDuration={setMuteUserDuration}
+          multiselect={false}
         />
         <form
           className={classes.UnmuteUser}
@@ -539,6 +541,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           refreshDropdown={refreshDropdown}
           channelState={props.channel.state}
           setNewChallengeMode={setNewChallengeMode}
+          multiselect={false}
         />
         <div className={showSetPassword("SetPassword")}>
           <p>Set password</p>
