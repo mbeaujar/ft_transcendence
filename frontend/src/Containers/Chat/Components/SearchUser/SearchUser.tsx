@@ -10,16 +10,21 @@ import { toast } from "react-toastify";
 import { IChannel } from "../../../../interface/channel.interface";
 import { Scope } from "../../../../interface/scope.enum";
 
-function SearchUser(props: any) {
+interface Props {
+  user: IUser;
+  socketEmit: any;
+}
+
+function SearchUser(props: Props) {
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
 
-  function handleChangesearchUserInput(event: any) {
-    var value = event.target.value;
+  function handleChangesearchUserInput(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setSearchUserInput(value);
   }
 
-  function handleSubmitFormSearchUser(event: any) {
+  function handleSubmitFormSearchUser(event: React.FormEvent<HTMLFormElement>) {
     console.log("userr=", searchUserInput);
     if (searchUserInput === props.user.username) {
       toast.error("You can't search yourself");
