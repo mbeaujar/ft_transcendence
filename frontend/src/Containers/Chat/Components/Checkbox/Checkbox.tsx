@@ -4,7 +4,7 @@ import classes from './Checkbox.module.scss';
 interface Props {
   label: string;
   value: boolean;
-  onChange: any;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const Checkbox: React.FC<Props> = (props: Props): JSX.Element => {
