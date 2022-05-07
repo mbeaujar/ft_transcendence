@@ -3,13 +3,20 @@ import api from "../../../../../../apis/api";
 import Dropdown from "../Dropdown/Dropdown.module";
 import { toast } from "react-toastify";
 import "./DoubleAuthSettings.scss";
+import { IUser } from "../../../../../../interface/user.interface";
 
-function DoubleAuthSettings(props: any) {
+interface Props {
+  user: IUser;
+  refresh: number;
+  setRefresh: (value: number) => void;
+}
+
+function DoubleAuthSettings(props: Props) {
   const [refresh, setRefresh] = useState<number>(0);
   const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState(
     props.user.isTwoFactorEnabled ? "Yes" : "no"
   );
-  const [qrcode, setQrcode] = useState<any>(null);
+  const [qrcode, setQrcode] = useState<Blob | MediaSource|null>(null);
   const [twofaCode, setTwofaCode] = useState<string>("");
   const [inputPlaceholder, setInputPlaceholder] = useState<string>(
     "Enter the 6 digit code"
@@ -27,7 +34,7 @@ function DoubleAuthSettings(props: any) {
     }
 
     props.setRefresh(props.refresh + 1);
-  }, [refresh, /*uploadedFile,*/ valueEnableDoubleAuth]);
+  }, [refresh, valueEnableDoubleAuth]);
 
   //Google authenticator
   const itemsGoogleAuth = [
@@ -40,7 +47,7 @@ function DoubleAuthSettings(props: any) {
     return 0;
   }
 
-  function handleSubmitFormEnable2faInProgressCode(event: any) {
+  function handleSubmitFormEnable2faInProgressCode() {
     api
       .post("/auth/2fa/enable", { code: twofaCode })
       .then((response) => {
@@ -54,12 +61,12 @@ function DoubleAuthSettings(props: any) {
       });
   }
 
-  function handleChangeEnable2faInProgressCode(event: any) {
-    var value = event.target.value;
+  function handleChangeEnable2faInProgressCode(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setTwofaCode(value);
   }
 
-  function handleSubmitFormDisable2faInProgressCode(event: any) {
+  function handleSubmitFormDisable2faInProgressCode() {
     api
       .post("/auth/2fa/disable", { code: twofaCode })
       .then((response) => {
@@ -73,12 +80,12 @@ function DoubleAuthSettings(props: any) {
       });
   }
 
-  function handleChangeDisable2faInProgressCode(event: any) {
+  function handleChangeDisable2faInProgressCode(event: React.FormEvent<HTMLInputElement>) {
     if (twofaCode === "Wrong code!") {
       console.log(twofaCode);
       setTwofaCode("");
     }
-    var value = event.target.value;
+    var value = event.currentTarget.value;
     setTwofaCode(value);
   }
 
@@ -111,6 +118,7 @@ function DoubleAuthSettings(props: any) {
           setValueEnableDoubleAuth={setValueEnableDoubleAuth}
           valueEnableDoubleAuth={valueEnableDoubleAuth}
           dropdownIndex={dropdownIndex()}
+          multiselect={false}
         />
       </div>
       <div className={showDoubleAuthBottom("DoubleAuthEnable2faInProgress")}>
@@ -124,7 +132,7 @@ function DoubleAuthSettings(props: any) {
             placeholder={inputPlaceholder}
           />
           <button
-            onClick={(event) => handleSubmitFormEnable2faInProgressCode(event)}
+            onClick={(event) => handleSubmitFormEnable2faInProgressCode()}
           >
             Enable
           </button>
@@ -140,7 +148,7 @@ function DoubleAuthSettings(props: any) {
             placeholder={inputPlaceholder}
           />
           <button
-            onClick={(event) => handleSubmitFormDisable2faInProgressCode(event)}
+            onClick={(event) => handleSubmitFormDisable2faInProgressCode()}
           >
             Disable
           </button>

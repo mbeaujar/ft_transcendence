@@ -5,7 +5,11 @@ import { IFriends } from "../../../../../../interface/friends.interface";
 import { IUser } from "../../../../../../interface/user.interface";
 import "./MyFriends.scss";
 
-function MyFriends(props: any) {
+interface Props {
+  refreshMyFriends:number;
+}
+
+function MyFriends(props: Props) {
   const [friendsList, setFriendsList] = useState<IFriends>();
   const [refresh, setRefresh] = useState<number>(0);
 
@@ -18,7 +22,7 @@ function MyFriends(props: any) {
     console.log("myfriends effect");
   }, [refresh, props.refreshMyFriends]);
 
-  const deleteFriend = (friendsList: any) => {
+  const deleteFriend = (friendsList: IUser) => {
     api
       .delete(`/friends/${friendsList.id}`)
       .then((response) => setRefresh(refresh + 1))

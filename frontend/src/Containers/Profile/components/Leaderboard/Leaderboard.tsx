@@ -21,7 +21,7 @@ function ftSetLevel(pongopoints: number) {
 }
 
 const Leaderboard: React.FC = (): JSX.Element => {
-  const [leaderboard, setLeaderboard] = useState<any>([]);
+  const [leaderboard, setLeaderboard] = useState<IUser[]>([]);
 
   useEffect(() => {
     api
@@ -45,7 +45,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
       </div>
 
       <div className="Users">
-        {leaderboard.map((user: any, index: number) => (
+        {leaderboard.map((user: IUser, index: number) => (
           <div className="User" key={index}>
             <div className="UserLeft">
               <p className="Rank">

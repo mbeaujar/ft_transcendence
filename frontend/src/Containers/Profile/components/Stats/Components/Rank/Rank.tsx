@@ -14,9 +14,9 @@ function Level(props: Props) {
       .get(`/users/ranking`)
       .then((response) => setRank(response.data))
       .catch((reject) => console.log(reject));
-    let podium2: any = document.getElementById("Podium2");
-    let podium1: any = document.getElementById("Podium1");
-    let podium3: any = document.getElementById("Podium3");
+    let podium2 = document.getElementById("Podium2");
+    let podium1 = document.getElementById("Podium1");
+    let podium3 = document.getElementById("Podium3");
 
     let podium2Progress = 0;
     let podium3Progress = 0;

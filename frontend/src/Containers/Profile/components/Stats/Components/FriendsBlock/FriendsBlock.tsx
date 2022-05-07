@@ -5,7 +5,7 @@ import { IUser } from "../../../../../../interface/user.interface";
 import api from "../../../../../../apis/api";
 import Avatar from "../../../Avatar/Avatar";
 
-function FriendsBlock(props: any) {
+function FriendsBlock() {
   const [friendsList, setFriendsList] = useState<IFriends>();
 
   useEffect(() => {

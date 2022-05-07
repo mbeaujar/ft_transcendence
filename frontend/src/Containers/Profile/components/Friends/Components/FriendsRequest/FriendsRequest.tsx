@@ -4,7 +4,13 @@ import "./FriendsRequest.scss";
 import { IFriendsRequest } from "../../../../../../interface/friends-request.interface";
 import Avatar from "../../../Avatar/Avatar";
 
-function FriendsRequest(props: any) {
+interface Props 
+{
+  setRefreshMyFriends:(value:number)=>void;
+  refreshMyFriends:number;
+}
+
+function FriendsRequest(props: Props) {
   const [refresh, setRefresh] = useState<number>(0);
   const [friendsRequest, setFriendsRequest] = useState<IFriendsRequest[]>([]);
 

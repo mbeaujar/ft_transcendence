@@ -19,7 +19,6 @@ export interface IMainProps {
   setRefresh: (value: number) => void;
 }
 
-
 function MainApp(props: IMainProps) {
   const { user, refresh, setRefresh } = props;
   return (
@@ -30,12 +29,7 @@ function MainApp(props: IMainProps) {
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
       />
-      <Route
-        path="/profile"
-        element={
-          <Profile /*user={user}*/ refresh={refresh} setRefresh={setRefresh} />
-        }
-      />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/profile/:name" element={<OtherUserProfile />} />
     </Routes>
   );
@@ -93,9 +87,7 @@ const App: React.FC = (): JSX.Element => {
               onChange={(event) => handleChange2faCode(event)}
               placeholder={inputPlaceholder}
             />
-            <button onClick={() => handleSubmitForm2faCode()}>
-              Connect
-            </button>
+            <button onClick={() => handleSubmitForm2faCode()}>Connect</button>
           </div>
         ) : (
           <h1 className="unauthorized">

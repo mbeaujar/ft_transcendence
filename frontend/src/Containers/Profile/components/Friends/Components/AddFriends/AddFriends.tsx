@@ -5,7 +5,7 @@ import "./AddFriends.scss";
 import { IFriendsRequest } from "../../../../../../interface/friends-request.interface";
 import Input from "../../../Input/Input";
 
-function AddFriends(props: any) {
+function AddFriends() {
   const [refresh, setRefresh] = useState<number>(0);
 
   useEffect(() => {}, []);
@@ -21,7 +21,7 @@ function AddFriends(props: any) {
           }
           api
             .post("/friends/add", { username: text })
-            .then((response) => {
+            .then(() => {
               setRefresh(refresh + 1);
               toast.success("Your friend request was sent to " + text);
             })

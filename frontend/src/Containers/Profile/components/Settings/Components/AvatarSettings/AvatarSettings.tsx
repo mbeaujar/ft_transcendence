@@ -3,15 +3,22 @@ import api from "../../../../../../apis/api";
 import Avatar from "../../../Avatar/Avatar";
 import { toast } from "react-toastify";
 import "./AvatarSettings.scss";
+import { IUser } from "../../../../../../interface/user.interface";
 
-function AvatarSettings(props: any) {
+interface Props {
+  user: IUser;
+  refresh: number;
+  setRefresh: (value: number) => void;
+}
+
+function AvatarSettings(props: Props) {
   const [activeAvatarBottom, setActiveAvatarBottom] = useState<boolean>(true);
   const [selectedFileName, setSelectedFileName] =
     useState<string>("Choose a file...");
-  const [uploadedFile, setUploadedFile] = useState<any>();
+  const [uploadedFile, setUploadedFile] = useState<File|null>();
   const [refresh, setRefresh] = useState<number>(0);
   const [refreshImg, setRefreshImg] = useState<number>(0);
-  const [avatarImg, setAvatarImg] = useState<any>();
+  const [avatarImg, setAvatarImg] = useState<string>();
 
   useEffect(() => {
     props.setRefresh(props.refresh + 1);
@@ -28,28 +35,34 @@ function AvatarSettings(props: any) {
 
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
-  const handleClick = (event: any) => {
+  const handleClick = () => {
     if (hiddenFileInput.current) hiddenFileInput.current.click();
   };
 
-  const changeAvatarImg = (event: any) => {
-    if (event.target.files) {
-      setUploadedFile(event.target.files[0]);
-      setAvatarImg(URL.createObjectURL(event.target.files[0]));
-      setSelectedFileName(event.target.files[0].name);
+  const changeAvatarImg = (event: React.FormEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files) {
+      setUploadedFile(event.currentTarget.files[0]);
+      setAvatarImg(URL.createObjectURL(event.currentTarget.files[0]));
+      setSelectedFileName(event.currentTarget.files[0].name);
     }
   };
 
   const validNewAvatar = () => {
-    
     setSelectedFileName("Choose a file...");
     if (uploadedFile) {
       const formData = new FormData();
       formData.append("file", uploadedFile, selectedFileName);
       api
         .post("/users/avatar/", formData)
-        .then((response) => {setRefresh(refresh + 1);toast.success("Avatar succesfully change");setActiveAvatarBottom(!activeAvatarBottom);})
-        .catch((reject) => {console.log(reject);toast.error("Incorrect file format")});
+        .then((response) => {
+          setRefresh(refresh + 1);
+          toast.success("Avatar succesfully change");
+          setActiveAvatarBottom(!activeAvatarBottom);
+        })
+        .catch((reject) => {
+          console.log(reject);
+          toast.error("Incorrect file format");
+        });
     }
     setUploadedFile(null);
   };
@@ -104,10 +117,7 @@ function AvatarSettings(props: any) {
             <button className="ValidNewAvatar" onClick={validNewAvatar}>
               <span className="material-icons">done</span>
             </button>
-            <button
-              className="NoValidNewAvatar"
-              onClick={noValidNewAvatar}
-            >
+            <button className="NoValidNewAvatar" onClick={noValidNewAvatar}>
               <span className="material-icons">close</span>
             </button>
           </div>

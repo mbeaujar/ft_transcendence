@@ -78,7 +78,7 @@ function Level(props: Props) {
   useEffect(() => {
     let speed = 30;
     let imgLevelElementProgress = 0;
-    let imgLevelElement: any = document.getElementById("imgLevelElement");
+    let imgLevelElement = document.getElementById("imgLevelElement");
     let progressPodium4 = setInterval(() => {
       imgLevelElementProgress++;
       if (imgLevelElement != null) {

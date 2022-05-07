@@ -11,13 +11,7 @@ import Avatar from "./components/Avatar/Avatar";
 import { IUser } from "../../interface/user.interface";
 import { IFriends } from "../../interface/friends.interface";
 
-interface Props {
-  //user: IUser;
-  refresh: number;
-  setRefresh: any;
-}
-
-const Profile: React.FC<Props> = (props: Props): JSX.Element => {
+function Profile() {
   const [activeMenu, setActiveMenu] = useState<string>("Stats");
   const [refresh, setRefresh] = useState<number>(0);
   const [user, setUser] = useState<IUser | null>(null);
@@ -30,14 +24,14 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       .catch((reject) => console.error(reject));
   }, [refresh]);
 
-  const ftIsActiveMenu: any = (menuName: string) => {
+  const ftIsActiveMenu = (menuName: string) => {
     if (menuName === activeMenu) {
       return classes.activeMenu;
     }
     return classes.disactiveMenu;
   };
 
-  const ftIsActiveInfo: any = (infoName: string) => {
+  const ftIsActiveInfo = (infoName: string) => {
     if (infoName === activeMenu) {
       return classes.activeInfo;
     }
@@ -114,5 +108,5 @@ const Profile: React.FC<Props> = (props: Props): JSX.Element => {
       ) : null}
     </>
   );
-};
+}
 export default Profile;

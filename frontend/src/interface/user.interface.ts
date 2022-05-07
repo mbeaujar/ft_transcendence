@@ -5,12 +5,12 @@ export interface IUser {
   avatarId?: number;
   wins: number;
   losses: number;
-  isTwoFactorEnabled:boolean;
-  elo:number;
-  user:any;
-  state:number;
-  blockedUsers:any;
-  creator:boolean;
-  administrator:boolean;
-  mute:boolean;
+  isTwoFactorEnabled: boolean;
+  elo: number;
+  user: IUser;
+  state: number;
+  blockedUsers: IUser[];
+  creator: boolean;
+  administrator: boolean;
+  mute: boolean;
 }

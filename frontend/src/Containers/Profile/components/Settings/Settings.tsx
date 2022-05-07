@@ -14,7 +14,7 @@ import BlockedUsers from "./Components/BlockedUsers/BlockedUsers";
 interface Props {
   user: IUser;
   refresh: number;
-  setRefresh: any;
+  setRefresh: (value:number)=>void;
 }
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {

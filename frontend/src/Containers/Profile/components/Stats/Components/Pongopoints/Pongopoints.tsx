@@ -9,7 +9,7 @@ interface Props {
 function Pongopoints(props: Props) {
   const [elo,setElo] = useState(props.user.elo);
   useEffect(() => {
-    let valuePongopoints: any = document.getElementById('valuePongopoints');
+    let valuePongopoints = document.getElementById('valuePongopoints');
     let progressPongopoints = 0;
     let speed = (100/elo);
     let progress2 = setInterval(() => {
