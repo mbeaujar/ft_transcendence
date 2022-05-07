@@ -29,9 +29,9 @@ interface Props {
   user: IUser;
   channel: IChannel;
   ws: any;
-  messages: any;
-  showChatRight: any;
-  setShowChatRight: any;
+  messages: IMessage[];
+  showChatRight: boolean;
+  setShowChatRight: (value:boolean)=>void;
 }
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
@@ -79,12 +79,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     console.log("RightClickInviteToPlay", messageUser);
   }
 
-  function displayMenu(e: any, userToVisit: IUser) {
+  function displayMenu(e: React.MouseEvent<HTMLHeadingElement, MouseEvent>, userToVisit: IUser) {
     setMessageUser(userToVisit);
     if (userToVisit.username != props.user.username) show(e);
   }
 
-  const renderedMessages = props.messages.map((message: any, index: number) => {
+  const renderedMessages = props.messages.map((message: IMessage, index: number) => {
     return (
       <div key={message.id} className={classes.Message}>
         <Avatar user={message.user} />
