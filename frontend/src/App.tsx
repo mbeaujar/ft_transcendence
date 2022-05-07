@@ -19,6 +19,7 @@ export interface IMainProps {
   setRefresh: (i: number) => void;
 }
 
+
 function MainApp(props: IMainProps) {
   const { user, refresh, setRefresh } = props;
   return (
@@ -63,7 +64,7 @@ const App: React.FC = (): JSX.Element => {
       });
   }, [refresh]);
 
-  function handleSubmitForm2faCode(event: any) {
+  function handleSubmitForm2faCode() {
     api
       .post("/auth/2fa/authenticate", { code: twofaCode })
       .then((response) => window.location.reload())
@@ -72,8 +73,8 @@ const App: React.FC = (): JSX.Element => {
       });
   }
 
-  function handleChange2faCode(event: any) {
-    var value = event.target.value;
+  function handleChange2faCode(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setTwofaCode(value);
   }
 
@@ -92,7 +93,7 @@ const App: React.FC = (): JSX.Element => {
               onChange={(event) => handleChange2faCode(event)}
               placeholder={inputPlaceholder}
             />
-            <button onClick={(event) => handleSubmitForm2faCode(event)}>
+            <button onClick={() => handleSubmitForm2faCode()}>
               Connect
             </button>
           </div>
