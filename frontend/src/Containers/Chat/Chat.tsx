@@ -19,20 +19,20 @@ ws.disconnect();
 
 interface Props {
   user: IUser;
-  refresh: any;
-  setRefresh: any;
+  refresh: number;
+  setRefresh: (i: number) => void;
 }
 
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
-  const [discussion, setDiscussion] = useState<any>([]);
+  const [discussion, setDiscussion] = useState<IChannel[]>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
 
   const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
   const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
 
-  const [activeChatMenu, setActiveChatMenu] = useState<any>(null);
+  const [activeChatMenu, setActiveChatMenu] = useState<String | null>(null);
 
   const [showChatLeft, setShowChatLeft] = useState(true);
   const [showChatRight, setShowChatRight] = useState(false);
@@ -93,7 +93,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     setChannelsNotJoin([]);
     channels.map((channel: IChannel) => {
       i = 0;
-      channel.users.map((userList: any) => {
+      channel.users.map((userList: IUser) => {
         if (userList.user.username === props.user.username) {
           setChannelsJoin((prev) => [...prev, channel]);
           i = 1;
@@ -160,7 +160,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     else if (activeChatMenu === "SearchUser")
       return (
         <SearchUser
-          socketEmit={(message: string, channel: any) => {
+          socketEmit={(message: string, channel: IChannel) => {
             ws.socket.emit(message, channel);
           }}
           user={props.user}
