@@ -2,8 +2,15 @@ import React, { useState, useEffect } from "react";
 import api from "../../../../../../apis/api";
 import { toast } from "react-toastify";
 import "./Username.scss";
+import { IUser } from "../../../../../../interface/user.interface";
 
-function Username(props: any) {
+export interface Props {
+  user: IUser;
+  setRefresh: (value: number) => void;
+  refresh: number;
+}
+
+function Username(props: Props) {
   const [activeUsernameBottom, setActiveUsernameBottom] =
     useState<boolean>(true);
   const [newName, setNewName] = useState<string>(props.user?.username);
@@ -33,7 +40,7 @@ function Username(props: any) {
     return true;
   }
 
-  function handleSubmitFormUsername(event: any) {
+  function handleSubmitFormUsername(event: React.FormEvent<HTMLFormElement>) {
     if (isValidUsername() === false)
       toast.error("Your username can only containe number,letter,- and _");
     else if (newName.length < 4 || newName.length > 9) {
@@ -54,8 +61,8 @@ function Username(props: any) {
     event.preventDefault();
   }
 
-  function handleChangeUsername(event: any) {
-    var value = event.target.value;
+  function handleChangeUsername(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setNewName(value);
   }
 

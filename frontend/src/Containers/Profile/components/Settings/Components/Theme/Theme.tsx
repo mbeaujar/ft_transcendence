@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Theme.scss";
 
-function Theme(props: any) {
+export interface Props {
+  
+}
+
+function Theme(props: Props) {
   useEffect(() => {}, []);
   return (
     <div className="Theme">
