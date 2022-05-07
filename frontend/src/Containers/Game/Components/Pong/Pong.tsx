@@ -124,7 +124,7 @@ const Pong = (props: any) => {
   }, []);
 
   function showButton() {
-    if (hideButton == false) return classes.ShowButton;
+    if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
   }
 

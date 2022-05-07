@@ -24,8 +24,8 @@ function DoubleAuthSettings(props: Props) {
 
   useEffect(() => {
     if (
-      valueEnableDoubleAuth == "Yes" &&
-      props.user.isTwoFactorEnabled == false
+      valueEnableDoubleAuth === "Yes" &&
+      props.user.isTwoFactorEnabled === false
     ) {
       api
         .post("/auth/2fa/generate", {}, { responseType: "blob" })
@@ -43,7 +43,7 @@ function DoubleAuthSettings(props: Props) {
   ];
 
   function dropdownIndex() {
-    if (props.user.isTwoFactorEnabled == false) return 1;
+    if (props.user.isTwoFactorEnabled === false) return 1;
     return 0;
   }
 
@@ -90,18 +90,18 @@ function DoubleAuthSettings(props: Props) {
   }
 
   function showDoubleAuthBottom(className: string) {
-    if (className == "DoubleAuthEnable2faInProgress") {
+    if (className === "DoubleAuthEnable2faInProgress") {
       if (
-        valueEnableDoubleAuth == "Yes" &&
-        props.user.isTwoFactorEnabled == false
+        valueEnableDoubleAuth === "Yes" &&
+        props.user.isTwoFactorEnabled === false
       ) {
         return "showDoubleAuthEnable2faInProgress";
       }
       return "hideDoubleAuthEnable2faInProgress";
-    } else if (className == "DoubleAuthDisable2faInProgress") {
+    } else if (className === "DoubleAuthDisable2faInProgress") {
       if (
-        valueEnableDoubleAuth == "No" &&
-        props.user.isTwoFactorEnabled == true
+        valueEnableDoubleAuth === "No" &&
+        props.user.isTwoFactorEnabled === true
       ) {
         return "showDoubleAuthDisable2faInProgress";
       }

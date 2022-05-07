@@ -144,7 +144,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   };
 
   const ftActiveChatMenuCenter = () => {
-    if (activeChatMenu == null || channelChoose)
+    if (activeChatMenu === null || channelChoose)
       if (channelChoose) {
         return (
           <Discussion

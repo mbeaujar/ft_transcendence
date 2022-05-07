@@ -28,7 +28,7 @@ function Level(props: Props) {
       if (podium2 != null) {
         podium2.style.height = `${podium2Progress}%`;
       }
-      if (podium2Progress == 45) {
+      if (podium2Progress === 45) {
         clearInterval(progressPodium2);
       }
     }, speed);
@@ -37,7 +37,7 @@ function Level(props: Props) {
       if (podium1 != null) {
         podium1.style.height = `${podium1Progress}%`;
       }
-      if (podium1Progress == 60) {
+      if (podium1Progress === 60) {
         clearInterval(progressPodium1);
       }
     }, speed);
@@ -46,7 +46,7 @@ function Level(props: Props) {
       if (podium3 != null) {
         podium3.style.height = `${podium3Progress}%`;
       }
-      if (podium3Progress == 30) {
+      if (podium3Progress === 30) {
         clearInterval(progressPodium3);
       }
     }, speed);

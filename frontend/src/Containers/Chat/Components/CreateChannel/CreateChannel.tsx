@@ -24,8 +24,8 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
           (newName.charCodeAt(i) >= 48 && newName.charCodeAt(i) <= 57) ||
           (newName.charCodeAt(i) >= 65 && newName.charCodeAt(i) <= 90) ||
           (newName.charCodeAt(i) >= 97 && newName.charCodeAt(i) <= 122) ||
-          newName.charCodeAt(i) == 45 ||
-          newName.charCodeAt(i) == 95
+          newName.charCodeAt(i) === 45 ||
+          newName.charCodeAt(i) === 95
         )
       ) {
         return false;

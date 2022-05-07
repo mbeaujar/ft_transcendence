@@ -34,7 +34,7 @@ function Ratio(props: Props) {
             )`;
         }
       }
-      if (progressValue == 100) {
+      if (progressValue === 100) {
         clearInterval(progress);
       }
     }, speed);

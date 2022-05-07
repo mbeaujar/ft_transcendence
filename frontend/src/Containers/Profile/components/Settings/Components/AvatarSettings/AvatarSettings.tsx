@@ -22,7 +22,7 @@ function AvatarSettings(props: Props) {
 
   useEffect(() => {
     props.setRefresh(props.refresh + 1);
-    if (refreshImg == 0) {
+    if (refreshImg === 0) {
       api
         .get(`/users/avatar/${props.user.avatarId}`, {
           responseType: "blob",

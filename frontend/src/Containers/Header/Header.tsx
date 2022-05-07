@@ -43,20 +43,20 @@ function Header() {
   }, []);
 
   function BurgerMenuMode() {
-    if (showLinks == false) return classes.BurgerMenu;
+    if (showLinks === false) return classes.BurgerMenu;
     return classes.BurgerMenuCross;
   }
 
   function showNavigation() {
     if (window.innerWidth > 650.01) return classes.Nav;
     else {
-      if (showLinks == false) return classes.HideNavigation;
+      if (showLinks === false) return classes.HideNavigation;
       return classes.ShowNavigation;
     }
   }
 
   useEffect(()=>{
-    if (showLinks == true && window.innerWidth < 650.01)
+    if (showLinks === true && window.innerWidth < 650.01)
       {
           $("body").css('overflow-y', 'hidden');
           $(".Header").css('overflow-y', 'visible');

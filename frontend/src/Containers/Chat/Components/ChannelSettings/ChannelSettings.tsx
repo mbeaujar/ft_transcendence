@@ -3,13 +3,11 @@ import { toast } from "react-toastify";
 import { useState, useEffect, useRef } from "react";
 import classes from "./ChannelSettings.module.scss";
 import { IUser } from "../../../../interface/user.interface";
-import { IChannelUser } from "../../../../interface/channel-user.interface";
 import { IChannel } from "../../../../interface/channel.interface";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import Dropdown from "./Dropdown/Dropdown";
 import Dropdown2 from "./Dropdown2/Dropdown";
 import Dropdown3 from "./Dropdown3/Dropdown3";
-import { channel } from "diagnostics_channel";
 import { Scope } from "../../../../interface/scope.enum";
 import clsx from "clsx";
 import api from "../../../../apis/api";
@@ -61,7 +59,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].administrator == true
+      props.channel.users[i].administrator === true
     )
       return classes.ShowAdminSettings;
     else return classes.HideAdminSettings;
@@ -79,7 +77,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].creator == true
+      props.channel.users[i].creator === true
     )
       return classes.ShowCreatorSettings;
     else return classes.HideCreatorSettings;
@@ -172,7 +170,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function findUser(username: string) {
     let i = 0;
     while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username == username)
+      if (props.channel.users[i].user.username === username)
         return props.channel.users[i].user;
       i++;
     }
@@ -180,13 +178,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function setMuteTime() {
-    if (muteUserDuration == "1 minute") {
+    if (muteUserDuration === "1 minute") {
       return 60000;
     }
-    if (muteUserDuration == "1 hour") {
+    if (muteUserDuration === "1 hour") {
       return 3600000;
     }
-    if (muteUserDuration == "1 day") {
+    if (muteUserDuration === "1 day") {
       return 86400000;
     }
   }
@@ -222,7 +220,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ifUserMute(username: string) {
     let i = 0;
     while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username == username)
+      if (props.channel.users[i].user.username === username)
         return props.channel.users[i].mute;
       i++;
     }
@@ -256,7 +254,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ifUserAdmin(username: string) {
     let i = 0;
     while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username == username)
+      if (props.channel.users[i].user.username === username)
         return props.channel.users[i].administrator;
       i++;
     }
@@ -370,11 +368,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   //New password
   function showNewPassword(classname: string) {
     if (props.channel.state === Scope.protected) {
-      if (classname == "NewPassword") {
+      if (classname === "NewPassword") {
         return classes.NewPassword;
-      } else if (classname == "ConfirmNewPassword") {
+      } else if (classname === "ConfirmNewPassword") {
         return classes.ConfirmNewPassword;
-      } else if (classname == "ChangePassword") {
+      } else if (classname === "ChangePassword") {
         return classes.ChangePassword;
       }
     }
@@ -382,7 +380,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function ajustMarginTopChangePassword() {
-    if (showChangeChannelMode() == classes.ChangeChannelMode) {
+    if (showChangeChannelMode() === classes.ChangeChannelMode) {
       return classes.MarginZero;
     }
     return classes.MarginSevenHalf;

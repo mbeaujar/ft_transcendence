@@ -122,7 +122,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
       <button
         className={clsx(
           classes.OpenChannelSettings,
-          props.channel.name == "DM" ? classes.HideOpenChannelSettings : null
+          props.channel.name === "DM" ? classes.HideOpenChannelSettings : null
         )}
         onClick={() => props.setShowChatRight(!props.showChatRight)}
       >

@@ -84,7 +84,7 @@ function Level(props: Props) {
       if (imgLevelElement != null) {
         imgLevelElement.style.width = `${imgLevelElementProgress}%`;
       }
-      if (imgLevelElementProgress == 50) {
+      if (imgLevelElementProgress === 50) {
         clearInterval(progressPodium4);
       }
     }, speed);
