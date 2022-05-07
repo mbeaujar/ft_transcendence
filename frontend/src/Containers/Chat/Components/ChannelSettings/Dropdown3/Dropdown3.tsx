@@ -31,7 +31,7 @@ function Dropdown(props: Props) {
   }, []);
 
   function handleOnClick(item: Iitem, multiSelect: boolean) {
-    if (selection != item.value) {
+    if (selection !== item.value) {
       setSelection(item.value);
       props.setBanUserDuration(item.value);
     } else {

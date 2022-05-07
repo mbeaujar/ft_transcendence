@@ -25,7 +25,7 @@ function Level(props: Props) {
     let speed = 30;
     let progressPodium2 = setInterval(() => {
       podium2Progress++;
-      if (podium2 != null) {
+      if (podium2 !== null) {
         podium2.style.height = `${podium2Progress}%`;
       }
       if (podium2Progress === 45) {
@@ -34,7 +34,7 @@ function Level(props: Props) {
     }, speed);
     let progressPodium1 = setInterval(() => {
       podium1Progress++;
-      if (podium1 != null) {
+      if (podium1 !== null) {
         podium1.style.height = `${podium1Progress}%`;
       }
       if (podium1Progress === 60) {
@@ -43,7 +43,7 @@ function Level(props: Props) {
     }, speed);
     let progressPodium3 = setInterval(() => {
       podium3Progress++;
-      if (podium3 != null) {
+      if (podium3 !== null) {
         podium3.style.height = `${podium3Progress}%`;
       }
       if (podium3Progress === 30) {

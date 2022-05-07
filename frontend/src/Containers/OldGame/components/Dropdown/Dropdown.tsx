@@ -20,7 +20,7 @@ function Dropdown(props: any) {
   }, []);
 
   function handleOnClick(item: any, multiSelect: boolean) {
-    if (selection != item.value) setSelection(item.value);
+    if (selection !== item.value) setSelection(item.value);
     else setSelection(props.items[0].value);
   }
 

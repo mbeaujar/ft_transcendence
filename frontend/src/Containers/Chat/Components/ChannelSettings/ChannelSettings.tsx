@@ -51,7 +51,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     while (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].user.username != props.user.username
+      props.channel.users[i].user.username !== props.user.username
     ) {
       i++;
     }
@@ -70,7 +70,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     while (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].user.username != props.user.username
+      props.channel.users[i].user.username !== props.user.username
     ) {
       i++;
     }
@@ -107,7 +107,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let time = setBanTime();
     userToBan = findUser(banUser);
 
-    if (userToBan != null) {
+    if (userToBan !== null) {
       if (userToBan?.username !== props.user.username) {
         if (banUserDuration !== "Unlimited")
           toast.success(
@@ -193,7 +193,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let userToMute: IUser | null = null;
     let time = setMuteTime();
     userToMute = findUser(muteUser);
-    if (userToMute != null) {
+    if (userToMute !== null) {
       if (userToMute?.username !== props.user.username)
         toast.success(
           userToMute.username + " is mute during " + muteUserDuration
@@ -230,7 +230,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function handleSubmitFormUnmute(event: React.FormEvent<HTMLFormElement>) {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
-    if (userToUnmute != null) {
+    if (userToUnmute !== null) {
       console.log("res=", ifUserMute(unmuteUser));
       if (ifUserMute(unmuteUser))
         toast.success(userToUnmute.username + " is unmute");
@@ -264,7 +264,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function handleSubmitFormNewAdmin(event: React.FormEvent<HTMLFormElement>) {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
-    if (userToPromoteAdmin != null) {
+    if (userToPromoteAdmin !== null) {
       props.ws.socket.emit("addAdministrator", {
         channel: props.channel,
         user: userToPromoteAdmin,
@@ -338,7 +338,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
       });
       toast.success("Channel is now private");
     } else if (newChallengeMode === "Protected") {
-      if (setPassword != confirmSetPassword) {
+      if (setPassword !== confirmSetPassword) {
         toast.error("Password and confirm password are different");
       } else if (!setPassword || !confirmSetPassword) {
         toast.error("Password cannot be an empty string");
@@ -387,7 +387,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function handleSubmitFormNewPassword() {
-    if (newPassword != confirmNewPassword) {
+    if (newPassword !== confirmNewPassword) {
       toast.error("Password and confirm password are different");
     } else if (!newPassword || !confirmNewPassword) {
       toast.error("Password cannot be an empty string");

@@ -18,7 +18,7 @@ function Ratio(props: Props) {
 
     let progress = setInterval(() => {
       progressValue++;
-      if (progressBar != null) {
+      if (progressBar !== null) {
         progressBar.style.background = `conic-gradient(
         red ${progressValue * 3.6}deg,
         #000000 ${progressValue * 3.6}deg

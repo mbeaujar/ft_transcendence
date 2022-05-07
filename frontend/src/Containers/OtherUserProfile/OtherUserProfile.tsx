@@ -14,7 +14,7 @@ function OtherUserProfile() {
   function getUser() {
     let path = window.location.pathname;
     let cutPath = path.split("/");
-    if (cutPath.length != 3) {
+    if (cutPath.length !== 3) {
       setUser(null);
       return;
     }

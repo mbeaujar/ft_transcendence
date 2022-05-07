@@ -81,7 +81,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
 
   function displayMenu(e: React.MouseEvent<HTMLHeadingElement, MouseEvent>, userToVisit: IUser) {
     setMessageUser(userToVisit);
-    if (userToVisit.username != props.user.username) show(e);
+    if (userToVisit.username !== props.user.username) show(e);
   }
 
   const renderedMessages = props.messages.map((message: IMessage, index: number) => {

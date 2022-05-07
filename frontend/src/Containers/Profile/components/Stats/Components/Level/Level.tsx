@@ -81,7 +81,7 @@ function Level(props: Props) {
     let imgLevelElement = document.getElementById("imgLevelElement");
     let progressPodium4 = setInterval(() => {
       imgLevelElementProgress++;
-      if (imgLevelElement != null) {
+      if (imgLevelElement !== null) {
         imgLevelElement.style.width = `${imgLevelElementProgress}%`;
       }
       if (imgLevelElementProgress === 50) {

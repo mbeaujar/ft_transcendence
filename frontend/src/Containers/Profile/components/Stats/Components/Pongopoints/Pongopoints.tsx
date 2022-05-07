@@ -14,7 +14,7 @@ function Pongopoints(props: Props) {
     let speed = (100/elo);
     let progress2 = setInterval(() => {
       progressPongopoints++;
-      if (valuePongopoints != null) {
+      if (valuePongopoints !== null) {
         valuePongopoints.textContent = `${progressPongopoints}`;
       }
 

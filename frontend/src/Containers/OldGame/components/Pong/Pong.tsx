@@ -283,7 +283,7 @@ function Pong() {
   }
 
   const play: any = () => {
-    if (canvas != null && activeGame === false) {
+    if (canvas !== null && activeGame === false) {
       setActiveGame(true);
       init();
     }
