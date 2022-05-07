@@ -10,4 +10,7 @@ export interface IUser {
   user:any;
   state:number;
   blockedUsers:any;
+  creator:boolean;
+  administrator:boolean;
+  mute:boolean;
 }

@@ -16,7 +16,7 @@ import googleAuthImg from "./assets/Google_Authenticator_for_Android_icon.png";
 export interface IMainProps {
   user: IUser;
   refresh: number;
-  setRefresh: (i: number) => void;
+  setRefresh: (value: number) => void;
 }
 
 

@@ -19,13 +19,13 @@ interface Props {
   channel: IChannel;
   channels: IChannel[];
   ws: any;
-  setChannelChoose: any;
-  setActiveChatMenu: any;
-  showChatRight: any;
-  setShowChatRight: any;
+  setChannelChoose: (value: IChannel|null) => void;
+  setActiveChatMenu: (value: String|null) => void;
+  showChatRight: boolean;
+  setShowChatRight: (value: boolean) => void;
 }
 
-const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
+const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
   const [banUser, setBanUser] = useState<string>("");
   const [banUserDuration, setBanUserDuration] = useState("1 day");
@@ -40,21 +40,12 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
-  //const [bannedUsers, setBannedUsers] = useState<IChannelUser[]>([]);
 
   useEffect(() => {
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel, props.channels]);
 
-  /*useEffect(() => {
-    props.ws.socket.on("bannedUsers", (data: IChannelUser[]) => {
-      setBannedUsers(data);
-      console.log("bannedUserssss:", bannedUsers);
-    });
-
-    props.ws.socket.emit("getBannedUsers", props.channel);
-  }, []);*/
 
   function ifShowAdminSettings() {
     let i = 0;
@@ -113,7 +104,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   ];
 
   //Ban User
-  function handleSubmitFormBan(event: any) {
+  function handleSubmitFormBan(event: React.FormEvent<HTMLFormElement>) {
     let userToBan: IUser | null = null;
     let time = setBanTime();
     userToBan = findUser(banUser);
@@ -139,13 +130,13 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     event.preventDefault();
   }
 
-  function handleChangeBan(event: any) {
-    var value = event.target.value;
+  function handleChangeBan(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setBanUser(value);
   }
 
   //Unban User
-  function handleSubmitFormUnban(event: any) {
+  function handleSubmitFormUnban(event: React.FormEvent<HTMLFormElement>) {
     api
       .get(`/users/username/${unbanUser}`)
       .then((response) => {
@@ -160,8 +151,8 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     event.preventDefault();
   }
 
-  function handleChangeUnban(event: any) {
-    var value = event.target.value;
+  function handleChangeUnban(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setUnbanUser(value);
   }
 
@@ -200,7 +191,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     }
   }
 
-  function handleSubmitFormMute(event: any) {
+  function handleSubmitFormMute(event: React.FormEvent<HTMLFormElement>) {
     let userToMute: IUser | null = null;
     let time = setMuteTime();
     userToMute = findUser(muteUser);
@@ -221,8 +212,8 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     event.preventDefault();
   }
 
-  function handleChangeMute(event: any) {
-    var value = event.target.value;
+  function handleChangeMute(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setMuteUser(value);
   }
 
@@ -238,7 +229,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     return null;
   }
 
-  function handleSubmitFormUnmute(event: any) {
+  function handleSubmitFormUnmute(event: React.FormEvent<HTMLFormElement>) {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
     if (userToUnmute != null) {
@@ -256,8 +247,8 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     event.preventDefault();
   }
 
-  function handleChangeUnmute(event: any) {
-    var value = event.target.value;
+  function handleChangeUnmute(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setUnmuteUser(value);
   }
 
@@ -272,7 +263,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     return null;
   }
 
-  function handleSubmitFormNewAdmin(event: any) {
+  function handleSubmitFormNewAdmin(event: React.FormEvent<HTMLFormElement>) {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
     if (userToPromoteAdmin != null) {
@@ -287,8 +278,8 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     event.preventDefault();
   }
 
-  function handleChangeNewAdmin(event: any) {
-    var value = event.target.value;
+  function handleChangeNewAdmin(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setNewAdmin(value);
   }
 
@@ -335,7 +326,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
   }
 
   //Set Password
-  function handleSubmitFormSetPassword(event: any) {
+  function handleSubmitFormSetPassword() {
     if (newChallengeMode === "Public") {
       props.ws.socket.emit("changeChannelState", {
         id: props.channel.id,
@@ -364,16 +355,15 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
       setSetPassword("");
       setConfirmSetPassword("");
     }
-    event.preventDefault();
   }
 
-  function handleChangeSetPassword(event: any) {
-    var value = event.target.value;
+  function handleChangeSetPassword(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setSetPassword(value);
   }
 
-  function handleChangeConfirmSetPassword(event: any) {
-    var value = event.target.value;
+  function handleChangeConfirmSetPassword(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setConfirmSetPassword(value);
   }
 
@@ -398,7 +388,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     return classes.MarginSevenHalf;
   }
 
-  function handleSubmitFormNewPassword(event: any) {
+  function handleSubmitFormNewPassword() {
     if (newPassword != confirmNewPassword) {
       toast.error("Password and confirm password are different");
     } else if (!newPassword || !confirmNewPassword) {
@@ -413,16 +403,15 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
     }
     setNewPassword("");
     setConfirmNewPassword("");
-    event.preventDefault();
   }
 
-  function handleChangeNewPassword(event: any) {
-    var value = event.target.value;
+  function handleChangeNewPassword(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setNewPassword(value);
   }
 
-  function handleChangeConfirmNewPassword(event: any) {
-    var value = event.target.value;
+  function handleChangeConfirmNewPassword(event: React.FormEvent<HTMLInputElement>) {
+    var value = event.currentTarget.value;
     setConfirmNewPassword(value);
   }
 
@@ -438,7 +427,7 @@ const ChannelSettings: React.FC<Props> = (props: any): JSX.Element => {
       </button>
       <div className={classes.ChannelUsers}>
         <h3>Users</h3>
-        {props.channel.users.map((user: any) => (
+        {props.channel.users.map((user: IUser) => (
           <div className={classes.ChannelUser} key={user.id}>
             <Avatar user={user.user} />
             <p>{user.user.username}</p>
