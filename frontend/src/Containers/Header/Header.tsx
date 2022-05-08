@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { ClassAttributes, useEffect, useState } from "react";
 import classes from "./Header.module.scss";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import api from "../../apis/api";
 import clsx from "clsx";
 import { IUser } from "../../interface/user.interface";
 
-const Button = (props: any) => {
+interface Props {
+  className: string;
+  text: string;
+  onClick: () => void;
+}
+const Button = (props: Props) => {
   return (
     <div>
       <button className={props.className} onClick={props.onClick}>
@@ -16,17 +21,17 @@ const Button = (props: any) => {
 };
 
 function Header() {
-  const [user, setUser] = useState<IUser|null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [showLinks, setShowLinks] = useState(false);
 
-  function ftShowLogin(user: IUser|null) {
+  function ftShowLogin(user: IUser | null) {
     if (user === null) {
       return classes.showLogin;
     }
     return classes.hideLogin;
   }
 
-  function ftShowLogout(user: IUser|null) {
+  function ftShowLogout(user: IUser | null) {
     if (user === null) {
       return classes.hideLogout;
     }
@@ -55,18 +60,14 @@ function Header() {
     }
   }
 
-  useEffect(()=>{
-    if (showLinks === true && window.innerWidth < 650.01)
-      {
-          $("body").css('overflow-y', 'hidden');
-          $(".Header").css('overflow-y', 'visible');
-      }
-      else 
-      {
-          $("body").css('overflow-y', 'visible');
-      }
-
-  },[showLinks])
+  useEffect(() => {
+    if (showLinks === true && window.innerWidth < 650.01) {
+      $("body").css("overflow-y", "hidden");
+      $(".Header").css("overflow-y", "visible");
+    } else {
+      $("body").css("overflow-y", "visible");
+    }
+  }, [showLinks]);
 
   return (
     <div className={classes.Header}>

@@ -3,16 +3,17 @@ import { useState, useEffect, useRef } from "react";
 import classes from "./Dropdown.module.scss";
 
 interface Iitem {
-  id: number; value: string
+  id: number;
+  value: string;
 }
 
 interface Props {
   items: Iitem[];
   title: String;
   multiselect: boolean;
-  dropdownIndex:number;
-  setValueEnableDoubleAuth:(value:string)=>void;
-  valueEnableDoubleAuth:string;
+  dropdownIndex: number;
+  setValueEnableDoubleAuth: (value: string) => void;
+  valueEnableDoubleAuth: string;
 }
 
 function Dropdown(props: Props) {
@@ -21,11 +22,11 @@ function Dropdown(props: Props) {
     props.items[props.dropdownIndex].value
   );
   const close = () => setOpen(!open);
-  const ref = useRef<any>();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onBodyClick = (event: any) => {
-      if (ref.current.contains(event.target)) return;
+      if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
     document.addEventListener("click", onBodyClick, { capture: true });

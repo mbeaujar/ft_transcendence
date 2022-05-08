@@ -3,16 +3,17 @@ import { useState, useEffect, useRef } from "react";
 import classes from "./Dropdown2.module.scss";
 
 interface Iitem {
-  id: number; value: string
+  id: number;
+  value: string;
 }
 
 interface Props {
   items: Iitem[];
   title: String;
   multiselect: boolean;
-  channelState:number;
-  refreshDropdown:number;
-  setNewChallengeMode:(value: string) => void;
+  channelState: number;
+  refreshDropdown: number;
+  setNewChallengeMode: (value: string) => void;
 }
 
 function Dropdown(props: Props) {
@@ -21,12 +22,12 @@ function Dropdown(props: Props) {
     props.items[props.channelState].value
   );
   const close = () => setOpen(!open);
-  const ref = useRef<any>();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setSelection(props.items[props.channelState].value);
     const onBodyClick = (event: any) => {
-      if (ref.current.contains(event.target)) return;
+      if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
     document.addEventListener("click", onBodyClick, { capture: true });

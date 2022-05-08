@@ -3,25 +3,26 @@ import { useState, useEffect, useRef } from "react";
 import classes from "./Dropdown3.module.scss";
 
 interface Iitem {
-  id: number; value: string
+  id: number;
+  value: string;
 }
 
 interface Props {
   items: Iitem[];
   title: String;
   multiselect: boolean;
-  setBanUserDuration:(value: string) => void;
+  setBanUserDuration: (value: string) => void;
 }
 
 function Dropdown(props: Props) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<string>(props.items[0].value);
   const close = () => setOpen(!open);
-  const ref = useRef<any>();
+  const ref = useRef<HTMLDivElement >(null);
 
   useEffect(() => {
-    const onBodyClick = (event: any) => {
-      if (ref.current.contains(event.target)) return;
+    const onBodyClick = (event:any) => {
+      if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
     document.addEventListener("click", onBodyClick, { capture: true });

@@ -5,6 +5,7 @@ import clsx from "clsx";
 import api from "../../../../../../apis/api";
 import { IUser } from "../../../../../../interface/user.interface";
 import Avatar from "../../../Avatar/Avatar";
+import { IGame } from "../../../../../../interface/game.interface";
 
 //site imgLevel : https://www.dexerto.es/fifa/recompensas-de-fifa-20-fut-champions-rangos-de-la-weekend-league-1101381/
 let imgLevel = new Map<string, string>();
@@ -77,7 +78,7 @@ interface Props {
 }
 
 function HistoryBlock(props: Props) {
-  const [historic, setHistoric] = useState<any>([]);
+  const [historic, setHistoric] = useState<IGame[]>([]);
   useEffect(() => {
     api
       .get(`/users/history/${props.user.id}`)
@@ -112,7 +113,7 @@ function HistoryBlock(props: Props) {
       <h3 className={classes.title}>History</h3>
       <div className={classes.History}>
         <div className={classes.MatchsList}>
-          {historic.map((match: any, index: number) => (
+          {historic.map((match: IGame, index: number) => (
             <div className={classes.Match} key={index}>
               <h4>{getMatchDay(match.created_at)}/{getMatchMounth(match.created_at)}</h4>
               <div className={classes.MatchUserLeft}>

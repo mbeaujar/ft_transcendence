@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 interface Props {
-  className?: any;
+  className?: string;
   label?: string;
-  onSubmit?: any;
+  onSubmit: (value:string)=>void;
 }
 
 const Input: React.FC<Props> = (props: Props): JSX.Element => {
