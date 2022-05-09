@@ -5,6 +5,7 @@ import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Game from "./Containers/Game/Game";
+import Pong from "./Containers/Game/Components/Pong/Pong";
 import Chat from "./Containers/Chat/Chat";
 import Profile from "./Containers/Profile/Profile";
 import Header from "./Containers/Header/Header";
@@ -25,6 +26,7 @@ function MainApp(props: IMainProps) {
     <Routes>
       <Route path="/" element={<Game />} />
       <Route path="/game" element={<Game />} />
+      <Route path="/game/pong" element={<Pong />} />
       <Route
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}

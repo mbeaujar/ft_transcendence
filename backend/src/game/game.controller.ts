@@ -28,10 +28,13 @@ export class GameController {
     @Body() body: InviteGameDto,
     @CurrentUser() user: IUser,
   ) {
+    if (body.target === user.id)
+      console.log('fuckali');
     const target = await this.usersService.findUser(body.target);
     if (!target) {
       throw new NotFoundException('user not found');
     }
+    console.log('target ', target);
     const invite = await this.inviteService.findInvite(user.id, body.target);
     if (invite) {
       throw new BadRequestException('invite already exist');
@@ -42,6 +45,7 @@ export class GameController {
   @Auth()
   @Get('/invite')
   async getInviteToPlay(@CurrentUser() user: IUser) {
+    console.log('user ', user);
     const invites = await this.inviteService.findByUser(user.id);
     if (!invites) {
       throw new NotFoundException('invites to user not found');

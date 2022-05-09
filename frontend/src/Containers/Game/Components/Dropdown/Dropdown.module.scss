@@ -1,0 +1,141 @@
+@import "../../../../utils.scss";
+
+@mixin styling() {
+  background-color: $blue1;
+  border: 0.1vw solid $blue3;
+  @media screen and (min-width: 651px) {
+    border-radius: 0.5vw;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 1vw;
+  }
+}
+
+.Dropdown {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  z-index: 9;
+
+
+  @media screen and (min-width: 651px) {
+    width: 120%; //changement ici
+    margin-top: 7vw; //changement ici
+    padding-bottom: 1vw;
+  }
+  @media screen and (max-width: 650px) {
+    min-width: 80%;
+    max-width: 80%; //changement ici
+    margin-top: 20vw; //changement ici
+    padding-bottom: 1vw;
+    margin-left:10% !important;
+  }
+  .header {
+    @include styling();
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    cursor: pointer;
+
+    @media screen and (min-width: 651px) {
+      width: 80%;
+      height: 2.5vw;
+    }
+    @media screen and (max-width: 650px) {
+      width: 60%;
+      height: 7vw;
+    }
+
+    .headerTitleP {
+      font-weight: bold;
+      text-align: left;
+
+      @media screen and (min-width: 651px) {
+        font-size: 1vw;
+        min-width: 70%;
+        margin-left: 1vw;
+        margin-right: 3vw;
+      }
+      @media screen and (max-width: 650px) {
+        font-size: 2.5vw;
+        margin-left: 2vw;
+        min-width: 80%;
+      }
+    }
+
+    .headerChoice {
+      @media screen and (max-width: 650px) {
+        font-size: 2.5vw;
+        width:50%;
+        margin-left: -2vw !important;
+      }
+    }
+  }
+
+  .list {
+    padding: 0;
+    margin: 0;
+    width: 80%;
+
+    @media screen and (max-width: 650px) {
+      //margin-left: 10%;
+    }
+
+    li {
+      list-style-type: none;
+
+      &:first-of-type {
+        > button {
+          border-top: 0.1vw solid $blue3;
+          border-top-left-radius: 0.5vw;
+          border-top-right-radius: 0.5vw;
+        }
+      }
+
+      &:last-of-type > button {
+        border-bottom-left-radius: 0.5vw;
+        border-bottom-right-radius: 0.5vw;
+      }
+
+      button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: black;
+        color: $blue2;
+        border: 0;
+        text-align: left;
+        border-bottom: 0.1vw solid $blue3;
+        border-left: 0.1vw solid $blue3;
+        border-right: 0.1vw solid $blue3;
+        @media screen and (min-width: 651px) {
+          font-size: 1vw;
+          height: 3vw;
+          width: 100%;
+          padding: 0% 1vw;
+        }
+        @media screen and (max-width: 650px) {
+          font-size: 2.5vw;
+          height: 6vw;
+          width: 125%;
+          padding: 0% 7.5%;
+        }
+        &:hover {
+          cursor: pointer;
+          background-color: $blue3;
+         // color: $blue4;
+        }
+
+        @media screen and (min-width: 651px) {
+          span {
+            font-size: 1.5vw;
+          }}
+
+        @media screen and (max-width: 650px) {
+        span {
+          font-size: 3vw;
+        }}
+      }
+    }
+  }
+}

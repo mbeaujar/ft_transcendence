@@ -115,7 +115,15 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
                 </Link>
               </Item>
               <Item onClick={() => RightClickBlock()}>Block this user</Item>
-              <Item onClick={() => RightClickInviteToPlay()}>
+              <Item
+                onClick={() => {
+                  RightClickInviteToPlay();
+                  api
+                    .post("/game/invite", { target: messageUser?.id })
+                    .then((response) => console.log(response.data))
+                    .catch((reject) => console.error(reject));
+                }}
+              >
                 Invite to play
               </Item>
             </Menu>

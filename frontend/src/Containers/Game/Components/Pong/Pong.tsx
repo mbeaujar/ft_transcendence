@@ -6,6 +6,7 @@ import { IGame } from "../../../../interface/game.interface";
 import classes from "./Pong.module.scss";
 import useWindowSize from "../useWindow/useWindowSize";
 import clsx from "clsx";
+import Dropdown from "../Dropdown/Dropdown";
 
 let WIDTH = 800;
 let HEIGHT = 400;
@@ -128,25 +129,26 @@ const Pong = (props: any) => {
     return classes.HideButton;
   }
 
+  const itemsGameMode = [
+    { id: 1, value: "Classic mode" },
+    { id: 2, value: "Paddle reduce" },
+    { id: 3, value: "Paddle flashing" },
+  ];
+
   return (
     <div
       className={classes.Pong}
       style={{ width: WIDTH, height: HEIGHT, fontSize: WIDTH / 20 }}
     >
-      <div>
-        {/* <button
-          onClick={() => {
-            ws.socket.emit("deleteConnected");
-          }}
-        >
-          delete connected user
-        </button>*/}
-      </div>
-
       <div className={classes.Score}>
         <span style={{ fontSize: WIDTH / 21 }}>{score[0]}</span> |{" "}
         <span style={{ fontSize: WIDTH / 21 }}>{score[1]}</span>
       </div>
+      <Dropdown
+        title="Channel Mode"
+        items={itemsGameMode}
+        multiselect={false}
+      />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: WIDTH / 40 }}
@@ -171,45 +173,6 @@ const Pong = (props: any) => {
             ws.socket.emit("moveBotPaddle", { id });
         }}
       />
-      {/* <button onClick={() => ws.socket.emit("info", { id })}>
-        print info backend
-      </button>
-      <button onClick={() => ws.socket.emit("leaveQueue")}>Leave queue</button>
-      <button onClick={() => ws.socket.emit("listGame")}>get all game </button>
-      <button
-        onClick={() => {
-          console.log("spectate", listGame);
-          ws.socket.emit("joinGame", { id: listGame[0].id });
-        }}
-      >
-        Spectate Game
-      </button>
-      <button
-        onClick={() => {
-          api
-            .get(`/users/history/${props.user.id}`)
-            .then((response) => console.log(response.data))
-            .catch((reject) => console.error(reject));
-        }}
-      >
-        Get history
-      </button>
-      <Input
-        label="sensibilité"
-        onSubmit={(text: string) => {
-          api
-            .post("/users/sensitivity", { sensitivity: parseInt(text) })
-            .catch((reject) => console.error(reject));
-        }}
-      />
-      <br />
-      <Input
-        label="mode"
-        onSubmit={(text: string) => {
-          console.log("MODE", parseInt(text));
-          setMode(parseInt(text));
-        }}
-      />*/}
     </div>
   );
 };
