@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from 'src/users/user.entity';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from '../auth/auth.module';
+import { FriendsModule } from '../friends/friends.module';
+import { ChatModule } from '../chat/chat.module';
+import { GameModule } from '../game/game.module';
 
 @Module({
   imports: [
-    /** Setup .env */
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    /** Setup ormconfig.js */
     TypeOrmModule.forRoot(),
-    UsersModule,
+    AuthModule,
+    FriendsModule,
+    ChatModule,
+    GameModule,
   ],
 })
 export class AppModule {}
