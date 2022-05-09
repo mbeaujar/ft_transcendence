@@ -14,7 +14,7 @@ import BlockedUsers from "./Components/BlockedUsers/BlockedUsers";
 interface Props {
   user: IUser;
   refresh: number;
-  setRefresh: (value:number)=>void;
+  setRefresh: (value: number) => void;
 }
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
@@ -41,7 +41,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           refresh={props.refresh}
           setRefresh={props.setRefresh}
         />
-        <BlockedUsers user={props.user}/>
+        <BlockedUsers />
       </div>
     </div>
   );
