@@ -31,12 +31,13 @@ interface Props {
   ws: any;
   messages: IMessage[];
   showChatRight: boolean;
-  setShowChatRight: (value:boolean)=>void;
+  setShowChatRight: (value: boolean) => void;
 }
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector("#msg");
   const [messageUser, setMessageUser] = useState<IUser>();
+  const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
   useEffect(() => {
     console.log("uuuuu=", props.user);
@@ -60,12 +61,19 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
         api
           .post("/users/block", { id: userToBlock.id })
           .then((response) => {
-            props.user.blockedUsers.map((userBlock: IUser) => {
-              if (userBlock.username === userToBlock.username) {
-                toast.error(messageUser?.username + " was already blocked");
-                return;
-              }
-            });
+            api
+              .get("/users/getBlockedUser")
+              .then((response) => {
+                setUserBlockedTab(response.data);
+              })
+              .catch((reject) => console.error(reject));
+            userBlockedTab &&
+              userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+                if (userBlock.username === userToBlock.username) {
+                  toast.error(messageUser?.username + " was already blocked");
+                  return;
+                }
+              });
             toast.success(userToBlock.username + " was blocked");
           })
           .catch((reject) => console.error(reject));
@@ -79,36 +87,43 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     console.log("RightClickInviteToPlay", messageUser);
   }
 
-  function displayMenu(e: React.MouseEvent<HTMLHeadingElement, MouseEvent>, userToVisit: IUser) {
+  function displayMenu(
+    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+    userToVisit: IUser
+  ) {
     setMessageUser(userToVisit);
     if (userToVisit.username !== props.user.username) show(e);
   }
 
-  const renderedMessages = props.messages.map((message: IMessage, index: number) => {
-    return (
-      <div key={message.id} className={classes.Message}>
-        <Avatar user={message.user} />
-        <div className={classes.MessageRight}>
-          <h4 onContextMenu={(e) => displayMenu(e, message.user)}>
-            {message.user.username}
-          </h4>
-          <p> {message.text}</p>
-          <Menu id={MENU_ID} theme="dark">
-            <Item>
-              <Link
-                className={classes.Link}
-                to={"/profile/" + messageUser?.username}
-              >
-                See profile
-              </Link>
-            </Item>
-            <Item onClick={() => RightClickBlock()}>Block this user</Item>
-            <Item onClick={() => RightClickInviteToPlay()}>Invite to play</Item>
-          </Menu>
+  const renderedMessages = props.messages.map(
+    (message: IMessage, index: number) => {
+      return (
+        <div key={message.id} className={classes.Message}>
+          <Avatar user={message.user} />
+          <div className={classes.MessageRight}>
+            <h4 onContextMenu={(e) => displayMenu(e, message.user)}>
+              {message.user.username}
+            </h4>
+            <p> {message.text}</p>
+            <Menu id={MENU_ID} theme="dark">
+              <Item>
+                <Link
+                  className={classes.Link}
+                  to={"/profile/" + messageUser?.username}
+                >
+                  See profile
+                </Link>
+              </Item>
+              <Item onClick={() => RightClickBlock()}>Block this user</Item>
+              <Item onClick={() => RightClickInviteToPlay()}>
+                Invite to play
+              </Item>
+            </Menu>
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+    }
+  );
 
   return (
     <div className={classes.Discussion}>
