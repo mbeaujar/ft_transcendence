@@ -63,11 +63,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ws.socket.on("messageAdded", (data) => {
       setMessages((prev) => [...prev, data]);
     });
+
     ws.socket.on("Error", (data) => {
       toast.error(data.message);
     });
 
     ws.socket.on("Success", (data) => {
+      console.log("play", data);
       toast.success(data.message);
     });
 

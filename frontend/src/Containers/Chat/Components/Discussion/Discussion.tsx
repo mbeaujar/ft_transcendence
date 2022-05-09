@@ -40,7 +40,6 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
   useEffect(() => {
-    console.log("uuuuu=", props.user);
     messageBody = document.querySelector("#msg");
     if (messageBody) {
       messageBody.scrollTop = messageBody.scrollHeight;
@@ -122,6 +121,8 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
                     .post("/game/invite", { target: messageUser?.id })
                     .then((response) => console.log(response.data))
                     .catch((reject) => console.error(reject));
+                  // ping server to notif for invite
+                  props.ws.socket.emit("pingToPlay", messageUser?.id);
                 }}
               >
                 Invite to play

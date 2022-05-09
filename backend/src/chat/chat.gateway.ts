@@ -202,6 +202,14 @@ export class ChatGateway
     return [channelDB, channelUser];
   }
 
+  @SubscribeMessage('pingToPlay')
+  async onInvitation(socket: Socket, user: IUser) {
+    if (socket.data.user === undefined) return;
+    console.log('ali le con');
+    this.server.to(user.)
+              .emit('wanna play ass hole ?', socket);
+  }
+
   @SubscribeMessage('createDiscussion')
   async onCreateDiscussion(socket: Socket, discussion: IDiscussion) {
     if (socket.data.user === undefined) return;
