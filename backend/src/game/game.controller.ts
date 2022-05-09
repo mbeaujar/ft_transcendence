@@ -29,12 +29,11 @@ export class GameController {
     @CurrentUser() user: IUser,
   ) {
     if (body.target === user.id)
-      console.log('fuckali');
+      console.log('user invite itself to play');
     const target = await this.usersService.findUser(body.target);
     if (!target) {
       throw new NotFoundException('user not found');
     }
-    console.log('target ', target);
     const invite = await this.inviteService.findInvite(user.id, body.target);
     if (invite) {
       throw new BadRequestException('invite already exist');
