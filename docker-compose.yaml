@@ -8,7 +8,7 @@ networks:
   backend:
     driver: bridge
 
-services: 
+services:
   db:
     image: postgres:alpine3.15
     container_name: database
@@ -28,7 +28,9 @@ services:
       - backend
     restart: always
     env_file: .env
-  
+    depends_on:
+      - db
+
   api:
     build: ./backend
     image: backend:v1.0.0
@@ -37,13 +39,13 @@ services:
       - ./backend:/api
     ports:
       - 3000:3000
-    networks: 
+    networks:
       - backend
       - frontend
     restart: always
     env_file: .env
     depends_on:
-      - db
+      - admin
 
   app:
     build: ./frontend

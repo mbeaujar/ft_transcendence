@@ -130,15 +130,17 @@ export class AuthController {
     return user;
   }
 
-  @AuthTwoFactor()
+  // @AuthTwoFactor()
   @ApiOperation({ summary: 'Logout of 42Api' })
   @Get('logout')
   async logout(
     @Res({ passthrough: true }) res: Response,
     @CurrentUser() user: User,
   ) {
-    await this.authService.logout(user);
-    res.clearCookie('access_token');
+    if (user) {
+      await this.authService.logout(user);
+      res.clearCookie('access_token');
+    }
     res.redirect(mainPage);
   }
 }
