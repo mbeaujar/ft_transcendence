@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from "react";
 import classes from "./WatchGame.module.scss";
-import { WebSocket } from "../../../Chat/Socket";
 import { IGame } from "../../../../interface/game.interface";
+import { Socket } from "socket.io-client";
+import getSocket from "../../../Socket";
 
-const ws = new WebSocket("http://localhost:3000/game");
-
-interface Props 
-{
-
-}
+interface Props {}
 
 function WatchGame(props: Props) {
-  const [listGame, setListGame] = useState<[IGame|null]>([null]);
+  const [listGame, setListGame] = useState<[IGame | null]>([null]);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    ws.socket.on("listAllGame", (data) => {
+    const socketEffect = getSocket("game");
+    socketEffect.on("listAllGame", (data: any) => {
       console.log(data);
       setListGame(data);
     });
 
-    ws.socket.emit("listGame");
+    socketEffect.emit("listGame");
+    setSocket(socketEffect);
+    return () => {
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
+    };
   }, []);
 
   useEffect(() => {
-    console.log("list===",listGame)
+    console.log("list", listGame);
   }, [listGame]);
 
   return (

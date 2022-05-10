@@ -10,7 +10,7 @@ import { IJoinChannel } from "../../../../interface/join-channel.interface";
 
 interface Props {
   user: IUser;
-  ws: any;
+  socket: any;
   channels: IChannel[];
   channelNotJoin: IChannel[];
 }
@@ -38,7 +38,7 @@ const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
               if (channel.state === Scope.protected) {
                 Object.assign(joinChannel, { password: prompt("password") });
               }
-              props.ws.socket.emit("joinChannel", joinChannel);
+              props.socket.emit("joinChannel", joinChannel);
             }}
           >
             Join channel

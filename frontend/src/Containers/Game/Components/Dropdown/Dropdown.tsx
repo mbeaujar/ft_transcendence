@@ -13,6 +13,7 @@ interface Props {
   multiselect: boolean;
   WIDTH: number;
   HEIGHT: number;
+  id:number;
 }
 
 function Dropdown(props: Props) {
@@ -53,7 +54,7 @@ function Dropdown(props: Props) {
   }
 
   return (
-    <div className={classes.Dropdown} ref={ref}>
+    <div className={classes.Dropdown} ref={ref} style={{ top: 35 }}>
       <div
         tabIndex={0}
         className={classes.header}

@@ -16,9 +16,9 @@ interface Props {
   user: IUser;
   channel: IChannel;
   channels: IChannel[];
-  ws: any;
-  setChannelChoose: (value: IChannel|null) => void;
-  setActiveChatMenu: (value: String|null) => void;
+  socket: any;
+  setChannelChoose: (value: IChannel | null) => void;
+  setActiveChatMenu: (value: String | null) => void;
   showChatRight: boolean;
   setShowChatRight: (value: boolean) => void;
 }
@@ -43,7 +43,6 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setNewChallengeMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel, props.channels]);
-
 
   function ifShowAdminSettings() {
     let i = 0;
@@ -115,7 +114,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           );
         else toast.success(userToBan.username + " is ban");
       }
-      props.ws.socket.emit("banUser", {
+      props.socket.emit("banUser", {
         channel: props.channel,
         user: userToBan,
         milliseconds: time,
@@ -138,7 +137,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     api
       .get(`/users/username/${unbanUser}`)
       .then((response) => {
-        props.ws.socket.emit("unbanUser", {
+        props.socket.emit("unbanUser", {
           channel: props.channel,
           user: response.data,
         });
@@ -198,7 +197,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         toast.success(
           userToMute.username + " is mute during " + muteUserDuration
         );
-      props.ws.socket.emit("muteUser", {
+      props.socket.emit("muteUser", {
         channel: props.channel,
         user: userToMute,
         milliseconds: time,
@@ -234,7 +233,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
       console.log("res=", ifUserMute(unmuteUser));
       if (ifUserMute(unmuteUser))
         toast.success(userToUnmute.username + " is unmute");
-      props.ws.socket.emit("unmuteUser", {
+      props.socket.emit("unmuteUser", {
         channel: props.channel,
         user: userToUnmute,
       });
@@ -251,21 +250,21 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   //New admin
-  function ifUserAdmin(username: string) {
-    let i = 0;
-    while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username === username)
-        return props.channel.users[i].administrator;
-      i++;
-    }
-    return null;
-  }
+  // function ifUserAdmin(username: string) {
+  //   let i = 0;
+  //   while (props.channel.users[i]) {
+  //     if (props.channel.users[i].user.username === username)
+  //       return props.channel.users[i].administrator;
+  //     i++;
+  //   }
+  //   return null;
+  // }
 
   function handleSubmitFormNewAdmin(event: React.FormEvent<HTMLFormElement>) {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
     if (userToPromoteAdmin !== null) {
-      props.ws.socket.emit("addAdministrator", {
+      props.socket.emit("addAdministrator", {
         channel: props.channel,
         user: userToPromoteAdmin,
       });
@@ -290,9 +289,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function showChangeChannelMode() {
     let state: string = "";
-    if (props.channel.state === 0) state = "Public";
-    if (props.channel.state === 1) state = "Private";
-    if (props.channel.state === 2) state = "Protected";
+    if (props.channel.state === Scope.public) state = "Public";
+    if (props.channel.state === Scope.private) state = "Private";
+    if (props.channel.state === Scope.protected) state = "Protected";
     if (state !== newChallengeMode) {
       return classes.ChangeChannelMode;
     }
@@ -326,13 +325,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   //Set Password
   function handleSubmitFormSetPassword() {
     if (newChallengeMode === "Public") {
-      props.ws.socket.emit("changeChannelState", {
+      props.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 0,
       });
       toast.success("Channel is now public");
     } else if (newChallengeMode === "Private") {
-      props.ws.socket.emit("changeChannelState", {
+      props.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,
       });
@@ -343,7 +342,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
       } else if (!setPassword || !confirmSetPassword) {
         toast.error("Password cannot be an empty string");
       } else {
-        props.ws.socket.emit("changeChannelState", {
+        props.socket.emit("changeChannelState", {
           id: props.channel.id,
           state: 2,
           password: setPassword,
@@ -360,7 +359,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setSetPassword(value);
   }
 
-  function handleChangeConfirmSetPassword(event: React.FormEvent<HTMLInputElement>) {
+  function handleChangeConfirmSetPassword(
+    event: React.FormEvent<HTMLInputElement>
+  ) {
     var value = event.currentTarget.value;
     setConfirmSetPassword(value);
   }
@@ -392,7 +393,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     } else if (!newPassword || !confirmNewPassword) {
       toast.error("Password cannot be an empty string");
     } else {
-      props.ws.socket.emit("changeChannelState", {
+      props.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 2,
         password: newPassword,
@@ -408,7 +409,9 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setNewPassword(value);
   }
 
-  function handleChangeConfirmNewPassword(event: React.FormEvent<HTMLInputElement>) {
+  function handleChangeConfirmNewPassword(
+    event: React.FormEvent<HTMLInputElement>
+  ) {
     var value = event.currentTarget.value;
     setConfirmNewPassword(value);
   }
@@ -439,7 +442,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           onClick={() => {
             props.setChannelChoose(null);
             setLeaveChannel(true);
-            props.ws.socket.emit("leaveChannel", props.channel);
+            props.socket.emit("leaveChannel", props.channel);
             props.setActiveChatMenu(null);
           }}
         >
@@ -463,7 +466,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             type="text"
             value={banUser}
             onChange={(event) => handleChangeBan(event)}
-          ></input>
+          />
         </form>
         <Dropdown3
           title="Ban Duration"

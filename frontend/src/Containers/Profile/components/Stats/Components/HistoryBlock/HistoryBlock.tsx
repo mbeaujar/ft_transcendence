@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./HistoryBlock.module.scss";
-import classes from "./HistoryBlock.module.scss"
+import classes from "./HistoryBlock.module.scss";
 import clsx from "clsx";
 import api from "../../../../../../apis/api";
 import { IUser } from "../../../../../../interface/user.interface";
@@ -80,13 +80,15 @@ interface Props {
 function HistoryBlock(props: Props) {
   const [historic, setHistoric] = useState<IGame[]>([]);
   useEffect(() => {
-    api
-      .get(`/users/history/${props.user.id}`)
-      .then((response) => {
-        setHistoric(response.data);
-        console.log("response=", response.data);
-      })
-      .catch((reject) => console.error(reject));
+    if (props.user) {
+      api
+        .get(`/users/history/${props.user.id}`)
+        .then((response) => {
+          setHistoric(response.data);
+          console.log("response=", response.data);
+        })
+        .catch((reject) => console.error(reject));
+    }
   }, []);
 
   function divScore(score1: number, score2: number) {
@@ -94,18 +96,16 @@ function HistoryBlock(props: Props) {
     return classes.ScoreWinner;
   }
 
-  function getMatchDay(matchDate:string)
-  {
-    let cutDate = matchDate.split('T');
-    let cutDate2= cutDate[0].split('-')
-    return (cutDate2[2]);
+  function getMatchDay(matchDate: string) {
+    let cutDate = matchDate.split("T");
+    let cutDate2 = cutDate[0].split("-");
+    return cutDate2[2];
   }
 
-  function getMatchMounth(matchDate:string)
-  {
-    let cutDate = matchDate.split('T');
-    let cutDate2= cutDate[0].split('-')
-    return (cutDate2[1]);
+  function getMatchMounth(matchDate: string) {
+    let cutDate = matchDate.split("T");
+    let cutDate2 = cutDate[0].split("-");
+    return cutDate2[1];
   }
 
   return (
@@ -115,23 +115,46 @@ function HistoryBlock(props: Props) {
         <div className={classes.MatchsList}>
           {historic.map((match: IGame, index: number) => (
             <div className={classes.Match} key={index}>
-              <h4>{getMatchDay(match.created_at)}/{getMatchMounth(match.created_at)}</h4>
+              <h4>
+                {getMatchDay(match.created_at)}/
+                {getMatchMounth(match.created_at)}
+              </h4>
               <div className={classes.MatchUserLeft}>
                 <Avatar user={match.players[0].user} />
                 <p className={clsx(classes.Username, classes.UsernameLeft)}>
                   <span>{match.players[0].user.username}</span>
                 </p>
                 <img
-                  className={clsx(classes.ImgLevelElement, classes.ImgLevelElementLeft)}
+                  className={clsx(
+                    classes.ImgLevelElement,
+                    classes.ImgLevelElementLeft
+                  )}
                   src={imgLevel.get(ftSetLevel(match.players[0].elo))}
                 ></img>
-                <p className={clsx(classes.Score, divScore(match.players[0].score,match.players[1].score))}>{match.players[0].score}</p>
+                <p
+                  className={clsx(
+                    classes.Score,
+                    divScore(match.players[0].score, match.players[1].score)
+                  )}
+                >
+                  {match.players[0].score}
+                </p>
               </div>
               <p className={classes.ScoreSeparator}>-</p>
               <div className={classes.MatchUserRight}>
-                <p className={clsx(classes.Score,divScore(match.players[1].score,match.players[0].score))}>{match.players[1].score}</p>
+                <p
+                  className={clsx(
+                    classes.Score,
+                    divScore(match.players[1].score, match.players[0].score)
+                  )}
+                >
+                  {match.players[1].score}
+                </p>
                 <img
-                  className={clsx(classes.ImgLevelElement, classes.ImgLevelElementRight)}
+                  className={clsx(
+                    classes.ImgLevelElement,
+                    classes.ImgLevelElementRight
+                  )}
                   src={imgLevel.get(ftSetLevel(match.players[1].elo))}
                 ></img>
                 <p className={clsx(classes.Username, classes.UsernameRight)}>

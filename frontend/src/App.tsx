@@ -26,7 +26,7 @@ function MainApp(props: IMainProps) {
     <Routes>
       <Route path="/" element={<Game />} />
       <Route path="/game" element={<Game />} />
-      <Route path="/game/pong" element={<Pong />} />
+      {/* <Route path="/game/pong" element={<Pong />} /> */}
       <Route
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
@@ -63,7 +63,10 @@ const App: React.FC = (): JSX.Element => {
   function handleSubmitForm2faCode() {
     api
       .post("/auth/2fa/authenticate", { code: twofaCode })
-      .then((response) => window.location.reload())
+      .then((response) => {
+        // Notes: 0 (ZERO)
+        // window.location.reload();
+      })
       .catch((reject) => {
         toast.error("Wrong code");
       });

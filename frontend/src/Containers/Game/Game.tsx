@@ -16,7 +16,6 @@ function Game() {
     useState<string>("choosePlayOrWatch");
 
   const WindowSize = useWindowSize();
-
   useEffect(() => {
     if (WindowSize.innerWidth < 160.01) {
       WIDTH = 100;
@@ -116,7 +115,7 @@ function Game() {
       </div>
 
       <div className={clsx(classes.pong, ftShowGameVue("pong"))}>
-        <Pong />
+        <Pong width={WIDTH} height={HEIGHT} />
       </div>
     </div>
   );

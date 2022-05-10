@@ -28,7 +28,7 @@ const MENU_ID = "menu-id";
 interface Props {
   user: IUser;
   channel: IChannel;
-  ws: any;
+  socket: any;
   messages: IMessage[];
   showChatRight: boolean;
   setShowChatRight: (value: boolean) => void;
@@ -59,7 +59,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
         userToBlock = response.data;
         api
           .post("/users/block", { id: userToBlock.id })
-          .then((response) => {
+          .then((response: any) => {
             api
               .get("/users/getBlockedUser")
               .then((response) => {
@@ -122,7 +122,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
                   //   .then((response) => console.log(response.data))
                   //   .catch((reject) => console.error(reject));
                   // ping server to notif for invite
-                  props.ws.socket.emit("pingToPlay", messageUser);
+                  props.socket.emit("pingToPlay", messageUser);
                 }}
               >
                 Invite to play
@@ -165,7 +165,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
             if (props.channel !== null) {
               Object.assign(message, { channel: props.channel });
             }
-            props.ws.socket.emit("addMessage", message);
+            props.socket.emit("addMessage", message);
           }}
         />
       </div>

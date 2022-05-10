@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 import classes from "./Chat.module.scss";
-import { WebSocket } from "./Socket";
 import { IUser } from "../../interface/user.interface";
 import { IChannel } from "../../interface/channel.interface";
 import SearchUser from "./Components/SearchUser/SearchUser";
@@ -13,21 +12,19 @@ import { IMessage } from "../../interface/message.interface";
 import { IJoinChannel } from "../../interface/join-channel.interface";
 import ChannelSettings from "./Components/ChannelSettings/ChannelSettings";
 import { Scope } from "../../interface/scope.enum";
-
-const ws = new WebSocket("http://localhost:3000/chat");
-ws.disconnect();
+import getSocket from "../Socket";
 
 interface Props {
   user: IUser;
   refresh: number;
   setRefresh: (i: number) => void;
 }
-
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);
   const [discussion, setDiscussion] = useState<IChannel[]>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [channelChoose, setChannelChoose] = useState<IChannel | null>(null);
+  const [socket, setSocket] = useState<any>(null);
 
   const [channelsJoin, setChannelsJoin] = useState<IChannel[]>([]);
   const [channelsNotJoin, setChannelsNotJoin] = useState<IChannel[]>([]);
@@ -38,55 +35,46 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [showChatRight, setShowChatRight] = useState(false);
 
   useEffect(() => {
-    ws.connect();
+    const socketEffect = getSocket("chat");
 
-    ws.socket.on("channels", (data) => {
-      //console.log('channels', data);
+    socketEffect.on("channels", (data: any) => {
       setChannels(data);
     });
 
-    ws.socket.on("discussion", (data) => {
-      console.log("discussion", data);
+    socketEffect.on("discussion", (data: any) => {
       setDiscussion(data);
     });
 
-    ws.socket.on("newDiscussion", (data) => {
-      console.log("newDiscussion", data);
-
+    socketEffect.on("newDiscussion", (data: any) => {
       setDiscussion([...discussion, data]);
     });
 
-    ws.socket.on("messages", (data) => {
+    socketEffect.on("messages", (data: any) => {
       setMessages(data);
     });
 
-    ws.socket.on("messageAdded", (data) => {
+    socketEffect.on("messageAdded", (data: any) => {
       setMessages((prev) => [...prev, data]);
     });
 
-    ws.socket.on("Error", (data) => {
+    socketEffect.on("Error", (data: any) => {
       toast.error(data.message);
     });
 
-    ws.socket.on("Success", (data) => {
-      console.log("play", data);
+    socketEffect.on("Success", (data: any) => {
       toast.success(data.message);
     });
-
-    ws.socket.on("inviteToPlay", (data) => {
-      console.log("play===>>", data);
+    socketEffect.on("inviteToPlay", (data: any) => {
       toast.success(data.message);
     });
-
-    ws.socket.on("currentChannel", (data) => {
-      //console.log('currentChannel', data);
+    socketEffect.on("currentChannel", (data: any) => {
       setChannelChoose(data);
     });
-    //ws.socket.emit('getAllChannels');
-
+    setSocket(socketEffect);
     return () => {
-      ws.disconnect();
-      // ws?.socket.on('disconnect', () => {});
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
     };
   }, []);
 
@@ -121,7 +109,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const joinChannel: IJoinChannel = {
             channel,
           };
-          ws.socket.emit("joinChannel", joinChannel);
+          socket.emit("joinChannel", joinChannel);
           setShowChatLeft(!showChatLeft);
         }}
       >
@@ -139,7 +127,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const joinChannel: IJoinChannel = {
             channel,
           };
-          ws.socket.emit("joinChannel", joinChannel);
+          socket.emit("joinChannel", joinChannel);
           setShowChatLeft(!showChatLeft);
         }}
       >
@@ -156,7 +144,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         return (
           <Discussion
             user={props.user}
-            ws={ws}
+            socket={socket}
             channel={channelChoose}
             messages={messages}
             showChatRight={showChatRight}
@@ -168,7 +156,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <SearchUser
           socketEmit={(message: string, channel: IChannel) => {
-            ws.socket.emit(message, channel);
+            socket.emit(message, channel);
           }}
           user={props.user}
         />
@@ -177,7 +165,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       return (
         <JoinChannel
           user={props.user}
-          ws={ws}
+          socket={socket}
           channels={channels}
           channelNotJoin={channelsNotJoin}
         />
@@ -187,7 +175,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         <CreateChannel
           user={props.user}
           socketEmit={(channel: IChannel) => {
-            ws.socket.emit("createChannel", channel);
+            socket.emit("createChannel", channel);
           }}
         />
       );
@@ -199,7 +187,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
         <ChannelSettings
           user={props.user}
           channel={channelChoose}
-          ws={ws}
+          socket={socket}
           channels={channels}
           setChannelChoose={setChannelChoose}
           setActiveChatMenu={setActiveChatMenu}

@@ -70,6 +70,7 @@ export class GameGateway
 
   async handleDisconnect(client: Socket) {
     if (client.data.user) {
+      await this.connectedUserService.deleteByUser(client.data.user);
       await this.connectedUserService.deleteBySocketId(client.id);
       await this.queueService.delete(client.data.user?.id);
     }
