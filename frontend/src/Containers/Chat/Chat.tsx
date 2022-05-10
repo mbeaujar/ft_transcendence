@@ -73,6 +73,11 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       toast.success(data.message);
     });
 
+    ws.socket.on("inviteToPlay", (data) => {
+      console.log("play===>>", data);
+      toast.success(data.message);
+    });
+
     ws.socket.on("currentChannel", (data) => {
       //console.log('currentChannel', data);
       setChannelChoose(data);
@@ -274,7 +279,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
           <h3 className={clsx(classes.Channels)}>Channels</h3>
           {ftDisplayJoinChannel()}
-          <h3 className={clsx(classes.Messages)}>Messages</h3>
+          <h3 className={clsx(classes.Messages)}>Direct messages</h3>
           {ftDisplayDM()}
         </div>
 

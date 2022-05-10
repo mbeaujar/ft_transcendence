@@ -117,12 +117,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               <Item
                 onClick={() => {
                   RightClickInviteToPlay();
-                  api
-                    .post("/game/invite", { target: messageUser?.id })
-                    .then((response) => console.log(response.data))
-                    .catch((reject) => console.error(reject));
+                  // api
+                  //   .post("/game/invite", { target: messageUser?.id })
+                  //   .then((response) => console.log(response.data))
+                  //   .catch((reject) => console.error(reject));
                   // ping server to notif for invite
-                  props.ws.socket.emit("pingToPlay", messageUser?.id);
+                  props.ws.socket.emit("pingToPlay", messageUser);
                 }}
               >
                 Invite to play

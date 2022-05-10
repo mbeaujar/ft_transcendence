@@ -34,6 +34,12 @@ export class ConnectedUserService {
     }
   }
 
+  async allConnectedUser(): Promise<ConnectedUser[]> {
+    return this.connetedUserRepository.createQueryBuilder('connected')
+      .leftJoinAndSelect('connected.user', 'user')
+      .getMany()
+  }
+
   async getAll() {
     return this.connetedUserRepository.createQueryBuilder().getMany();
   }

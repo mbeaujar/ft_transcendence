@@ -1,8 +1,8 @@
 @import "../../../../utils.scss";
 
 @mixin styling() {
-  background-color: $blue1;
-  border: 0.1vw solid $blue3;
+  background-color: $black2;
+  border: 1px solid $white1;
   @media screen and (min-width: 651px) {
     border-radius: 0.5vw;
   }
@@ -19,14 +19,14 @@
 
 
   @media screen and (min-width: 651px) {
-    width: 120%; //changement ici
-    margin-top: 7vw; //changement ici
-    padding-bottom: 1vw;
+    width: 28%; //changement ici
+    margin-top: 15%; //changement ici
+    //padding-bottom: 1vw;
   }
   @media screen and (max-width: 650px) {
-    min-width: 80%;
-    max-width: 80%; //changement ici
-    margin-top: 20vw; //changement ici
+    min-width: 60%;
+    max-width: 60%; //changement ici
+    margin-top: 22vw; //changement ici
     padding-bottom: 1vw;
     margin-left:10% !important;
   }
@@ -36,14 +36,16 @@
     flex-direction: row;
     justify-content: flex-start;
     cursor: pointer;
+    
 
     @media screen and (min-width: 651px) {
-      width: 80%;
-      height: 2.5vw;
+      width: 100%;
+
+     // height: 2.5vw;
     }
     @media screen and (max-width: 650px) {
-      width: 60%;
-      height: 7vw;
+      width: 100%;
+      //height: 7vw;
     }
 
     .headerTitleP {
@@ -51,10 +53,9 @@
       text-align: left;
 
       @media screen and (min-width: 651px) {
-        font-size: 1vw;
-        min-width: 70%;
-        margin-left: 1vw;
-        margin-right: 3vw;
+        font-size: 35%;
+        width: max-content;
+        margin-left: 10%;
       }
       @media screen and (max-width: 650px) {
         font-size: 2.5vw;
@@ -64,10 +65,15 @@
     }
 
     .headerChoice {
+      @media screen and (min-width: 651px) {
+        font-size: 35%;
+        width: max-content;
+        margin-left: 15%;
+      }
       @media screen and (max-width: 650px) {
         font-size: 2.5vw;
         width:50%;
-        margin-left: -2vw !important;
+        //margin-left: -2vw !important;
       }
     }
   }
@@ -75,7 +81,7 @@
   .list {
     padding: 0;
     margin: 0;
-    width: 80%;
+    width: 100%;
 
     @media screen and (max-width: 650px) {
       //margin-left: 10%;
@@ -86,7 +92,7 @@
 
       &:first-of-type {
         > button {
-          border-top: 0.1vw solid $blue3;
+          border-top: 0.1vw solid $white1;
           border-top-left-radius: 0.5vw;
           border-top-right-radius: 0.5vw;
         }
@@ -101,18 +107,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: black;
+        background-color: $black2;
         color: $blue2;
         border: 0;
         text-align: left;
-        border-bottom: 0.1vw solid $blue3;
-        border-left: 0.1vw solid $blue3;
-        border-right: 0.1vw solid $blue3;
+        border-bottom: 0.1vw solid $white1;
+        border-left: 0.1vw solid $white1;
+        border-right: 0.1vw solid $white1;
         @media screen and (min-width: 651px) {
-          font-size: 1vw;
-          height: 3vw;
+          font-size: 30%;
+         // height: 30%;
           width: 100%;
-          padding: 0% 1vw;
+        //  padding: 0% 1vw;
         }
         @media screen and (max-width: 650px) {
           font-size: 2.5vw;
@@ -122,13 +128,13 @@
         }
         &:hover {
           cursor: pointer;
-          background-color: $blue3;
+          background-color: $black;
          // color: $blue4;
         }
 
         @media screen and (min-width: 651px) {
           span {
-            font-size: 1.5vw;
+            font-size: 125%;
           }}
 
         @media screen and (max-width: 650px) {

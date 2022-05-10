@@ -205,9 +205,13 @@ export class ChatGateway
   @SubscribeMessage('pingToPlay')
   async onInvitation(socket: Socket, user: IUser) {
     if (socket.data.user === undefined) return;
-    console.log('ali le con');
-    this.server.to(user.)
-              .emit('wanna play ass hole ?', socket);
+    const userToPing = await this.connectedUserService.findByUserAndMode(user, Mode.game);
+    // const all = await this.connectedUserService.allConnectedUser();
+    // console.log('all', all);
+    console.log(user.id, userToPing);
+    if (userToPing) {
+      this.server.to(userToPing.socketId).emit('inviteToPlay', { msg: 'blabla'});
+    }
   }
 
   @SubscribeMessage('createDiscussion')

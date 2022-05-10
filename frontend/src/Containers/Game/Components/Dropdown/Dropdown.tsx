@@ -11,6 +11,8 @@ interface Props {
   items: Iitem[];
   title: String;
   multiselect: boolean;
+  WIDTH: number;
+  HEIGHT: number;
 }
 
 function Dropdown(props: Props) {

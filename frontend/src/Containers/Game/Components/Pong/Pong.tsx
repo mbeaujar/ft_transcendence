@@ -148,6 +148,8 @@ const Pong = (props: any) => {
         title="Channel Mode"
         items={itemsGameMode}
         multiselect={false}
+        WIDTH={WIDTH}
+        HEIGHT={HEIGHT}
       />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
@@ -166,7 +168,7 @@ const Pong = (props: any) => {
         height={HEIGHT}
         ref={canvasRef}
         tabIndex={0}
-        onKeyDown={(event) => {}}
+        // onKeyDown={(event) => {}}
         onKeyUp={(event) => {
           if (event.code === "ArrowUp") ws.socket.emit("moveTopPaddle", { id });
           if (event.code === "ArrowDown")
