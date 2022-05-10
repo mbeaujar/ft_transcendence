@@ -145,7 +145,21 @@ const Pong = (props: any) => {
         <span style={{ fontSize: WIDTH / 21 }}>{score[1]}</span>
       </div>
       <Dropdown
-        title="Channel Mode"
+        title="Game Mode"
+        items={itemsGameMode}
+        multiselect={false}
+        WIDTH={WIDTH}
+        HEIGHT={HEIGHT}
+      />
+      <Dropdown
+        title="Game Mode"
+        items={itemsGameMode}
+        multiselect={false}
+        WIDTH={WIDTH}
+        HEIGHT={HEIGHT}
+      />
+      <Dropdown
+        title="Opponent"
         items={itemsGameMode}
         multiselect={false}
         WIDTH={WIDTH}

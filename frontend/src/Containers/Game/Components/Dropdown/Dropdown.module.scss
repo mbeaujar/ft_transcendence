@@ -3,12 +3,7 @@
 @mixin styling() {
   background-color: $black2;
   border: 1px solid $white1;
-  @media screen and (min-width: 651px) {
     border-radius: 0.5vw;
-  }
-  @media screen and (max-width: 650px) {
-    border-radius: 1vw;
-  }
 }
 
 .Dropdown {
@@ -18,18 +13,10 @@
   z-index: 9;
 
 
-  @media screen and (min-width: 651px) {
     width: 28%; //changement ici
     margin-top: 15%; //changement ici
     //padding-bottom: 1vw;
-  }
-  @media screen and (max-width: 650px) {
-    min-width: 60%;
-    max-width: 60%; //changement ici
-    margin-top: 22vw; //changement ici
-    padding-bottom: 1vw;
-    margin-left:10% !important;
-  }
+
   .header {
     @include styling();
     display: flex;
@@ -38,43 +25,27 @@
     cursor: pointer;
     
 
-    @media screen and (min-width: 651px) {
       width: 100%;
 
-     // height: 2.5vw;
-    }
-    @media screen and (max-width: 650px) {
-      width: 100%;
-      //height: 7vw;
-    }
+
 
     .headerTitleP {
       font-weight: bold;
       text-align: left;
 
-      @media screen and (min-width: 651px) {
-        font-size: 35%;
-        width: max-content;
-        margin-left: 10%;
-      }
-      @media screen and (max-width: 650px) {
-        font-size: 2.5vw;
-        margin-left: 2vw;
-        min-width: 80%;
-      }
-    }
-
-    .headerChoice {
-      @media screen and (min-width: 651px) {
         font-size: 35%;
         width: max-content;
         margin-left: 15%;
-      }
-      @media screen and (max-width: 650px) {
-        font-size: 2.5vw;
-        width:50%;
-        //margin-left: -2vw !important;
-      }
+      
+
+    }
+
+    .headerChoice {
+        font-size: 35%;
+        width: max-content;
+        margin-left: 15%;
+      
+
     }
   }
 
@@ -83,9 +54,7 @@
     margin: 0;
     width: 100%;
 
-    @media screen and (max-width: 650px) {
-      //margin-left: 10%;
-    }
+
 
     li {
       list-style-type: none;
@@ -114,33 +83,25 @@
         border-bottom: 0.1vw solid $white1;
         border-left: 0.1vw solid $white1;
         border-right: 0.1vw solid $white1;
-        @media screen and (min-width: 651px) {
+        padding-left: 5%;
           font-size: 30%;
          // height: 30%;
           width: 100%;
         //  padding: 0% 1vw;
-        }
-        @media screen and (max-width: 650px) {
-          font-size: 2.5vw;
-          height: 6vw;
-          width: 125%;
-          padding: 0% 7.5%;
-        }
+        
+
         &:hover {
           cursor: pointer;
           background-color: $black;
          // color: $blue4;
         }
 
-        @media screen and (min-width: 651px) {
           span {
             font-size: 125%;
-          }}
+            margin-right:5%;
+          }
 
-        @media screen and (max-width: 650px) {
-        span {
-          font-size: 3vw;
-        }}
+
       }
     }
   }
