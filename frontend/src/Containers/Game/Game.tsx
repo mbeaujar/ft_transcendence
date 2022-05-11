@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useEffect, useState } from "react";
-import api from "../../apis/api";
+// import api from "../../apis/api";
 import clsx from "clsx";
 import classes from "./Game.module.scss";
-import styles from "./Game.module.scss";
+// import styles from "./Game.module.scss";
 import Pong from "./Components/Pong/Pong";
 import useWindowSize from "./Components/useWindow/useWindowSize";
 import WatchGame from "./Components/WatchGame/WatchGame";
@@ -109,7 +109,6 @@ function Game() {
           Current game invites
         </button>
       </div>
-
       <div className={clsx(classes.WatchGame, ftShowGameVue("watchGame"))}>
         <WatchGame />
       </div>

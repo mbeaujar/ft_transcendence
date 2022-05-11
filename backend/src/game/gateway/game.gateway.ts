@@ -22,7 +22,7 @@ import { Mode } from 'src/chat/model/connected-user/mode.enum';
 @WebSocketGateway({
   namespace: '/game',
   cors: {
-    origin: ['http://localhost:8080'],
+    origin: ['http://localhost:8080', 'http://localhost:8081'],
     credentials: true,
   },
 })

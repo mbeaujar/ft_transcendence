@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 import classes from "./Chat.module.scss";
@@ -209,7 +209,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   return (
-    <>
+    <Fragment>
       <div className={clsx(classes.Chat)}>
         <button
           className={classes.OpenChatLeftButton}
@@ -277,7 +277,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           {ftActiveChatMenuRight()}
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

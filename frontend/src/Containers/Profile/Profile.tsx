@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import api from "../../apis/api";
 import clsx from "clsx";
 import Stats from "./components/Stats/Stats";
@@ -6,10 +6,10 @@ import Friends from "./components/Friends/Friends";
 import Leaderboard from "./components/Leaderboard/Leaderboard";
 import Settings from "./components/Settings/Settings";
 import classes from "./Profile.module.scss";
-import styles from "./Profile.module.scss";
+// import styles from "./Profile.module.scss";
 import Avatar from "./components/Avatar/Avatar";
 import { IUser } from "../../interface/user.interface";
-import { IFriends } from "../../interface/friends.interface";
+// import { IFriends } from "../../interface/friends.interface";
 
 function Profile() {
   const [activeMenu, setActiveMenu] = useState<string>("Stats");
@@ -39,7 +39,7 @@ function Profile() {
   };
 
   return (
-    <>
+    <Fragment>
       {user ? (
         <div className={clsx(classes.Profile)}>
           <div className={classes.ProfileLeft}>
@@ -106,7 +106,8 @@ function Profile() {
           </div>
         </div>
       ) : null}
-    </>
+    </Fragment>
   );
 }
+
 export default Profile;
