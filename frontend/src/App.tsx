@@ -5,6 +5,7 @@ import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Game from "./Containers/Game/Game";
+import Watch from "./Containers/Game/Components/Watch/Watch";
 import Pong from "./Containers/Game/Components/Pong/Pong";
 import Play from "./Containers/Game/Components/Play/Play";
 import Chat from "./Containers/Chat/Chat";
@@ -54,10 +55,11 @@ function MainApp(props: IMainProps) {
   }, [WindowSize]);
   return (
     <Routes>
-      <Route path="/" element={<Game />} />
-      <Route path="/game"  element={<Game />} />
+      <Route path="/" element={<Game width={WIDTH} height={HEIGHT}/>} />
+      <Route path="/game"  element={<Game width={WIDTH} height={HEIGHT}/>} />
+      <Route path="/game/watch" element={<Watch width={WIDTH} height={HEIGHT}/>} /> 
       <Route path="/game/play" element={<Play width={WIDTH} height={HEIGHT}/>} /> 
-      <Route path="/game/pong" element={<Pong width={WIDTH} height={HEIGHT}/>} /> 
+      <Route path="/game/play/room" element={<Pong width={WIDTH} height={HEIGHT}/>} /> 
       <Route
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}

@@ -1,0 +1,7 @@
+#canva {
+	background-color: black;
+}
+
+#canva:focus {
+	outline: none;
+}

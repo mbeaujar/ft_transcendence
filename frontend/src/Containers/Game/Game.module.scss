@@ -26,33 +26,30 @@
     display: none;
   }
 
-  .configButton {
+  .Link {
     cursor: pointer;
-    font-family: 'Roboto Slab', serif;
+    font-family: "Roboto Slab", serif;
     font-weight: bold;
-    width: 40%;
-		padding: 2%;
-		color: $white1;
-		background-color: $black2;
-		border:0.3vw solid $white1;
-		border-radius:2vw;
+    width: 35%;
+    padding: 2%;
+    color: $white1;
+    background-color: $black2;
+    border: 0.3vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
   }
 
-  .configButton:hover {
+  .Link:hover {
     background-color: $black;
   }
 
-  .configButtonTop 
-  {
+  .LinkTop {
     margin-bottom: 2.5%;
   }
 
-  .configButtonBottom
-  {
+  .LinkBottom {
     margin-top: 2.5%;
   }
-
-
 
   #canvas {
     background-color: $black;

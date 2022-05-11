@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Play.module.scss';
 import clsx from 'clsx';
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 interface Props 
 {
@@ -11,35 +12,33 @@ interface Props
 function Play(props:Props)
 {
 return (
-  <div className={classes.Play} style={{ width: props.width, height: props.height }}>
-          <div
-        className={clsx(
-          classes.chooseGameType,
-          classes.showGameVue
-        )}
-      >
-        <button
-          className={clsx(
-            classes.configButton,
-            classes.butttonGame,
-            classes.configButtonTop
-          )}
-          style={{ fontSize: props.width / 40 }}
-        >
-          Room
-        </button>
-        <button
-          className={clsx(
-            classes.configButton,
-            classes.butttonGame,
-            classes.configButtonBottom
-          )}
-          style={{ fontSize: props.width / 40 }}
-        >
-          Current game invites
-        </button>
-      </div>
+  <div
+  className={clsx(classes.Play)}
+  style={{ width: props.width, height: props.height }}
+>
+  <div
+    className={clsx(
+      classes.playOrWatch,
+      classes.showGameVue
+    )}
+  >
+    <Link
+      className={clsx(classes.Link, classes.LinkTop)}
+      style={{ fontSize: props.width / 40 }}
+      to="/game/play/room"
+    >
+      Room
+    </Link>
+    <Link
+      className={clsx(classes.Link, classes.LinkBottom)}
+      style={{ fontSize: props.width / 40 }}
+      to="/game/play/invite"
+    >
+      Current game invite
+    </Link>
   </div>
+
+</div>
 );
 }
 

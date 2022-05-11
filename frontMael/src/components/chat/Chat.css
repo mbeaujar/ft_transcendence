@@ -1,0 +1,37 @@
+
+.container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 10px;
+	width: 100vw;
+}
+
+.block-left {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 20vw;
+	height: 50vh;
+}
+
+.block-right {
+	width: 80vw;
+	height: 50vh;
+	display: block;
+}
+
+.message {
+	border-radius: 3%;
+	width: 10em;
+}
+
+.message-left {
+	background-color: aliceblue;
+}
+
+.message-right {
+	background-color: grey;
+	margin-left: 300px;
+}
