@@ -3,7 +3,6 @@ db.sqlite
 test.sqlite
 uploadedFiles
 !assets/default
-assets/*
 # compiled output
 /dist
 /node_modules

@@ -130,7 +130,7 @@ export class AuthController {
     return user;
   }
 
-  // @AuthTwoFactor()
+  @AuthTwoFactor()
   @ApiOperation({ summary: 'Logout of 42Api' })
   @Get('logout')
   async logout(
