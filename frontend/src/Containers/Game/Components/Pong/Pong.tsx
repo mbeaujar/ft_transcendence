@@ -16,25 +16,25 @@ const BACKGROUND = "#000000";
 const PADDLE = "#ffffff";
 const BALL = "#00007f";
 
-const itemsGameMode = [
-  { id: 1, value: "Classic mode" },
-  { id: 2, value: "Paddle reduce" },
-  { id: 3, value: "Paddle flashing" },
-];
+// const itemsGameMode = [
+//   { id: 1, value: "Classic mode" },
+//   { id: 2, value: "Paddle reduce" },
+//   { id: 3, value: "Paddle flashing" },
+// ];
 
-const itemsPaddleSensibility = [
-  { id: 1, value: "Very slow" },
-  { id: 2, value: "Slow" },
-  { id: 3, value: "Normal" },
-  { id: 3, value: "Fast" },
-  { id: 3, value: "Very fast" },
-];
+// const itemsPaddleSensibility = [
+//   { id: 1, value: "Very slow" },
+//   { id: 2, value: "Slow" },
+//   { id: 3, value: "Normal" },
+//   { id: 3, value: "Fast" },
+//   { id: 3, value: "Very fast" },
+// ];
 
-const itemsOpponent = [
-  { id: 1, value: "Random" },
-  { id: 2, value: "Ramzi" },
-  { id: 3, value: "Mael" },
-];
+// const itemsOpponent = [
+//   { id: 1, value: "Random" },
+//   { id: 2, value: "Ramzi" },
+//   { id: 3, value: "Mael" },
+// ];
 
 interface Props {
   width: number;
@@ -119,6 +119,8 @@ const Pong = (props: Props) => {
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
+   
+
     return () => {
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
@@ -144,7 +146,7 @@ const Pong = (props: Props) => {
         <span style={{ fontSize: props.width / 21 }}>{score[0]}</span> |{" "}
         <span style={{ fontSize: props.width / 21 }}>{score[1]}</span>
       </div>
-      <Dropdown
+      {/* <Dropdown
         title="Game Mode"
         items={itemsGameMode}
         multiselect={false}
@@ -167,7 +169,7 @@ const Pong = (props: Props) => {
         WIDTH={props.width}
         HEIGHT={props.height}
         id={3}
-      />
+    />*/}
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
@@ -177,7 +179,7 @@ const Pong = (props: Props) => {
         }}
       >
         Start Game
-      </button>
+      </button> 
       <canvas
         className={classes.canva}
         style={{ backgroundColor: BACKGROUND }}

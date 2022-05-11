@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Game from "./Containers/Game/Game";
 import Watch from "./Containers/Game/Components/Watch/Watch";
+import Room from "./Containers/Game/Components/Room/Room";
 import Pong from "./Containers/Game/Components/Pong/Pong";
 import Play from "./Containers/Game/Components/Play/Play";
 import Chat from "./Containers/Chat/Chat";
@@ -16,6 +17,7 @@ import { IUser } from "./interface/user.interface";
 import api from "./apis/api";
 import googleAuthImg from "./assets/Google_Authenticator_for_Android_icon.png";
 import useWindowSize from "./Containers/Game/Components/useWindow/useWindowSize";
+import { Socket } from "socket.io-client";
 
 export interface IMainProps {
   user: IUser;
@@ -29,6 +31,7 @@ let HEIGHT = 400;
 function MainApp(props: IMainProps) {
   const { user, refresh, setRefresh } = props;
   const WindowSize = useWindowSize();
+  
   useEffect(() => {
     if (WindowSize.innerWidth < 160.01) {
       WIDTH = 100;
@@ -52,14 +55,35 @@ function MainApp(props: IMainProps) {
       WIDTH = 800;
       HEIGHT = 400;
     }
+
+
   }, [WindowSize]);
+  
   return (
     <Routes>
-      <Route path="/" element={<Game width={WIDTH} height={HEIGHT}/>} />
-      <Route path="/game"  element={<Game width={WIDTH} height={HEIGHT}/>} />
-      <Route path="/game/watch" element={<Watch width={WIDTH} height={HEIGHT}/>} /> 
-      <Route path="/game/play" element={<Play width={WIDTH} height={HEIGHT}/>} /> 
-      <Route path="/game/play/room" element={<Pong width={WIDTH} height={HEIGHT}/>} /> 
+      <Route path="/" element={<Game width={WIDTH} height={HEIGHT} />} />
+      <Route path="/game" element={<Game width={WIDTH} height={HEIGHT} />} />
+      <Route
+        path="/game/watch"
+        element={<Watch width={WIDTH} height={HEIGHT} />}
+      />
+      <Route
+        path="/game/play"
+        element={<Play width={WIDTH} height={HEIGHT} />}
+      />
+      <Route
+        path="/game/play/room"
+        element={<Room width={WIDTH} height={HEIGHT}  />}
+      />
+      <Route
+        path="/game/play/room/pong"
+        element={
+          <Pong
+            width={WIDTH}
+            height={HEIGHT}
+          />
+        }
+      ></Route>
       <Route
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
@@ -112,7 +136,7 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <div className="App Layout">
-      <Router>
+      {/* <Router> */}
         <Header />
         {user ? (
           <MainApp user={user} refresh={refresh} setRefresh={setRefresh} />
@@ -132,7 +156,7 @@ const App: React.FC = (): JSX.Element => {
             You must log in to access this feature
           </h1>
         )}
-      </Router>
+      {/* </Router> */}
       <ToastContainer theme="colored" />
     </div>
   );

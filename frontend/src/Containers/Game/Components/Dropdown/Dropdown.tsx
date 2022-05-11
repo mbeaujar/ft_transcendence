@@ -47,9 +47,9 @@ function Dropdown(props: Props) {
   }
 
   function setPosition() {
-    if (props.id == 1) return props.WIDTH / 18.75;
-    else if (props.id == 2) return props.WIDTH /2.78;
-    else if (props.id == 3) return props.WIDTH / 1.5;
+    if (props.id == 1) return props.WIDTH * -0.6;
+    else if (props.id == 2) return props.WIDTH*0;
+    else if (props.id == 3) return props.WIDTH*0.6;
   }
 
   function isItemInSelection(item: Iitem) {
@@ -63,7 +63,7 @@ function Dropdown(props: Props) {
     <div
       className={classes.Dropdown}
       ref={ref}
-      style={{ top: props.HEIGHT/3.25, marginLeft: setPosition() }}
+      style={{ top: props.HEIGHT/3.2, marginLeft: setPosition() }}
     >
       <div
         tabIndex={0}

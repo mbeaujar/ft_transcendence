@@ -1,30 +1,21 @@
 @import "../../../../utils.scss";
 
-.Pong {
+.Room {
+  background-color: $black2;
   position: relative;
   margin-top: 5vw;
   margin-left: auto;
   margin-right: auto;
 
-  .Score {
-    position: absolute;
-    top: 0;
-    left: 40%;
-    width: 20%;
-    //font-size: 3vw;
-    z-index: 3;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
-  .HideButton 
-  {
-    display: none;
-  }
-
-	
-	.ButtonJoinQueue
+  .ButtonJoinQueue
 	{
 		position: absolute;
-    top: 55%;
+    top: 53%;
     left: 30%;
 		cursor: pointer;
     font-family: 'Roboto Slab', serif;
@@ -41,15 +32,4 @@
 	{
 		background-color: $black;
 	}
-
-  .canva {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-  }
-
-  .canva:focus {
-    outline: none;
-  }
 }
