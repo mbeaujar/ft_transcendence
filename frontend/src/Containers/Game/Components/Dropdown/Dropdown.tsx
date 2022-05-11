@@ -13,7 +13,7 @@ interface Props {
   multiselect: boolean;
   WIDTH: number;
   HEIGHT: number;
-  id:number;
+  id: number;
 }
 
 function Dropdown(props: Props) {
@@ -46,6 +46,12 @@ function Dropdown(props: Props) {
     }
   }
 
+  function setPosition() {
+    if (props.id == 1) return props.WIDTH / 18.75;
+    else if (props.id == 2) return props.WIDTH /2.78;
+    else if (props.id == 3) return props.WIDTH / 1.5;
+  }
+
   function isItemInSelection(item: Iitem) {
     if (selection === item.value) {
       return <span className="material-icons">done</span>;
@@ -54,7 +60,11 @@ function Dropdown(props: Props) {
   }
 
   return (
-    <div className={classes.Dropdown} ref={ref} style={{ top: 35 }}>
+    <div
+      className={classes.Dropdown}
+      ref={ref}
+      style={{ top: props.HEIGHT/3.25, marginLeft: setPosition() }}
+    >
       <div
         tabIndex={0}
         className={classes.header}

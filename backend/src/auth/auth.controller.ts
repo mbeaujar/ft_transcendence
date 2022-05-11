@@ -63,10 +63,11 @@ export class AuthController {
     @Body() body: TwoFactorAuthenticationDto,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
-      body.code,
-      user,
-    );
+    const isCodeValid =
+      await this.authService.isTwoFactorAuthenticationCodeValid(
+        body.code,
+        user,
+      );
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
@@ -80,10 +81,11 @@ export class AuthController {
     @Body() body: TwoFactorAuthenticationDto,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
-      body.code,
-      user,
-    );
+    const isCodeValid =
+      await this.authService.isTwoFactorAuthenticationCodeValid(
+        body.code,
+        user,
+      );
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
@@ -98,10 +100,11 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
     @CurrentUser() user: User,
   ) {
-    const isCodeValid = await this.authService.isTwoFactorAuthenticationCodeValid(
-      body.code,
-      user,
-    );
+    const isCodeValid =
+      await this.authService.isTwoFactorAuthenticationCodeValid(
+        body.code,
+        user,
+      );
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
@@ -130,7 +133,7 @@ export class AuthController {
     return user;
   }
 
-  // @AuthTwoFactor()
+  @AuthTwoFactor()
   @ApiOperation({ summary: 'Logout of 42Api' })
   @Get('logout')
   async logout(
