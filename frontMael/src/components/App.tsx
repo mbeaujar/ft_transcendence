@@ -8,7 +8,6 @@ import { IUser } from "./interface/user.interface";
 // import Game from './game/Game';
 import api from "../apis/api";
 import Pong from "./game/Pong";
-import Ponge from "./game/Ponge";
 
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<IUser>();
@@ -39,9 +38,6 @@ const App: React.FC = (): JSX.Element => {
           ) : null}
           {user ? <Route path="/file" element={<File user={user} />} /> : null}
           {user ? <Route path="/game" element={<Pong user={user} />} /> : null}
-          {user ? (
-            <Route path="/gamee" element={<Ponge user={user} />} />
-          ) : null}
         </Routes>
       </BrowserRouter>
       <br />

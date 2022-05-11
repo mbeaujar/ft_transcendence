@@ -53,41 +53,6 @@ function Game(props:Props) {
         </Link>
       </div>
 
-      {/* <div
-        className={clsx(
-          classes.chooseGameType,
-          ftShowGameVue("chooseGameType")
-        )}
-      >
-        <button
-          className={clsx(
-            classes.configButton,
-            classes.butttonGame,
-            classes.configButtonTop
-          )}
-          onClick={() => setActiveGameVue("pong")}
-          style={{ fontSize: WIDTH / 40 }}
-        >
-          Room
-        </button>
-        <button
-          className={clsx(
-            classes.configButton,
-            classes.butttonGame,
-            classes.configButtonBottom
-          )}
-          style={{ fontSize: WIDTH / 40 }}
-        >
-          Current game invites
-        </button>
-      </div>
-      <div className={clsx(classes.WatchGame, ftShowGameVue("watchGame"))}>
-         <WatchGame /> 
-      </div>
-
-      <div className={clsx(classes.pong, ftShowGameVue("pong"))}>
-        <Pong width={WIDTH} height={HEIGHT} />
-      </div> */}
     </div>
   );
 }

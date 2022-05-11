@@ -45,8 +45,7 @@ const Pong = (props: any) => {
         );
       }
       if (data.player2 !== undefined && data.paddleh2 !== undefined) {
-  
-        drawPaddle(
+          drawPaddle(
           context,
           WIDTH - PADDLEW - 2,
           calculPercentage(data.player2, HEIGHT) -

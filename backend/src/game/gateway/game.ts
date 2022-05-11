@@ -111,12 +111,17 @@ export class Game {
     await this.playerService.save(this.match.players[1]);
 
     await this.matchService.update(this.match, { live: 0 });
+
     if (this.match.mode === GameMode.default) {
+
       let winner = this.player1.score === 3 ? 0 : 1;
       let loser = this.player1.score === 3 ? 1 : 0;
+      console.log('winner', this.match.players[winner]);
+      console.log('loser', this.match.players[loser]);
       this.match.players[winner].user.elo += 30;
       this.match.players[winner].user.wins++;
       this.match.players[loser].user.losses++;
+
       if (this.match.players[loser].user.elo > 30) {
         this.match.players[loser].user.elo -= 30;
       } else {
