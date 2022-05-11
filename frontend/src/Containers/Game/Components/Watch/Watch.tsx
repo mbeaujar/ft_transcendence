@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
-import classes from "./WatchGame.module.scss";
+import { useState, useEffect } from "react";
+import classes from "./Watch.module.scss";
 import { IGame } from "../../../../interface/game.interface";
 import { Socket } from "socket.io-client";
 import getSocket from "../../../Socket";
 
-interface Props {}
+interface Props {
+  width:number;
+  height:number;
+}
 
 function WatchGame(props: Props) {
   const [listGame, setListGame] = useState<[IGame | null]>([null]);

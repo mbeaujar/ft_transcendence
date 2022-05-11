@@ -22,7 +22,7 @@ import { Mode } from 'src/chat/model/connected-user/mode.enum';
 @WebSocketGateway({
   namespace: '/game',
   cors: {
-    origin: ['http://localhost:8080'],
+    origin: ['http://localhost:8080', 'http://localhost:8081'],
     credentials: true,
   },
 })
@@ -124,7 +124,8 @@ export class GameGateway
         const user = player.user;
         // Delete opponent queue
         await this.queueService.delete(player.user.id);
-        await this.startGame(client.data.user, user, game.mode);
+        const me = await this.usersService.findUser(client.data.user.id);
+        await this.startGame(me, user, game.mode);
         return;
       }
     } else {

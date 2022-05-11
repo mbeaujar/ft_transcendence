@@ -43,10 +43,8 @@ interface Props {
 
 const Pong = (props: Props) => {
   const canvasRef = useRef(null);
-  // const [context, setContext] = useState<any>(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
-  const [listGame, setListGame] = useState<any>();
   const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -75,12 +73,7 @@ const Pong = (props: Props) => {
     return (percentage * max) / 100;
   };
 
-  useEffect(() => {
-    const socketEffect = getSocket("game");
-    console.log("socket", socketEffect);
-    const canvas: any = canvasRef ? canvasRef.current : null;
-    const context = canvas ? canvas.getContext("2d") : null;
-    // setContext(context);
+  const addListenerGame = (socketEffect: Socket, context: any) => {
     socketEffect.on("startGame", (data: any) => {
       setId(data?.match?.id);
     });
@@ -116,11 +109,16 @@ const Pong = (props: Props) => {
     socketEffect.on("scoreGame", (data: { score: Array<number> }) => {
       setScore(data.score);
     });
-    socketEffect.on("listAllGame", (data: any) => {
-      console.log(data);
-      setListGame(data);
-    });
+  };
+
+  useEffect(() => {
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext("2d");
+
+    const socketEffect = getSocket("game");
+    addListenerGame(socketEffect, context);
     setSocket(socketEffect);
+
     return () => {
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
@@ -131,10 +129,6 @@ const Pong = (props: Props) => {
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
-  }
-
-  if (!socket) {
-    return <div>Socket not connected</div>;
   }
 
   return (
@@ -178,7 +172,7 @@ const Pong = (props: Props) => {
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
         onClick={() => {
-          socket.emit("joinQueue", { mode, invite: 0, target: 0 });
+          socket?.emit("joinQueue", { mode, invite: 0, target: 0 });
           setHideButton(!hideButton);
         }}
       >
@@ -191,10 +185,9 @@ const Pong = (props: Props) => {
         height={props.height}
         ref={canvasRef}
         tabIndex={0}
-        // onKeyDown={(event) => {}}
         onKeyUp={(event) => {
-          if (event.code === "ArrowUp") socket.emit("moveTopPaddle", { id });
-          if (event.code === "ArrowDown") socket.emit("moveBotPaddle", { id });
+          if (event.code === "ArrowUp") socket?.emit("moveTopPaddle", { id });
+          if (event.code === "ArrowDown") socket?.emit("moveBotPaddle", { id });
         }}
       />
     </div>

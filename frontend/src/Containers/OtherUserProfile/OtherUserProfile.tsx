@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import api from "../../apis/api";
-import clsx from "clsx";
 import classes from "./OtherUserProfile.module.scss";
 import { IUser } from "../../interface/user.interface";
-import { IFriends } from "../../interface/friends.interface";
+// import { IFriends } from "../../interface/friends.interface";
 import Avatar from "../Profile/components/Avatar/Avatar";
 import Stats from "../Profile/components/Stats/Stats";
 
 function OtherUserProfile() {
-  const [friendsList, setFriendsList] = useState<IFriends>();
+  // const [friendsList, setFriendsList] = useState<IFriends>();
   const [user, setUser] = useState<IUser | null>(null);
 
   function getUser() {
@@ -30,14 +29,14 @@ function OtherUserProfile() {
 
   useEffect(() => {
     getUser();
-    api
-      .get("/friends/list")
-      .then((response) => setFriendsList(response.data))
-      .catch((reject) => console.error(reject));
+    // api
+    //   .get("/friends/list")
+    //   .then((response) => setFriendsList(response.data))
+    //   .catch((reject) => console.error(reject));
   }, [window.location.pathname]);
 
   return (
-    <>
+    <Fragment>
       {user ? (
         <div className={classes.OtherUserProfile}>
           <div className={classes.OtherUserProfileLeft}>
@@ -53,7 +52,7 @@ function OtherUserProfile() {
       ) : (
         <p className={classes.NotFound}>User not found</p>
       )}
-    </>
+    </Fragment>
   );
 }
 

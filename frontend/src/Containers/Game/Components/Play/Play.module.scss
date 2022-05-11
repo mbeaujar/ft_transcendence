@@ -1,0 +1,55 @@
+@import "../../../../utils.scss";
+
+.Play {
+  background-color: $black2;
+  position: relative;
+  margin-top: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .showGameVue {
+    //width: 90vw;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hideGameVue {
+    display: none;
+  }
+
+  .Link {
+    cursor: pointer;
+    font-family: "Roboto Slab", serif;
+    font-weight: bold;
+    width: 35%;
+    padding: 2%;
+    color: $white1;
+    background-color: $black2;
+    border: 0.3vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
+  }
+
+  .Link:hover {
+    background-color: $black;
+  }
+
+  .LinkTop {
+    margin-bottom: 2.5%;
+  }
+
+  .LinkBottom {
+    margin-top: 2.5%;
+  }
+
+
+}

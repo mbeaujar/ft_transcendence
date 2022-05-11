@@ -13,7 +13,6 @@
   justify-content: center;
 
   .showGameVue {
-    //width: 90vw;
     width: 100%;
     height: 100%;
     display: flex;
@@ -22,45 +21,32 @@
     justify-content: center;
   }
 
-  .hideGameVue {
-    display: none;
-  }
 
-  .configButton {
+
+  .Link {
     cursor: pointer;
-    font-family: 'Roboto Slab', serif;
+    font-family: "Roboto Slab", serif;
     font-weight: bold;
-    width: 40%;
-		padding: 2%;
-		color: $white1;
-		background-color: $black2;
-		border:0.3vw solid $white1;
-		border-radius:2vw;
+    width: 35%;
+    padding: 2%;
+    color: $white1;
+    background-color: $black2;
+    border: 0.3vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
   }
 
-  .configButton:hover {
+  .Link:hover {
     background-color: $black;
   }
 
-  .configButtonTop 
-  {
+  .LinkTop {
     margin-bottom: 2.5%;
   }
 
-  .configButtonBottom
-  {
+  .LinkBottom {
     margin-top: 2.5%;
   }
 
 
-
-  #canvas {
-    background-color: $black;
-    /*width: 800px;
-        height: 400px;*/
-  }
-
-  #canvas:focus {
-    outline: none;
-  }
 }

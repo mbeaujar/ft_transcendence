@@ -47,7 +47,7 @@ const scrypt = promisify(_scrypt);
 @WebSocketGateway({
   namespace: '/chat',
   cors: {
-    origin: ['http://localhost:8080'],
+    origin: ['http://localhost:8080', 'http://localhost:8081'],
     credentials: true,
   },
 })

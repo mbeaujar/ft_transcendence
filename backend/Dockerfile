@@ -6,4 +6,4 @@ EXPOSE 3000
 EXPOSE 5432
 
 # Download nodes_modules + start 
-ENTRYPOINT npm ci && npm run start
+ENTRYPOINT npm ci && npm run start:dev
