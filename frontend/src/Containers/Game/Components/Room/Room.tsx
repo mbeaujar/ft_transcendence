@@ -44,9 +44,6 @@ function Room(props: Props) {
         fontSize: props.width / 20,
       }}
     >
-      <Routes>
-      <Route path="/ok" element={<h1>OK</h1>} />
-      </Routes>
       <Dropdown
         title="Game Mode"
         items={itemsGameMode}
@@ -81,7 +78,7 @@ function Room(props: Props) {
         <Link
           className={clsx(classes.Link)}
           style={{ fontSize: props.width / 40 }}
-          to="/game/play/room/pong"
+          to="/test"
         >
           Start game
         </Link>

@@ -15,13 +15,18 @@ function Play(props: Props) {
       style={{ width: props.width, height: props.height }}
     >
       <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
-        <Link
+        {/* <Link
           className={clsx(classes.Link, classes.LinkTop)}
           style={{ fontSize: props.width / 40 }}
-          to="/game/play/room"
+          to={{
+            pathname: "/test",
+            state: {
+              project,
+            },
+          }}
         >
           Room
-        </Link>
+        </Link> */}
         <Link
           className={clsx(classes.Link, classes.LinkBottom)}
           style={{ fontSize: props.width / 40 }}

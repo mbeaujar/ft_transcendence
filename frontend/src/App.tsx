@@ -18,6 +18,7 @@ import api from "./apis/api";
 import googleAuthImg from "./assets/Google_Authenticator_for_Android_icon.png";
 import useWindowSize from "./Containers/Game/Components/useWindow/useWindowSize";
 import { Socket } from "socket.io-client";
+import Test from "./Containers/Game/Components/Test/Test";
 
 export interface IMainProps {
   user: IUser;
@@ -61,6 +62,7 @@ function MainApp(props: IMainProps) {
   
   return (
     <Routes>
+      <Route path="/test" element={<Test/>} />
       <Route path="/" element={<Game width={WIDTH} height={HEIGHT} />} />
       <Route path="/game" element={<Game width={WIDTH} height={HEIGHT} />} />
       <Route

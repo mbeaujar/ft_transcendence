@@ -47,9 +47,12 @@ function Dropdown(props: Props) {
   }
 
   function setPosition() {
-    if (props.id == 1) return props.WIDTH * -0.6;
-    else if (props.id == 2) return props.WIDTH*0;
-    else if (props.id == 3) return props.WIDTH*0.6;
+    // if (props.id == 1) return props.WIDTH * -0.6;
+    // else if (props.id == 2) return props.WIDTH*0;
+    // else if (props.id == 3) return props.WIDTH*0.6;
+    if (props.id == 1) return props.WIDTH *0.05;
+    else if (props.id == 2) return props.WIDTH*0.36;
+    else if (props.id == 3) return props.WIDTH*0.67;
   }
 
   function isItemInSelection(item: Iitem) {

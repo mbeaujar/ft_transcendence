@@ -1,9 +1,23 @@
 @import "../../../../utils.scss";
 
-.WatchGame {
-  width: 60%;
-  height: 60%;
-  overflow-y: auto;
-  border: 0.2vw solid $white1;
-  border-radius: 1.5vw;
+.Watch
+{
+  background-color: $black2;
+  position: relative;
+  margin-top: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+  .ListGame {
+    width: 60%;
+    height: 60%;
+    overflow-y: auto;
+    border: 0.2vw solid $white1;
+    border-radius: 1.5vw;
+  }
 }

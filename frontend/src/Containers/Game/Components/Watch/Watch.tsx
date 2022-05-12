@@ -5,8 +5,8 @@ import { Socket } from "socket.io-client";
 import getSocket from "../../../Socket";
 
 interface Props {
-  width:number;
-  height:number;
+  width: number;
+  height: number;
 }
 
 function WatchGame(props: Props) {
@@ -34,10 +34,19 @@ function WatchGame(props: Props) {
   }, [listGame]);
 
   return (
-    <div className={classes.WatchGame}>
-      {/*listGame && listGame.map((game:IGame)=>{
+    <div
+      className={classes.Watch}
+      style={{
+        width: props.width,
+        height: props.height,
+        fontSize: props.width / 20,
+      }}
+    >
+      <div className={classes.ListGame}>
+        {/*listGame && listGame.map((game:IGame)=>{
 
       })*/}
+      </div>
     </div>
   );
 }
