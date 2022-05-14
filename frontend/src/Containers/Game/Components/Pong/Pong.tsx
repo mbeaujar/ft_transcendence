@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Dropdown from "../Dropdown/Dropdown";
 import { Socket } from "socket.io-client";
 import getSocket from "../../../Socket";
+import Avatar from "../../../Profile/components/Avatar/Avatar";
 
 // let WIDTH = 800;
 // let HEIGHT = 400;
@@ -45,6 +46,7 @@ const Pong = (props: Props) => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
+  const [match, setMatch] = useState<IGame>();
   const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -76,6 +78,7 @@ const Pong = (props: Props) => {
   const addListenerGame = (socketEffect: Socket, context: any) => {
     socketEffect.on("startGame", (data: any) => {
       setId(data?.match?.id);
+      setMatch(data?.match);
     });
     socketEffect.on("infoGame", (data: IGame) => {
       resetWindow(context);
@@ -119,12 +122,11 @@ const Pong = (props: Props) => {
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
-   
-
     return () => {
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
       }
+      socket?.emit("joinQueue", { mode, invite: 0, target: 0 });
     };
   }, []);
 
@@ -142,10 +144,6 @@ const Pong = (props: Props) => {
         fontSize: props.width / 20,
       }}
     >
-      <div className={classes.Score}>
-        <span style={{ fontSize: props.width / 21 }}>{score[0]}</span> |{" "}
-        <span style={{ fontSize: props.width / 21 }}>{score[1]}</span>
-      </div>
       <Dropdown
         title="Game Mode"
         items={itemsGameMode}
@@ -169,7 +167,7 @@ const Pong = (props: Props) => {
         WIDTH={props.width}
         HEIGHT={props.height}
         id={3}
-    />
+      />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
@@ -179,7 +177,7 @@ const Pong = (props: Props) => {
         }}
       >
         Start Game
-      </button> 
+      </button>
       <canvas
         className={classes.canva}
         style={{ backgroundColor: BACKGROUND }}
@@ -192,6 +190,18 @@ const Pong = (props: Props) => {
           if (event.code === "ArrowDown") socket?.emit("moveBotPaddle", { id });
         }}
       />
+      <div className={classes.Score}>
+        <div className={classes.PlayerLeft}>
+          {match ? <Avatar user={match.players[0].user} /> : null}
+          {match ? <p>{match.players[0].user.username}</p> : null}
+          {match ? <p>{score[0]}</p> : null}
+        </div>
+        <div className={classes.PlayerRight}>
+          {match ? <p>{score[1]}</p> : null}
+          {match ? <p>{match.players[1].user.username}</p> : null}
+          {match ? <Avatar user={match.players[1].user} /> : null}
+        </div>
+      </div>
     </div>
   );
 };

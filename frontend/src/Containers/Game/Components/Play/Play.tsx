@@ -19,7 +19,7 @@ function Play(props: Props) {
         <Link
           className={clsx(classes.Link, classes.LinkTop)}
           style={{ fontSize: props.width / 40 }}
-          to={"/test"}
+          to={"/game/play/room/pong"}
           state={{
             from: object,
           }}

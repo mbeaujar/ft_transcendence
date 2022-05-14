@@ -47,7 +47,7 @@ export class Game {
   }
 
   async loop() {
-    if (this.player1.score === 3 || this.player2.score === 3) {
+    if (this.player1.score === 9 || this.player2.score === 9) {
       clearInterval(this.interval);
       this.endGame();
       return;

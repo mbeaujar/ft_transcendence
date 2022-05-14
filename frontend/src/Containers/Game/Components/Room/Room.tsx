@@ -78,7 +78,7 @@ function Room(props: Props) {
         <Link
           className={clsx(classes.Link)}
           style={{ fontSize: props.width / 40 }}
-          to="/test"
+          to="/game/play/room/pong"
         >
           Start game
         </Link>
