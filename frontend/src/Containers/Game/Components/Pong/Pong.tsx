@@ -49,16 +49,16 @@ const Pong = (props: Props) => {
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [itemsOpponent, setItemsOpponent] = useState([
-    { id: 0, value: "Random" },
+    { id: 0, value: "Random", userId: 0 },
   ]);
-  const [gameMode, setGameMode] = useState<number>(0);
+  const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(3);
   const [opponent, setOpponent] = useState(0);
 
   useEffect(() => {
-    // api
-    //   .post("/users/sensitivity", { sensitivity: paddleSpeed })
-    //   .catch((reject) => console.error(reject));
+    api
+      .post("/users/sensitivity", { sensitivity: paddleSpeed })
+      .catch((reject) => console.error(reject));
   }, [paddleSpeed]);
 
   const resetWindow = (context: any) => {
@@ -133,7 +133,7 @@ const Pong = (props: Props) => {
         response.data.friends.map((friend: IUser, index: number) => {
           setItemsOpponent([
             ...itemsOpponent,
-            { id: index + 1, value: friend.username },
+            { id: index + 1, value: friend.username, userId: friend.id },
           ]);
         });
       })
@@ -172,6 +172,19 @@ const Pong = (props: Props) => {
     return classes.Score;
   }
 
+  function ifInvite() {
+
+    if (opponent === 0) {console.log("invite=",0);return 0};
+    console.log("invite=",1);
+    return 1;
+  }
+
+  function ifTarget() {
+    if (opponent === 0) {console.log("target=",0);return 0;}
+    console.log("target=",itemsOpponent[opponent].userId);
+    return itemsOpponent[opponent].userId;
+  }
+
   return (
     <div
       className={classes.Pong}
@@ -189,7 +202,7 @@ const Pong = (props: Props) => {
         HEIGHT={props.height}
         id="GameMode"
         hideButton={hideButton}
-        setState={setGameMode}
+        setState={setMode}
       />
       <Dropdown
         title="Paddle speed"
@@ -215,7 +228,11 @@ const Pong = (props: Props) => {
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
         onClick={() => {
-          socket?.emit("joinQueue", { gameMode, invite: 0, target: 0 });
+          socket?.emit("joinQueue", {
+            mode,
+            invite: ifInvite(),
+            target: ifTarget(),
+          });
           setHideButton(!hideButton);
         }}
       >
