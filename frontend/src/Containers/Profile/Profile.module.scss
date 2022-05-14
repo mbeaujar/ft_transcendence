@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
 
   .ProfileLeft {
     display: flex;
@@ -11,6 +12,13 @@
 
     .User {
       background-color: $grey6;
+      h1 {
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+        width: 90%;
+        margin: auto;
+      }
     }
 
     .Menu {
@@ -61,21 +69,23 @@
       height: 38.8vw;
 
       .User {
-        margin-bottom: 15%;
+        margin-bottom: 12%;
         margin-right: 2vw;
         width: 15vw;
         border-radius: 1.5vw;
         height: 40%;
+        
         img {
           margin-top: 10%;
+          margin-bottom: 5%;
           width: 10vw;
           height: 10vw;
           border-radius: 50%;
         }
         h1 {
-          margin-top: 7%;
-          font-size: 1.2vw;
-          font-size: 150%;
+          font-size: 2vw;
+          text-align: center;
+          margin: auto;
         }
       }
 

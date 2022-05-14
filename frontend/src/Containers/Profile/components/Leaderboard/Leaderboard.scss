@@ -36,19 +36,7 @@
       }
     }
 
-    /*  ::-webkit-scrollbar {
-      width: 0vw;
-    }
 
-    ::-webkit-scrollbar-track {
-      background: $blue5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: $blue5;
-      border: 0.01vw solid rgb(95, 93, 93);
-      border-radius: 1.5vw;
-    }*/
 
     .Users {
       min-height: 80%;
@@ -94,7 +82,12 @@
           }
           .Username
           {
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
             margin-left: 2%;
+            min-width: 70%;
+            z-index: 5;
           }
         }
 
@@ -232,8 +225,13 @@
 
           .Username {
             //margin-bottom: 27%;
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
             min-height: 3.2vw;
             max-height: 3.2vw;
+            min-width: 60%;
+            max-width: 60%;
           }
         }
 

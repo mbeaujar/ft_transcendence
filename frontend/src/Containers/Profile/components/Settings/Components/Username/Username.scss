@@ -25,7 +25,11 @@
       margin-left: 10%;
       width: 80%;
       height: 45%;
+      
       p {
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -158,6 +162,9 @@
       min-height: 10vw;
       max-height: 10vw;
       p {
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap;
         display: flex;
         flex-direction: row;
         align-items: center;

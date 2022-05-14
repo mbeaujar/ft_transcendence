@@ -83,7 +83,7 @@
               flex-direction: row;
               align-items: center;
               justify-content: center;
-              width: 19%;
+              width: 3vw;
               height: 3vw;
               img {
                 width: 2vw;
@@ -96,18 +96,19 @@
               min-width: 40%;
               max-width: 40%;
               font-size: 1vw;
+              overflow: hidden; 
+              text-overflow: ellipsis; 
+              white-space: nowrap;
+              span {
+                max-width: 100%;
+                min-width: 100%;
+              }
             }
             .UsernameLeft {
-              span {
-                text-align: center;
-                width: 100%;
-              }
+              text-align: center;
             }
             .UsernameRight {
-              span {
-                text-align: center;
-                width: 100%;
-              }
+              text-align: center;
             }
             .ImgLevelElementRight {
               width: 2vw;
@@ -205,7 +206,7 @@
               flex-direction: row;
               align-items: center;
               justify-content: center;
-              width: 19%;
+              width: 6vw;
               height: 3vw;
               img {
                 width: 5vw;
@@ -218,6 +219,13 @@
               min-width: 40%;
               max-width: 40%;
               font-size: 2vw;
+              overflow: hidden; 
+              text-overflow: ellipsis; 
+              white-space: nowrap;
+              span {
+                max-width: 100%;
+                min-width: 100%;
+              }
             }
             .UsernameLeft {
               span {
@@ -233,11 +241,11 @@
             }
             .ImgLevelElementRight {
               width: 5vw;
-              margin-left: 1%;
+              margin-left: 2%;
             }
             .ImgLevelElementLeft {
               width: 5vw;
-              margin-right: 1%;
+              margin-right: 2%;
             }
 
             .Score {
