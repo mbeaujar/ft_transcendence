@@ -9,24 +9,23 @@ interface Props {
 }
 
 function Play(props: Props) {
+  let object = { name: "ali", surname: "salam" };
   return (
     <div
       className={clsx(classes.Play)}
       style={{ width: props.width, height: props.height }}
     >
       <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
-        {/* <Link
+        <Link
           className={clsx(classes.Link, classes.LinkTop)}
           style={{ fontSize: props.width / 40 }}
-          to={{
-            pathname: "/test",
-            state: {
-              project,
-            },
+          to={"/test"}
+          state={{
+            from: object,
           }}
         >
           Room
-        </Link> */}
+        </Link>
         <Link
           className={clsx(classes.Link, classes.LinkBottom)}
           style={{ fontSize: props.width / 40 }}
