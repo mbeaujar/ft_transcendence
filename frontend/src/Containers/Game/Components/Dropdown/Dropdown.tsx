@@ -43,13 +43,8 @@ function Dropdown(props: Props) {
   }, []);
 
   function handleOnClick(item: Iitem, multiSelect: boolean) {
-    if (selection !== item.value) {
       setSelection(item.value);
-      //props.setNewChallengeMode(item.value);
-    } else {
-      setSelection(props.items[/*props.channelState*/ 0].value);
-      //props.setNewChallengeMode(props.items[/*props.channelState*/ 0].value);
-    }
+      props.setState(item.id);
   }
 
   function setPosition() {
