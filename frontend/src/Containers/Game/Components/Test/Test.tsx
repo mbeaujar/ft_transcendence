@@ -3,19 +3,25 @@ import { useParams } from "react-router";
 import { useLocation } from "react-router";
 
 function Test(props: any) {
-  const { handle }: any = useParams();
-  const location: any = useLocation();
-  const { from } = location.state;
-  const { e } = location.state;
+  let from: any = null;
+  let { handle }: any = useParams();
+  let location = useLocation();
+  if (location) from = location.state;
+
   useEffect(() => {
-    console.log("from===", from);
-    console.log("fromname===", from.name);
+    if (from) console.log("from:::", from.from);
   }, [handle]);
 
   return (
-    <h1>
-      Bonjour {from.name} {from.surname}
-    </h1>
+    <div>
+      {from ? (
+        <h1>
+          Bonjour {from.from.name} {from.from.surname}
+        </h1>
+      ) : (
+        <h1>You cannot access this page</h1>
+      )}
+    </div>
   );
 }
 
