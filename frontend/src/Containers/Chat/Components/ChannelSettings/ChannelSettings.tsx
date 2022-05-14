@@ -33,14 +33,14 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [unmuteUser, setUnmuteUser] = useState<string>("");
   const [newAdmin, setNewAdmin] = useState<string>("");
   const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
-  const [newChallengeMode, setNewChallengeMode] = useState<string>();
+  const [newChannelMode, setNewChannelMode] = useState<string>();
   const [setPassword, setSetPassword] = useState<string>("");
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
 
   useEffect(() => {
-    setNewChallengeMode(initChangeChannelMode());
+    setNewChannelMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
   }, [props.channel, props.channels]);
 
@@ -292,7 +292,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (props.channel.state === Scope.public) state = "Public";
     if (props.channel.state === Scope.private) state = "Private";
     if (props.channel.state === Scope.protected) state = "Protected";
-    if (state !== newChallengeMode) {
+    if (state !== newChannelMode) {
       return classes.ChangeChannelMode;
     }
     return classes.HideChangeChannelMode;
@@ -301,7 +301,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function showSetPassword(classname: string) {
     if (
       props.channel.state !== Scope.protected &&
-      newChallengeMode === "Protected"
+      newChannelMode === "Protected"
     ) {
       if (classname === "SetPassword") {
         return classes.SetPassword;
@@ -315,7 +315,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ajustMarginTopChangeChannelMode() {
     if (
       props.channel.state !== Scope.protected &&
-      newChallengeMode === "Protected"
+      newChannelMode === "Protected"
     ) {
       return classes.MarginZero;
     }
@@ -324,19 +324,19 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Set Password
   function handleSubmitFormSetPassword() {
-    if (newChallengeMode === "Public") {
+    if (newChannelMode === "Public") {
       props.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 0,
       });
       toast.success("Channel is now public");
-    } else if (newChallengeMode === "Private") {
+    } else if (newChannelMode === "Private") {
       props.socket.emit("changeChannelState", {
         id: props.channel.id,
         state: 1,
       });
       toast.success("Channel is now private");
-    } else if (newChallengeMode === "Protected") {
+    } else if (newChannelMode === "Protected") {
       if (setPassword !== confirmSetPassword) {
         toast.error("Password and confirm password are different");
       } else if (!setPassword || !confirmSetPassword) {
@@ -541,7 +541,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           items={itemsChannelMode}
           refreshDropdown={refreshDropdown}
           channelState={props.channel.state}
-          setNewChallengeMode={setNewChallengeMode}
+          setNewChannelMode={setNewChannelMode}
           multiselect={false}
         />
         <div className={showSetPassword("SetPassword")}>

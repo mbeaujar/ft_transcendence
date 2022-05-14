@@ -13,7 +13,9 @@ interface Props {
   multiselect: boolean;
   WIDTH: number;
   HEIGHT: number;
-  id: number;
+  id: string;
+  hideButton: boolean;
+  setState: (value: number) => void;
 }
 
 function Dropdown(props: Props) {
@@ -25,12 +27,16 @@ function Dropdown(props: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // setSelection(props.items[props.channelState].value);
     const onBodyClick = (event: any) => {
       if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
     document.addEventListener("click", onBodyClick, { capture: true });
+
+    if (props.id == "GameMode") setSelection(props.items[0].value);
+    else if (props.id == "PaddleSpeed") setSelection(props.items[2].value);
+    else if (props.id == "Opponent") setSelection(props.items[0].value);
+
     return () => {
       document.removeEventListener("click", onBodyClick, { capture: true });
     };
@@ -50,9 +56,9 @@ function Dropdown(props: Props) {
     // if (props.id == 1) return props.WIDTH * -0.6;
     // else if (props.id == 2) return props.WIDTH*0;
     // else if (props.id == 3) return props.WIDTH*0.6;
-    if (props.id == 1) return props.WIDTH *0.05;
-    else if (props.id == 2) return props.WIDTH*0.36;
-    else if (props.id == 3) return props.WIDTH*0.67;
+    if (props.id == "GameMode") return props.WIDTH * 0.05;
+    else if (props.id == "PaddleSpeed") return props.WIDTH * 0.36;
+    else if (props.id == "Opponent") return props.WIDTH * 0.67;
   }
 
   function isItemInSelection(item: Iitem) {
@@ -62,11 +68,16 @@ function Dropdown(props: Props) {
     return false;
   }
 
+  function ftShowDropdown() {
+    if (props.hideButton === false) return classes.Dropdown;
+    return classes.HideDropdown;
+  }
+
   return (
     <div
-      className={classes.Dropdown}
+      className={ftShowDropdown()}
       ref={ref}
-      style={{ top: props.HEIGHT/3.2, marginLeft: setPosition() }}
+      style={{ top: props.HEIGHT / 3.2, marginLeft: setPosition() }}
     >
       <div
         tabIndex={0}

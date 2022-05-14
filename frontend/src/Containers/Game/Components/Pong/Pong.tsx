@@ -10,6 +10,7 @@ import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { IUser } from "../../../../interface/user.interface";
 import api from "../../../../apis/api";
 import { IFriends } from "../../../../interface/friends.interface";
+import useWindowSize from "../useWindow/useWindowSize";
 
 // let WIDTH = 800;
 // let HEIGHT = 400;
@@ -21,17 +22,17 @@ const PADDLE = "#ffffff";
 const BALL = "#00007f";
 
 const itemsGameMode = [
-  { id: 1, value: "Classic mode" },
-  { id: 2, value: "Paddle reduce" },
-  { id: 3, value: "Paddle flashing" },
+  { id: 0, value: "Classic mode" },
+  { id: 1, value: "Paddle reduce" },
+  { id: 2, value: "Paddle flashing" },
 ];
 
 const itemsPaddleSensibility = [
-  { id: 1, value: "Very slow" },
-  { id: 2, value: "Slow" },
-  { id: 3, value: "Normal" },
+  { id: 0, value: "Very slow" },
+  { id: 1, value: "Slow" },
+  { id: 2, value: "Normal" },
   { id: 3, value: "Fast" },
-  { id: 3, value: "Very fast" },
+  { id: 4, value: "Very fast" },
 ];
 
 interface Props {
@@ -45,12 +46,25 @@ const Pong = (props: Props) => {
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
   const [match, setMatch] = useState<IGame>();
-  const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [itemsOpponent, setItemsOpponent] = useState([
-    { id: 1, value: "Random" },
+    { id: 0, value: "Random" },
   ]);
+  const [gameMode, setGameMode] = useState<number>(0);
+  const [paddleSpeed, setPaddleSpeed] = useState(3);
+  const [opponent, setOpponent] = useState(0);
+
+  useEffect(() => {
+    console.log(
+      "gameMode=",
+      gameMode,
+      " paddleSpeed=",
+      paddleSpeed,
+      " opponent",
+      opponent
+    );
+  }, [gameMode, paddleSpeed, opponent]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -115,17 +129,17 @@ const Pong = (props: Props) => {
     });
   };
 
+  const WindowSize = useWindowSize();
+
   useEffect(() => {
     api
       .get("/friends/list")
       .then((response) => {
-        console.log("friiiiends:", response.data.friends);
         response.data.friends.map((friend: IUser, index: number) => {
           setItemsOpponent([
             ...itemsOpponent,
-            { id: index + 2, value: friend.username },
+            { id: index + 1, value: friend.username },
           ]);
-          console.log("id=", index + 2, "name=", friend.username);
         });
       })
       .catch((reject) => console.error(reject));
@@ -141,13 +155,26 @@ const Pong = (props: Props) => {
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
       }
-      socket?.emit("joinQueue", { mode, invite: 0, target: 0 });
     };
   }, []);
+
+  useEffect(() => {
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext("2d");
+
+    const socketEffect = getSocket("game");
+    addListenerGame(socketEffect, context);
+    setSocket(socketEffect);
+  }, [WindowSize]);
 
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
+  }
+
+  function showScore() {
+    if (hideButton === false) return classes.HideScore;
+    return classes.Score;
   }
 
   return (
@@ -165,7 +192,9 @@ const Pong = (props: Props) => {
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={1}
+        id="GameMode"
+        hideButton={hideButton}
+        setState={setGameMode}
       />
       <Dropdown
         title="Paddle speed"
@@ -173,7 +202,9 @@ const Pong = (props: Props) => {
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={2}
+        id="PaddleSpeed"
+        hideButton={hideButton}
+        setState={setPaddleSpeed}
       />
       <Dropdown
         title="Opponent"
@@ -181,13 +212,15 @@ const Pong = (props: Props) => {
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={3}
+        id="Opponent"
+        hideButton={hideButton}
+        setState={setOpponent}
       />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
         onClick={() => {
-          socket?.emit("joinQueue", { mode, invite: 0, target: 0 });
+          socket?.emit("joinQueue", { gameMode, invite: 0, target: 0 });
           setHideButton(!hideButton);
         }}
       >
@@ -205,7 +238,7 @@ const Pong = (props: Props) => {
           if (event.code === "ArrowDown") socket?.emit("moveBotPaddle", { id });
         }}
       />
-      <div className={classes.Score}>
+      <div className={showScore()}>
         <div className={classes.PlayerLeft}>
           {match ? <Avatar user={match.players[0].user} /> : null}
           {match ? (

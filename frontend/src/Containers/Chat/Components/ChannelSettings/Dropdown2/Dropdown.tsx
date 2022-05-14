@@ -13,7 +13,7 @@ interface Props {
   multiselect: boolean;
   channelState: number;
   refreshDropdown: number;
-  setNewChallengeMode: (value: string) => void;
+  setNewChannelMode: (value: string) => void;
 }
 
 function Dropdown(props: Props) {
@@ -39,10 +39,10 @@ function Dropdown(props: Props) {
   function handleOnClick(item: Iitem, multiSelect: boolean) {
     if (selection !== item.value) {
       setSelection(item.value);
-      props.setNewChallengeMode(item.value);
+      props.setNewChannelMode(item.value);
     } else {
       setSelection(props.items[props.channelState].value);
-      props.setNewChallengeMode(props.items[props.channelState].value);
+      props.setNewChannelMode(props.items[props.channelState].value);
     }
   }
 

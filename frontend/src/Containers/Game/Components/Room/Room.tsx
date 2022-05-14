@@ -44,13 +44,14 @@ function Room(props: Props) {
         fontSize: props.width / 20,
       }}
     >
-      <Dropdown
+      {/* <Dropdown
         title="Game Mode"
         items={itemsGameMode}
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={1}
+        id="{1}"
+        hideButton={false}
       />
       <Dropdown
         title="Paddle speed"
@@ -58,7 +59,8 @@ function Room(props: Props) {
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={2}
+        id="{2}"
+        hideButton={false}
       />
       <Dropdown
         title="Opponent"
@@ -66,8 +68,9 @@ function Room(props: Props) {
         multiselect={false}
         WIDTH={props.width}
         HEIGHT={props.height}
-        id={3}
-      />
+        id="{3}"
+        hideButton={false}
+      /> */}
       <button
         className={clsx(classes.ButtonJoinQueue)}
         style={{ fontSize: props.width / 40 }}
