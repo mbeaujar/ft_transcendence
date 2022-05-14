@@ -83,6 +83,7 @@ function MainApp(props: IMainProps) {
           <Pong
             width={WIDTH}
             height={HEIGHT}
+            user={user}
           />
         }
       ></Route>

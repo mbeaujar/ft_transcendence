@@ -7,6 +7,7 @@ import Dropdown from "../Dropdown/Dropdown";
 import { Socket } from "socket.io-client";
 import getSocket from "../../../Socket";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
+import { IUser } from "../../../../interface/user.interface";
 
 // let WIDTH = 800;
 // let HEIGHT = 400;
@@ -40,6 +41,7 @@ const itemsOpponent = [
 interface Props {
   width: number;
   height: number;
+  user: IUser;
 }
 
 const Pong = (props: Props) => {
@@ -193,15 +195,41 @@ const Pong = (props: Props) => {
       <div className={classes.Score}>
         <div className={classes.PlayerLeft}>
           {match ? <Avatar user={match.players[0].user} /> : null}
-          {match ? <p>{match.players[0].user.username}</p> : null}
-          {match ? <p>{score[0]}</p> : null}
+          {match ? (
+            <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
+              {match.players[0].user.username}
+            </p>
+          ) : null}
+          {match ? (
+            <p style={{ fontSize: props.width / 20 }}>{score[0]}</p>
+          ) : null}
         </div>
+        <span>-</span>
         <div className={classes.PlayerRight}>
-          {match ? <p>{score[1]}</p> : null}
-          {match ? <p>{match.players[1].user.username}</p> : null}
+          {match ? (
+            <p style={{ fontSize: props.width / 20 }}>{score[1]}</p>
+          ) : null}
+          {match ? (
+            <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
+              {match.players[1].user.username}
+            </p>
+          ) : null}
           {match ? <Avatar user={match.players[1].user} /> : null}
         </div>
       </div>
+      {/* <div className={classes.Score}>
+        <div className={classes.PlayerLeft}>
+          <Avatar user={props.user} />
+          <p className={classes.Name} style={{ fontSize: props.width / 40 }}>asalam</p>
+          <p style={{ fontSize: props.width / 20 }}>3</p>
+        </div>
+        <span>-</span>
+        <div className={classes.PlayerRight}>
+          <p style={{ fontSize: props.width / 20 }}>0</p>
+          <p className={classes.Name} style={{ fontSize: props.width / 40 }}>ranaili</p>
+          <Avatar user={props.user} />
+        </div>
+      </div> */}
     </div>
   );
 };
