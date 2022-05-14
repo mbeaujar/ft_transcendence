@@ -56,15 +56,10 @@ const Pong = (props: Props) => {
   const [opponent, setOpponent] = useState(0);
 
   useEffect(() => {
-    console.log(
-      "gameMode=",
-      gameMode,
-      " paddleSpeed=",
-      paddleSpeed,
-      " opponent",
-      opponent
-    );
-  }, [gameMode, paddleSpeed, opponent]);
+    // api
+    //   .post("/users/sensitivity", { sensitivity: paddleSpeed })
+    //   .catch((reject) => console.error(reject));
+  }, [paddleSpeed]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
