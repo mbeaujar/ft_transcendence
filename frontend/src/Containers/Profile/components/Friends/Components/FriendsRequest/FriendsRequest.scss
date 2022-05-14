@@ -35,8 +35,11 @@
         }
 
         p {
-          margin-left: 3%;
+          margin-left: 2%;
           font-size: 1.1vw;
+          overflow: hidden; 
+          text-overflow: ellipsis; 
+          white-space: nowrap;
         }
 
         button {
@@ -99,9 +102,13 @@
         }
 
         p {
-          margin-left: 8%;
+          margin-left: 6%;
           font-size: 3.5vw;
           margin-bottom: 7%;
+          padding-top: 2%;
+          overflow: hidden; 
+          text-overflow: ellipsis; 
+          white-space: nowrap;
         }
 
         button {

@@ -76,11 +76,14 @@
           }
 
           .FriendName {
-            width: 30%;
+            width: 50%;
             font-size: 1.2vw;
             color: $white1;
             text-align: left;
             margin-left: 0;
+            overflow: hidden; 
+          text-overflow: ellipsis; 
+          white-space: nowrap;
           }
 
           .Online,
@@ -89,7 +92,7 @@
             font-size: 1vw;
             color: $white1;
             text-align: left;
-            margin-left: 32%;
+            margin-left: 12%;
             padding: 0.3vw;
             border-radius: 0.5vw;
             border: 0.1vw solid $white1;
@@ -188,14 +191,9 @@
             }
           }
 
-          /*p {
-            font-size: 3vw;
-            color: $white1;
-            margin-left: 15%;
-          }*/
 
           .FriendName {
-            width: 30%;
+            width: 50%;
             font-size: 1.2vw;
             color: $white1;
             text-align: left;
@@ -203,6 +201,9 @@
             font-size: 3vw;
             color: $white1;
             margin-left: 13%;
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
           }
 
           .Online,
@@ -211,7 +212,7 @@
             font-size: 3vw;
             color: $white1;
             text-align: left;
-            margin-left: 28%;
+            margin-left: 8%;
             padding: 1vw;
             border-radius: 1vw;
             border: 0.2vw solid $white1;
