@@ -34,19 +34,6 @@ const itemsPaddleSensibility = [
   { id: 3, value: "Very fast" },
 ];
 
-let itemsOpponent = [{ id: 1, value: "Random" }];
-
-api
-  .get("/friends/list")
-  .then((response) => {
-    console.log("friiiiends:", response.data.friends);
-    response.data.friends.map((friend:IUser,index:number)=>{
-      itemsOpponent.push({ id: index+2, value: friend.username })
-      console.log("id=",index+2,"name=",friend.username);
-    })
-  })
-  .catch((reject) => console.error(reject));
-
 interface Props {
   width: number;
   height: number;
@@ -61,6 +48,9 @@ const Pong = (props: Props) => {
   const [mode, setMode] = useState<number>(0);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [itemsOpponent, setItemsOpponent] = useState([
+    { id: 1, value: "Random" },
+  ]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -126,6 +116,20 @@ const Pong = (props: Props) => {
   };
 
   useEffect(() => {
+    api
+      .get("/friends/list")
+      .then((response) => {
+        console.log("friiiiends:", response.data.friends);
+        response.data.friends.map((friend: IUser, index: number) => {
+          setItemsOpponent([
+            ...itemsOpponent,
+            { id: index + 2, value: friend.username },
+          ]);
+          console.log("id=", index + 2, "name=", friend.username);
+        });
+      })
+      .catch((reject) => console.error(reject));
+
     const canvas: any = canvasRef.current;
     const context = canvas.getContext("2d");
 
