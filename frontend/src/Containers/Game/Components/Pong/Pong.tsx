@@ -8,6 +8,8 @@ import { Socket } from "socket.io-client";
 import getSocket from "../../../Socket";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { IUser } from "../../../../interface/user.interface";
+import api from "../../../../apis/api";
+import { IFriends } from "../../../../interface/friends.interface";
 
 // let WIDTH = 800;
 // let HEIGHT = 400;
@@ -32,11 +34,18 @@ const itemsPaddleSensibility = [
   { id: 3, value: "Very fast" },
 ];
 
-const itemsOpponent = [
-  { id: 1, value: "Random" },
-  { id: 2, value: "Ramzi" },
-  { id: 3, value: "Mael" },
-];
+let itemsOpponent = [{ id: 1, value: "Random" }];
+
+api
+  .get("/friends/list")
+  .then((response) => {
+    console.log("friiiiends:", response.data.friends);
+    response.data.friends.map((friend:IUser,index:number)=>{
+      itemsOpponent.push({ id: index+2, value: friend.username })
+      console.log("id=",index+2,"name=",friend.username);
+    })
+  })
+  .catch((reject) => console.error(reject));
 
 interface Props {
   width: number;
