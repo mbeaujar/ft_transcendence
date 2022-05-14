@@ -43,8 +43,8 @@ function Username(props: Props) {
   function handleSubmitFormUsername(event: React.FormEvent<HTMLFormElement>) {
     if (isValidUsername() === false)
       toast.error("Your username can only containe number,letter,- and _");
-    else if (newName.length < 4 || newName.length > 18) {
-      toast.error("Your username must contain between 4 and 18 letters");
+    else if (newName.length < 4 || newName.length > 9) {
+      toast.error("Your username must contain between 4 and 9 letters");
     } else {
       api
         .post("/users/username", { username: newName })
