@@ -5,6 +5,7 @@
   margin-top: 5vw;
   margin-left: auto;
   margin-right: auto;
+  background-color: $black2;
 
   .Score {
     position: absolute;
@@ -100,6 +101,11 @@
 	{
 		background-color: $black;
 	}
+
+  .hideCanva
+  {
+    display: none;
+  }
 
   .canva {
     position: absolute;

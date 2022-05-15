@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { IGame } from "../../../../interface/game.interface";
 import classes from "./Pong.module.scss";
-// import useWindowSize from "../useWindow/useWindowSize";
 import clsx from "clsx";
 import Dropdown from "../Dropdown/Dropdown";
 import { Socket } from "socket.io-client";
@@ -9,11 +8,7 @@ import getSocket from "../../../Socket";
 import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { IUser } from "../../../../interface/user.interface";
 import api from "../../../../apis/api";
-import { IFriends } from "../../../../interface/friends.interface";
 import useWindowSize from "../useWindow/useWindowSize";
-
-// let WIDTH = 800;
-// let HEIGHT = 400;
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -54,6 +49,7 @@ const Pong = (props: Props) => {
   const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(3);
   const [opponent, setOpponent] = useState(0);
+  const [matchEnd,setMatchEnd]=useState(false);
 
   useEffect(() => {
     api
@@ -167,21 +163,26 @@ const Pong = (props: Props) => {
     return classes.HideButton;
   }
 
-  function showScore() {
-    if (hideButton === false) return classes.HideScore;
-    return classes.Score;
+  function showCanva() {
+    if (hideButton === true) return classes.canva;
+    return classes.hideCanva;
   }
 
   function ifInvite() {
-
-    if (opponent === 0) {console.log("invite=",0);return 0};
-    console.log("invite=",1);
+    if (opponent === 0) {
+      console.log("invite=", 0);
+      return 0;
+    }
+    console.log("invite=", 1);
     return 1;
   }
 
   function ifTarget() {
-    if (opponent === 0) {console.log("target=",0);return 0;}
-    console.log("target=",itemsOpponent[opponent].userId);
+    if (opponent === 0) {
+      console.log("target=", 0);
+      return 0;
+    }
+    console.log("target=", itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
 
@@ -239,7 +240,7 @@ const Pong = (props: Props) => {
         Start Game
       </button>
       <canvas
-        className={classes.canva}
+        className={showCanva()}
         style={{ backgroundColor: BACKGROUND }}
         width={props.width}
         height={props.height}
@@ -250,31 +251,26 @@ const Pong = (props: Props) => {
           if (event.code === "ArrowDown") socket?.emit("moveBotPaddle", { id });
         }}
       />
-      <div className={showScore()}>
-        <div className={classes.PlayerLeft}>
-          {match ? <Avatar user={match.players[0].user} /> : null}
-          {match ? (
+      {match ? (
+        <div className={classes.Score}>
+          <div className={classes.PlayerLeft}>
+            <Avatar user={match.players[0].user} />
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
               {match.players[0].user.username}
             </p>
-          ) : null}
-          {match ? (
             <p style={{ fontSize: props.width / 20 }}>{score[0]}</p>
-          ) : null}
-        </div>
-        <span>-</span>
-        <div className={classes.PlayerRight}>
-          {match ? (
+          </div>
+          <span>-</span>
+          <div className={classes.PlayerRight}>
             <p style={{ fontSize: props.width / 20 }}>{score[1]}</p>
-          ) : null}
-          {match ? (
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
               {match.players[1].user.username}
             </p>
-          ) : null}
-          {match ? <Avatar user={match.players[1].user} /> : null}
+            <Avatar user={match.players[1].user} />
+          </div>
         </div>
-      </div>
+      ) : null}
+
       {/* <div className={classes.Score}>
         <div className={classes.PlayerLeft}>
           <Avatar user={props.user} />
