@@ -9,6 +9,7 @@ import Avatar from "../../../Profile/components/Avatar/Avatar";
 import { IUser } from "../../../../interface/user.interface";
 import api from "../../../../apis/api";
 import useWindowSize from "../useWindow/useWindowSize";
+import ReactLoading from "react-loading";
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -49,7 +50,7 @@ const Pong = (props: Props) => {
   const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(3);
   const [opponent, setOpponent] = useState(0);
-  const [matchEnd,setMatchEnd]=useState(false);
+  const [matchEnd, setMatchEnd] = useState(false);
 
   useEffect(() => {
     api
@@ -168,6 +169,11 @@ const Pong = (props: Props) => {
     return classes.hideCanva;
   }
 
+  function showLoading() {
+    if (hideButton === true && !match) return classes.Loading;
+    return classes.HideLoading;
+  }
+
   function ifInvite() {
     if (opponent === 0) {
       console.log("invite=", 0);
@@ -239,6 +245,9 @@ const Pong = (props: Props) => {
       >
         Start Game
       </button>
+      <div className={showLoading()}>
+        <ReactLoading type="spinningBubbles" color="#fff" width={'100%'} height={'100%'}/>
+      </div>
       <canvas
         className={showCanva()}
         style={{ backgroundColor: BACKGROUND }}
