@@ -13,13 +13,13 @@ import { UsersService } from 'src/users/users.service';
 import { InviteService } from './services/invite.service';
 import { InviteGameDto } from './invite-game.dto';
 import { GameService } from './services/game.service';
+import { Invite } from './model/invite/invite.entity';
 
 @Controller('game')
 export class GameController {
   constructor(
     private readonly inviteService: InviteService,
     private readonly usersService: UsersService,
-    private readonly gameService: GameService,
   ) {}
 
   @Auth()
@@ -28,8 +28,9 @@ export class GameController {
     @Body() body: InviteGameDto,
     @CurrentUser() user: IUser,
   ) {
-    if (body.target === user.id)
-      console.log('user invite itself to play');
+    if (body.target === user.id) {
+      throw new BadRequestException('invite yourself not authorized');
+    }
     const target = await this.usersService.findUser(body.target);
     if (!target) {
       throw new NotFoundException('user not found');
@@ -43,8 +44,7 @@ export class GameController {
 
   @Auth()
   @Get('/invite')
-  async getInviteToPlay(@CurrentUser() user: IUser) {
-    console.log('user ', user);
+  async getInviteToPlay(@CurrentUser() user: IUser): Promise<Invite[]> {
     const invites = await this.inviteService.findByUser(user.id);
     if (!invites) {
       throw new NotFoundException('invites to user not found');
@@ -56,7 +56,6 @@ export class GameController {
   @Post('/accept')
   async acceptInviteToPlay(
     @Body() body: InviteGameDto,
-    @CurrentUser() user: IUser,
   ): Promise<IUser> {
     const invite = await this.inviteService.find(body.target);
     if (!invite) {

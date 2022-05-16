@@ -35,7 +35,7 @@ function Dropdown(props: Props) {
     document.addEventListener("click", onBodyClick, { capture: true });
 
     if (props.id == "GameMode") setSelection(props.items[0].value);
-    else if (props.id == "PaddleSpeed") setSelection(props.items[2].value);
+    else if (props.id == "PaddleSpeed") setSelection(props.items[props.index].value);
     else if (props.id == "Opponent") setSelection(props.items[0].value);
 
     return () => {

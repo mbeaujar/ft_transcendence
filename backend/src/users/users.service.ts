@@ -93,7 +93,7 @@ export class UsersService {
   }
 
   async changeSensitivity(sensitivity: number, id: number) {
-    if (id && sensitivity >= 0 && sensitivity < 5) {
+    if (id && sensitivity) {
       return this.usersRepository.update(id, { sensitivity });
     }
   }

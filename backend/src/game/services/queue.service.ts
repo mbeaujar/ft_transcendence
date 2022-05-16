@@ -27,10 +27,11 @@ export class QueueService {
   async findOpponents(id: number, elo: number, mode: number): Promise<Queue> {
     return this.queueRepository
       .createQueryBuilder('queue')
+      .where('queue.invite = :invite', { invite: 0})
       .orderBy('ABS(queue.elo - :elo)', 'DESC')
       .setParameters({ elo })
       .leftJoinAndSelect('queue.user', 'user')
-      .where('user.id != :id', { id })
+      .andWhere('user.id != :id', { id })
       .andWhere('queue.mode = :mode', { mode })
       .getOne();
   }

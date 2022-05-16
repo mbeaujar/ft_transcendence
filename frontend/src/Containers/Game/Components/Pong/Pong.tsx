@@ -24,11 +24,11 @@ const itemsGameMode = [
 ];
 
 const itemsPaddleSensibility = [
-  { id: 0, value: "Very slow" },
-  { id: 1, value: "Slow" },
-  { id: 2, value: "Normal" },
-  { id: 3, value: "Fast" },
-  { id: 4, value: "Very fast" },
+  { id: 1, value: "Very slow" },
+  { id: 2, value: "Slow" },
+  { id: 3, value: "Normal" },
+  { id: 4, value: "Fast" },
+  { id: 5, value: "Very fast" },
 ];
 
 interface Props {
@@ -48,32 +48,13 @@ const Pong = (props: Props) => {
     { id: 0, value: "Random", userId: 0 },
   ]);
   const [mode, setMode] = useState<number>(0);
-  const [paddleSpeed, setPaddleSpeed] = useState(0);
+  const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
   const [opponent, setOpponent] = useState(0);
   const [matchEnd, setMatchEnd] = useState(false);
 
   useEffect(() => {
-
-    // api
-    // .get(`/users/sensitivity/${props.user.id}`)
-    // .then((response) => {
-    //   setSensitivity(response.data);
-    //   // console.log("sensitivity1:", response.data);
-    // })
-    // .catch((reject) => console.error(reject));
-
-    console.log("paddlespeed=",paddleSpeed);
     api
       .post("/users/sensitivity", { sensitivity: paddleSpeed })
-      .catch((reject) => console.error(reject));
-      
-
-      api
-      .get(`/users/sensitivity/${props.user.id}`)
-      .then((response) => {
-        setPaddleSpeed(response.data);
-        console.log("sensitivity:", response.data);
-      })
       .catch((reject) => console.error(reject));
   }, [paddleSpeed]);
 
@@ -154,8 +135,6 @@ const Pong = (props: Props) => {
         });
       })
       .catch((reject) => console.error(reject));
-
-
 
     const canvas: any = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -247,7 +226,7 @@ const Pong = (props: Props) => {
         id="PaddleSpeed"
         hideButton={hideButton}
         setState={setPaddleSpeed}
-        index={paddleSpeed}
+        index={paddleSpeed - 1}
       />
       <Dropdown
         title="Opponent"
@@ -264,6 +243,9 @@ const Pong = (props: Props) => {
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
         onClick={() => {
+          if (/* invite */ 1) {
+            // create invite
+          }
           socket?.emit("joinQueue", {
             mode,
             invite: ifInvite(),
@@ -275,9 +257,16 @@ const Pong = (props: Props) => {
         Start Game
       </button>
       <div className={showLoading()}>
-        <ReactLoading type="spinningBubbles" color="#fff" width={'100%'} height={'100%'}/>
+        <ReactLoading
+          type="spinningBubbles"
+          color="#fff"
+          width={"100%"}
+          height={"100%"}
+        />
       </div>
-      <p className={showLoadingText()} style={{ fontSize: props.width / 40 }}>Waiting for your opponent</p>
+      <p className={showLoadingText()} style={{ fontSize: props.width / 40 }}>
+        Waiting for your opponent
+      </p>
       <canvas
         className={showCanva()}
         style={{ backgroundColor: BACKGROUND }}
