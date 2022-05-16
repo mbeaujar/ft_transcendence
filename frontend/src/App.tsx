@@ -52,10 +52,27 @@ function MainApp(props: IMainProps) {
     } else if (WindowSize.innerWidth < 840.01) {
       WIDTH = 600;
       HEIGHT = 300;
-    } else {
+    } else if (WindowSize.innerWidth < 1500.01){
       WIDTH = 800;
       HEIGHT = 400;
     }
+    else if (WindowSize.innerWidth < 2000.01){
+      WIDTH = 1000;
+      HEIGHT = 500;
+    }
+    else if (WindowSize.innerWidth < 2500.01){
+      WIDTH = 1200;
+      HEIGHT = 600;
+    }
+    else if (WindowSize.innerWidth < 3000.01){
+      WIDTH = 1600;
+      HEIGHT = 800;
+    }
+    else {
+      WIDTH = 1800;
+      HEIGHT = 900;
+    }
+    
   }, [WindowSize]);
   
   return (

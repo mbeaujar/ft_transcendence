@@ -113,7 +113,7 @@ function HistoryBlock(props: Props) {
       <h3 className={classes.title}>History</h3>
       <div className={classes.History}>
         <div className={classes.MatchsList}>
-          {historic.map((match: IGame, index: number) => (
+          {historic.slice(0).reverse().map((match: IGame, index: number) => (
             <div className={classes.Match} key={index}>
               <h4>
                 {getMatchDay(match.created_at)}/
