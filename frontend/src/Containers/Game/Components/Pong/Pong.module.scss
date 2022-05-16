@@ -104,7 +104,7 @@
 		background-color: $black;
 	}
 
-  .HideLoading 
+  .HideLoading , .HideLoadingText
   {
     display: none;
   }
@@ -114,8 +114,17 @@
     width: 8%;
     height: 16%;
     position: absolute;
-    top:42%;
+    top:37%;
     left:46%;
+  }
+  .LoadingText
+  {
+    z-index: 34;
+    color: $white1;
+    position: absolute;
+    top:55%;
+    left:36%;
+    font-family: "Roboto Slab", serif;
   }
 
   .hideCanva

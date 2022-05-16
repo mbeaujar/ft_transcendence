@@ -174,6 +174,11 @@ const Pong = (props: Props) => {
     return classes.HideLoading;
   }
 
+  function showLoadingText() {
+    if (hideButton === true && !match) return classes.LoadingText;
+    return classes.HideLoadingText;
+  }
+
   function ifInvite() {
     if (opponent === 0) {
       console.log("invite=", 0);
@@ -248,6 +253,7 @@ const Pong = (props: Props) => {
       <div className={showLoading()}>
         <ReactLoading type="spinningBubbles" color="#fff" width={'100%'} height={'100%'}/>
       </div>
+      <p className={showLoadingText()} style={{ fontSize: props.width / 40 }}>Waiting for your opponent</p>
       <canvas
         className={showCanva()}
         style={{ backgroundColor: BACKGROUND }}
