@@ -41,7 +41,7 @@ export class Game {
     this.player1 = new Player(this.match.players[0].user.sensitivity, PADDLEH);
     this.player2 = new Player(this.match.players[1].user.sensitivity, PADDLEH);
     this.ball = new Ball();
-
+    
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
     this.interval = setInterval(this.loop.bind(this), 20);
   }
@@ -63,13 +63,13 @@ export class Game {
     }
 
     this.ballHitRightPaddle();
-
+    
     this.ballHitLeftPaddle();
 
     await this.ballHitWall();
-
+    
     this.ball.move();
-
+    
     const infoGame: IInfoGame = {
       ballx: this.calculPercentage(this.ball.x, WIDTH),
       bally: this.calculPercentage(this.ball.y, HEIGHT),
@@ -102,36 +102,51 @@ export class Game {
 
   calculPercentage(pos: number, sub: number) {
     return (pos * 100) / sub;
-  }
-
+  }  
+  
   async endGame() {
     this.match.players[0].score = this.player1.score;
     this.match.players[1].score = this.player2.score;
     await this.playerService.save(this.match.players[0]);
     await this.playerService.save(this.match.players[1]);
-
+    
     await this.matchService.update(this.match, { live: 0 });
-
+    
     if (this.match.mode === GameMode.default) {
 
       let winner = this.player1.score === 3 ? 0 : 1;
       let loser = this.player1.score === 3 ? 1 : 0;
-      console.log('winner', this.match.players[winner]);
-      console.log('loser', this.match.players[loser]);
       this.match.players[winner].user.elo += 30;
       this.match.players[winner].user.wins++;
       this.match.players[loser].user.losses++;
-
+      
       if (this.match.players[loser].user.elo > 30) {
         this.match.players[loser].user.elo -= 30;
       } else {
         this.match.players[loser].user.elo = 0;
       }
     }
+    this.match.players[0].user.rank = this.setRank(this.match.players[0].user.elo);
+    this.match.players[1].user.rank = this.setRank(this.match.players[1].user.elo);
     this.match.players[0].user.state = State.online;
     this.match.players[1].user.state = State.online;
     await this.usersService.saveUser(this.match.players[0].user);
     await this.usersService.saveUser(this.match.players[1].user);
+  }
+  
+  setRank(points: number) {
+    if (points < 100) return "Bronze 3";
+    else if (points < 200) return "Bronze 2";
+    else if (points < 300) return "Bronze 1";
+    else if (points < 400) return "Silver 3";
+    else if (points < 500) return "Silver 2";
+    else if (points < 600) return "Silver 1";
+    else if (points < 700) return "Gold 3";
+    else if (points < 800) return "Gold 2";
+    else if (points < 900) return "Gold 1";
+    else if (points < 1000) return "Elite 3";
+    else if (points < 1100) return "Elite 2";
+    else return "Elite 1";
   }
 
   moveTop(user: IUser) {

@@ -48,13 +48,32 @@ const Pong = (props: Props) => {
     { id: 0, value: "Random", userId: 0 },
   ]);
   const [mode, setMode] = useState<number>(0);
-  const [paddleSpeed, setPaddleSpeed] = useState(3);
+  const [paddleSpeed, setPaddleSpeed] = useState(0);
   const [opponent, setOpponent] = useState(0);
   const [matchEnd, setMatchEnd] = useState(false);
 
   useEffect(() => {
+
+    // api
+    // .get(`/users/sensitivity/${props.user.id}`)
+    // .then((response) => {
+    //   setSensitivity(response.data);
+    //   // console.log("sensitivity1:", response.data);
+    // })
+    // .catch((reject) => console.error(reject));
+
+    console.log("paddlespeed=",paddleSpeed);
     api
       .post("/users/sensitivity", { sensitivity: paddleSpeed })
+      .catch((reject) => console.error(reject));
+      
+
+      api
+      .get(`/users/sensitivity/${props.user.id}`)
+      .then((response) => {
+        setPaddleSpeed(response.data);
+        console.log("sensitivity:", response.data);
+      })
       .catch((reject) => console.error(reject));
   }, [paddleSpeed]);
 
@@ -136,6 +155,8 @@ const Pong = (props: Props) => {
       })
       .catch((reject) => console.error(reject));
 
+
+
     const canvas: any = canvasRef.current;
     const context = canvas.getContext("2d");
 
@@ -215,6 +236,7 @@ const Pong = (props: Props) => {
         id="GameMode"
         hideButton={hideButton}
         setState={setMode}
+        index={0}
       />
       <Dropdown
         title="Paddle speed"
@@ -225,6 +247,7 @@ const Pong = (props: Props) => {
         id="PaddleSpeed"
         hideButton={hideButton}
         setState={setPaddleSpeed}
+        index={paddleSpeed}
       />
       <Dropdown
         title="Opponent"
@@ -235,6 +258,7 @@ const Pong = (props: Props) => {
         id="Opponent"
         hideButton={hideButton}
         setState={setOpponent}
+        index={0}
       />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}

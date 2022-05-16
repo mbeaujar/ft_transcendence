@@ -47,9 +47,12 @@ export class User {
   @Column({ default: State.online })
   state: State;
 
-  @Column({ default: 1000 })
+  @Column({ default: 650 })
   @Min(0)
   elo: number;
+
+  @Column({ default: 'Gold 3' })
+  rank: string;
 
   @Column({ default: 0 })
   wins: number;

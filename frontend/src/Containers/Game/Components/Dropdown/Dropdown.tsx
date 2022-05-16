@@ -16,12 +16,13 @@ interface Props {
   id: string;
   hideButton: boolean;
   setState: (value: number) => void;
+  index:number;
 }
 
 function Dropdown(props: Props) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<string>(
-    props.items[/*props.channelState*/ 0].value
+    props.items[props.index].value
   );
   const close = () => setOpen(!open);
   const ref = useRef<HTMLDivElement>(null);

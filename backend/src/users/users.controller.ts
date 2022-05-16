@@ -181,6 +181,14 @@ export class UsersController {
   }
 
   @Auth()
+  @Get('/sensitivity/:id')
+  async getSensitivity(@Param('id') id: string): Promise<number> {
+    if (id && id !== 'null') {
+      return (await this.usersService.findUser(parseInt(id))).sensitivity;
+    }
+  }
+
+  @Auth()
   @Get('/history/:id')
   async getHistoryMatch(@Param('id') id: string): Promise<Match[]> {
     if (id && id !== 'null') {
