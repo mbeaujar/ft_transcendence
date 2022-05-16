@@ -56,8 +56,6 @@ function MainApp(props: IMainProps) {
       WIDTH = 800;
       HEIGHT = 400;
     }
-
-
   }, [WindowSize]);
   
   return (

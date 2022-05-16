@@ -157,6 +157,12 @@ const Pong = (props: Props) => {
     const socketEffect = getSocket("game");
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
+
+    return () => {
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
+    };
   }, [WindowSize]);
 
   function showButton() {
@@ -243,13 +249,17 @@ const Pong = (props: Props) => {
         className={clsx(classes.ButtonJoinQueue, showButton())}
         style={{ fontSize: props.width / 40 }}
         onClick={() => {
-          if (/* invite */ 1) {
-            // create invite
+          const invite = ifInvite();
+          const target = ifTarget();
+          if (invite) {
+            api
+              .post("/game/invite", { target })
+              .catch((rej) => console.log(rej));
           }
           socket?.emit("joinQueue", {
             mode,
-            invite: ifInvite(),
-            target: ifTarget(),
+            invite,
+            target,
           });
           setHideButton(!hideButton);
         }}

@@ -101,7 +101,7 @@ export class UsersService {
   async leaderboard(): Promise<User[]> {
     return this.usersRepository.find({
       order: {
-        elo: 'DESC',
+        elo: 'ASC',
       },
     });
   }
