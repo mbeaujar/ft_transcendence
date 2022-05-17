@@ -8,4 +8,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "12"
-      - run: npm run format
+      - run: npm --prefix backend run format
+      - run: npm --prefix frontend run format

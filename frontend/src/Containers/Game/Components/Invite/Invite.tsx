@@ -17,7 +17,7 @@ function Invite(props: Props) {
     api
       .get('/game/invite')
       .then(response => {
-        console.log('invites', response.data);
+        console.log('invites=', response.data);
         setInvites(response.data);
       })
       .catch(reject => console.error(reject));

@@ -288,7 +288,8 @@ const Pong = (props: Props) => {
           const target = ifTarget();
           if (invite) {
             api
-              .post('/game/invite', { target, setMode })
+              .post('/game/invite', { target, mode })
+              .then(()=>console.log("invite send"))
               .catch((rej) => console.log(rej));
           }
           socket?.emit('joinQueue', {

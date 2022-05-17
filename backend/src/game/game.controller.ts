@@ -56,7 +56,10 @@ export class GameController {
 
   @Auth()
   @Post('accept')
-  async acceptInviteToPlay(@Body() body: InviteGameDto, @CurrentUser() user: IUser): Promise<IUser> {
+  async acceptInviteToPlay(
+    @Body() body: InviteGameDto,
+    @CurrentUser() user: IUser,
+  ): Promise<IUser> {
     const invite = await this.inviteService.find(body.target);
     if (!invite) {
       throw new NotFoundException('invite not found');
