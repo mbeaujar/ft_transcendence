@@ -289,7 +289,7 @@ const Pong = (props: Props) => {
           if (invite) {
             api
               .post('/game/invite', { target, mode })
-              .then(()=>console.log("invite send"))
+              .then((data)=>console.log("invite send"))
               .catch((rej) => console.log(rej));
           }
           socket?.emit('joinQueue', {
