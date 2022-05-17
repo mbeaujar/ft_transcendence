@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   .BlockedUsers {
@@ -19,14 +19,11 @@
       margin-bottom: 0%;
     }
 
-
-
     .BlockedUsers {
       overflow-y: auto;
       min-height: 69%;
       max-height: 69%;
-      .BlockedUser:last-child
-      {
+      .BlockedUser:last-child {
         border-bottom: none;
       }
 
@@ -60,9 +57,9 @@
         button {
           color: $white1;
           background-color: $green1;
-          border:0.1vw solid $white1;
+          border: 0.1vw solid $white1;
           border-radius: 0.5vw;
-          font-size:1vw;
+          font-size: 1vw;
           padding: 0.3vw;
           cursor: pointer;
           margin-left: 33%;
@@ -99,8 +96,7 @@
       min-height: 25.5vw;
       max-height: 25.5vw;
 
-      .BlockedUser:last-child
-      {
+      .BlockedUser:last-child {
         border-bottom: none;
       }
       .BlockedUser {
@@ -134,9 +130,9 @@
         button {
           color: $white1;
           background-color: $green1;
-          border:0.2vw solid $white1;
+          border: 0.2vw solid $white1;
           border-radius: 1vw;
-          font-size:3vw;
+          font-size: 3vw;
           padding: 1vw;
           cursor: pointer;
           margin-left: 33%;

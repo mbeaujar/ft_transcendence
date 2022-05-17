@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   .AddFriends {
@@ -69,7 +69,6 @@
     min-height: 30%;
     max-height: 30%;
 
-
     form {
       align-self: center;
       display: flex;
@@ -80,7 +79,6 @@
       margin-left: 10%;
       font-size: 3vw;
       margin-top: 0;
-
 
       input {
         padding: 1vw;

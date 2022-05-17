@@ -9,6 +9,7 @@ import Watch from './Containers/Game/Components/Watch/Watch';
 import Room from './Containers/Game/Components/Room/Room';
 import Pong from './Containers/Game/Components/Pong/Pong';
 import Play from './Containers/Game/Components/Play/Play';
+import Invite from './Containers/Game/Components/Invite/Invite';
 import Chat from './Containers/Chat/Chat';
 import Profile from './Containers/Profile/Profile';
 import Header from './Containers/Header/Header';
@@ -82,6 +83,10 @@ function MainApp(props: IMainProps) {
       <Route
         path="/game/play"
         element={<Play width={WIDTH} height={HEIGHT} />}
+      />
+      <Route
+        path="/game/play/invite"
+        element={<Invite width={WIDTH} height={HEIGHT} />}
       />
       <Route
         path="/game/play/room"

@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   .Level {
@@ -33,7 +33,7 @@
       background-color: $grey6;
       margin-left: 0;
       p {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 1.2vw;
       }
     }
@@ -74,7 +74,7 @@
       border-radius: 2.5vw;
       margin-left: 0;
       p {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 3vw;
       }
     }

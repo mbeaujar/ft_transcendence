@@ -1,80 +1,14 @@
 @import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
-.Rank {
-  width: 44%;
-  height: 75%;
-  border-radius: 1.5vw;
-  background-color: $grey6;
-  //margin-left: 2.39%;
-  margin-left: 2.39%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .Top {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: center;
-    width: 100%;
-    height: 65%;
-    margin-left: 0;
-    z-index: 1;
-
-    div {
-      border-radius: 0;
-      background-color: $grey2;
-      border: 0.1vw solid $white1;
-      width: 13%;
-      margin-bottom: 3%;
-    }
-
-    #Podium2 {
-      height: 0%;
-      margin-right: 0;
-    }
-    #Podium1 {
-      height: 0%;
-      margin-left: 2%;
-      margin-right: 2%;
-    }
-    #Podium3 {
-      height: 0%;
-      margin-left: 0;
-    }
-  }
-
-  .Bottom {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 35%;
-    margin-left: 0;
-    background-color: $grey6;
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1.2vw;
-    }
-    span {
-      font-size: 0.7vw;
-      margin-top: -1vw;
-    }
-  }
-}
-}
-
-@media screen and (max-width: 650px) {
   .Rank {
-    width: 40%;
-    height: 78%;
-    border-radius: 2.5vw;
+    width: 44%;
+    height: 75%;
+    border-radius: 1.5vw;
     background-color: $grey6;
     //margin-left: 2.39%;
-    margin-right: 3%;
-  
+    margin-left: 2.39%;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,7 +21,7 @@
       height: 65%;
       margin-left: 0;
       z-index: 1;
-  
+
       div {
         border-radius: 0;
         background-color: $grey2;
@@ -95,7 +29,7 @@
         width: 13%;
         margin-bottom: 3%;
       }
-  
+
       #Podium2 {
         height: 0%;
         margin-right: 0;
@@ -110,7 +44,73 @@
         margin-left: 0;
       }
     }
-  
+
+    .Bottom {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 35%;
+      margin-left: 0;
+      background-color: $grey6;
+      p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 1.2vw;
+      }
+      span {
+        font-size: 0.7vw;
+        margin-top: -1vw;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Rank {
+    width: 40%;
+    height: 78%;
+    border-radius: 2.5vw;
+    background-color: $grey6;
+    //margin-left: 2.39%;
+    margin-right: 3%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .Top {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+
+      div {
+        border-radius: 0;
+        background-color: $grey2;
+        border: 0.1vw solid $white1;
+        width: 13%;
+        margin-bottom: 3%;
+      }
+
+      #Podium2 {
+        height: 0%;
+        margin-right: 0;
+      }
+      #Podium1 {
+        height: 0%;
+        margin-left: 2%;
+        margin-right: 2%;
+      }
+      #Podium3 {
+        height: 0%;
+        margin-left: 0;
+      }
+    }
+
     .Bottom {
       display: flex;
       flex-direction: row;
@@ -131,4 +131,4 @@
       }
     }
   }
-  }
+}

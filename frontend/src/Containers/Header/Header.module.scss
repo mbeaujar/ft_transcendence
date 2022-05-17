@@ -1,8 +1,8 @@
-@import "../../utils.scss";
+@import '../../utils.scss';
 
 @media screen and (max-width: 650px) {
   .Header {
-    overflow-y:hidden;
+    overflow-y: hidden;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -83,27 +83,24 @@
         transform: translateX(0);
       }
 
-      .Game 
-      {
+      .Game {
         transition: all 0.8s ease-out;
       }
-      .Chat 
-      {
+      .Chat {
         transition: all 0.9s ease-out;
       }
-      .Profile 
-      {
+      .Profile {
         transition: all 1s ease-out;
       }
-      .showLogin,.showLogout 
-      {
+      .showLogin,
+      .showLogout {
         transition: all 1.1s ease-out;
       }
     }
 
     .Navigation {
       position: fixed;
-      top:22vw;
+      top: 22vw;
       bottom: 0vw;
       transition: all 0.8s ease-out;
       width: 100vw;
@@ -122,8 +119,7 @@
         font-size: 5vw;
       }
 
-      .Link
-      {
+      .Link {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -158,7 +154,7 @@
     h1 {
       font-size: 3vw;
       font-weight: bold;
-      font-family: "Quintessential", cursive;
+      font-family: 'Quintessential', cursive;
       /*font-family: 'Permanent Marker', cursive;*/
     }
 
@@ -193,7 +189,7 @@
   a {
     text-decoration: none;
     color: $blue2;
-    font-family: "Roboto Slab", serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
   }
 
@@ -206,7 +202,7 @@
     cursor: pointer;
     display: block;
     background-color: $blue2;
-    font-family: "Roboto Slab", serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
     color: $blue1;
   }

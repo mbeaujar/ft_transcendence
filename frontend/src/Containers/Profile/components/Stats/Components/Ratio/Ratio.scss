@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 650px) {
   .Ratio {
@@ -41,7 +41,7 @@
           background-color: $black;
         }
         #circular_progress:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 70%;
           width: 70%;
@@ -57,7 +57,7 @@
       margin-left: 0;
       background-color: $grey6;
       p {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 1.2vw;
       }
       .Wins {
@@ -110,7 +110,7 @@
           background-color: $black;
         }
         #circular_progress:before {
-          content: "";
+          content: '';
           position: absolute;
           height: 70%;
           width: 70%;
@@ -127,7 +127,7 @@
       border-radius: 2.5vw;
       background-color: $grey6;
       p {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 3vw;
       }
       .Wins {

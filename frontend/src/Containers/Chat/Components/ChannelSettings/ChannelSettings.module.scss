@@ -1,4 +1,4 @@
-@import "../../../../utils.scss";
+@import '../../../../utils.scss';
 
 .ChannelSettings {
   display: flex;
@@ -249,8 +249,7 @@
 
 @media screen and (min-width: 651px) {
   .ChannelSettings {
-    .CloseChatRightButton
-    {
+    .CloseChatRightButton {
       display: none;
     }
     h3 {
@@ -437,14 +436,11 @@
   }
 }
 
-
-
 @media screen and (max-width: 650px) {
   .ChannelSettings {
     border-left: 0.4vw solid $blue5;
 
-    .CloseChatRightButton
-    {
+    .CloseChatRightButton {
       position: absolute;
       border: none;
       right: 90%;
@@ -462,8 +458,7 @@
       }
     }
 
-    .CloseChatRightButton:hover
-    {
+    .CloseChatRightButton:hover {
       background-color: $red2;
     }
 
@@ -471,8 +466,6 @@
       font-size: 4vw;
       padding: 2vw;
     }
-
-
 
     .ChannelUsers {
       .ChannelUser {
@@ -511,7 +504,7 @@
       width: 100%;
       width: 92%;
 
-     /* h3 {
+      /* h3 {
         width: 110%;
         margin-left: -10%;
       }*/
@@ -595,7 +588,6 @@
 
       .MarginSevenHalf {
         margin-top: 19.85vw;
-        
       }
 
       .NewPassword {
@@ -620,7 +612,8 @@
         border-radius: 1vw;
       }
 
-      form,div {
+      form,
+      div {
         font-size: 3vw;
         margin-left: 0;
         width: 100%;
@@ -637,8 +630,6 @@
           padding: 2vw 2vw;
         }
       }
-
-
     }
   }
 }

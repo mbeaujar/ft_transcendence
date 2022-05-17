@@ -1,4 +1,4 @@
-@import "../../../../utils.scss";
+@import '../../../../utils.scss';
 
 .JoinChannel {
   display: flex;
@@ -16,7 +16,6 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid $grey2;
-    
 
     p {
       color: $white1;
@@ -29,16 +28,13 @@
       cursor: pointer;
     }
 
-    button:hover
-    {
+    button:hover {
       background-color: $green2;
     }
-
   }
 }
 
 @media screen and (min-width: 651px) {
-
   .ChannelToJoin {
     width: 50%;
     padding: 1.5% 5%;
@@ -62,7 +58,6 @@
 }
 
 @media screen and (max-width: 651px) {
-
   .ChannelToJoin {
     width: 80%;
     padding: 2.5% 5%;
@@ -83,4 +78,3 @@
     }
   }
 }
-

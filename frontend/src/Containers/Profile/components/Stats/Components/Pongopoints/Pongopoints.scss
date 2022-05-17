@@ -8,11 +8,11 @@
     background-color: $grey6;
     //margin-left: 2.39%;
     margin-left: 4.8%;
-  
+
     display: flex;
     flex-direction: column;
     align-items: center;
-  
+
     .Top {
       width: 100%;
       height: 65%;
@@ -24,7 +24,7 @@
         margin-bottom: 0;
       }
     }
-  
+
     .Bottom {
       width: 100%;
       height: 35%;
@@ -36,43 +36,42 @@
       }
     }
   }
-  }
-
+}
 
 @media screen and (max-width: 650px) {
-.Pongopoints {
-  width: 40%;
-  height: 78%;
-  border-radius: 2.5vw;
-  background-color: $grey6;
-  margin-right: 3%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .Top {
-    width: 100%;
-    height: 65%;
-    margin-left: 0;
-    z-index: 1;
-    #valuePongopoints {
-      font-size: 11vw;
-      margin-top: 15%;
-      margin-bottom: 0;
-    }
-  }
-
-  .Bottom {
-    width: 100%;
-    height: 35%;
-    background-color: $grey6;
-    margin-left: 0;
+  .Pongopoints {
+    width: 40%;
+    height: 78%;
     border-radius: 2.5vw;
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 3vw;
+    background-color: $grey6;
+    margin-right: 3%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Top {
+      width: 100%;
+      height: 65%;
+      margin-left: 0;
+      z-index: 1;
+      #valuePongopoints {
+        font-size: 11vw;
+        margin-top: 15%;
+        margin-bottom: 0;
+      }
+    }
+
+    .Bottom {
+      width: 100%;
+      height: 35%;
+      background-color: $grey6;
+      margin-left: 0;
+      border-radius: 2.5vw;
+      p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 3vw;
+      }
     }
   }
-}
 }

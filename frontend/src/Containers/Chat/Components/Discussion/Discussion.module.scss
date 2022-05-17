@@ -1,5 +1,4 @@
-@import "../../../../utils.scss";
-
+@import '../../../../utils.scss';
 
 .Link {
   color: $white1;
@@ -55,7 +54,6 @@
       }
     }
   }
-
 }
 
 @media screen and (min-width: 651px) {
@@ -149,8 +147,7 @@
       border: 0.01vw solid rgb(95, 93, 93);
       border-radius: 1.5vw;
     }*/
-    .HideOpenChannelSettings
-    {
+    .HideOpenChannelSettings {
       visibility: hidden;
     }
 

@@ -1,4 +1,4 @@
-@import "../../../../../utils.scss";
+@import '../../../../../utils.scss';
 
 @mixin styling() {
   background-color: $blue1;
@@ -17,7 +17,6 @@
   position: absolute;
   z-index: 2;
 
-
   @media screen and (min-width: 651px) {
     width: 120%; //changement ici
     margin-top: 7vw; //changement ici
@@ -28,7 +27,7 @@
     max-width: 80%; //changement ici
     margin-top: 20vw; //changement ici
     padding-bottom: 1vw;
-    margin-left:10% !important;
+    margin-left: 10% !important;
   }
   .header {
     @include styling();
@@ -66,7 +65,7 @@
     .headerChoice {
       @media screen and (max-width: 650px) {
         font-size: 2.5vw;
-        width:50%;
+        width: 50%;
         margin-left: -2vw !important;
       }
     }
@@ -123,18 +122,20 @@
         &:hover {
           cursor: pointer;
           background-color: $blue3;
-         // color: $blue4;
+          // color: $blue4;
         }
 
         @media screen and (min-width: 651px) {
           span {
             font-size: 1.5vw;
-          }}
+          }
+        }
 
         @media screen and (max-width: 650px) {
-        span {
-          font-size: 3vw;
-        }}
+          span {
+            font-size: 3vw;
+          }
+        }
       }
     }
   }

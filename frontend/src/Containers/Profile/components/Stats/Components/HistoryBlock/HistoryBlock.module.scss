@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   .HistoryBlock {
@@ -96,8 +96,8 @@
               min-width: 40%;
               max-width: 40%;
               font-size: 1vw;
-              overflow: hidden; 
-              text-overflow: ellipsis; 
+              overflow: hidden;
+              text-overflow: ellipsis;
               white-space: nowrap;
               span {
                 max-width: 100%;
@@ -195,7 +195,6 @@
           }
           .MatchUserLeft,
           .MatchUserRight {
-
             width: 40%;
             display: flex;
             flex-direction: row;
@@ -219,8 +218,8 @@
               min-width: 40%;
               max-width: 40%;
               font-size: 2vw;
-              overflow: hidden; 
-              text-overflow: ellipsis; 
+              overflow: hidden;
+              text-overflow: ellipsis;
               white-space: nowrap;
               span {
                 max-width: 100%;

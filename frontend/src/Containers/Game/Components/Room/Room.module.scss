@@ -1,4 +1,4 @@
-@import "../../../../utils.scss";
+@import '../../../../utils.scss';
 
 .Room {
   background-color: $black2;
@@ -12,24 +12,22 @@
   align-items: center;
   justify-content: center;
 
-  .ButtonJoinQueue
-	{
-		position: absolute;
+  .ButtonJoinQueue {
+    position: absolute;
     top: 53%;
     left: 30%;
-		cursor: pointer;
+    cursor: pointer;
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
-		z-index: 3;
-		width: 40%;
-		padding: 2%;
-		color: $white1;
-		background-color: $black2;
-		border:2px solid $white1;
-		border-radius:2vw;
-	}
-	button:hover
-	{
-		background-color: $black;
-	}
+    z-index: 3;
+    width: 40%;
+    padding: 2%;
+    color: $white1;
+    background-color: $black2;
+    border: 2px solid $white1;
+    border-radius: 2vw;
+  }
+  button:hover {
+    background-color: $black;
+  }
 }

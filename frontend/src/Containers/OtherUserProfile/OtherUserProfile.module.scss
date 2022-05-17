@@ -1,4 +1,4 @@
-@import "../../utils.scss";
+@import '../../utils.scss';
 
 .OtherUserProfile {
   display: flex;
@@ -7,7 +7,6 @@
 
   .OtherUserProfileLeft {
     display: flex;
-    
 
     .User {
       background-color: $grey6;
@@ -128,7 +127,7 @@
         height: 100%;
         img {
           margin-top: 10%;
-          width: 22Vw;
+          width: 22vw;
           height: 22vw;
           border-radius: 50%;
         }

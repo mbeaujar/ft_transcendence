@@ -1,9 +1,9 @@
-@import "../../utils.scss";
+@import '../../utils.scss';
 
 .Chat {
   display: flex;
   flex-direction: row;
-  font-family: "Arial", cursive;
+  font-family: 'Arial', cursive;
 
   ::-webkit-scrollbar {
     width: 0.4vw;
@@ -59,7 +59,7 @@
   }
 
   .ChannelName:hover {
-   background-color: $blue6;
+    background-color: $blue6;
   }
 }
 
@@ -67,8 +67,8 @@
   .Chat {
     align-items: center;
     justify-content: center;
-    
-    .OpenChatLeftButton  {
+
+    .OpenChatLeftButton {
       display: none;
     }
     .ChatLeft {
@@ -79,7 +79,6 @@
       .CloseChatLeftButton {
         display: none;
       }
-
 
       .ChatLeftButton {
         margin-top: 1vw;
@@ -96,8 +95,7 @@
         margin-bottom: 0;
       }
 
-      .Channels
-      {
+      .Channels {
         margin-top: 1vw;
       }
 
@@ -115,15 +113,14 @@
       overflow-y: scroll;
       overflow-x: hidden;
 
-
       h1 {
         margin-top: 0;
         padding: 15px 0%;
         color: $white1;
         background-color: $blue5;
         width: 100%;
-        overflow: hidden; 
-        text-overflow: ellipsis; 
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
       }
     }
@@ -138,7 +135,7 @@
 
 @media screen and (max-width: 650px) {
   .Chat {
-   // background-color:black;
+    // background-color:black;
     position: relative;
     .OpenChatLeftButton {
       z-index: 7;
@@ -234,19 +231,17 @@
       overflow-y: scroll;
       overflow-x: hidden;
 
-
-        h1 {
-          margin-top: 0;
-          padding: 4vw 0vw;
-          color: $white1;
-          font-size: 6vw;
-          background-color: $blue5;
-          width: 100%;
-          overflow: hidden; 
-          text-overflow: ellipsis; 
-          white-space: nowrap;
-        }
-      
+      h1 {
+        margin-top: 0;
+        padding: 4vw 0vw;
+        color: $white1;
+        font-size: 6vw;
+        background-color: $blue5;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     .HideChatRight {

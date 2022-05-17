@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   .FriendsBlock {
@@ -81,9 +81,9 @@
             color: $white1;
             text-align: left;
             margin-left: 0;
-            overflow: hidden; 
-          text-overflow: ellipsis; 
-          white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
 
           .Online,
@@ -191,7 +191,6 @@
             }
           }
 
-
           .FriendName {
             width: 50%;
             font-size: 1.2vw;
@@ -201,8 +200,8 @@
             font-size: 3vw;
             color: $white1;
             margin-left: 13%;
-            overflow: hidden; 
-            text-overflow: ellipsis; 
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
           }
 

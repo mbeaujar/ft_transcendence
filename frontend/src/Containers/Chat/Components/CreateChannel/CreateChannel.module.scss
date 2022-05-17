@@ -1,4 +1,4 @@
-@import "../../../../utils.scss";
+@import '../../../../utils.scss';
 
 .CreateChannel {
   h2 {
@@ -10,7 +10,7 @@
     border: 0.5vw solid $grey2;
     background-color: $grey2;
     border-radius: 4vw;
-    color:$white1;
+    color: $white1;
   }
 
   .ChannelName {
@@ -81,7 +81,7 @@
 @media screen and (max-width: 650px) {
   h2 {
     margin-bottom: 5vw;
-    font-size:5vw;
+    font-size: 5vw;
   }
 
   input {
@@ -96,7 +96,6 @@
   .ChannelType {
     margin-bottom: 5vw;
     .ChannelCheckbox {
-      
       .CheckboxPrivate {
         margin: 0 4vw;
       }

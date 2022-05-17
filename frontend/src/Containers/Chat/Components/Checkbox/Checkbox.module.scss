@@ -1,5 +1,4 @@
-.Checkbox
-{
+.Checkbox {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -9,11 +8,10 @@
     font-size: 16px;
   }
 
-    @media screen and (max-width: 650px) {
-      font-size: 4vw;
-      input
-      {
-        width: 5vw;
-      }
+  @media screen and (max-width: 650px) {
+    font-size: 4vw;
+    input {
+      width: 5vw;
     }
+  }
 }

@@ -1,6 +1,6 @@
 @import '../../../../utils.scss';
 
-.Watch {
+.Invite {
   background-color: $black2;
   position: relative;
   margin-top: 5vw;
@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
 
-  .ListGame {
+  .ListInvite {
     width: 60%;
     height: 60%;
     overflow-y: auto;

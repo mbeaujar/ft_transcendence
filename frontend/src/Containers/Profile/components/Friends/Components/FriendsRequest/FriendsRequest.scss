@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 ::-webkit-scrollbar {
   width: 0;
@@ -37,8 +37,8 @@
         p {
           margin-left: 2%;
           font-size: 1.1vw;
-          overflow: hidden; 
-          text-overflow: ellipsis; 
+          overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
 
@@ -106,8 +106,8 @@
           font-size: 3.5vw;
           margin-bottom: 7%;
           padding-top: 2%;
-          overflow: hidden; 
-          text-overflow: ellipsis; 
+          overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
 

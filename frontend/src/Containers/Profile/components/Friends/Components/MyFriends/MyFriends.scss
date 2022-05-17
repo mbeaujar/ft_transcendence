@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 ::-webkit-scrollbar {
   width: 0;
@@ -18,7 +18,6 @@
     margin-right: 5%;
     overflow-y: auto;
 
-
     h2 {
       align-self: flex-start;
       margin-left: 10%;
@@ -36,7 +35,6 @@
         padding-top: 0.4vw;
         padding-bottom: 0.2vw;
         border-bottom: 1px solid $grey1;
-        
 
         img {
           margin-left: 20%;
@@ -52,8 +50,8 @@
           font-size: 1.3vw;
           margin-bottom: 6.7%;
           text-align: left;
-          overflow: hidden; 
-          text-overflow: ellipsis; 
+          overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
 
@@ -76,9 +74,7 @@
   }
 }
 
-
 @media screen and (max-width: 650px) {
-
   .MyFriends {
     display: flex;
     flex-direction: column;
@@ -124,8 +120,8 @@
           margin-left: 6%;
           font-size: 3.5vw;
           margin-bottom: 7%;
-          overflow: hidden; 
-          text-overflow: ellipsis; 
+          overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
 

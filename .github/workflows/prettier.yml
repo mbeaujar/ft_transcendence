@@ -1,0 +1,12 @@
+name: auto-format
+descr
+on: [push, pull_request]
+jobs: 
+  format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses:  actions/checkout@v2
+    - uses: actions/setup-node@v2
+      width:
+        node-version: '12'
+    - run: npm run format

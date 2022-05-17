@@ -1,4 +1,4 @@
-@import "../../../../../../utils.scss";
+@import '../../../../../../utils.scss';
 
 @media screen and (min-width: 651px) {
   @mixin styling() {
@@ -91,7 +91,6 @@
     }
   }
 }
-
 
 @media screen and (max-width: 650px) {
   @mixin styling() {

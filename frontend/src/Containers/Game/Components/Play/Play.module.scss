@@ -1,4 +1,4 @@
-@import "../../../../utils.scss";
+@import '../../../../utils.scss';
 
 .Play {
   background-color: $black2;
@@ -28,7 +28,7 @@
 
   .Link {
     cursor: pointer;
-    font-family: "Roboto Slab", serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
     width: 35%;
     padding: 2%;
@@ -50,6 +50,4 @@
   .LinkBottom {
     margin-top: 2.5%;
   }
-
-
 }

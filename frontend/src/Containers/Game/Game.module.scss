@@ -1,4 +1,4 @@
-@import "../../utils.scss";
+@import '../../utils.scss';
 
 .Game {
   background-color: $black2;
@@ -21,11 +21,9 @@
     justify-content: center;
   }
 
-
-
   .Link {
     cursor: pointer;
-    font-family: "Roboto Slab", serif;
+    font-family: 'Roboto Slab', serif;
     font-weight: bold;
     width: 35%;
     padding: 2%;
@@ -47,6 +45,4 @@
   .LinkBottom {
     margin-top: 2.5%;
   }
-
-
 }

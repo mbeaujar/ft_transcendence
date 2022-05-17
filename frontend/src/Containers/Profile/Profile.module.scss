@@ -1,20 +1,18 @@
-@import "../../utils.scss";
+@import '../../utils.scss';
 
 .Profile {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 
   .ProfileLeft {
     display: flex;
-    
 
     .User {
       background-color: $grey6;
       h1 {
-        overflow: hidden; 
-        text-overflow: ellipsis; 
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
         width: 90%;
         margin: auto;
@@ -74,7 +72,7 @@
         width: 15vw;
         border-radius: 1.5vw;
         height: 40%;
-        
+
         img {
           margin-top: 10%;
           margin-bottom: 5%;
@@ -139,7 +137,7 @@
         height: 100%;
         img {
           margin-top: 10%;
-          width: 22Vw;
+          width: 22vw;
           height: 22vw;
           border-radius: 50%;
         }
