@@ -38,11 +38,7 @@ function Invite(props: Props) {
     >
       <div className={classes.ListInvite}>
         {listInvites && listInvites.map((invitation:any)=>{
-                api
-                .get(`/users/${invitation.owner}`)
-                .then((response) => setActualUser(response.data))
-                .catch();
-                (<p>{actualUser?.username}</p>)
+
       })}
       </div>
     </div>
