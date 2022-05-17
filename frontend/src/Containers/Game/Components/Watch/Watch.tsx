@@ -20,6 +20,7 @@ function WatchGame(props: Props) {
       setListGame(data);
     });
 
+    // emit -> problem
     socketEffect.emit('listGame');
     setSocket(socketEffect);
     return () => {

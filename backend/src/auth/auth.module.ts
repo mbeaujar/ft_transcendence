@@ -17,7 +17,7 @@ import { JwtTwoFactorStrategy } from './strategies/jwt-two-factor.strategy';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('SECRET_JWT'),
-        signOptions: { expiresIn: 86400 },
+        signOptions: { expiresIn: '7d' },
       }),
       inject: [ConfigService],
     }),

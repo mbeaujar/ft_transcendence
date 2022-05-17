@@ -39,6 +39,7 @@ import { IDiscussion } from './interface/discussion.interface';
 import { IUpdateAdmin } from './interface/update-admin.interface';
 import { IUpdateUser } from './interface/update-user.interface';
 import { CreateChannelDto } from './dtos/create-channel.dto';
+import * as cookieParser from 'cookie-parser';
 
 const scrypt = promisify(_scrypt);
 
@@ -86,8 +87,14 @@ export class ChatGateway
   async handleConnection(socket: Socket) {
     try {
       const decodedToken = await this.authService.verifyJwt(
-        socket.handshake.headers.authorization,
+        cookieParser.signedCookie(
+          socket.handshake.headers.authorization,
+          process.env.COOKIE_SECRET,
+        ),
       );
+      if (!decodedToken) {
+        return this.disconnect(socket);
+      }
       const user: User = await this.usersService.findUser(decodedToken.sub);
       if (!user) {
         return this.disconnect(socket);
@@ -106,6 +113,7 @@ export class ChatGateway
         this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
+      console.log(e);
       return this.disconnect(socket);
     }
   }

@@ -25,7 +25,7 @@ export class AuthService {
 
       const otpauthUrl = authenticator.keyuri(
         user.username,
-        this.configService.get<string>('2FA_SECRET'),
+        this.configService.get<string>('TWOFA_SECRET'),
         secret,
       );
 
@@ -80,7 +80,10 @@ export class AuthService {
     const payload: IPayload = { twoFactorAuthenticatedEnabled, sub: user.id };
     const access_token = this.jwtService.sign(payload);
     res.cookie('access_token', access_token, {
-      httpOnly: false,
+      sameSite: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      signed: true,
+      secure: true,
     });
   }
 

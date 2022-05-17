@@ -74,10 +74,7 @@ export class GameController {
 
   @Auth()
   @Post('delete')
-  async deleteInvite(
-    @Body() body: DeleteInviteDto,
-    @CurrentUser() user: User,
-  ) {
+  async deleteInvite(@Body() body: DeleteInviteDto, @CurrentUser() user: User) {
     await this.inviteService.delete(user.id, body.target);
   }
 }

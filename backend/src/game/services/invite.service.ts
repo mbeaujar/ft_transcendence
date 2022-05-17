@@ -37,7 +37,9 @@ export class InviteService {
   }
 
   async find(id: number): Promise<Invite> {
-    return this.inviteRepository.findOne(id, { relations: ['owner', 'target']});
+    return this.inviteRepository.findOne(id, {
+      relations: ['owner', 'target'],
+    });
   }
 
   async update(invite: IInvite, attrs: Partial<Invite>): Promise<Invite> {
@@ -55,7 +57,7 @@ export class InviteService {
       .leftJoinAndSelect('invite.owner', 'owner')
       .where('owner.id = :ownerId', { ownerId })
       .leftJoinAndSelect('invite.target', 'target')
-      .andWhere('target.id = :targetId', { targetId})
+      .andWhere('target.id = :targetId', { targetId })
       .delete()
       .execute();
   }

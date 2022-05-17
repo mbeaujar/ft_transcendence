@@ -12,22 +12,29 @@ services:
   db:
     image: postgres:alpine3.15
     container_name: database
-    ports:
-      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    expose:
+      - ${POSTGRES_PORT}
     networks:
       - backend
     restart: always
-    env_file: .env
 
   admin:
     image: dpage/pgadmin4
-    container_name: admin_database
+    container_name: admin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
     ports:
-      - 5050:5050
+      - ${PGADMIN_LISTEN_PORT}:${PGADMIN_LISTEN_PORT}
     networks:
       - backend
     restart: always
-    env_file: .env
     depends_on:
       - db
 
@@ -35,6 +42,19 @@ services:
     build: ./backend
     image: backend:v1.0.0
     container_name: backend
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - INTRA_UID=${INTRA_UID}
+      - INTRA_SECRET=${INTRA_SECRET}
+      - INTRA_CALLBACK_URL=${INTRA_CALLBACK_URL}
+      - UPLOADED_FILES_DESTINATION=${UPLOADED_FILES_DESTINATION}
+      - SECRET_JWT=${SECRET_JWT}
+      - TWOFA_SECRET=${TWOFA_SECRET}
+      - COOKIE_SECRET=${COOKIE_SECRET}
     volumes:
       - ./backend:/api
     ports:
@@ -43,7 +63,6 @@ services:
       - backend
       - frontend
     restart: always
-    env_file: .env
     depends_on:
       - admin
 
@@ -51,10 +70,12 @@ services:
     build: ./frontend
     image: frontend:v1.0.0
     container_name: frontend
+    environment:
+      - PORT=${PORT}
     volumes:
       - ./frontend:/app
     ports:
-      - 8080:8080
+      - ${PORT}:${PORT}
     networks:
       - frontend
     restart: always

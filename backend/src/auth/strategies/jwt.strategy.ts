@@ -17,7 +17,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       secretOrKey: configService.get<string>('SECRET_JWT'),
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => {
-          return req?.cookies['access_token'];
+          // return req?.cookies['access_token'];
+          return req?.signedCookies['access_token'];
         },
       ]),
     });
@@ -26,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(payload: IPayload) {
     const user = await this.authService.findUser(payload.sub);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Access denied');
     }
     return user;
   }
