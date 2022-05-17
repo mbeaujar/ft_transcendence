@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 interface Props {
   className?: string;
   label?: string;
-  onSubmit: (value:string)=>void;
+  onSubmit: (value: string) => void;
 }
 
 const Input: React.FC<Props> = (props: Props): JSX.Element => {
@@ -12,7 +12,7 @@ const Input: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className={props.className}>
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           props?.onSubmit(text);
           setText('');
@@ -22,7 +22,7 @@ const Input: React.FC<Props> = (props: Props): JSX.Element => {
         <input
           type="text"
           value={text}
-          onChange={e => setText(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
         />
       </form>
     </div>

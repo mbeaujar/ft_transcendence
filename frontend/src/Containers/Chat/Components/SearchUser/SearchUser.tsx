@@ -1,14 +1,14 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
-import classes from "./SearchUser.module.scss";
-import clsx from "clsx";
-import styles from "./SearchUser.module.scss";
-import { IUser } from "../../../../interface/user.interface";
-import api from "../../../../apis/api";
-import Avatar from "../../../Profile/components/Avatar/Avatar";
-import { toast } from "react-toastify";
-import { IChannel } from "../../../../interface/channel.interface";
-import { Scope } from "../../../../interface/scope.enum";
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import classes from './SearchUser.module.scss';
+import clsx from 'clsx';
+import styles from './SearchUser.module.scss';
+import { IUser } from '../../../../interface/user.interface';
+import api from '../../../../apis/api';
+import Avatar from '../../../Profile/components/Avatar/Avatar';
+import { toast } from 'react-toastify';
+import { IChannel } from '../../../../interface/channel.interface';
+import { Scope } from '../../../../interface/scope.enum';
 
 interface Props {
   user: IUser;
@@ -16,16 +16,18 @@ interface Props {
 }
 
 function SearchUser(props: Props) {
-  const [searchUserInput, setSearchUserInput] = useState<string>("");
+  const [searchUserInput, setSearchUserInput] = useState<string>('');
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
 
-  function handleChangesearchUserInput(event: React.FormEvent<HTMLInputElement>) {
+  function handleChangesearchUserInput(
+    event: React.FormEvent<HTMLInputElement>,
+  ) {
     var value = event.currentTarget.value;
     setSearchUserInput(value);
   }
 
   function handleSubmitFormSearchUser(event: React.FormEvent<HTMLFormElement>) {
-    console.log("userr=", searchUserInput);
+    console.log('userr=', searchUserInput);
     if (searchUserInput === props.user.username) {
       toast.error("You can't search yourself");
       event.preventDefault();
@@ -34,12 +36,12 @@ function SearchUser(props: Props) {
     api
       .get(`/users/username/${searchUserInput}`)
       .then((response) => {
-        setSearchUserInput("");
+        setSearchUserInput('');
         setUserToFind(response.data);
       })
       .catch(() => {
         setUserToFind(null);
-        toast.error("User not find");
+        toast.error('User not find');
       });
 
     event.preventDefault();
@@ -49,13 +51,13 @@ function SearchUser(props: Props) {
     let channel: IChannel;
 
     channel = {
-      name: "DM",
+      name: 'DM',
       state: 3,
       users: [],
     };
 
     if (channel.state === Scope.discussion) {
-      props.socketEmit("createDiscussion", {
+      props.socketEmit('createDiscussion', {
         channel,
         user: userToFind,
       });

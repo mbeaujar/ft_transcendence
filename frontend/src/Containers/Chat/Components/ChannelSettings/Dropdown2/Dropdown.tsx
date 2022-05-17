@@ -1,6 +1,6 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
-import classes from "./Dropdown2.module.scss";
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import classes from './Dropdown2.module.scss';
 
 interface Iitem {
   id: number;
@@ -19,7 +19,7 @@ interface Props {
 function Dropdown(props: Props) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<string>(
-    props.items[props.channelState].value
+    props.items[props.channelState].value,
   );
   const close = () => setOpen(!open);
   const ref = useRef<HTMLDivElement>(null);
@@ -30,9 +30,9 @@ function Dropdown(props: Props) {
       if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
-    document.addEventListener("click", onBodyClick, { capture: true });
+    document.addEventListener('click', onBodyClick, { capture: true });
     return () => {
-      document.removeEventListener("click", onBodyClick, { capture: true });
+      document.removeEventListener('click', onBodyClick, { capture: true });
     };
   }, [props.refreshDropdown]);
 

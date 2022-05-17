@@ -1,9 +1,9 @@
-import { IUser } from "./user.interface";
+import { IUser } from './user.interface';
 
 interface IPlayers {
-  user:IUser;
-  elo:number;
-  score:number;
+  user: IUser;
+  elo: number;
+  score: number;
 }
 
 export interface IGame {
@@ -13,6 +13,6 @@ export interface IGame {
   player2?: number;
   paddleh1?: number;
   paddleh2?: number;
-  created_at:string;
-  players:IPlayers[];
+  created_at: string;
+  players: IPlayers[];
 }

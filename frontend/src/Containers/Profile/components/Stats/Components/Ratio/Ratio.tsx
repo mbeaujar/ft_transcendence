@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { IUser } from '../../../../../../interface/user.interface';
 import './Ratio.scss';
 
@@ -7,13 +7,14 @@ interface Props {
 }
 
 function Ratio(props: Props) {
-  const [wins,setWins] = useState<number>(props.user.wins);
-  const [losses,setLosses] = useState<number>(props.user.losses);
+  const [wins, setWins] = useState<number>(props.user.wins);
+  const [losses, setLosses] = useState<number>(props.user.losses);
 
   useEffect(() => {
     let progressBar = document.getElementById('circular_progress');
     let progressValue = 0;
-    let progressEndValue:number = wins + losses==0?50:(100 / (wins + losses)) * losses;
+    let progressEndValue: number =
+      wins + losses == 0 ? 50 : (100 / (wins + losses)) * losses;
     let speed = 20;
 
     let progress = setInterval(() => {

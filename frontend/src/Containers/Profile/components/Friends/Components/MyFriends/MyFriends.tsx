@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Avatar from "../../../Avatar/Avatar";
-import api from "../../../../../../apis/api";
-import { IFriends } from "../../../../../../interface/friends.interface";
-import { IUser } from "../../../../../../interface/user.interface";
-import "./MyFriends.scss";
+import React, { useState, useEffect } from 'react';
+import Avatar from '../../../Avatar/Avatar';
+import api from '../../../../../../apis/api';
+import { IFriends } from '../../../../../../interface/friends.interface';
+import { IUser } from '../../../../../../interface/user.interface';
+import './MyFriends.scss';
 
 interface Props {
-  refreshMyFriends:number;
+  refreshMyFriends: number;
 }
 
 function MyFriends(props: Props) {
@@ -15,11 +15,11 @@ function MyFriends(props: Props) {
 
   useEffect(() => {
     api
-      .get("/friends/list")
+      .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
 
-    console.log("myfriends effect");
+    console.log('myfriends effect');
   }, [refresh, props.refreshMyFriends]);
 
   const deleteFriend = (friendsList: IUser) => {

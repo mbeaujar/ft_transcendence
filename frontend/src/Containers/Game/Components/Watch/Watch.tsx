@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import classes from "./Watch.module.scss";
-import { IGame } from "../../../../interface/game.interface";
-import { Socket } from "socket.io-client";
-import getSocket from "../../../Socket";
+import { useState, useEffect } from 'react';
+import classes from './Watch.module.scss';
+import { IGame } from '../../../../interface/game.interface';
+import { Socket } from 'socket.io-client';
+import getSocket from '../../../Socket';
 
 interface Props {
   width: number;
@@ -14,13 +14,13 @@ function WatchGame(props: Props) {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketEffect = getSocket("game");
-    socketEffect.on("listAllGame", (data: any) => {
+    const socketEffect = getSocket('game');
+    socketEffect.on('listAllGame', (data: any) => {
       console.log(data);
       setListGame(data);
     });
 
-    socketEffect.emit("listGame");
+    socketEffect.emit('listGame');
     setSocket(socketEffect);
     return () => {
       if (socketEffect && socketEffect.connected === true) {
@@ -30,7 +30,7 @@ function WatchGame(props: Props) {
   }, []);
 
   useEffect(() => {
-    console.log("list", listGame);
+    console.log('list', listGame);
   }, [listGame]);
 
   return (

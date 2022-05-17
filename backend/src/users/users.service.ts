@@ -65,7 +65,9 @@ export class UsersService {
   }
 
   async findSecret(id: number): Promise<User> {
-    return this.usersRepository.findOne(id, { select: ['twoFactorAuthenticationSecret']});
+    return this.usersRepository.findOne(id, {
+      select: ['twoFactorAuthenticationSecret'],
+    });
   }
 
   async findUser(id: number): Promise<User> {

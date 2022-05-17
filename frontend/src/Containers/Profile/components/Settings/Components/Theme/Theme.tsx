@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./Theme.scss";
+import React, { useEffect, useState } from 'react';
+import './Theme.scss';
 
-export interface Props {
-  
-}
+export interface Props {}
 
 function Theme(props: Props) {
   useEffect(() => {}, []);

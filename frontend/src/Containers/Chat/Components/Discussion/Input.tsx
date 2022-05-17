@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import classes from "./Input.module.scss";
+import React, { useState } from 'react';
+import classes from './Input.module.scss';
 
 interface Props {
   label?: string;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Input: React.FC<Props> = (props: Props): JSX.Element => {
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>('');
 
   return (
     <div className={classes.Input}>
@@ -15,7 +15,7 @@ const Input: React.FC<Props> = (props: Props): JSX.Element => {
         onSubmit={(e) => {
           e.preventDefault();
           props.onSubmit(text);
-          setText("");
+          setText('');
         }}
       >
         <label>{props?.label} </label>

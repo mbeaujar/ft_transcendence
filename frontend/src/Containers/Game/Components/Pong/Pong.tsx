@@ -1,34 +1,36 @@
-import { useEffect, useRef, useState } from "react";
-import { IGame } from "../../../../interface/game.interface";
-import classes from "./Pong.module.scss";
-import clsx from "clsx";
-import Dropdown from "../Dropdown/Dropdown";
-import { Socket } from "socket.io-client";
-import getSocket from "../../../Socket";
-import Avatar from "../../../Profile/components/Avatar/Avatar";
-import { IUser } from "../../../../interface/user.interface";
-import api from "../../../../apis/api";
-import useWindowSize from "../useWindow/useWindowSize";
-import ReactLoading from "react-loading";
+import { useEffect, useRef, useState } from 'react';
+import { IGame } from '../../../../interface/game.interface';
+import classes from './Pong.module.scss';
+import clsx from 'clsx';
+import Dropdown from '../Dropdown/Dropdown';
+import { Socket } from 'socket.io-client';
+import getSocket from '../../../Socket';
+import Avatar from '../../../Profile/components/Avatar/Avatar';
+import { IUser } from '../../../../interface/user.interface';
+import api from '../../../../apis/api';
+import useWindowSize from '../useWindow/useWindowSize';
+import ReactLoading from 'react-loading';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
-const BACKGROUND = "#000000";
-const PADDLE = "#ffffff";
-const BALL = "#00007f";
+const BACKGROUND = '#000000';
+const PADDLE = '#ffffff';
+const BALL = '#00007f';
 
 const itemsGameMode = [
-  { id: 0, value: "Classic mode" },
-  { id: 1, value: "Paddle reduce" },
-  { id: 2, value: "Paddle flashing" },
+  { id: 0, value: 'Classic mode' },
+  { id: 1, value: 'Paddle reduce' },
+  { id: 2, value: 'Paddle flashing' },
 ];
 
 const itemsPaddleSensibility = [
-  { id: 1, value: "Very slow" },
-  { id: 2, value: "Slow" },
-  { id: 3, value: "Normal" },
-  { id: 4, value: "Fast" },
-  { id: 5, value: "Very fast" },
+  { id: 1, value: 'Very slow' },
+  { id: 2, value: 'Slow' },
+  { id: 3, value: 'Normal' },
+  { id: 4, value: 'Fast' },
+  { id: 5, value: 'Very fast' },
 ];
 
 interface Props {
@@ -37,6 +39,25 @@ interface Props {
   user: IUser;
 }
 
+let itemsOpponent = [{ id: 0, value: 'Random', userId: 0 }];
+api
+  .get('/friends/list')
+  .then((response) => {
+    response.data.friends.map((friend: IUser, index: number) => {
+      // setItemsOpponent([
+      //   ...itemsOpponent,
+      //   { id: index + 1, value: friend.username, userId: friend.id },
+      // ]);
+      itemsOpponent.push({
+        id: index + 1,
+        value: friend.username,
+        userId: friend.id,
+      });
+      // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
+    });
+  })
+  .catch((reject) => console.error(reject));
+
 const Pong = (props: Props) => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
@@ -44,17 +65,24 @@ const Pong = (props: Props) => {
   const [match, setMatch] = useState<IGame>();
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [itemsOpponent, setItemsOpponent] = useState([
-    { id: 0, value: "Random", userId: 0 },
-  ]);
+  // const [itemsOpponent, setItemsOpponent] = useState([
+  //   { id: 0, value: "Random", userId: 0 },
+  // ]);
   const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
   const [opponent, setOpponent] = useState(0);
   const [matchEnd, setMatchEnd] = useState(false);
+  const [blockDropdownOpponent, setBlockDropdownOpponent] = useState(0);
+  const [indexOpponent, setIndexOpponent] = useState(0);
+
+  let from: any = null;
+  // let { handle }: any = useParams();
+  let location = useLocation();
+  if (location) from = location.state;
 
   useEffect(() => {
     api
-      .post("/users/sensitivity", { sensitivity: paddleSpeed })
+      .post('/users/sensitivity', { sensitivity: paddleSpeed })
       .catch((reject) => console.error(reject));
   }, [paddleSpeed]);
 
@@ -83,17 +111,17 @@ const Pong = (props: Props) => {
   };
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
-    socketEffect.on("startGame", (data: any) => {
+    socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
     });
-    socketEffect.on("infoGame", (data: IGame) => {
+    socketEffect.on('infoGame', (data: IGame) => {
       resetWindow(context);
       drawCircle(
         context,
         calculPercentage(data.ballx, props.width),
         calculPercentage(data.bally, props.height),
-        PADDLEW
+        PADDLEW,
       );
       if (data.player1 !== undefined && data.paddleh1 !== undefined) {
         drawPaddle(
@@ -102,7 +130,7 @@ const Pong = (props: Props) => {
           calculPercentage(data.player1, props.height) -
             calculPercentage(data.paddleh1, props.height) / 2, // 160
           PADDLEW,
-          calculPercentage(data.paddleh1, props.height)
+          calculPercentage(data.paddleh1, props.height),
         );
       }
       if (data.player2 !== undefined && data.paddleh2 !== undefined) {
@@ -112,11 +140,11 @@ const Pong = (props: Props) => {
           calculPercentage(data.player2, props.height) -
             calculPercentage(data.paddleh2, props.height) / 2,
           PADDLEW,
-          calculPercentage(data.paddleh2, props.height)
+          calculPercentage(data.paddleh2, props.height),
         );
       }
     });
-    socketEffect.on("scoreGame", (data: { score: Array<number> }) => {
+    socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
     });
   };
@@ -124,22 +152,25 @@ const Pong = (props: Props) => {
   const WindowSize = useWindowSize();
 
   useEffect(() => {
-    api
-      .get("/friends/list")
-      .then((response) => {
-        response.data.friends.map((friend: IUser, index: number) => {
-          setItemsOpponent([
-            ...itemsOpponent,
-            { id: index + 1, value: friend.username, userId: friend.id },
-          ]);
-        });
-      })
-      .catch((reject) => console.error(reject));
+    // api
+    //   .get("/friends/list")
+    //   .then((response) => {
+    //     response.data.friends.map((friend: IUser, index: number) => {
+    //       setItemsOpponent([
+    //         ...itemsOpponent,
+    //         { id: index + 1, value: friend.username, userId: friend.id },
+    //       ]);
+    //       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
+    //     });
+    //   })
+    //   .catch((reject) => console.error(reject));
+
+    if (from.from.opponent !== '') setBlockDropdownOpponent(1);
 
     const canvas: any = canvasRef.current;
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext('2d');
 
-    const socketEffect = getSocket("game");
+    const socketEffect = getSocket('game');
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
@@ -152,9 +183,9 @@ const Pong = (props: Props) => {
 
   useEffect(() => {
     const canvas: any = canvasRef.current;
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext('2d');
 
-    const socketEffect = getSocket("game");
+    const socketEffect = getSocket('game');
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
@@ -187,19 +218,19 @@ const Pong = (props: Props) => {
 
   function ifInvite() {
     if (opponent === 0) {
-      console.log("invite=", 0);
+      console.log('invite=', 0);
       return 0;
     }
-    console.log("invite=", 1);
+    console.log('invite=', 1);
     return 1;
   }
 
   function ifTarget() {
     if (opponent === 0) {
-      console.log("target=", 0);
+      console.log('target=', 0);
       return 0;
     }
-    console.log("target=", itemsOpponent[opponent].userId);
+    console.log('target=', itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
 
@@ -222,6 +253,7 @@ const Pong = (props: Props) => {
         hideButton={hideButton}
         setState={setMode}
         index={0}
+        blockDropdown={0}
       />
       <Dropdown
         title="Paddle speed"
@@ -233,6 +265,7 @@ const Pong = (props: Props) => {
         hideButton={hideButton}
         setState={setPaddleSpeed}
         index={paddleSpeed - 1}
+        blockDropdown={0}
       />
       <Dropdown
         title="Opponent"
@@ -243,7 +276,9 @@ const Pong = (props: Props) => {
         id="Opponent"
         hideButton={hideButton}
         setState={setOpponent}
-        index={0}
+        index={indexOpponent}
+        blockDropdown={blockDropdownOpponent}
+        paramRoute={from.from.opponent}
       />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}
@@ -253,10 +288,10 @@ const Pong = (props: Props) => {
           const target = ifTarget();
           if (invite) {
             api
-              .post("/game/invite", { target })
+              .post('/game/invite', { target, setMode })
               .catch((rej) => console.log(rej));
           }
-          socket?.emit("joinQueue", {
+          socket?.emit('joinQueue', {
             mode,
             invite,
             target,
@@ -270,8 +305,8 @@ const Pong = (props: Props) => {
         <ReactLoading
           type="spinningBubbles"
           color="#fff"
-          width={"100%"}
-          height={"100%"}
+          width={'100%'}
+          height={'100%'}
         />
       </div>
       <p className={showLoadingText()} style={{ fontSize: props.width / 40 }}>
@@ -285,8 +320,8 @@ const Pong = (props: Props) => {
         ref={canvasRef}
         tabIndex={0}
         onKeyUp={(event) => {
-          if (event.code === "ArrowUp") socket?.emit("moveTopPaddle", { id });
-          if (event.code === "ArrowDown") socket?.emit("moveBotPaddle", { id });
+          if (event.code === 'ArrowUp') socket?.emit('moveTopPaddle', { id });
+          if (event.code === 'ArrowDown') socket?.emit('moveBotPaddle', { id });
         }}
       />
       {match ? (

@@ -13,5 +13,5 @@ export interface IUser {
   creator: boolean;
   administrator: boolean;
   mute: boolean;
-  sensitivity:number;
+  sensitivity: number;
 }

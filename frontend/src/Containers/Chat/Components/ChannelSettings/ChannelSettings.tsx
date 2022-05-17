@@ -1,16 +1,16 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { useState, useEffect, useRef } from "react";
-import classes from "./ChannelSettings.module.scss";
-import { IUser } from "../../../../interface/user.interface";
-import { IChannel } from "../../../../interface/channel.interface";
-import Avatar from "../../../Profile/components/Avatar/Avatar";
-import Dropdown from "./Dropdown/Dropdown";
-import Dropdown2 from "./Dropdown2/Dropdown";
-import Dropdown3 from "./Dropdown3/Dropdown3";
-import { Scope } from "../../../../interface/scope.enum";
-import clsx from "clsx";
-import api from "../../../../apis/api";
+import React from 'react';
+import { toast } from 'react-toastify';
+import { useState, useEffect, useRef } from 'react';
+import classes from './ChannelSettings.module.scss';
+import { IUser } from '../../../../interface/user.interface';
+import { IChannel } from '../../../../interface/channel.interface';
+import Avatar from '../../../Profile/components/Avatar/Avatar';
+import Dropdown from './Dropdown/Dropdown';
+import Dropdown2 from './Dropdown2/Dropdown';
+import Dropdown3 from './Dropdown3/Dropdown3';
+import { Scope } from '../../../../interface/scope.enum';
+import clsx from 'clsx';
+import api from '../../../../apis/api';
 
 interface Props {
   user: IUser;
@@ -25,19 +25,19 @@ interface Props {
 
 const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [leaveChannel, setLeaveChannel] = useState<boolean>(false);
-  const [banUser, setBanUser] = useState<string>("");
-  const [banUserDuration, setBanUserDuration] = useState("1 day");
-  const [unbanUser, setUnbanUser] = useState<string>("");
-  const [muteUser, setMuteUser] = useState<string>("");
-  const [muteUserDuration, setMuteUserDuration] = useState("1 minute");
-  const [unmuteUser, setUnmuteUser] = useState<string>("");
-  const [newAdmin, setNewAdmin] = useState<string>("");
+  const [banUser, setBanUser] = useState<string>('');
+  const [banUserDuration, setBanUserDuration] = useState('1 day');
+  const [unbanUser, setUnbanUser] = useState<string>('');
+  const [muteUser, setMuteUser] = useState<string>('');
+  const [muteUserDuration, setMuteUserDuration] = useState('1 minute');
+  const [unmuteUser, setUnmuteUser] = useState<string>('');
+  const [newAdmin, setNewAdmin] = useState<string>('');
   const [refreshDropdown, setRefreshDropdown] = useState<number>(0);
   const [newChannelMode, setNewChannelMode] = useState<string>();
-  const [setPassword, setSetPassword] = useState<string>("");
-  const [confirmSetPassword, setConfirmSetPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [setPassword, setSetPassword] = useState<string>('');
+  const [confirmSetPassword, setConfirmSetPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
 
   useEffect(() => {
     setNewChannelMode(initChangeChannelMode());
@@ -83,21 +83,21 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   const itemsBanDuration = [
-    { id: 1, value: "1 day" },
-    { id: 2, value: "1 week" },
-    { id: 3, value: "Unlimited" },
+    { id: 1, value: '1 day' },
+    { id: 2, value: '1 week' },
+    { id: 3, value: 'Unlimited' },
   ];
 
   const itemsMuteDuration = [
-    { id: 1, value: "1 minute" },
-    { id: 2, value: "1 hour" },
-    { id: 3, value: "1 day" },
+    { id: 1, value: '1 minute' },
+    { id: 2, value: '1 hour' },
+    { id: 3, value: '1 day' },
   ];
 
   const itemsChannelMode = [
-    { id: 1, value: "Public" },
-    { id: 2, value: "Private" },
-    { id: 3, value: "Protected" },
+    { id: 1, value: 'Public' },
+    { id: 2, value: 'Private' },
+    { id: 3, value: 'Protected' },
   ];
 
   //Ban User
@@ -108,22 +108,22 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
     if (userToBan !== null) {
       if (userToBan?.username !== props.user.username) {
-        if (banUserDuration !== "Unlimited")
+        if (banUserDuration !== 'Unlimited')
           toast.success(
-            userToBan.username + " is ban during " + banUserDuration
+            userToBan.username + ' is ban during ' + banUserDuration,
           );
-        else toast.success(userToBan.username + " is ban");
+        else toast.success(userToBan.username + ' is ban');
       }
-      props.socket.emit("banUser", {
+      props.socket.emit('banUser', {
         channel: props.channel,
         user: userToBan,
         milliseconds: time,
       });
     } else {
-      toast.error("Ban : User not found");
+      toast.error('Ban : User not found');
     }
 
-    setBanUser("");
+    setBanUser('');
     event.preventDefault();
   }
 
@@ -137,14 +137,14 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     api
       .get(`/users/username/${unbanUser}`)
       .then((response) => {
-        props.socket.emit("unbanUser", {
+        props.socket.emit('unbanUser', {
           channel: props.channel,
           user: response.data,
         });
         //toast.success(response.data.username + " is unban")
       })
-      .catch(() => toast.error("Unban : User not found"));
-    setUnbanUser("");
+      .catch(() => toast.error('Unban : User not found'));
+    setUnbanUser('');
     event.preventDefault();
   }
 
@@ -154,11 +154,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function setBanTime() {
-    if (banUserDuration === "1 day") {
+    if (banUserDuration === '1 day') {
       return 86400000;
-    } else if (banUserDuration === "1 week") {
+    } else if (banUserDuration === '1 week') {
       return 604800000;
-    } else if (banUserDuration === "Unlimited") {
+    } else if (banUserDuration === 'Unlimited') {
       return 999999999999999;
     }
     return 0;
@@ -177,13 +177,13 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function setMuteTime() {
-    if (muteUserDuration === "1 minute") {
+    if (muteUserDuration === '1 minute') {
       return 60000;
     }
-    if (muteUserDuration === "1 hour") {
+    if (muteUserDuration === '1 hour') {
       return 3600000;
     }
-    if (muteUserDuration === "1 day") {
+    if (muteUserDuration === '1 day') {
       return 86400000;
     }
   }
@@ -195,17 +195,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToMute !== null) {
       if (userToMute?.username !== props.user.username)
         toast.success(
-          userToMute.username + " is mute during " + muteUserDuration
+          userToMute.username + ' is mute during ' + muteUserDuration,
         );
-      props.socket.emit("muteUser", {
+      props.socket.emit('muteUser', {
         channel: props.channel,
         user: userToMute,
         milliseconds: time,
       });
     } else {
-      toast.error("Mute : User not found");
+      toast.error('Mute : User not found');
     }
-    setMuteUser("");
+    setMuteUser('');
     event.preventDefault();
   }
 
@@ -230,17 +230,17 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
     if (userToUnmute !== null) {
-      console.log("res=", ifUserMute(unmuteUser));
+      console.log('res=', ifUserMute(unmuteUser));
       if (ifUserMute(unmuteUser))
-        toast.success(userToUnmute.username + " is unmute");
-      props.socket.emit("unmuteUser", {
+        toast.success(userToUnmute.username + ' is unmute');
+      props.socket.emit('unmuteUser', {
         channel: props.channel,
         user: userToUnmute,
       });
     } else {
-      toast.error("Unmute : User not found");
+      toast.error('Unmute : User not found');
     }
-    setUnmuteUser("");
+    setUnmuteUser('');
     event.preventDefault();
   }
 
@@ -264,14 +264,14 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let userToPromoteAdmin: IUser | null = null;
     userToPromoteAdmin = findUser(newAdmin);
     if (userToPromoteAdmin !== null) {
-      props.socket.emit("addAdministrator", {
+      props.socket.emit('addAdministrator', {
         channel: props.channel,
         user: userToPromoteAdmin,
       });
     } else {
-      toast.error("Admin : User not found");
+      toast.error('Admin : User not found');
     }
-    setNewAdmin("");
+    setNewAdmin('');
     event.preventDefault();
   }
 
@@ -282,16 +282,16 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Change channel mode
   function initChangeChannelMode() {
-    if (props.channel.state === 0) return "Public";
-    if (props.channel.state === 1) return "Private";
-    if (props.channel.state === 2) return "Protected";
+    if (props.channel.state === 0) return 'Public';
+    if (props.channel.state === 1) return 'Private';
+    if (props.channel.state === 2) return 'Protected';
   }
 
   function showChangeChannelMode() {
-    let state: string = "";
-    if (props.channel.state === Scope.public) state = "Public";
-    if (props.channel.state === Scope.private) state = "Private";
-    if (props.channel.state === Scope.protected) state = "Protected";
+    let state: string = '';
+    if (props.channel.state === Scope.public) state = 'Public';
+    if (props.channel.state === Scope.private) state = 'Private';
+    if (props.channel.state === Scope.protected) state = 'Protected';
     if (state !== newChannelMode) {
       return classes.ChangeChannelMode;
     }
@@ -301,11 +301,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function showSetPassword(classname: string) {
     if (
       props.channel.state !== Scope.protected &&
-      newChannelMode === "Protected"
+      newChannelMode === 'Protected'
     ) {
-      if (classname === "SetPassword") {
+      if (classname === 'SetPassword') {
         return classes.SetPassword;
-      } else if (classname === "ConfirmSetPassword") {
+      } else if (classname === 'ConfirmSetPassword') {
         return classes.ConfirmSetPassword;
       }
     }
@@ -315,7 +315,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function ajustMarginTopChangeChannelMode() {
     if (
       props.channel.state !== Scope.protected &&
-      newChannelMode === "Protected"
+      newChannelMode === 'Protected'
     ) {
       return classes.MarginZero;
     }
@@ -324,33 +324,33 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Set Password
   function handleSubmitFormSetPassword() {
-    if (newChannelMode === "Public") {
-      props.socket.emit("changeChannelState", {
+    if (newChannelMode === 'Public') {
+      props.socket.emit('changeChannelState', {
         id: props.channel.id,
         state: 0,
       });
-      toast.success("Channel is now public");
-    } else if (newChannelMode === "Private") {
-      props.socket.emit("changeChannelState", {
+      toast.success('Channel is now public');
+    } else if (newChannelMode === 'Private') {
+      props.socket.emit('changeChannelState', {
         id: props.channel.id,
         state: 1,
       });
-      toast.success("Channel is now private");
-    } else if (newChannelMode === "Protected") {
+      toast.success('Channel is now private');
+    } else if (newChannelMode === 'Protected') {
       if (setPassword !== confirmSetPassword) {
-        toast.error("Password and confirm password are different");
+        toast.error('Password and confirm password are different');
       } else if (!setPassword || !confirmSetPassword) {
-        toast.error("Password cannot be an empty string");
+        toast.error('Password cannot be an empty string');
       } else {
-        props.socket.emit("changeChannelState", {
+        props.socket.emit('changeChannelState', {
           id: props.channel.id,
           state: 2,
           password: setPassword,
         });
-        toast.success("Channel is now protected");
+        toast.success('Channel is now protected');
       }
-      setSetPassword("");
-      setConfirmSetPassword("");
+      setSetPassword('');
+      setConfirmSetPassword('');
     }
   }
 
@@ -360,7 +360,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function handleChangeConfirmSetPassword(
-    event: React.FormEvent<HTMLInputElement>
+    event: React.FormEvent<HTMLInputElement>,
   ) {
     var value = event.currentTarget.value;
     setConfirmSetPassword(value);
@@ -369,11 +369,11 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   //New password
   function showNewPassword(classname: string) {
     if (props.channel.state === Scope.protected) {
-      if (classname === "NewPassword") {
+      if (classname === 'NewPassword') {
         return classes.NewPassword;
-      } else if (classname === "ConfirmNewPassword") {
+      } else if (classname === 'ConfirmNewPassword') {
         return classes.ConfirmNewPassword;
-      } else if (classname === "ChangePassword") {
+      } else if (classname === 'ChangePassword') {
         return classes.ChangePassword;
       }
     }
@@ -389,19 +389,19 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   function handleSubmitFormNewPassword() {
     if (newPassword !== confirmNewPassword) {
-      toast.error("Password and confirm password are different");
+      toast.error('Password and confirm password are different');
     } else if (!newPassword || !confirmNewPassword) {
-      toast.error("Password cannot be an empty string");
+      toast.error('Password cannot be an empty string');
     } else {
-      props.socket.emit("changeChannelState", {
+      props.socket.emit('changeChannelState', {
         id: props.channel.id,
         state: 2,
         password: newPassword,
       });
-      toast.success("Password succesfully change !");
+      toast.success('Password succesfully change !');
     }
-    setNewPassword("");
-    setConfirmNewPassword("");
+    setNewPassword('');
+    setConfirmNewPassword('');
   }
 
   function handleChangeNewPassword(event: React.FormEvent<HTMLInputElement>) {
@@ -410,7 +410,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   function handleChangeConfirmNewPassword(
-    event: React.FormEvent<HTMLInputElement>
+    event: React.FormEvent<HTMLInputElement>,
   ) {
     var value = event.currentTarget.value;
     setConfirmNewPassword(value);
@@ -442,7 +442,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           onClick={() => {
             props.setChannelChoose(null);
             setLeaveChannel(true);
-            props.socket.emit("leaveChannel", props.channel);
+            props.socket.emit('leaveChannel', props.channel);
             props.setActiveChatMenu(null);
           }}
         >
@@ -544,7 +544,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           setNewChannelMode={setNewChannelMode}
           multiselect={false}
         />
-        <div className={showSetPassword("SetPassword")}>
+        <div className={showSetPassword('SetPassword')}>
           <p>Set password</p>
           <input
             className={classes.SetPasswordInput}
@@ -553,7 +553,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             onChange={(event) => handleChangeSetPassword(event)}
           ></input>
         </div>
-        <div className={showSetPassword("ConfirmSetPassword")}>
+        <div className={showSetPassword('ConfirmSetPassword')}>
           <p>Confirm</p>
           <input
             className={classes.ConfirmSetPasswordInput}
@@ -565,7 +565,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         <button
           className={clsx(
             showChangeChannelMode(),
-            ajustMarginTopChangeChannelMode()
+            ajustMarginTopChangeChannelMode(),
           )}
           onClick={handleSubmitFormSetPassword}
         >
@@ -573,8 +573,8 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         </button>
         <div
           className={clsx(
-            showNewPassword("NewPassword"),
-            ajustMarginTopChangePassword()
+            showNewPassword('NewPassword'),
+            ajustMarginTopChangePassword(),
           )}
         >
           <p>New password</p>
@@ -585,7 +585,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
             onChange={(event) => handleChangeNewPassword(event)}
           ></input>
         </div>
-        <div className={showNewPassword("ConfirmNewPassword")}>
+        <div className={showNewPassword('ConfirmNewPassword')}>
           <p>Confirm</p>
           <input
             className={classes.ConfirmNewPasswordInput}
@@ -595,7 +595,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
           ></input>
         </div>
         <button
-          className={showNewPassword("ChangePassword")}
+          className={showNewPassword('ChangePassword')}
           onClick={handleSubmitFormNewPassword}
         >
           Change password

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import classes from "./Discussion.module.scss";
-import { IUser } from "../../../../interface/user.interface";
-import { IChannel } from "../../../../interface/channel.interface";
-import { IMessage } from "../../../../interface/message.interface";
-import Avatar from "../../../Profile/components/Avatar/Avatar";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import styles from "./Discussion.module.scss";
-import { toast } from "react-toastify";
-import Input from "./Input";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import classes from './Discussion.module.scss';
+import { IUser } from '../../../../interface/user.interface';
+import { IChannel } from '../../../../interface/channel.interface';
+import { IMessage } from '../../../../interface/message.interface';
+import Avatar from '../../../Profile/components/Avatar/Avatar';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import styles from './Discussion.module.scss';
+import { toast } from 'react-toastify';
+import Input from './Input';
+import styled from 'styled-components';
 
 import {
   Menu,
@@ -17,13 +17,13 @@ import {
   Separator,
   Submenu,
   useContextMenu,
-} from "react-contexify";
+} from 'react-contexify';
 
-import "react-contexify/dist/ReactContexify.css";
-import clsx from "clsx";
-import api from "../../../../apis/api";
+import 'react-contexify/dist/ReactContexify.css';
+import clsx from 'clsx';
+import api from '../../../../apis/api';
 
-const MENU_ID = "menu-id";
+const MENU_ID = 'menu-id';
 
 interface Props {
   user: IUser;
@@ -35,12 +35,12 @@ interface Props {
 }
 
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
-  var messageBody = document.querySelector("#msg");
+  var messageBody = document.querySelector('#msg');
   const [messageUser, setMessageUser] = useState<IUser>();
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
   useEffect(() => {
-    messageBody = document.querySelector("#msg");
+    messageBody = document.querySelector('#msg');
     if (messageBody) {
       messageBody.scrollTop = messageBody.scrollHeight;
     }
@@ -51,17 +51,17 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   });
 
   function RightClickBlock() {
-    console.log("RightClickBlock", messageUser);
+    console.log('RightClickBlock', messageUser);
     let userToBlock: IUser;
     api
       .get(`/users/username/${messageUser?.username}`)
       .then((response) => {
         userToBlock = response.data;
         api
-          .post("/users/block", { id: userToBlock.id })
+          .post('/users/block', { id: userToBlock.id })
           .then((response: any) => {
             api
-              .get("/users/getBlockedUser")
+              .get('/users/getBlockedUser')
               .then((response) => {
                 setUserBlockedTab(response.data);
               })
@@ -69,26 +69,26 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
             userBlockedTab &&
               userBlockedTab.blockedUsers.map((userBlock: IUser) => {
                 if (userBlock.username === userToBlock.username) {
-                  toast.error(messageUser?.username + " was already blocked");
+                  toast.error(messageUser?.username + ' was already blocked');
                   return;
                 }
               });
-            toast.success(userToBlock.username + " was blocked");
+            toast.success(userToBlock.username + ' was blocked');
           })
           .catch((reject) => console.error(reject));
       })
       .catch(() => {
-        toast.error("User not find");
+        toast.error('User not find');
       });
   }
 
   function RightClickInviteToPlay() {
-    console.log("RightClickInviteToPlay", messageUser);
+    console.log('RightClickInviteToPlay', messageUser);
   }
 
   function displayMenu(
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
-    userToVisit: IUser
+    userToVisit: IUser,
   ) {
     setMessageUser(userToVisit);
     if (userToVisit.username !== props.user.username) show(e);
@@ -108,7 +108,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               <Item>
                 <Link
                   className={classes.Link}
-                  to={"/profile/" + messageUser?.username}
+                  to={'/profile/' + messageUser?.username}
                 >
                   See profile
                 </Link>
@@ -117,21 +117,24 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               <Item
                 onClick={() => {
                   RightClickInviteToPlay();
-                  // api
-                  //   .post("/game/invite", { target: messageUser?.id })
-                  //   .then((response) => console.log(response.data))
-                  //   .catch((reject) => console.error(reject));
-                  // ping server to notif for invite
-                  props.socket.emit("pingToPlay", messageUser);
+                  props.socket.emit('pingToPlay', messageUser);
                 }}
               >
-                Invite to play
+                <Link
+                  className={classes.Link}
+                  to={'/game/play/room/pong'}
+                  state={{
+                    from: { opponent: messageUser?.username },
+                  }}
+                >
+                  Invite to play
+                </Link>
               </Item>
             </Menu>
           </div>
         </div>
       );
-    }
+    },
   );
 
   return (
@@ -146,7 +149,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
       <button
         className={clsx(
           classes.OpenChannelSettings,
-          props.channel.name === "DM" ? classes.HideOpenChannelSettings : null
+          props.channel.name === 'DM' ? classes.HideOpenChannelSettings : null,
         )}
         onClick={() => props.setShowChatRight(!props.showChatRight)}
       >
@@ -165,7 +168,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
             if (props.channel !== null) {
               Object.assign(message, { channel: props.channel });
             }
-            props.socket.emit("addMessage", message);
+            props.socket.emit('addMessage', message);
           }}
         />
       </div>

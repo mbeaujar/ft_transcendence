@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { IChannel } from "../../../../interface/channel.interface";
-import { IUser } from "../../../../interface/user.interface";
-import { Scope } from "../../../../interface/scope.enum";
-import Checkbox from "../Checkbox/Checkbox";
-import classes from "./CreateChannel.module.scss";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { IChannel } from '../../../../interface/channel.interface';
+import { IUser } from '../../../../interface/user.interface';
+import { Scope } from '../../../../interface/scope.enum';
+import Checkbox from '../Checkbox/Checkbox';
+import classes from './CreateChannel.module.scss';
+import { toast } from 'react-toastify';
 
 interface Props {
   user: IUser;
@@ -12,8 +12,8 @@ interface Props {
 }
 
 const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
-  const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [scope, setScope] = useState<Scope>(Scope.public);
 
   function isValidChannelName(newName: string) {
@@ -88,22 +88,21 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
           onClick={() => {
             if (isValidChannelName(name) === false) {
               toast.error(
-                "Your channel name can only containe number,letter,- and _"
+                'Your channel name can only containe number,letter,- and _',
               );
             } else if (name.length < 4 || name.length > 9) {
-              toast.error("Your channel name must contain between 4 and 9 letters");
+              toast.error(
+                'Your channel name must contain between 4 and 9 letters',
+              );
             } else {
               let channel: IChannel;
-              if (scope===Scope.public||scope===Scope.private)
-              {
+              if (scope === Scope.public || scope === Scope.private) {
                 channel = {
                   name,
                   state: scope,
                   users: [],
                 };
-              }
-              else 
-              {
+              } else {
                 channel = {
                   name,
                   state: scope,
@@ -112,8 +111,8 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
                 };
               }
               props.socketEmit(channel);
-              setName("");
-              setPassword("");
+              setName('');
+              setPassword('');
               setScope(Scope.public);
             }
           }}

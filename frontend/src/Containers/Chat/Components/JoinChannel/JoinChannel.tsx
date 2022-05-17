@@ -1,12 +1,12 @@
-import React from "react";
-import { useState, useEffect, useRef } from "react";
-import classes from "./JoinChannel.module.scss";
-import clsx from "clsx";
-import styles from "./JoinChannel.module.scss";
-import { Scope } from "../../../../interface/scope.enum";
-import { IUser } from "../../../../interface/user.interface";
-import { IChannel } from "../../../../interface/channel.interface";
-import { IJoinChannel } from "../../../../interface/join-channel.interface";
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
+import classes from './JoinChannel.module.scss';
+import clsx from 'clsx';
+import styles from './JoinChannel.module.scss';
+import { Scope } from '../../../../interface/scope.enum';
+import { IUser } from '../../../../interface/user.interface';
+import { IChannel } from '../../../../interface/channel.interface';
+import { IJoinChannel } from '../../../../interface/join-channel.interface';
 
 interface Props {
   user: IUser;
@@ -36,9 +36,9 @@ const JoinChannel: React.FC<Props> = (props: Props): JSX.Element => {
                 channel,
               };
               if (channel.state === Scope.protected) {
-                Object.assign(joinChannel, { password: prompt("password") });
+                Object.assign(joinChannel, { password: prompt('password') });
               }
-              props.socket.emit("joinChannel", joinChannel);
+              props.socket.emit('joinChannel', joinChannel);
             }}
           >
             Join channel

@@ -9,7 +9,7 @@ interface Props {
 
 const Checkbox: React.FC<Props> = (props: Props): JSX.Element => {
   return (
-    <div className={classes.Checkbox} >
+    <div className={classes.Checkbox}>
       <label>{props.label}</label>
       <input type="checkbox" checked={props.value} onChange={props.onChange} />
     </div>

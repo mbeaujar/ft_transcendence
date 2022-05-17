@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../../../../apis/api";
-import { toast } from "react-toastify";
-import "./AddFriends.scss";
-import { IFriendsRequest } from "../../../../../../interface/friends-request.interface";
-import Input from "../../../Input/Input";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../../../apis/api';
+import { toast } from 'react-toastify';
+import './AddFriends.scss';
+import { IFriendsRequest } from '../../../../../../interface/friends-request.interface';
+import Input from '../../../Input/Input';
 
 function AddFriends() {
   const [refresh, setRefresh] = useState<number>(0);
@@ -20,12 +20,15 @@ function AddFriends() {
             return;
           }
           api
-            .post("/friends/add", { username: text })
+            .post('/friends/add', { username: text })
             .then(() => {
               setRefresh(refresh + 1);
-              toast.success("Your friend request was sent to " + text);
+              toast.success('Your friend request was sent to ' + text);
             })
-            .catch((reject) => {console.log(reject);toast.error("Your friend request wasn't send")});
+            .catch((reject) => {
+              console.log(reject);
+              toast.error("Your friend request wasn't send");
+            });
         }}
       />
     </div>

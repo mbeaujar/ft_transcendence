@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../../../../apis/api";
-import { IUser } from "../../../../../../interface/user.interface";
-import "./Rank.scss";
+import React, { useEffect, useState } from 'react';
+import api from '../../../../../../apis/api';
+import { IUser } from '../../../../../../interface/user.interface';
+import './Rank.scss';
 
 interface Props {
   user: IUser;
@@ -14,9 +14,9 @@ function Level(props: Props) {
       .get(`/users/ranking`)
       .then((response) => setRank(response.data))
       .catch((reject) => console.log(reject));
-    let podium2 = document.getElementById("Podium2");
-    let podium1 = document.getElementById("Podium1");
-    let podium3 = document.getElementById("Podium3");
+    let podium2 = document.getElementById('Podium2');
+    let podium1 = document.getElementById('Podium1');
+    let podium3 = document.getElementById('Podium3');
 
     let podium2Progress = 0;
     let podium3Progress = 0;

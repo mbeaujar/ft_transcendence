@@ -1,42 +1,31 @@
-import { useRef } from "react";
-import { useEffect, useState } from "react";
+import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 // import api from "../../apis/api";
-import clsx from "clsx";
-import classes from "./Game.module.scss";
+import clsx from 'clsx';
+import classes from './Game.module.scss';
 // import styles from "./Game.module.scss";
-import Pong from "./Components/Pong/Pong";
-import useWindowSize from "./Components/useWindow/useWindowSize";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import Pong from './Components/Pong/Pong';
+import useWindowSize from './Components/useWindow/useWindowSize';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
-
-interface Props 
-{
-  width:number;
-  height:number;
+interface Props {
+  width: number;
+  height: number;
 }
 
-function Game(props:Props) {
+function Game(props: Props) {
   const [activeGameVue, setActiveGameVue] =
-    useState<string>("choosePlayOrWatch");
+    useState<string>('choosePlayOrWatch');
 
   const WindowSize = useWindowSize();
-  useEffect(() => {
-
-  }, []);
-
-
+  useEffect(() => {}, []);
 
   return (
     <div
       className={clsx(classes.Game)}
       style={{ width: props.width, height: props.height }}
     >
-      <div
-        className={clsx(
-          classes.playOrWatch,
-          classes.showGameVue
-        )}
-      >
+      <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
         <Link
           className={clsx(classes.Link, classes.LinkTop)}
           style={{ fontSize: props.width / 40 }}
@@ -52,7 +41,6 @@ function Game(props:Props) {
           Watch other users play
         </Link>
       </div>
-
     </div>
   );
 }

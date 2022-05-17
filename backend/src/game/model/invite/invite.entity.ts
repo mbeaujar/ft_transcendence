@@ -10,4 +10,7 @@ export class Invite {
 
   @Column()
   target: number;
+
+  @Column()
+  mode: number;
 }

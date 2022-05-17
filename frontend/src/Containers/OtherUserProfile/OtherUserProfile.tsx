@@ -1,10 +1,10 @@
-import { useEffect, useState, Fragment } from "react";
-import api from "../../apis/api";
-import classes from "./OtherUserProfile.module.scss";
-import { IUser } from "../../interface/user.interface";
+import { useEffect, useState, Fragment } from 'react';
+import api from '../../apis/api';
+import classes from './OtherUserProfile.module.scss';
+import { IUser } from '../../interface/user.interface';
 // import { IFriends } from "../../interface/friends.interface";
-import Avatar from "../Profile/components/Avatar/Avatar";
-import Stats from "../Profile/components/Stats/Stats";
+import Avatar from '../Profile/components/Avatar/Avatar';
+import Stats from '../Profile/components/Stats/Stats';
 
 function OtherUserProfile() {
   // const [friendsList, setFriendsList] = useState<IFriends>();
@@ -12,7 +12,7 @@ function OtherUserProfile() {
 
   function getUser() {
     let path = window.location.pathname;
-    let cutPath = path.split("/");
+    let cutPath = path.split('/');
     if (cutPath.length !== 3) {
       setUser(null);
       return;

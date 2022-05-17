@@ -110,7 +110,11 @@ export class GameGateway
 
     let player: Queue;
     if (game.invite === 1) {
-      player = await this.queueService.findQueue(game.target);
+      player = await this.queueService.findQueue(
+        client.data.user.id,
+        game.target,
+        game.mode,
+      );
     } else {
       player = await this.queueService.findOpponents(
         client.data.user.id,

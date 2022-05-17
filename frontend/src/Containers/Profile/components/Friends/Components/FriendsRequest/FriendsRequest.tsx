@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../../../../apis/api";
-import "./FriendsRequest.scss";
-import { IFriendsRequest } from "../../../../../../interface/friends-request.interface";
-import Avatar from "../../../Avatar/Avatar";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../../../apis/api';
+import './FriendsRequest.scss';
+import { IFriendsRequest } from '../../../../../../interface/friends-request.interface';
+import Avatar from '../../../Avatar/Avatar';
 
-interface Props 
-{
-  setRefreshMyFriends:(value:number)=>void;
-  refreshMyFriends:number;
+interface Props {
+  setRefreshMyFriends: (value: number) => void;
+  refreshMyFriends: number;
 }
 
 function FriendsRequest(props: Props) {
@@ -16,24 +15,24 @@ function FriendsRequest(props: Props) {
 
   useEffect(() => {
     api
-      .get("/friends/request")
+      .get('/friends/request')
       .then((response) => setFriendsRequest(response.data))
       .catch((reject) => console.error(reject));
 
     if (refresh > 0) props.setRefreshMyFriends(props.refreshMyFriends + 1);
-    console.log("friendsrequest effect");
+    console.log('friendsrequest effect');
   }, [refresh]);
 
   const acceptRequest = (username: string) => {
     api
-      .post("/friends/add", { username })
+      .post('/friends/add', { username })
       .then((response) => setRefresh(refresh + 1))
       .catch((reject) => console.error(reject));
   };
 
   const refuseRequest = (id: number) => {
     api
-      .post("/friends/refuse", { id })
+      .post('/friends/refuse', { id })
       .then((response) => setRefresh(refresh + 1))
       .catch((reject) => console.error(reject));
   };

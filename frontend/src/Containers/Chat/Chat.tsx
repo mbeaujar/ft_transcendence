@@ -1,18 +1,18 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { toast } from "react-toastify";
-import clsx from "clsx";
-import classes from "./Chat.module.scss";
-import { IUser } from "../../interface/user.interface";
-import { IChannel } from "../../interface/channel.interface";
-import SearchUser from "./Components/SearchUser/SearchUser";
-import JoinChannel from "./Components/JoinChannel/JoinChannel";
-import CreateChannel from "./Components/CreateChannel/CreateChannel";
-import Discussion from "./Components/Discussion/Discussion";
-import { IMessage } from "../../interface/message.interface";
-import { IJoinChannel } from "../../interface/join-channel.interface";
-import ChannelSettings from "./Components/ChannelSettings/ChannelSettings";
-import { Scope } from "../../interface/scope.enum";
-import getSocket from "../Socket";
+import React, { useEffect, useState, Fragment } from 'react';
+import { toast } from 'react-toastify';
+import clsx from 'clsx';
+import classes from './Chat.module.scss';
+import { IUser } from '../../interface/user.interface';
+import { IChannel } from '../../interface/channel.interface';
+import SearchUser from './Components/SearchUser/SearchUser';
+import JoinChannel from './Components/JoinChannel/JoinChannel';
+import CreateChannel from './Components/CreateChannel/CreateChannel';
+import Discussion from './Components/Discussion/Discussion';
+import { IMessage } from '../../interface/message.interface';
+import { IJoinChannel } from '../../interface/join-channel.interface';
+import ChannelSettings from './Components/ChannelSettings/ChannelSettings';
+import { Scope } from '../../interface/scope.enum';
+import getSocket from '../Socket';
 
 interface Props {
   user: IUser;
@@ -35,39 +35,39 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [showChatRight, setShowChatRight] = useState(false);
 
   useEffect(() => {
-    const socketEffect = getSocket("chat");
+    const socketEffect = getSocket('chat');
 
-    socketEffect.on("channels", (data: any) => {
+    socketEffect.on('channels', (data: any) => {
       setChannels(data);
     });
 
-    socketEffect.on("discussion", (data: any) => {
+    socketEffect.on('discussion', (data: any) => {
       setDiscussion(data);
     });
 
-    socketEffect.on("newDiscussion", (data: any) => {
+    socketEffect.on('newDiscussion', (data: any) => {
       setDiscussion([...discussion, data]);
     });
 
-    socketEffect.on("messages", (data: any) => {
+    socketEffect.on('messages', (data: any) => {
       setMessages(data);
     });
 
-    socketEffect.on("messageAdded", (data: any) => {
+    socketEffect.on('messageAdded', (data: any) => {
       setMessages((prev) => [...prev, data]);
     });
 
-    socketEffect.on("Error", (data: any) => {
+    socketEffect.on('Error', (data: any) => {
       toast.error(data.message);
     });
 
-    socketEffect.on("Success", (data: any) => {
+    socketEffect.on('Success', (data: any) => {
       toast.success(data.message);
     });
-    socketEffect.on("inviteToPlay", (data: any) => {
+    socketEffect.on('inviteToPlay', (data: any) => {
       toast.success(data.message);
     });
-    socketEffect.on("currentChannel", (data: any) => {
+    socketEffect.on('currentChannel', (data: any) => {
       setChannelChoose(data);
     });
     setSocket(socketEffect);
@@ -109,7 +109,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const joinChannel: IJoinChannel = {
             channel,
           };
-          socket.emit("joinChannel", joinChannel);
+          socket.emit('joinChannel', joinChannel);
           setShowChatLeft(!showChatLeft);
         }}
       >
@@ -127,7 +127,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           const joinChannel: IJoinChannel = {
             channel,
           };
-          socket.emit("joinChannel", joinChannel);
+          socket.emit('joinChannel', joinChannel);
           setShowChatLeft(!showChatLeft);
         }}
       >
@@ -152,7 +152,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           />
         );
       } else return <p></p>;
-    else if (activeChatMenu === "SearchUser")
+    else if (activeChatMenu === 'SearchUser')
       return (
         <SearchUser
           socketEmit={(message: string, channel: IChannel) => {
@@ -161,7 +161,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           user={props.user}
         />
       );
-    else if (activeChatMenu === "JoinChannel") {
+    else if (activeChatMenu === 'JoinChannel') {
       return (
         <JoinChannel
           user={props.user}
@@ -170,12 +170,12 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           channelNotJoin={channelsNotJoin}
         />
       );
-    } else if (activeChatMenu === "CreateChannel")
+    } else if (activeChatMenu === 'CreateChannel')
       return (
         <CreateChannel
           user={props.user}
           socketEmit={(channel: IChannel) => {
-            socket.emit("createChannel", channel);
+            socket.emit('createChannel', channel);
           }}
         />
       );
@@ -234,7 +234,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <button
             className={clsx(classes.ChatLeftButton, classes.SearchUserButton)}
             onClick={() => {
-              setActiveChatMenu("SearchUser");
+              setActiveChatMenu('SearchUser');
               setChannelChoose(null);
               setShowChatLeft(!showChatLeft);
             }}
@@ -244,7 +244,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <button
             className={clsx(classes.ChatLeftButton, classes.JoinChannelButton)}
             onClick={() => {
-              setActiveChatMenu("JoinChannel");
+              setActiveChatMenu('JoinChannel');
               setChannelChoose(null);
               setShowChatLeft(!showChatLeft);
             }}
@@ -254,10 +254,10 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           <button
             className={clsx(
               classes.ChatLeftButton,
-              classes.CreateChannelButton
+              classes.CreateChannelButton,
             )}
             onClick={() => {
-              setActiveChatMenu("CreateChannel");
+              setActiveChatMenu('CreateChannel');
               setChannelChoose(null);
               setShowChatLeft(!showChatLeft);
             }}

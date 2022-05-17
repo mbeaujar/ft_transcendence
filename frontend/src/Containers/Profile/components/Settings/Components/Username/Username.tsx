@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import api from "../../../../../../apis/api";
-import { toast } from "react-toastify";
-import "./Username.scss";
-import { IUser } from "../../../../../../interface/user.interface";
+import React, { useState, useEffect } from 'react';
+import api from '../../../../../../apis/api';
+import { toast } from 'react-toastify';
+import './Username.scss';
+import { IUser } from '../../../../../../interface/user.interface';
 
 export interface Props {
   user: IUser;
@@ -42,20 +42,20 @@ function Username(props: Props) {
 
   function handleSubmitFormUsername(event: React.FormEvent<HTMLFormElement>) {
     if (isValidUsername() === false)
-      toast.error("Your username can only containe number,letter,- and _");
+      toast.error('Your username can only containe number,letter,- and _');
     else if (newName.length < 4 || newName.length > 9) {
-      toast.error("Your username must contain between 4 and 9 letters");
+      toast.error('Your username must contain between 4 and 9 letters');
     } else {
       api
-        .post("/users/username", { username: newName })
+        .post('/users/username', { username: newName })
         .then(() => {
           setRefresh(refresh + 1);
-          toast.success("Username successfully change");
+          toast.success('Username successfully change');
           setActiveUsernameBottom(!activeUsernameBottom);
         })
         .catch((reject) => {
           console.error(reject);
-          toast.error("This username is already choosen");
+          toast.error('This username is already choosen');
         });
     }
     event.preventDefault();
@@ -67,13 +67,13 @@ function Username(props: Props) {
   }
 
   function showUsernameBottom() {
-    if (activeUsernameBottom === true) return "ShowUsernameBottom";
-    else return "HideUsernameBottom";
+    if (activeUsernameBottom === true) return 'ShowUsernameBottom';
+    else return 'HideUsernameBottom';
   }
 
   function showUsernameBottomChange() {
-    if (activeUsernameBottom === false) return "ShowUsernameBottomChange";
-    else return "HideUsernameBottomChange";
+    if (activeUsernameBottom === false) return 'ShowUsernameBottomChange';
+    else return 'HideUsernameBottomChange';
   }
   return (
     <div className="Username">

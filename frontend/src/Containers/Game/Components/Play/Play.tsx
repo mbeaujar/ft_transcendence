@@ -1,7 +1,7 @@
-import React from "react";
-import classes from "./Play.module.scss";
-import clsx from "clsx";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import React from 'react';
+import classes from './Play.module.scss';
+import clsx from 'clsx';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 interface Props {
   width: number;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function Play(props: Props) {
-  let object = { name: "ali", surname: "salam" };
+  let object = { name: 'ali', surname: 'salam' };
   return (
     <div
       className={clsx(classes.Play)}
@@ -19,9 +19,9 @@ function Play(props: Props) {
         <Link
           className={clsx(classes.Link, classes.LinkTop)}
           style={{ fontSize: props.width / 40 }}
-          to={"/game/play/room/pong"}
+          to="/game/play/room/pong"
           state={{
-            from: object,
+            from: { opponent: '' },
           }}
         >
           Room

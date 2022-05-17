@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router";
-import { useLocation } from "react-router";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router';
 
 function Test(props: any) {
   let from: any = null;
@@ -9,12 +9,12 @@ function Test(props: any) {
   if (location) from = location.state;
 
   useEffect(() => {
-    if (from) console.log("from:::", from.from);
+    if (from.from) console.log('from:::', from.from);
   }, [handle]);
 
   return (
     <div>
-      {from ? (
+      {from.from ? (
         <h1>
           Bonjour {from.from.name} {from.from.surname}
         </h1>

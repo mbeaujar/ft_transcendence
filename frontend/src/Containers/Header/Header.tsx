@@ -1,9 +1,9 @@
-import React, { ClassAttributes, useEffect, useState } from "react";
-import classes from "./Header.module.scss";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import api from "../../apis/api";
-import clsx from "clsx";
-import { IUser } from "../../interface/user.interface";
+import React, { ClassAttributes, useEffect, useState } from 'react';
+import classes from './Header.module.scss';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+import api from '../../apis/api';
+import clsx from 'clsx';
+import { IUser } from '../../interface/user.interface';
 
 interface Props {
   className: string;
@@ -40,7 +40,7 @@ function Header() {
 
   useEffect(() => {
     api
-      .get("/auth/status")
+      .get('/auth/status')
       .then((response) => {
         setUser(response.data);
       })
@@ -62,10 +62,10 @@ function Header() {
 
   useEffect(() => {
     if (showLinks === true && window.innerWidth < 650.01) {
-      $("body").css("overflow-y", "hidden");
-      $(".Header").css("overflow-y", "visible");
+      $('body').css('overflow-y', 'hidden');
+      $('.Header').css('overflow-y', 'visible');
     } else {
-      $("body").css("overflow-y", "visible");
+      $('body').css('overflow-y', 'visible');
     }
   }, [showLinks]);
 
@@ -106,14 +106,14 @@ function Header() {
           className={ftShowLogin(user)}
           text="LOGIN"
           onClick={() => {
-            window.location.href = "http://localhost:3000/api/auth/login";
+            window.location.href = 'http://localhost:3000/api/auth/login';
           }}
         />
         <Button
           className={ftShowLogout(user)}
           text="LOGOUT"
           onClick={() => {
-            window.location.href = "http://localhost:3000/api/auth/logout";
+            window.location.href = 'http://localhost:3000/api/auth/logout';
           }}
         />
       </nav>

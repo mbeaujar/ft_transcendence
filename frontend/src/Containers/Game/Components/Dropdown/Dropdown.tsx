@@ -1,6 +1,6 @@
 // import React from "react";
-import { useState, useEffect, useRef } from "react";
-import classes from "./Dropdown.module.scss";
+import { useState, useEffect, useRef } from 'react';
+import classes from './Dropdown.module.scss';
 
 interface Iitem {
   id: number;
@@ -16,15 +16,19 @@ interface Props {
   id: string;
   hideButton: boolean;
   setState: (value: number) => void;
-  index:number;
+  index: number;
+  blockDropdown: number;
+  paramRoute?: string;
 }
 
 function Dropdown(props: Props) {
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState<string>(
-    props.items[props.index].value
+    props.items[props.index].value,
   );
-  const close = () => setOpen(!open);
+  const close = () => {
+    if (props.blockDropdown === 0) setOpen(!open);
+  };
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,29 +36,39 @@ function Dropdown(props: Props) {
       if (ref.current) if (ref.current.contains(event.target)) return;
       setOpen(false);
     };
-    document.addEventListener("click", onBodyClick, { capture: true });
+    document.addEventListener('click', onBodyClick, { capture: true });
 
-    if (props.id == "GameMode") setSelection(props.items[0].value);
-    else if (props.id == "PaddleSpeed") setSelection(props.items[props.index].value);
-    else if (props.id == "Opponent") setSelection(props.items[0].value);
+    let index = 0;
+    if (props.id == 'Opponent') {
+      props.items.map((item) => {
+        if (item.value === props.paramRoute) {
+          index = item.id;
+        }
+      });
+    }
+
+    if (props.id == 'GameMode') setSelection(props.items[0].value);
+    else if (props.id == 'PaddleSpeed')
+      setSelection(props.items[props.index].value);
+    else if (props.id == 'Opponent') setSelection(props.items[index].value);
 
     return () => {
-      document.removeEventListener("click", onBodyClick, { capture: true });
+      document.removeEventListener('click', onBodyClick, { capture: true });
     };
   }, []);
 
   function handleOnClick(item: Iitem, multiSelect: boolean) {
-      setSelection(item.value);
-      props.setState(item.id);
+    setSelection(item.value);
+    props.setState(item.id);
   }
 
   function setPosition() {
     // if (props.id == 1) return props.WIDTH * -0.6;
     // else if (props.id == 2) return props.WIDTH*0;
     // else if (props.id == 3) return props.WIDTH*0.6;
-    if (props.id == "GameMode") return props.WIDTH * 0.05;
-    else if (props.id == "PaddleSpeed") return props.WIDTH * 0.36;
-    else if (props.id == "Opponent") return props.WIDTH * 0.67;
+    if (props.id == 'GameMode') return props.WIDTH * 0.05;
+    else if (props.id == 'PaddleSpeed') return props.WIDTH * 0.36;
+    else if (props.id == 'Opponent') return props.WIDTH * 0.67;
   }
 
   function isItemInSelection(item: Iitem) {

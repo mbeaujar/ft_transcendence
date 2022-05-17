@@ -16,18 +16,21 @@ export class QueueService {
     return this.queueRepository.save(queue);
   }
 
-  async findQueue(id: number): Promise<Queue> {
+  async findQueue(target: number, id: number, mode: number): Promise<Queue> {
     return this.queueRepository
       .createQueryBuilder('queue')
+      .where('queue.invite = :invite', { invite: 1 })
+      .andWhere('queue.mode = :mode', { mode })
+      .andWhere('queue.target = :target', { target })
       .leftJoinAndSelect('queue.user', 'user')
-      .where('user.id = :id', { id })
+      .andWhere('user.id = :id', { id })
       .getOne();
   }
 
   async findOpponents(id: number, elo: number, mode: number): Promise<Queue> {
     return this.queueRepository
       .createQueryBuilder('queue')
-      .where('queue.invite = :invite', { invite: 0})
+      .where('queue.invite = :invite', { invite: 0 })
       .orderBy('ABS(queue.elo - :elo)', 'DESC')
       .setParameters({ elo })
       .leftJoinAndSelect('queue.user', 'user')

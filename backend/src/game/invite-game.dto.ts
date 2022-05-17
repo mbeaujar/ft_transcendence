@@ -5,4 +5,8 @@ export class InviteGameDto {
   @IsNumber()
   @IsPositive()
   target: number;
+
+  @IsNumber()
+  @IsPositive()
+  mode: number;
 }

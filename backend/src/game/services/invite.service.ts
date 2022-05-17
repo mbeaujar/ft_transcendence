@@ -37,7 +37,12 @@ export class InviteService {
     return this.inviteRepository.save(invite);
   }
 
-  async delete(id: number): Promise<DeleteResult> {
-    return this.inviteRepository.delete(id);
+  async delete(owner: number, target: number): Promise<DeleteResult> {
+    return this.inviteRepository
+      .createQueryBuilder('invite')
+      .where('invite.owner = :owner', { owner })
+      .andWhere('invite.target = :target', { target })
+      .delete()
+      .execute();
   }
 }

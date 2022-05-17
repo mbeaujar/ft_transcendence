@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../../../../apis/api";
-import { IUser } from "../../../../../../interface/user.interface";
-import Avatar from "../../../Avatar/Avatar";
-import { toast } from "react-toastify";
-import "./BlockedUsers.scss";
+import React, { useEffect, useState } from 'react';
+import api from '../../../../../../apis/api';
+import { IUser } from '../../../../../../interface/user.interface';
+import Avatar from '../../../Avatar/Avatar';
+import { toast } from 'react-toastify';
+import './BlockedUsers.scss';
 
 function BlockedUsers() {
   const [user, setUser] = useState<IUser | null>(null);
@@ -11,7 +11,7 @@ function BlockedUsers() {
 
   useEffect(() => {
     api
-      .get("/users/getBlockedUser")
+      .get('/users/getBlockedUser')
       .then((response) => {
         setUser(response.data);
       })
@@ -20,13 +20,13 @@ function BlockedUsers() {
 
   function ftUnblockUser(userBlocked: IUser) {
     api
-      .post("/users/unblock", { id: userBlocked.id })
+      .post('/users/unblock', { id: userBlocked.id })
       .then((response) => {
-        toast.success(userBlocked.username + " was ublocked");
+        toast.success(userBlocked.username + ' was ublocked');
         setRefresh(refresh + 1);
       })
       .catch((reject) =>
-        toast.error(userBlocked.username + " wasn't ublocked")
+        toast.error(userBlocked.username + " wasn't ublocked"),
       );
   }
 

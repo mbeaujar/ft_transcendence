@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import api from "../../../../../../apis/api";
-import Avatar from "../../../Avatar/Avatar";
-import { toast } from "react-toastify";
-import "./AvatarSettings.scss";
-import { IUser } from "../../../../../../interface/user.interface";
+import React, { useEffect, useState } from 'react';
+import api from '../../../../../../apis/api';
+import Avatar from '../../../Avatar/Avatar';
+import { toast } from 'react-toastify';
+import './AvatarSettings.scss';
+import { IUser } from '../../../../../../interface/user.interface';
 
 interface Props {
   user: IUser;
@@ -14,8 +14,8 @@ interface Props {
 function AvatarSettings(props: Props) {
   const [activeAvatarBottom, setActiveAvatarBottom] = useState<boolean>(true);
   const [selectedFileName, setSelectedFileName] =
-    useState<string>("Choose a file...");
-  const [uploadedFile, setUploadedFile] = useState<File|null>();
+    useState<string>('Choose a file...');
+  const [uploadedFile, setUploadedFile] = useState<File | null>();
   const [refresh, setRefresh] = useState<number>(0);
   const [refreshImg, setRefreshImg] = useState<number>(0);
   const [avatarImg, setAvatarImg] = useState<string>();
@@ -25,7 +25,7 @@ function AvatarSettings(props: Props) {
     if (refreshImg === 0) {
       api
         .get(`/users/avatar/${props.user.avatarId}`, {
-          responseType: "blob",
+          responseType: 'blob',
         })
         .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
         .catch((reject) => console.log(reject));
@@ -48,20 +48,20 @@ function AvatarSettings(props: Props) {
   };
 
   const validNewAvatar = () => {
-    setSelectedFileName("Choose a file...");
+    setSelectedFileName('Choose a file...');
     if (uploadedFile) {
       const formData = new FormData();
-      formData.append("file", uploadedFile, selectedFileName);
+      formData.append('file', uploadedFile, selectedFileName);
       api
-        .post("/users/avatar/", formData)
+        .post('/users/avatar/', formData)
         .then((response) => {
           setRefresh(refresh + 1);
-          toast.success("Avatar succesfully change");
+          toast.success('Avatar succesfully change');
           setActiveAvatarBottom(!activeAvatarBottom);
         })
         .catch((reject) => {
           console.log(reject);
-          toast.error("Incorrect file format");
+          toast.error('Incorrect file format');
         });
     }
     setUploadedFile(null);
@@ -69,24 +69,24 @@ function AvatarSettings(props: Props) {
 
   const noValidNewAvatar = () => {
     setActiveAvatarBottom(!activeAvatarBottom);
-    setSelectedFileName("Choose a file...");
+    setSelectedFileName('Choose a file...');
     setUploadedFile(null);
     api
       .get(`/users/avatar/${props.user.avatarId}`, {
-        responseType: "blob",
+        responseType: 'blob',
       })
       .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
       .catch((reject) => console.log(reject));
   };
 
   function showAvatarBottom() {
-    if (activeAvatarBottom === true) return "ShowAvatarBottom";
-    else return "HideAvatarBottom";
+    if (activeAvatarBottom === true) return 'ShowAvatarBottom';
+    else return 'HideAvatarBottom';
   }
 
   function showAvatarBottomInChange() {
-    if (activeAvatarBottom === false) return "ShowAvatarBottomInChange";
-    else return "HideAvatarBottomInChange";
+    if (activeAvatarBottom === false) return 'ShowAvatarBottomInChange';
+    else return 'HideAvatarBottomInChange';
   }
 
   return (
@@ -111,7 +111,7 @@ function AvatarSettings(props: Props) {
             type="file"
             ref={hiddenFileInput}
             onChange={changeAvatarImg}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
           <div className="ButtonsValidation">
             <button className="ValidNewAvatar" onClick={validNewAvatar}>
