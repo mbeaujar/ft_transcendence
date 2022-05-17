@@ -17,8 +17,8 @@ function Game(props: Props) {
   const [activeGameVue, setActiveGameVue] =
     useState<string>('choosePlayOrWatch');
 
-  const WindowSize = useWindowSize();
-  useEffect(() => {}, []);
+  // const WindowSize = useWindowSize();
+  // useEffect(() => {}, []);
 
   return (
     <div

@@ -3,14 +3,13 @@ import {
   Body,
   Controller,
   Get,
-  Delete,
   NotFoundException,
   Post,
-  Param,
 } from '@nestjs/common';
+import { DeleteInviteDto } from './delete-invite.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { IUser } from 'src/users/model/user/user.interface';
+import { User } from 'src/users/model/user/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { InviteService } from './services/invite.service';
 import { InviteGameDto } from './invite-game.dto';
@@ -26,10 +25,7 @@ export class GameController {
 
   @Auth()
   @Post('invite')
-  async onInviteToPlay(
-    @Body() body: InviteGameDto,
-    @CurrentUser() user: IUser,
-  ) {
+  async onInviteToPlay(@Body() body: InviteGameDto, @CurrentUser() user: User) {
     if (body.target === user.id) {
       throw new BadRequestException('invite yourself not authorized');
     }
@@ -39,14 +35,18 @@ export class GameController {
     }
     const invite = await this.inviteService.findInvite(user.id, body.target);
     if (invite) {
-      throw new BadRequestException('invite already exist');
+      await this.inviteService.deleteInvite(invite.id);
     }
-    return this.inviteService.create({ owner: user.id, target: target.id });
+    return this.inviteService.create({
+      owner: user,
+      target: target,
+      mode: body.mode,
+    });
   }
 
   @Auth()
   @Get('invite')
-  async getInviteToPlay(@CurrentUser() user: IUser): Promise<Invite[]> {
+  async getInviteToPlay(@CurrentUser() user: User): Promise<Invite[]> {
     const invites = await this.inviteService.findByUser(user.id);
     if (!invites) {
       throw new NotFoundException('invites to user not found');
@@ -58,13 +58,13 @@ export class GameController {
   @Post('accept')
   async acceptInviteToPlay(
     @Body() body: InviteGameDto,
-    @CurrentUser() user: IUser,
-  ): Promise<IUser> {
+    @CurrentUser() user: User,
+  ): Promise<User> {
     const invite = await this.inviteService.find(body.target);
     if (!invite) {
       throw new NotFoundException('invite not found');
     }
-    const targetUser = await this.usersService.findUser(invite.owner);
+    const targetUser = await this.usersService.findUser(invite.owner.id);
     if (!targetUser) {
       throw new NotFoundException('user who send invite not found');
     }
@@ -73,8 +73,11 @@ export class GameController {
   }
 
   @Auth()
-  @Delete('/:id')
-  async deleteInvite(@Param('id') id: string, @CurrentUser() user: IUser) {
-    await this.inviteService.delete(user.id, parseInt(id));
+  @Post('delete')
+  async deleteInvite(
+    @Body() body: DeleteInviteDto,
+    @CurrentUser() user: User,
+  ) {
+    await this.inviteService.delete(user.id, body.target);
   }
 }

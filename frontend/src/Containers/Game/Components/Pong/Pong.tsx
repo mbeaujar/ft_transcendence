@@ -289,8 +289,8 @@ const Pong = (props: Props) => {
           if (invite) {
             api
               .post('/game/invite', { target, mode })
-              .then((data)=>console.log("invite send"))
-              .catch((rej) => console.log(rej));
+              .then((data) => console.log('invite send'))
+              .catch((rej) => console.error(rej.response.data.message));
           }
           socket?.emit('joinQueue', {
             mode,
@@ -344,20 +344,6 @@ const Pong = (props: Props) => {
           </div>
         </div>
       ) : null}
-
-      {/* <div className={classes.Score}>
-        <div className={classes.PlayerLeft}>
-          <Avatar user={props.user} />
-          <p className={classes.Name} style={{ fontSize: props.width / 40 }}>asalam</p>
-          <p style={{ fontSize: props.width / 20 }}>3</p>
-        </div>
-        <span>-</span>
-        <div className={classes.PlayerRight}>
-          <p style={{ fontSize: props.width / 20 }}>0</p>
-          <p className={classes.Name} style={{ fontSize: props.width / 40 }}>ranaili</p>
-          <Avatar user={props.user} />
-        </div>
-      </div> */}
     </div>
   );
 };

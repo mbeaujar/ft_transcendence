@@ -1,15 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../../../users/model/user/user.entity';
 
 @Entity()
 export class Invite {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  owner: number;
+  @ManyToOne(() => User, (owner) => owner)
+  owner: User;
 
-  @Column()
-  target: number;
+  @ManyToOne(() => User, (target) => target.targetInvite)
+  target: User;
 
   @Column()
   mode: number;

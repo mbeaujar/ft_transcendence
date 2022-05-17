@@ -4,6 +4,7 @@ import { IGame } from '../../../../interface/game.interface';
 import { Socket } from 'socket.io-client';
 import getSocket from '../../../Socket';
 import api from '../../../../apis/api';
+import { IUser } from '../../../../interface/user.interface';
 
 interface Props {
   width: number;
@@ -11,14 +12,15 @@ interface Props {
 }
 
 function Invite(props: Props) {
-  const [invites, setInvites] = useState<any>([]);
+  const [listInvites, setListInvites] = useState<any>([]);
+  const [actualUser,setActualUser]=useState<IUser>()
 
   useEffect(() => {
     api
       .get('/game/invite')
       .then(response => {
         console.log('invites=', response.data);
-        setInvites(response.data);
+        setListInvites(response.data);
       })
       .catch(reject => console.error(reject));
   }, []);
@@ -35,9 +37,13 @@ function Invite(props: Props) {
       }}
     >
       <div className={classes.ListInvite}>
-        {/*listGame && listGame.map((game:IGame)=>{
-
-      })*/}
+        {listInvites && listInvites.map((invitation:any)=>{
+                api
+                .get(`/users/${invitation.owner}`)
+                .then((response) => setActualUser(response.data))
+                .catch();
+                (<p>{actualUser?.username}</p>)
+      })}
       </div>
     </div>
   );

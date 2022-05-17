@@ -20,6 +20,7 @@ import { Friends } from 'src/friends/model/friends.entity';
 import { Player } from 'src/game/model/player/player.entity';
 import { Queue } from 'src/game/model/queue/queue.entity';
 import { Match } from 'src/game/model/match/match.entity';
+import { Invite } from 'src/game/model/invite/invite.entity';
 
 @Entity()
 export class User {
@@ -92,4 +93,10 @@ export class User {
 
   @ManyToMany(() => Match, (match) => match.players)
   matchSpectate: Match[];
+
+  @OneToMany(() => Invite, (owner) => owner.owner)
+  ownerInvite: Invite[];
+
+  @OneToMany(() => Invite, (target) => target.target)
+  targetInvite: Invite[];
 }
