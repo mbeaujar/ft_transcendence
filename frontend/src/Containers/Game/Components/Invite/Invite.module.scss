@@ -17,6 +17,7 @@
     height: 60%;
     overflow-y: auto;
     border: 0.2vw solid $white1;
+    border:1px solid $black;
     border-radius: 1.5vw;
     display:flex;
     flex-direction: column;
@@ -33,6 +34,7 @@
       max-width: 90%;
       height:20%;
       border:1px solid $white1;
+      //border:1px solid $black;
       border-radius: 1vw;
 
       .Text{
@@ -58,11 +60,17 @@
         width:15%;
         background-color: $black2;
         border:1px solid $white1;
+        //border:1px solid $black;
         border-radius:0.5vw;
         color:$white1;
         padding: 1%;
         cursor:pointer;
         margin-right: 0% !important;
+
+        .Link{
+          color: $white1;
+          text-decoration: none;
+        }
       }
 
       button:hover

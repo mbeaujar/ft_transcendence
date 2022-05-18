@@ -5,6 +5,7 @@ import { Socket } from 'socket.io-client';
 import getSocket from '../../../Socket';
 import api from '../../../../apis/api';
 import { IUser } from '../../../../interface/user.interface';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 interface Props {
   width: number;
@@ -13,7 +14,6 @@ interface Props {
 
 function Invite(props: Props) {
   const [listInvites, setListInvites] = useState<any>([]);
-  const [actualUser, setActualUser] = useState<IUser>();
 
   useEffect(() => {
     api
@@ -33,7 +33,7 @@ function Invite(props: Props) {
       style={{
         width: props.width,
         height: props.height,
-        fontSize: props.width / 33,
+        fontSize: props.width / 38,
       }}
     >
       <div className={classes.ListInvite}>
@@ -44,7 +44,13 @@ function Invite(props: Props) {
                 <p className={classes.Username} style={{}}>{invitation.owner.username}</p> 
                 <p> invite you to play</p>
               </div>
-              <button style={{fontSize: props.width / 45}}>Play</button>
+              <button style={{fontSize: props.width / 45}}><Link className={classes.Link} to={'/game/play/room/pong'}
+                  state={{
+                    from: { opponent: invitation.owner.username },
+                  }}
+                >
+                  Play
+                </Link></button>
             </div>
           ))}
       </div>
