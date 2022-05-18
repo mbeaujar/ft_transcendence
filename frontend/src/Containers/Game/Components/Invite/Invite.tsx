@@ -38,9 +38,9 @@ function Invite(props: Props) {
     >
       <div className={classes.ListInvite}>
         {listInvites &&
-          listInvites.map((invitation: any) => (
-            <div className={classes.Invitation}>
-              <p className={classes.Username}>{invitation.owner.username}</p>
+          listInvites.map((invitation: any,index:number) => (
+            <div className={classes.Invitation} key=>
+              <p className={classes.Username} style={{fontSize: props.width / 20}}>{invitation.owner.username}</p>
               <p className={classes.Text}> invite you to play</p>
               <button>Play</button>
             </div>
