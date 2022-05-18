@@ -4,11 +4,19 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v1
         with:
-          node-version: "12"
-      - run: npm --prefix backend ci
-      - run: npm --prefix backend run format
-      - run: npm --prefix frontend ci
-      - run: npm --prefix frontend run format
+          ref: ${{ github.head_ref }}
+      - name: prettier
+        run: npx prettier --write src/**/*.js src/**/*.ts src/**/*.tsx src/**/*.scss
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Automatic push'
+          git config --global user.email 'automatic-push@github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git commit -am "Automated changes"
+          git push

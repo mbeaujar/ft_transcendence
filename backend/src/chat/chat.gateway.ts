@@ -113,7 +113,6 @@ export class ChatGateway
         this.server.to(socket.id).emit('channels', channels);
       }
     } catch (e) {
-      console.log(e);
       return this.disconnect(socket);
     }
   }
@@ -132,7 +131,7 @@ export class ChatGateway
   }
 
   private handleSuccess(socket: Socket, message: string) {
-    socket.emit('Success', new InternalServerErrorException(message)); // pas le bon throw
+    socket.emit('Success', new InternalServerErrorException(message)); 
     throw new WsException(message);
   }
 
