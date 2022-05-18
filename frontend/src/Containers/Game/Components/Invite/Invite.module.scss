@@ -21,9 +21,19 @@
     display:flex;
     flex-direction: column;
 
-    .Invitation {
+    .Invitation 
       display: flex;
       flex-direction:row;
+      width:80%;
+      border:1px solid $white1;
+      border-radius: 1.5vw;
+      .Username{
+        max-width: 20%;
+        background-color: aqua;
+      }
+      .Text{
+
+      }
     }
   }
 }

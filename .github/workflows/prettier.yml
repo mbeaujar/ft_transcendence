@@ -11,7 +11,7 @@ jobs:
         run: npx prettier --write  */src/**/*.ts */src/**/*.tsx */src/**/*.scss
       - name: Check for modified files
         id: git-check
-        run: git diff-index --quiet HEAD --;
+        run: $(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
       - name: Push changes
         if: steps.git-check.conclusion == 'success'
         run: |
