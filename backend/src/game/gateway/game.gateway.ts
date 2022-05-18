@@ -95,8 +95,8 @@ export class GameGateway
   }
 
   @SubscribeMessage('joinGame')
-  async spectatorJoinGame(client: Socket, game: IGame) {
-    const match = await this.matchService.find(game.id);
+  async spectatorJoinGame(client: Socket, id: number) {
+    const match = await this.matchService.find(id);
     if (match) {
       await this.gameService.joinGame(match.id, client.data.user);
     }

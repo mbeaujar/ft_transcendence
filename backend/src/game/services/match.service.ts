@@ -36,6 +36,8 @@ export class MatchService {
     return this.matchRepository
       .createQueryBuilder('match')
       .where('match.live = :live', { live: 1 })
+      .leftJoinAndSelect('match.players', 'players')
+      .leftJoinAndSelect('players.user', 'users')
       .getMany();
   }
 

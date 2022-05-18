@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import classes from './Invite.module.scss';
-import { IGame } from '../../../../interface/game.interface';
-import { Socket } from 'socket.io-client';
-import getSocket from '../../../Socket';
+// import { IGame } from '../../../../interface/game.interface';
+// import { Socket } from 'socket.io-client';
+// import getSocket from '../../../Socket';
 import api from '../../../../apis/api';
-import { IUser } from '../../../../interface/user.interface';
+// import { IUser } from '../../../../interface/user.interface';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 interface Props {
   width: number;
   height: number;
+}
+
+function textGameMode(mode: number) {
+  if (mode === 0) return ' classic game';
+  else if (mode === 1) return ' paddle reduce game';
+  else if (mode === 2) return ' paddle flashing game';
 }
 
 function Invite(props: Props) {
@@ -33,7 +39,7 @@ function Invite(props: Props) {
       style={{
         width: props.width,
         height: props.height,
-        fontSize: props.width / 38,
+        fontSize: props.width / 50,
       }}
     >
       <div className={classes.ListInvite}>
@@ -44,7 +50,7 @@ function Invite(props: Props) {
                 <p className={classes.Username} style={{}}>
                   {invitation.owner.username}
                 </p>
-                <p> invite you to play</p>
+                <p> invite you to play {textGameMode(invitation.mode)}</p>
               </div>
               <button style={{ fontSize: props.width / 45 }}>
                 <Link

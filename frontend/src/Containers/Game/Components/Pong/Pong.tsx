@@ -43,6 +43,7 @@ let itemsOpponent = [{ id: 0, value: 'Random', userId: 0 }];
 api
   .get('/friends/list')
   .then((response) => {
+    console.log('debug map friends Pong:46', response.data.friends);
     response.data.friends.map((friend: IUser, index: number) => {
       // setItemsOpponent([
       //   ...itemsOpponent,

@@ -10,14 +10,13 @@ interface Props {
 }
 
 function WatchGame(props: Props) {
-  const [listGame, setListGame] = useState<[IGame | null]>([null]);
+  const [listGame, setListGame] = useState<any[]>([]);
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
     const socketEffect = getSocket('game');
     socketEffect.on('listAllGame', (data: any) => {
-      console.log(data);
-      setListGame(data);
+      setListGame(data.matchs);
     });
 
     // emit -> problem
@@ -31,7 +30,7 @@ function WatchGame(props: Props) {
   }, []);
 
   useEffect(() => {
-    console.log('list', listGame);
+    console.log('list=', listGame);
   }, [listGame]);
 
   return (
@@ -40,13 +39,20 @@ function WatchGame(props: Props) {
       style={{
         width: props.width,
         height: props.height,
-        fontSize: props.width / 20,
+        fontSize: props.width / 50,
       }}
     >
       <div className={classes.ListGame}>
-        {/*listGame && listGame.map((game:IGame)=>{
-
-      })*/}
+        {listGame &&
+          listGame.map((game: any, index: number) => (
+            <div className={classes.Game} key={index}>
+              <p className={classes.Username} style={{}}>
+                {game.players[0].user.username} vs{' '}
+                {game.players[1].user.username}
+              </p>
+              <button style={{ fontSize: props.width / 45 }}>Watch</button>
+            </div>
+          ))}
       </div>
     </div>
   );
