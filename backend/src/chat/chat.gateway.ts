@@ -131,7 +131,7 @@ export class ChatGateway
   }
 
   private handleSuccess(socket: Socket, message: string) {
-    socket.emit('Success', new InternalServerErrorException(message)); 
+    socket.emit('Success', new InternalServerErrorException(message));
     throw new WsException(message);
   }
 

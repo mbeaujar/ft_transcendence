@@ -13,16 +13,16 @@ interface Props {
 
 function Invite(props: Props) {
   const [listInvites, setListInvites] = useState<any>([]);
-  const [actualUser,setActualUser]=useState<IUser>()
+  const [actualUser, setActualUser] = useState<IUser>();
 
   useEffect(() => {
     api
       .get('/game/invite')
-      .then(response => {
+      .then((response) => {
         console.log('invites=', response.data);
         setListInvites(response.data);
       })
-      .catch(reject => console.error(reject));
+      .catch((reject) => console.error(reject));
   }, []);
 
   useEffect(() => {}, []);
@@ -37,9 +37,7 @@ function Invite(props: Props) {
       }}
     >
       <div className={classes.ListInvite}>
-        {listInvites && listInvites.map((invitation:any)=>{
-
-      })}
+        {listInvites && listInvites.map((invitation: any) => {})}
       </div>
     </div>
   );
