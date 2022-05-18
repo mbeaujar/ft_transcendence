@@ -124,7 +124,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
                   className={classes.Link}
                   to={'/game/play/room/pong'}
                   state={{
-                    from: { opponent: messageUser?.username },
+                    from: { opponent: messageUser?.username,mode:-1 },
                   }}
                 >
                   Invite to play

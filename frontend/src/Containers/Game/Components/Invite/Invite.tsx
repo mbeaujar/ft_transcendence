@@ -46,10 +46,10 @@ function Invite(props: Props) {
               </div>
               <button style={{fontSize: props.width / 45}}><Link className={classes.Link} to={'/game/play/room/pong'}
                   state={{
-                    from: { opponent: invitation.owner.username },
+                    from: { opponent: invitation.owner.username,mode:invitation.mode },
                   }}
                 >
-                  Play
+                  Play {invitation.mode}
                 </Link></button>
             </div>
           ))}

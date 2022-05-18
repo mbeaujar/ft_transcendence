@@ -1,23 +1,22 @@
-name: auto-format
-on: [push, pull_request]
+name: Prettier
+on: [push]
+
 jobs:
-  format:
+  build:
+    name: Prettier
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: bahmutov/npm-install@v1
         with:
-          ref: ${{ github.head_ref }}
-      - name: prettier
-        run: npx prettier --write  */src/**/*.ts */src/**/*.tsx */src/**/*.scss
-      - name: Check for modified files
-        id: git-check
-        run: $(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-      - name: Push changes
-        if: steps.git-check.conclusion == 'success'
-        run: |
-          git config --global user.name 'Automatic push'
-          git config --global user.email 'automatic-push@github.com'
-          git add -A
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git commit -am "Automated changes"
-          git push
+          working-directory: backend
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: frontend
+
+      - run: npm --prefix backend run format
+      - run: npm --prefix frontend run format
+      - run: git status
+      - uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

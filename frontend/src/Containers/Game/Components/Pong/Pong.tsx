@@ -72,7 +72,9 @@ const Pong = (props: Props) => {
   const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
   const [opponent, setOpponent] = useState(0);
   const [matchEnd, setMatchEnd] = useState(false);
+  const [blockDropdownMode, setBlockDropdownMode] = useState(0);
   const [blockDropdownOpponent, setBlockDropdownOpponent] = useState(0);
+  const [indexMode, setIndexMode] = useState(0);
   const [indexOpponent, setIndexOpponent] = useState(0);
 
   let from: any = null;
@@ -166,6 +168,7 @@ const Pong = (props: Props) => {
     //   .catch((reject) => console.error(reject));
 
     if (from.from.opponent !== '') setBlockDropdownOpponent(1);
+    if (from.from.mode !== -1) {setBlockDropdownMode(1);setIndexMode(from.from.mode);console.log("frommode=",from.from.mode)}
 
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -252,8 +255,9 @@ const Pong = (props: Props) => {
         id="GameMode"
         hideButton={hideButton}
         setState={setMode}
-        index={0}
-        blockDropdown={0}
+        index={indexMode}
+        blockDropdown={blockDropdownMode}
+        paramRouteMode={from.from.mode}
       />
       <Dropdown
         title="Paddle speed"
@@ -278,7 +282,7 @@ const Pong = (props: Props) => {
         setState={setOpponent}
         index={indexOpponent}
         blockDropdown={blockDropdownOpponent}
-        paramRoute={from.from.opponent}
+        paramRouteOpponent={from.from.opponent}
       />
       <button
         className={clsx(classes.ButtonJoinQueue, showButton())}

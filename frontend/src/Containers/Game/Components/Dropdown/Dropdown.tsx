@@ -18,7 +18,8 @@ interface Props {
   setState: (value: number) => void;
   index: number;
   blockDropdown: number;
-  paramRoute?: string;
+  paramRouteMode?: number;
+  paramRouteOpponent?: string;
 }
 
 function Dropdown(props: Props) {
@@ -41,16 +42,20 @@ function Dropdown(props: Props) {
     let index = 0;
     if (props.id == 'Opponent') {
       props.items.map((item) => {
-        if (item.value === props.paramRoute) {
+        if (item.value === props.paramRouteOpponent) {
           index = item.id;
         }
       });
     }
 
-    if (props.id == 'GameMode') setSelection(props.items[0].value);
+    if (props.id == 'GameMode') 
+    {
+      if (props.paramRouteMode===-1) setSelection(props.items[0].value);
+      if (props.paramRouteMode && props.paramRouteMode!==-1) {setSelection(props.items[props.paramRouteMode].value);props.setState(props.items[props.paramRouteMode].id);}
+    }
     else if (props.id == 'PaddleSpeed')
       setSelection(props.items[props.index].value);
-    else if (props.id == 'Opponent') setSelection(props.items[index].value);
+    else if (props.id == 'Opponent') {setSelection(props.items[index].value);props.setState(props.items[index].id);}
 
     return () => {
       document.removeEventListener('click', onBodyClick, { capture: true });
