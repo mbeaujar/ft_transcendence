@@ -10,8 +10,8 @@ jobs:
       - name: prettier
         run: npx prettier --write  */src/**/*.ts */src/**/*.tsx */src/**/*.scss
       - name: Check for modified files
-      id: git-check
-      run: git diff-index --quiet HEAD --; 
+        id: git-check
+        run: git diff-index --quiet HEAD --;
       - name: Push changes
         if: steps.git-check.conclusion == 'success'
         run: |
