@@ -24,24 +24,32 @@
     justify-content: flex-start;
 
     .Invitation {
+      margin-top: 3%;
       display: flex;
       flex-direction: row;
       align-items:center;
       justify-content: left;
-      width: 90%;
+      min-width: 90%;
+      max-width: 90%;
       height:20%;
       border:1px solid $white1;
       border-radius: 1vw;
 
       .Text{
-        width: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items:center;
+        justify-content: left;
+        min-width: 80%;
+        max-width: 80%;
         text-align: left;
-        background-color: aquamarine;
+        
         .Username{
-          width: max-content;
-          max-width: 30%;
-          margin-left: 3%;
-          background-color: red;
+          max-width: 40%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-left: 5%;
+          margin-right: 2%;
         }
       }
 
@@ -52,7 +60,7 @@
         border:1px solid $white1;
         border-radius:0.5vw;
         color:$white1;
-        padding: 1.5%;
+        padding: 1%;
         cursor:pointer;
         margin-right: 0% !important;
       }
