@@ -33,13 +33,13 @@ function Invite(props: Props) {
       style={{
         width: props.width,
         height: props.height,
-        fontSize: props.width / 20,
+        fontSize: props.width / 30,
       }}
     >
       <div className={classes.ListInvite}>
         {listInvites &&
           listInvites.map((invitation: any,index:number) => (
-            <div className={classes.Invitation} key=>
+            <div className={classes.Invitation} key={index}>
               <p className={classes.Username} style={{fontSize: props.width / 20}}>{invitation.owner.username}</p>
               <p className={classes.Text}> invite you to play</p>
               <button>Play</button>
