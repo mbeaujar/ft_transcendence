@@ -17,6 +17,7 @@ jobs:
         run: |
           git config --global user.name 'Automatic push'
           git config --global user.email 'automatic-push@github.com'
+          git add -A
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git commit -am "Automated changes"
           git push
