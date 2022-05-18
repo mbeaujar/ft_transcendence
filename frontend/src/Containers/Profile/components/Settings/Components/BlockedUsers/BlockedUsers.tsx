@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 import './BlockedUsers.scss';
 
 function BlockedUsers() {
-  const [blockedUsers, setBlockedUsers] = useState<IUser[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     api
       .get('/users/getBlockedUser')
-      .then(({ data }) => setBlockedUsers(data.blockedUsers))
+      .then(({ data }) => setUsers(data.blockedUsers))
       .catch((rej) => console.error(rej));
   }, []);
 
@@ -19,17 +19,17 @@ function BlockedUsers() {
     <div className="BlockedUsers">
       <h3>blocked users</h3>
       <div className="BlockedUsers">
-        {blockedUsers.map((userBlocked: IUser, index: number) => (
+        {users.map((userBlocked: IUser, index: number) => (
           <div className="BlockedUser" key={userBlocked.id}>
             <Avatar user={userBlocked} />
             <p>{userBlocked.username}</p>
-            const before = blockedUsers;
             <button
               onClick={() => {
                 api
                   .post('/users/unblock', { id: userBlocked.id })
                   .then(() => {
-                    setBlockedUsers([...blockedUsers.splice(index, 1)]);
+                    users.splice(index, 1);
+                    setUsers([...users]);
                     toast.success(userBlocked.username + ' was unblocked');
                   })
                   .catch((reject) => {

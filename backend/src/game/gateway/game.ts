@@ -220,9 +220,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player2.y + PADDLEH / 2 &&
       this.ball.x + this.ball.r + PADDLEW + 5 >= WIDTH
     ) {
-      this.ball.dx *= -1;
-      // this.ball.dy =
-      //   8.5 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
+      this.ball.dx *= -1.05;
+      this.ball.dy =
+        8.5 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 
@@ -232,9 +232,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player1.y + PADDLEH / 2 &&
       this.ball.x - this.ball.r - PADDLEW - 5 <= 0
     ) {
-      this.ball.dx *= -1;
-      // this.ball.dy =
-      //  8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
+      this.ball.dx *= -1.05;
+      this.ball.dy =
+       8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 
