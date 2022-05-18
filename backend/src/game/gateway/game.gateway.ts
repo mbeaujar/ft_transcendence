@@ -15,9 +15,9 @@ import { UsersService } from 'src/users/users.service';
 import { AuthService } from 'src/auth/auth.service';
 import { GameService } from '../services/game.service';
 import { ConnectedUserService } from 'src/chat/services/connected-user.service';
-import { IQueue } from '../model/queue/queue.interface';
 import { Queue } from '../model/queue/queue.entity';
 import { Mode } from 'src/chat/model/connected-user/mode.enum';
+import * as cookieParser from 'cookie-parser';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -50,8 +50,14 @@ export class GameGateway
   async handleConnection(client: Socket) {
     try {
       const decodedToken = await this.authService.verifyJwt(
-        client.handshake.headers.authorization,
+        cookieParser.signedCookie(
+          client.handshake.headers.authorization,
+          process.env.COOKIE_SECRET,
+        ),
       );
+      if (!decodedToken) {
+        return this.disconnect(client);
+      }
       const user: IUser = await this.usersService.findUser(decodedToken.sub);
       if (!user) {
         return this.disconnect(client);

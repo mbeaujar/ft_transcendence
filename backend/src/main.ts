@@ -3,16 +3,17 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
+import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-          app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe());
 
-          app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api');
 
   app.use(cookieParser(process.env.COOKIE_SECRET));
-
+  // app.use(csurf({ cookie: true}));
   app.enableCors({
     origin: true,
     credentials: true,

@@ -168,7 +168,11 @@ const Pong = (props: Props) => {
     //   .catch((reject) => console.error(reject));
 
     if (from.from.opponent !== '') setBlockDropdownOpponent(1);
-    if (from.from.mode !== -1) {setBlockDropdownMode(1);setIndexMode(from.from.mode);console.log("frommode=",from.from.mode)}
+    if (from.from.mode !== -1) {
+      setBlockDropdownMode(1);
+      setIndexMode(from.from.mode);
+      console.log('frommode=', from.from.mode);
+    }
 
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -293,7 +297,7 @@ const Pong = (props: Props) => {
           if (invite) {
             api
               .post('/game/invite', { target, mode })
-              .then((data) => console.log('invite send'))
+              .then(({ data }) => console.log('invite send', data))
               .catch((rej) => console.error(rej.response.data.message));
           }
           socket?.emit('joinQueue', {

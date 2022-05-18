@@ -37,6 +37,14 @@ export class GameController {
     if (invite) {
       await this.inviteService.deleteInvite(invite.id);
     }
+    const alreadyInvited = await this.inviteService.findInvite(
+      body.target,
+      user.id,
+    );
+    if (alreadyInvited) {
+      await this.inviteService.deleteInvite(alreadyInvited.id);
+      return { owner: user, target: target, mode: body.mode };
+    }
     return this.inviteService.create({
       owner: user,
       target: target,

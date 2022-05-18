@@ -38,19 +38,28 @@ function Invite(props: Props) {
     >
       <div className={classes.ListInvite}>
         {listInvites &&
-          listInvites.map((invitation: any,index:number) => (
+          listInvites.map((invitation: any, index: number) => (
             <div className={classes.Invitation} key={index}>
               <div className={classes.Text}>
-                <p className={classes.Username} style={{}}>{invitation.owner.username}</p> 
+                <p className={classes.Username} style={{}}>
+                  {invitation.owner.username}
+                </p>
                 <p> invite you to play</p>
               </div>
-              <button style={{fontSize: props.width / 45}}><Link className={classes.Link} to={'/game/play/room/pong'}
+              <button style={{ fontSize: props.width / 45 }}>
+                <Link
+                  className={classes.Link}
+                  to={'/game/play/room/pong'}
                   state={{
-                    from: { opponent: invitation.owner.username,mode:invitation.mode },
+                    from: {
+                      opponent: invitation.owner.username,
+                      mode: invitation.mode,
+                    },
                   }}
                 >
-                  Play {invitation.mode}
-                </Link></button>
+                  Play
+                </Link>
+              </button>
             </div>
           ))}
       </div>

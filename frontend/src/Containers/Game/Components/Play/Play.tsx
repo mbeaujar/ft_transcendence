@@ -21,7 +21,7 @@ function Play(props: Props) {
           style={{ fontSize: props.width / 40 }}
           to="/game/play/room/pong"
           state={{
-            from: { opponent: '',mode:-1 },
+            from: { opponent: '', mode: -1 },
           }}
         >
           Room
