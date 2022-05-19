@@ -92,9 +92,6 @@ function WatchGame(props: Props) {
   const WindowSize = useWindowSize();
 
   useEffect(() => {
-
-
-
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
 
@@ -166,7 +163,16 @@ function WatchGame(props: Props) {
                 {game.players[0].user.username} vs{' '}
                 {game.players[1].user.username}
               </p>
-              <button style={{ fontSize: props.width / 45 }}>Watch</button>
+              <button
+                onClick={() => {
+                  const gameID = game.id;
+                  socket?.emit('joinGame', gameID);
+                  setHideButton(!hideButton);
+                }}
+                style={{ fontSize: props.width / 45 }}
+              >
+                Watch
+              </button>
             </div>
           ))}
       </div>

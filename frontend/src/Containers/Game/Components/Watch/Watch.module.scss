@@ -63,4 +63,77 @@
       }
     }
   }
+
+  .Score {
+    position: absolute;
+    top: 105%;
+    left: 10%;
+    width: 80%;
+    height: 15%;
+    border-radius: 1vw;
+    border: 1px solid $white1;
+    background-color: $grey4;
+    display: flex;
+    flex-direction: row;
+
+    span {
+      padding-top: 0.5%;
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      div {
+        width: 12%;
+        height: 65%;
+        img {
+          border-radius: 100%;
+          width: 100%;
+          min-height: 100%;
+          max-height: 100%;
+        }
+      }
+
+      .Name {
+        width: 65%;
+      }
+    }
+
+    .PlayerLeft {
+      div {
+        margin-right: 5%;
+      }
+      .Name {
+        width: 65%;
+        text-align: left;
+      }
+    }
+
+    .PlayerRight {
+      div {
+        margin-left: 5%;
+      }
+      .Name {
+        text-align: right;
+      }
+    }
+  }
+  
+  .hideCanva {
+    display: none;
+  }
+
+  .canva {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+  }
+
+  .canva:focus {
+    outline: none;
+  }
 }
