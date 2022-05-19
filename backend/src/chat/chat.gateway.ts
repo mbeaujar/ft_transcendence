@@ -145,7 +145,7 @@ export class ChatGateway
   private async sendChannelToEveryone(userId: number) {
     const channels = await this.channelService.getChannels(userId);
     if (channels) {
-      const connectedUsers = await this.connectedUserService.getAll();
+      const connectedUsers = await this.connectedUserService.getAll(Mode.chat);
       for (const user of connectedUsers) {
         this.server.to(user.socketId).emit('channels', channels);
       }
@@ -221,7 +221,7 @@ export class ChatGateway
         .to(userToPing.socketId)
         .emit('inviteToPlay', { msg: 'blabla' });
     } else {
-      console.log(user.id, userToPing);
+      // console.log(user.id, userToPing);
     }
   }
 

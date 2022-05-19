@@ -42,6 +42,15 @@ function Invite(props: Props) {
         fontSize: props.width / 50,
       }}
     >
+            <button className={classes.refreshButton} onClick={() => {    api
+      .get('/game/invite')
+      .then((response) => {
+        console.log('invites=', response.data);
+        setListInvites(response.data);
+      })
+      .catch((reject) => console.error(reject));}}>
+        Refresh invite 
+      </button>
       <div className={classes.ListInvite}>
         {listInvites &&
           listInvites.map((invitation: any, index: number) => (

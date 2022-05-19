@@ -18,6 +18,7 @@ import { ConnectedUserService } from 'src/chat/services/connected-user.service';
 import { Queue } from '../model/queue/queue.entity';
 import { Mode } from 'src/chat/model/connected-user/mode.enum';
 import * as cookieParser from 'cookie-parser';
+import { IMatch } from '../model/match/match.interface';
 
 @WebSocketGateway({
   namespace: '/game',
@@ -102,10 +103,12 @@ export class GameGateway
     }
   }
 
+  
+
   /** --------------------------- QUEUE -------------------------------------- */
 
-  private async startGame(user1: IUser, user2: IUser, mode: number) {
-    await this.gameService.startGame(user1, user2, mode, this.server);
+  private async startGame(user1: IUser, user2: IUser, mode: number): Promise<IMatch> {
+    return this.gameService.startGame(user1, user2, mode, this.server);
   }
 
   @SubscribeMessage('joinQueue')
@@ -135,7 +138,12 @@ export class GameGateway
         // Delete opponent queue
         await this.queueService.delete(player.user.id);
         const me = await this.usersService.findUser(client.data.user.id);
-        await this.startGame(me, user, game.mode);
+        const match = await this.startGame(me, user, game.mode);
+        // prevent every spectator that a new game has been created
+        const connectedSpectators = await this.connectedUserService.getAll(Mode.game);
+        for (const connectedSpectator of connectedSpectators) {
+          this.server.to(connectedSpectator.socketId).emit('newGame', match);
+        }
         return;
       }
     } else {
@@ -160,7 +168,6 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    console.log('moveTop', match);
     if (match && match.live === 1) {
       if (
         match.players[0].user.id === client.data.user.id ||

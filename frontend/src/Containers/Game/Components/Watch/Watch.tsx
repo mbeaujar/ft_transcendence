@@ -19,12 +19,11 @@ interface Props {
 
 function WatchGame(props: Props) {
   const [listGame, setListGame] = useState<any[]>([]);
-  const canvasRef = useRef(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
-  const [id, setId] = useState<number>();
-  const [match, setMatch] = useState<IGame|null>(null);
+  const [match, setMatch] = useState<IGame | null>(null);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
+  const canvasRef = useRef(null);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -51,7 +50,6 @@ function WatchGame(props: Props) {
   };
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
-
     socketEffect.on('infoGame', (data: IGame) => {
       resetWindow(context);
       drawCircle(
@@ -120,12 +118,12 @@ function WatchGame(props: Props) {
 
   function showCanva() {
     if (match) {
-      if (score[0]===3||score[1]===3)
-      {
+      if (score[0] === 3 || score[1] === 3) {
         setMatch(null);
         return classes.hideCanva;
       }
-      return classes.canva;}
+      return classes.canva;
+    }
     return classes.hideCanva;
   }
 
@@ -133,6 +131,16 @@ function WatchGame(props: Props) {
     const socketEffect = getSocket('game');
     socketEffect.on('listAllGame', (data: any) => {
       setListGame(data.matchs);
+    });
+
+    socketEffect.on('newGame', (data: any) => {
+      setListGame([...listGame, data]);
+    });
+
+    socketEffect.on('removeGame', (data: any) => {
+      const index = listGame.findIndex((element) => element.id === data.id);
+      listGame.splice(index, 1);
+      setListGame([...listGame]);
     });
 
     // emit -> problem
@@ -158,6 +166,9 @@ function WatchGame(props: Props) {
         fontSize: props.width / 50,
       }}
     >
+      <button className={classes.refreshButton} onClick={() => {}}>
+        Refresh game in progress
+      </button>
       <div className={classes.ListGame}>
         {listGame &&
           listGame.map((game: any, index: number) => (
@@ -168,9 +179,7 @@ function WatchGame(props: Props) {
               </p>
               <button
                 onClick={() => {
-                  const gameID = game.id;
-                  socket?.emit('joinGame', gameID);
-                  setId(gameID);
+                  socket?.emit('joinGame', game.id);
                   setMatch(game);
                   setHideButton(!hideButton);
                 }}

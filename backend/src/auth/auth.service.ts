@@ -47,7 +47,7 @@ export class AuthService {
     user: User,
   ) {
     const secret = await this.usersService.findSecret(user.id);
-    console.log(secret.twoFactorAuthenticationSecret);
+    // console.log(secret.twoFactorAuthenticationSecret);
     return authenticator.verify({
       token: twoFactorAuthenticationCode,
       secret: secret.twoFactorAuthenticationSecret,

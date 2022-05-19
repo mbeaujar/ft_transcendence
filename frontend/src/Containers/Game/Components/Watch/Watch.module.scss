@@ -8,9 +8,24 @@
   margin-right: auto;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  .refreshButton
+  {
+    background-color: $black2;
+    color:$white1;
+    cursor:pointer;
+    padding: 1%;
+    border:1px solid $black;
+    margin-bottom: 2%;
+    border-radius:1vw;
+  }
+
+  .refreshButton:hover{
+    background-color: $black;
+  }
 
   .ListGame {
     width: 60%;

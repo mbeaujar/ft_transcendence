@@ -42,7 +42,7 @@ export class GameService implements OnModuleInit {
     }
   }
 
-  async startGame(user1: IUser, user2: IUser, mode: number, server: Server) {
+  async startGame(user1: IUser, user2: IUser, mode: number, server: Server): Promise<IMatch> {
     const match = await this.create(user1, user2, mode);
 
     this.game[match.id] = new Game(
@@ -53,10 +53,12 @@ export class GameService implements OnModuleInit {
       this.connectedUserService,
       server,
     );
+
     await this.usersService.updateUser(user1, { state: State.inGame });
     await this.usersService.updateUser(user2, { state: State.inGame });
     this.sendGameStarted(match.players[0], match, server);
     this.sendGameStarted(match.players[1], match, server);
+    return match;
   }
 
   async joinGame(id: number, user: IUser) {
@@ -94,7 +96,7 @@ export class GameService implements OnModuleInit {
       await this.playerService.delete(player1.id);
       return;
     }
-    return this.matchService.create({
+    return  this.matchService.create({
       players: [player1, player2],
       spectators: [],
       mode,
