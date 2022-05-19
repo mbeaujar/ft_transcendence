@@ -2,6 +2,16 @@ CMD=docker-compose
 FILE=docker-compose.yml
 DATABASE_NAME=database
 
+NAME=pg
+ADMIN_NAME=pg_admin
+EMAIL=admin@admin.com
+PGPASSWORD=root
+PASSWORD=postgres
+USER=postgres
+DB=postgres
+RED=\033[0;31m
+NC=\033[0m # No Color
+
 # Docker image: https://hub.docker.com/_/postgres
 # CMD Copy -> docker run --name pg -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres -p 5432:5432 -d postgres:alpine3.15
 
