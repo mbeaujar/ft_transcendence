@@ -60,7 +60,14 @@ export class GameService implements OnModuleInit {
   }
 
   async joinGame(id: number, user: IUser) {
-    await this.game[id].addSpectatorToGame(user);
+    if (this.game[id]) {
+      if (
+        this.game[id].player1.name !== user.username &&
+        this.game[id].player2.name !== user.username
+      ) {
+        await this.game[id].addSpectatorToGame(user);
+      }
+    }
   }
 
   moveTop(id: number, user: IUser) {

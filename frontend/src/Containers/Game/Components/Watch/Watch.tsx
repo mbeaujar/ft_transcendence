@@ -22,7 +22,7 @@ function WatchGame(props: Props) {
   const canvasRef = useRef(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
-  const [match, setMatch] = useState<IGame>();
+  const [match, setMatch] = useState<IGame|null>(null);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
 
@@ -51,10 +51,7 @@ function WatchGame(props: Props) {
   };
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
-    socketEffect.on('startGame', (data: any) => {
-      setId(data?.match?.id);
-      setMatch(data?.match);
-    });
+
     socketEffect.on('infoGame', (data: IGame) => {
       resetWindow(context);
       drawCircle(
@@ -122,7 +119,13 @@ function WatchGame(props: Props) {
   }, [WindowSize]);
 
   function showCanva() {
-    if (hideButton === true) return classes.canva;
+    if (match) {
+      if (score[0]===3||score[1]===3)
+      {
+        setMatch(null);
+        return classes.hideCanva;
+      }
+      return classes.canva;}
     return classes.hideCanva;
   }
 
@@ -167,6 +170,8 @@ function WatchGame(props: Props) {
                 onClick={() => {
                   const gameID = game.id;
                   socket?.emit('joinGame', gameID);
+                  setId(gameID);
+                  setMatch(game);
                   setHideButton(!hideButton);
                 }}
                 style={{ fontSize: props.width / 45 }}
@@ -183,10 +188,6 @@ function WatchGame(props: Props) {
         height={props.height}
         ref={canvasRef}
         tabIndex={0}
-        // onKeyUp={(event) => {
-        //   if (event.code === 'ArrowUp') socket?.emit('moveTopPaddle', { id });
-        //   if (event.code === 'ArrowDown') socket?.emit('moveBotPaddle', { id });
-        // }}
       />
       {match ? (
         <div className={classes.Score}>
@@ -197,7 +198,7 @@ function WatchGame(props: Props) {
             </p>
             <p style={{ fontSize: props.width / 20 }}>{score[0]}</p>
           </div>
-          <span>-</span>
+          <span style={{ fontSize: props.width / 20 }}>-</span>
           <div className={classes.PlayerRight}>
             <p style={{ fontSize: props.width / 20 }}>{score[1]}</p>
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>

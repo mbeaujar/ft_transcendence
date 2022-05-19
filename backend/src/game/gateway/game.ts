@@ -38,8 +38,16 @@ export class Game {
     this.blink = 0;
     this.match.players[0].score = 0;
     this.match.players[1].score = 0;
-    this.player1 = new Player(this.match.players[0].user.sensitivity, PADDLEH);
-    this.player2 = new Player(this.match.players[1].user.sensitivity, PADDLEH);
+    this.player1 = new Player(
+      this.match.players[0].user.sensitivity,
+      PADDLEH,
+      this.match.players[0].user.username,
+    );
+    this.player2 = new Player(
+      this.match.players[1].user.sensitivity,
+      PADDLEH,
+      this.match.players[1].user.username,
+    );
     this.ball = new Ball();
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
@@ -234,7 +242,7 @@ export class Game {
     ) {
       this.ball.dx *= -1.05;
       this.ball.dy =
-       8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
+        8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 

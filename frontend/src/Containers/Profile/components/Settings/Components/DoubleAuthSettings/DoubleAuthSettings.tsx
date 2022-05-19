@@ -18,9 +18,7 @@ function DoubleAuthSettings(props: Props) {
   );
   const [qrcode, setQrcode] = useState<Blob | MediaSource | null>(null);
   const [twofaCode, setTwofaCode] = useState<string>('');
-  const [inputPlaceholder, setInputPlaceholder] = useState<string>(
-    'Enter the 6 digit code',
-  );
+  const inputPlaceholder = 'Enter the 6 digit code';
 
   useEffect(() => {
     if (

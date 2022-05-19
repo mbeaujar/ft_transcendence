@@ -2,12 +2,13 @@ import { HEIGHT, PADDLEH } from './game';
 
 export class Player {
   score: number;
+  name: string;
   y: number;
   step: number;
   paddleh: number;
   draw: boolean;
 
-  constructor(playerSensitivity: number, paddleh: number) {
+  constructor(playerSensitivity: number, paddleh: number, name: string) {
     this.score = 0;
     this.y = 200;
     this.paddleh = PADDLEH;

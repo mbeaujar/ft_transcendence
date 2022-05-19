@@ -26,10 +26,7 @@ export const mainPage = 'http://localhost:8080';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Intra42()
   @ApiOperation({ summary: 'Login using 42Api' })
@@ -41,10 +38,12 @@ export class AuthController {
   @Get('redirect')
   redirect(
     @Res({ passthrough: true }) res: Response,
-    // @Req() req: Request,
+    @Req() req: Request,
     @CurrentUser() user: User,
   ): void {
+    // console.log('req', req);
     // console.log(req);
+    // console.log('user', user);
     this.authService.getCookieWithJwtAcessToken(res, user);
     res.redirect(mainPage);
   }
@@ -117,7 +116,6 @@ export class AuthController {
   @ApiOperation({ summary: 'user is 2FA authenticated' })
   @Get('authenticated')
   async isTwoFactorAuthenticated(@Req() req: Request): Promise<boolean> {
-    // console.log(req.signedCookies.access_token);
     const decodedToken: IPayload = await this.authService.verifyJwt(
       req.signedCookies.access_token,
     );

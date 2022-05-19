@@ -56,7 +56,7 @@ export class FriendsService {
     if (id !== undefined && id !== null) {
       return this.friendsRepository.findOne({ id });
     }
-    return { id: 0, friends: []};
+    return { id: 0, friends: [] };
   }
 
   isAlreadyOnFriendList(user: Friends, target: number): boolean {

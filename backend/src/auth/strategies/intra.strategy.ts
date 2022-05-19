@@ -1,4 +1,4 @@
-import { Strategy, Profile } from 'passport-42';
+import { Strategy, Profile, VerifyCallback } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
@@ -15,7 +15,12 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
     });
   }
 
-  async validate(accesToken: string, refreshToken: string, profile: Profile) {
+  async validate(
+    accesToken: string,
+    refreshToken: string,
+    profile: Profile,
+    cb: VerifyCallback,
+  ) {
     const user: IUser = {
       username: profile.username,
       id: profile.id,
@@ -25,6 +30,8 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
       losses: 0,
       blockedUsers: [],
     };
-    return this.authService.validateUser(user);
+    const newUser = await this.authService.validateUser(user);
+    cb(null, newUser);
+    // return this.authService.validateUser(user);
   }
 }
