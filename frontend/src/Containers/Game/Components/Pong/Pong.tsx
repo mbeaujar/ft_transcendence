@@ -18,7 +18,8 @@ const PADDLEW = 10;
 // const PADDLEH = 80;
 const BACKGROUND = '#000000';
 const PADDLE = '#ffffff';
-const BALL = '#00007f';
+let BALL = '#00007f';
+BALL = '#00ff00';
 
 const itemsGameMode = [
   { id: 0, value: 'Classic mode' },
