@@ -14,7 +14,7 @@ import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 
-const PADDLEW = 10;
+let PADDLEW = 10;
 // const PADDLEH = 80;
 const BACKGROUND = '#000000';
 const PADDLE = '#ffffff';
@@ -134,8 +134,6 @@ const Pong = (props: Props) => {
     setSocket(socketEffect);
 
     return () => {
-      console.log("quit");
-      socket?.emit('leaveGame', { id });
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
       }
@@ -167,6 +165,7 @@ const Pong = (props: Props) => {
   };
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
+    PADDLEW = props.width/80;
     socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
@@ -182,7 +181,7 @@ const Pong = (props: Props) => {
       if (data.player1 !== undefined && data.paddleh1 !== undefined) {
         drawPaddle(
           context,
-          5,
+          0,
           calculPercentage(data.player1, props.height) -
             calculPercentage(data.paddleh1, props.height) / 2, // 160
           PADDLEW,
@@ -192,7 +191,7 @@ const Pong = (props: Props) => {
       if (data.player2 !== undefined && data.paddleh2 !== undefined) {
         drawPaddle(
           context,
-          props.width - PADDLEW - 2,
+          props.width - PADDLEW ,
           calculPercentage(data.player2, props.height) -
             calculPercentage(data.paddleh2, props.height) / 2,
           PADDLEW,
@@ -213,6 +212,11 @@ const Pong = (props: Props) => {
   function showCanva() {
     if (hideButton === true) return classes.canva;
     return classes.hideCanva;
+  }
+
+  function showGiveUp() {
+    if (hideButton === true && match) return classes.GiveUp;
+    return classes.HideGiveUp;
   }
 
   function showLoading() {
@@ -382,7 +386,7 @@ const Pong = (props: Props) => {
         Cancel
       </button>
       <button
-        className={classes.GiveUp}
+        className={showGiveUp()}
         style={{ fontSize: props.width / 45 }}
         onClick={() => {
           socket?.emit('leaveGame', { id });

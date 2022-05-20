@@ -124,7 +124,7 @@
     outline: none;
   }
 
-  .HideBack,.HideCancel
+  .HideBack,.HideCancel,.HideGiveUp
   {
     display: none;
   }
@@ -140,9 +140,14 @@
     padding: 1% 0;
     color: $white1;
     background-color: $black2;
-    border: 0.1vw solid $white1;
+    border: 0.2vw solid $white1;
     border-radius: 2vw;
     text-decoration: none;
+  }
+
+  .Cancel {
+    left:44%;
+    width: 12%;
   }
 
   .Back:hover,.Cancel:hover {
@@ -152,7 +157,22 @@
   .GiveUp
   {
     position: absolute;
-    left:45%;
-    top:125%;
+    left:42.5%;
+    top:126%;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    width: 15%;
+    padding: 1.5% 0;
+    color: $white1;
+    background-color: $red2;
+    border: 0.1vw solid $red1;
+    border-radius: 2vw;
+    text-decoration: none;
+  }
+
+  .GiveUp:hover
+  {
+    background-color: $red1;
   }
 }

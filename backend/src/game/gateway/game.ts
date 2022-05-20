@@ -291,9 +291,6 @@ export class Game {
       this.ball.dy = -this.ball.dy;
     }
 
-    console.log("player1leave=",this.player1.leave," player2leave=",this.player2.leave);
-    console.log("player1score=",this.player1.score," player2score=",this.player2.score);
-    
     if (this.ball.x + this.ball.r >= WIDTH || this.ball.x - this.ball.r <= 0) {
       if (this.ball.x + this.ball.r >= WIDTH) {
         this.player1.goal();

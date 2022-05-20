@@ -173,14 +173,7 @@ export class GameGateway
       ) {
         this.gameService.leaveGame(match.id, client.data.user);
       }
-    } /*else {
-      const matchExist = await this.matchService.userIsPlaying(
-        client.data.user.id,
-      );
-      if (matchExist) {
-        this.server.to(client.id).emit('startGame', { match: matchExist });
-      }
-    }*/
+    } 
   }
 
   /** --------------------------- MOVEMENT -------------------------------------- */
