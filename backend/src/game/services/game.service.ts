@@ -80,6 +80,10 @@ export class GameService implements OnModuleInit {
     this.game[id].moveBot(user);
   }
 
+  leaveGame(id: number, user: IUser) {
+    this.game[id].leaveGame(user);
+  }
+
   async create(user1: IUser, user2: IUser, mode: number): Promise<IMatch> {
     const player1 = await this.playerService.create({
       score: 0,

@@ -134,6 +134,8 @@ const Pong = (props: Props) => {
     setSocket(socketEffect);
 
     return () => {
+      console.log("quit");
+      socket?.emit('leaveGame', { id });
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
       }
@@ -378,6 +380,15 @@ const Pong = (props: Props) => {
         }}
       >
         Cancel
+      </button>
+      <button
+        className={classes.GiveUp}
+        style={{ fontSize: props.width / 45 }}
+        onClick={() => {
+          socket?.emit('leaveGame', { id });
+        }}
+      >
+        Give Up
       </button>
     </div>
   );

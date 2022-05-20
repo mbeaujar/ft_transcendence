@@ -7,6 +7,7 @@ export class Player {
   step: number;
   paddleh: number;
   draw: boolean;
+  leave: boolean;
 
   constructor(playerSensitivity: number, paddleh: number, name: string) {
     this.score = 0;
@@ -34,6 +35,11 @@ export class Player {
         this.y += this.step;
       }
     }
+  }
+
+  leaveGame() {
+    this.leave = true;
+    console.log("leavegamecall leave=",this.leave);
   }
 
   goal() {

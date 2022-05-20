@@ -42,24 +42,30 @@ export class Game {
       this.match.players[0].user.sensitivity,
       PADDLEH,
       this.match.players[0].user.username,
-    );
-    this.player2 = new Player(
-      this.match.players[1].user.sensitivity,
+      );
+      this.player2 = new Player(
+        this.match.players[1].user.sensitivity,
       PADDLEH,
       this.match.players[1].user.username,
-    );
-    this.ball = new Ball();
+      );
+      this.ball = new Ball();
+      this.player1.leave = false;
+      this.player2.leave = false;
 
     // Start Loop game with refresh rate of 100 ms (~ 100fps)
     this.interval = setInterval(this.loop.bind(this), 20);
   }
 
   async loop() {
+    
+
     if (this.player1.score === 3 || this.player2.score === 3) {
       clearInterval(this.interval);
       this.endGame();
       return;
     }
+
+    
     if (this.match.mode === GameMode.draw) {
       if (this.blink >= 20) {
         this.blink = 0;
@@ -74,6 +80,29 @@ export class Game {
 
     this.ballHitLeftPaddle();
 
+    if (this.player1.leave === true || this.player2.leave === true) {
+      if (this.player1.leave === true)
+      {
+        this.player1.score = 0;
+        this.player2.score = 3;
+      }
+      else if (this.player2.leave === true)
+      {
+        this.player1.score = 3;
+        this.player2.score = 0;
+      }
+      const score: IScore = {
+        score: [this.player1.score, this.player2.score],
+      };
+      // send score to players
+      await this.sendPlayersInformation(
+        [this.match.players[0].user, this.match.players[1].user],
+        'scoreGame',
+        score,
+      );
+      this.sendSpectatorsInformation(this.match.spectators, 'scoreGame', score);
+    }
+    
     await this.ballHitWall();
 
     this.ball.move();
@@ -96,6 +125,7 @@ export class Game {
       'infoGame',
       infoGame,
     );
+
   }
 
   drawingState(player: Player) {
@@ -176,6 +206,14 @@ export class Game {
     }
   }
 
+  leaveGame(user: IUser) {
+    if (user.id === this.match.players[0].user.id) {
+      this.player1.leaveGame();
+    } else if (user.id === this.match.players[1].user.id) {
+      this.player2.leaveGame();
+    }
+  }
+
   async addSpectatorToGame(user: User) {
     this.match.spectators.push(user);
     this.match = await this.matchService.save(this.match);
@@ -207,6 +245,8 @@ export class Game {
       this.server.to(connectedPlayer2.socketId).emit(emitMessage, info);
     }
   }
+
+  
 
   async sendSpectatorsInformation(
     spectators: IUser[],
@@ -251,6 +291,9 @@ export class Game {
       this.ball.dy = -this.ball.dy;
     }
 
+    console.log("player1leave=",this.player1.leave," player2leave=",this.player2.leave);
+    console.log("player1score=",this.player1.score," player2score=",this.player2.score);
+    
     if (this.ball.x + this.ball.r >= WIDTH || this.ball.x - this.ball.r <= 0) {
       if (this.ball.x + this.ball.r >= WIDTH) {
         this.player1.goal();
@@ -262,6 +305,7 @@ export class Game {
       this.ball.reset();
       this.player1.reset();
       this.player2.reset();
+      
       const score: IScore = {
         score: [this.player1.score, this.player2.score],
       };

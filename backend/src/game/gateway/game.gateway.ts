@@ -163,6 +163,26 @@ export class GameGateway
     await this.queueService.delete(client.data.user.id);
   }
 
+  @SubscribeMessage('leaveGame')
+  async onLeaveGame(client: Socket, game: IGame) {
+    const match = await this.matchService.find(game.id);
+    if (match && match.live === 1) {
+      if (
+        match.players[0].user.id === client.data.user.id ||
+        match.players[1].user.id === client.data.user.id
+      ) {
+        this.gameService.leaveGame(match.id, client.data.user);
+      }
+    } /*else {
+      const matchExist = await this.matchService.userIsPlaying(
+        client.data.user.id,
+      );
+      if (matchExist) {
+        this.server.to(client.id).emit('startGame', { match: matchExist });
+      }
+    }*/
+  }
+
   /** --------------------------- MOVEMENT -------------------------------------- */
 
   @SubscribeMessage('moveTopPaddle')
