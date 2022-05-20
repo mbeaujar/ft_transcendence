@@ -119,6 +119,7 @@ const Pong = (props: Props) => {
     setSocket(socketEffect);
 
     return () => {
+      socket?.emit('leaveGame', { id });
       if (socketEffect && socketEffect.connected === true) {
         socketEffect.disconnect();
       }
@@ -133,18 +134,18 @@ const Pong = (props: Props) => {
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
-    return () => {
-      if (socketEffect && socketEffect.connected === true) {
-        socketEffect.disconnect();
-      }
-    };
+    // return () => {
+    //   if (socketEffect && socketEffect.connected === true) {
+    //     socketEffect.disconnect();
+    //   }
+    // };
   }, [WindowSize]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
   };
 
-  const drawCircle = (context: any, x: any, y: any, r: any) => {
+  const drawCircle = (context: any, x: number, y: number, r: number) => {
     context.fillStyle = BALL;
     context.beginPath();
     context.arc(x, y, r, 0, Math.PI * 2, true);
@@ -152,7 +153,13 @@ const Pong = (props: Props) => {
     context.fill();
   };
 
-  const drawPaddle = (context: any, x: any, y: any, w: any, h: any) => {
+  const drawPaddle = (
+    context: any,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+  ) => {
     context.fillStyle = PADDLE;
     context.beginPath();
     context.rect(x, y, w, h);
@@ -165,7 +172,7 @@ const Pong = (props: Props) => {
   };
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
-    PADDLEW = props.width/80;
+    PADDLEW = props.width / 80;
     socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
@@ -191,7 +198,7 @@ const Pong = (props: Props) => {
       if (data.player2 !== undefined && data.paddleh2 !== undefined) {
         drawPaddle(
           context,
-          props.width - PADDLEW ,
+          props.width - PADDLEW,
           calculPercentage(data.player2, props.height) -
             calculPercentage(data.paddleh2, props.height) / 2,
           PADDLEW,

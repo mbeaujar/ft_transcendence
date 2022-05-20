@@ -39,7 +39,6 @@ export class Player {
 
   leaveGame() {
     this.leave = true;
-    console.log("leavegamecall leave=",this.leave);
   }
 
   goal() {
