@@ -50,4 +50,24 @@
   .LinkBottom {
     margin-top: 2.5%;
   }
+
+  .Back {
+    position: absolute;
+    left:45%;
+    top:105%;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    width: 10%;
+    padding: 1% 0;
+    color: $white1;
+    background-color: $black2;
+    border: 0.1vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
+  }
+
+  .Back:hover {
+    background-color: $black;
+  }
 }

@@ -52,7 +52,7 @@ function Invite(props: Props) {
         Refresh invite 
       </button>
       <div className={classes.ListInvite}>
-        {listInvites &&
+        {listInvites.length !== 0 ?
           listInvites.map((invitation: any, index: number) => (
             <div className={classes.Invitation} key={index}>
               <div className={classes.Text}>
@@ -76,8 +76,9 @@ function Invite(props: Props) {
                 </Link>
               </button>
             </div>
-          ))}
+          )):(<p className={classes.NoInvitation}>You don't have any invitation</p>)}
       </div>
+      <Link to="/game/play" className={classes.Back}>Back</Link>
     </div>
   );
 }

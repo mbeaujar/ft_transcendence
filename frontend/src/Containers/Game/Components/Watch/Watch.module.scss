@@ -38,6 +38,11 @@
     align-items: center;
     justify-content: flex-start;
 
+    .NoInvitation
+    {
+      margin-top: 22.5%;
+    }
+
     .Game {
       margin-top: 2%;
       margin-bottom: 2%;
@@ -136,7 +141,7 @@
       }
     }
   }
-  
+
   .hideCanva {
     display: none;
   }
@@ -151,4 +156,25 @@
   .canva:focus {
     outline: none;
   }
+
+  .Back {
+    position: absolute;
+    left:45%;
+    top:105%;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    width: 10%;
+    padding: 1% 0;
+    color: $white1;
+    background-color: $black2;
+    border: 0.1vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
+  }
+
+  .Back:hover {
+    background-color: $black;
+  }
+  
 }

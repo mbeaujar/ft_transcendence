@@ -5,6 +5,7 @@ import { Socket } from 'socket.io-client';
 import getSocket from '../../../Socket';
 import useWindowSize from '../useWindow/useWindowSize';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -166,11 +167,8 @@ function WatchGame(props: Props) {
         fontSize: props.width / 50,
       }}
     >
-      <button className={classes.refreshButton} onClick={() => {}}>
-        Refresh game in progress
-      </button>
       <div className={classes.ListGame}>
-        {listGame &&
+        {listGame.length > 0 ? (
           listGame.map((game: any, index: number) => (
             <div className={classes.Game} key={index}>
               <p className={classes.Username} style={{}}>
@@ -188,7 +186,10 @@ function WatchGame(props: Props) {
                 Watch
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <p className={classes.NoInvitation}>There are currently no users playing</p>
+        )}
       </div>
       <canvas
         className={showCanva()}
@@ -198,6 +199,7 @@ function WatchGame(props: Props) {
         ref={canvasRef}
         tabIndex={0}
       />
+        <Link to="/game" className={classes.Back}>Back</Link>
       {match ? (
         <div className={classes.Score}>
           <div className={classes.PlayerLeft}>

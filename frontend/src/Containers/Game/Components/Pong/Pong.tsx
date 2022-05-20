@@ -12,6 +12,7 @@ import useWindowSize from '../useWindow/useWindowSize';
 import ReactLoading from 'react-loading';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -353,6 +354,13 @@ const Pong = (props: Props) => {
           </div>
         </div>
       ) : null}
+      <Link
+        to="/game/play"
+        className={classes.Back}
+        style={{ fontSize: props.width / 45 }}
+      >
+        Back
+      </Link>
     </div>
   );
 };

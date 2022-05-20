@@ -34,6 +34,7 @@ function Play(props: Props) {
           Current game invite
         </Link>
       </div>
+      <Link to="/game" className={classes.Back}>Back</Link>
     </div>
   );
 }

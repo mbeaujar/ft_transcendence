@@ -39,6 +39,11 @@
     align-items: center;
     justify-content: flex-start;
 
+    .NoInvitation
+    {
+      margin-top: 22.5%;
+    }
+
     .Invitation {
       margin-top: 3%;
       display: flex;
@@ -91,5 +96,25 @@
         background-color: $black;
       }
     }
+  }
+
+  .Back {
+    position: absolute;
+    left:45%;
+    top:105%;
+    cursor: pointer;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    width: 10%;
+    padding: 1% 0;
+    color: $white1;
+    background-color: $black2;
+    border: 0.1vw solid $white1;
+    border-radius: 2vw;
+    text-decoration: none;
+  }
+
+  .Back:hover {
+    background-color: $black;
   }
 }
