@@ -78,9 +78,8 @@ const Pong = (props: Props) => {
   const [blockDropdownOpponent, setBlockDropdownOpponent] = useState(0);
   const [indexMode, setIndexMode] = useState(0);
   const [indexOpponent, setIndexOpponent] = useState(0);
-
+  const WindowSize = useWindowSize();
   let from: any = null;
-  // let { handle }: any = useParams();
   let location = useLocation();
   if (location) from = location.state;
 
@@ -89,6 +88,56 @@ const Pong = (props: Props) => {
       .post('/users/sensitivity', { sensitivity: paddleSpeed })
       .catch((reject) => console.error(reject));
   }, [paddleSpeed]);
+
+  useEffect(() => {
+    // api
+    //   .get("/friends/list")
+    //   .then((response) => {
+    //     response.data.friends.map((friend: IUser, index: number) => {
+    //       setItemsOpponent([
+    //         ...itemsOpponent,
+    //         { id: index + 1, value: friend.username, userId: friend.id },
+    //       ]);
+    //       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
+    //     });
+    //   })
+    //   .catch((reject) => console.error(reject));
+
+    if (from.from.opponent !== '') setBlockDropdownOpponent(1);
+    if (from.from.mode !== -1) {
+      setBlockDropdownMode(1);
+      setIndexMode(from.from.mode);
+      console.log('frommode=', from.from.mode);
+    }
+
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    const socketEffect = getSocket('game');
+    addListenerGame(socketEffect, context);
+    setSocket(socketEffect);
+
+    return () => {
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    const socketEffect = getSocket('game');
+    addListenerGame(socketEffect, context);
+    setSocket(socketEffect);
+
+    return () => {
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
+    };
+  }, [WindowSize]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -153,58 +202,6 @@ const Pong = (props: Props) => {
     });
   };
 
-  const WindowSize = useWindowSize();
-
-  useEffect(() => {
-    // api
-    //   .get("/friends/list")
-    //   .then((response) => {
-    //     response.data.friends.map((friend: IUser, index: number) => {
-    //       setItemsOpponent([
-    //         ...itemsOpponent,
-    //         { id: index + 1, value: friend.username, userId: friend.id },
-    //       ]);
-    //       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
-    //     });
-    //   })
-    //   .catch((reject) => console.error(reject));
-
-    if (from.from.opponent !== '') setBlockDropdownOpponent(1);
-    if (from.from.mode !== -1) {
-      setBlockDropdownMode(1);
-      setIndexMode(from.from.mode);
-      console.log('frommode=', from.from.mode);
-    }
-
-    const canvas: any = canvasRef.current;
-    const context = canvas.getContext('2d');
-
-    const socketEffect = getSocket('game');
-    addListenerGame(socketEffect, context);
-    setSocket(socketEffect);
-
-    return () => {
-      if (socketEffect && socketEffect.connected === true) {
-        socketEffect.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const canvas: any = canvasRef.current;
-    const context = canvas.getContext('2d');
-
-    const socketEffect = getSocket('game');
-    addListenerGame(socketEffect, context);
-    setSocket(socketEffect);
-
-    return () => {
-      if (socketEffect && socketEffect.connected === true) {
-        socketEffect.disconnect();
-      }
-    };
-  }, [WindowSize]);
-
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
@@ -223,6 +220,16 @@ const Pong = (props: Props) => {
   function showLoadingText() {
     if (hideButton === true && !match) return classes.LoadingText;
     return classes.HideLoadingText;
+  }
+
+  function showBack() {
+    if (hideButton === false) return classes.Back;
+    return classes.HideBack;
+  }
+
+  function showCancel() {
+    if (hideButton === true && !match) return classes.Cancel;
+    return classes.HideCancel;
   }
 
   function ifInvite() {
@@ -356,11 +363,21 @@ const Pong = (props: Props) => {
       ) : null}
       <Link
         to="/game/play"
-        className={classes.Back}
+        className={showBack()}
         style={{ fontSize: props.width / 45 }}
       >
         Back
       </Link>
+      <button
+        className={showCancel()}
+        style={{ fontSize: props.width / 45 }}
+        onClick={() => {
+          socket?.emit('leaveQueue');
+          setHideButton(!hideButton);
+        }}
+      >
+        Cancel
+      </button>
     </div>
   );
 };

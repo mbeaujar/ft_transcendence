@@ -124,7 +124,12 @@
     outline: none;
   }
 
-  .Back {
+  .HideBack,.HideCancel
+  {
+    display: none;
+  }
+
+  .Back,.Cancel {
     position: absolute;
     left:45%;
     top:105%;
@@ -140,7 +145,7 @@
     text-decoration: none;
   }
 
-  .Back:hover {
+  .Back:hover,.Cancel:hover {
     background-color: $black;
   }
 }
