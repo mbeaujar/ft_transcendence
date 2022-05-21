@@ -32,13 +32,13 @@
     border: none;
     color: $white1;
     width: 80%;
-    border: 0.05vw solid $grey2;
+    border: 0.1vw solid $black2;
     background-color: $blue4;
     cursor: pointer;
   }
 
   .ChatLeftButton:hover {
-    background-color: $blue3;
+    background-color: $black2;
   }
 
   h3 {

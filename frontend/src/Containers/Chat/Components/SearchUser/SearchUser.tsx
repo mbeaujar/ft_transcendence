@@ -9,6 +9,7 @@ import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { toast } from 'react-toastify';
 import { IChannel } from '../../../../interface/channel.interface';
 import { Scope } from '../../../../interface/scope.enum';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 interface Props {
   user: IUser;
@@ -18,6 +19,7 @@ interface Props {
 function SearchUser(props: Props) {
   const [searchUserInput, setSearchUserInput] = useState<string>('');
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
+  const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
   function handleChangesearchUserInput(
     event: React.FormEvent<HTMLInputElement>,
@@ -64,6 +66,30 @@ function SearchUser(props: Props) {
     }
   }
 
+  function ftBlockUser() {
+    if (userToFind) {
+      api
+        .post('/users/block', { id: userToFind.id })
+        .then((response: any) => {
+          api
+            .get('/users/getBlockedUser')
+            .then((response) => {
+              setUserBlockedTab(response.data);
+            })
+            .catch((reject) => console.error(reject));
+          userBlockedTab &&
+            userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+              if (userBlock.username === userToFind.username) {
+                toast.error(userToFind.username + ' was already blocked');
+                return;
+              }
+            });
+          toast.success(userToFind.username + ' was blocked');
+        })
+        .catch((reject) => console.error(reject));
+    }
+  }
+
   return (
     <div className={classes.SearchUser}>
       <h1>Search User</h1>
@@ -89,13 +115,22 @@ function SearchUser(props: Props) {
             <button onClick={() => ftCreateDiscussion()}>
               Start Conversation
             </button>
-            <button onClick={() => ftCreateDiscussion()}>
-              Profile
-            </button>
-            <button onClick={() => ftCreateDiscussion()}>
-              Invite To play
-            </button>
-            <button onClick={() => ftCreateDiscussion()}>
+            <Link
+              className={classes.Link}
+              to={'/profile/' + userToFind.username}
+            >
+              See profile
+            </Link>
+            <Link
+              className={classes.Link}
+              to={'/game/play/room/pong'}
+              state={{
+                from: { opponent: userToFind.username, mode: -1 },
+              }}
+            >
+              Invite to play
+            </Link>
+            <button className={classes.Button} onClick={() => ftBlockUser()}>
               Block
             </button>
           </div>
