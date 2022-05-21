@@ -14,4 +14,5 @@ export interface IUser {
   administrator: boolean;
   mute: boolean;
   sensitivity: number;
+  rank:string;
 }
