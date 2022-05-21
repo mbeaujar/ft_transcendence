@@ -89,33 +89,51 @@ function SearchUser(props: Props) {
         } 
       });
       if (ret===1) return ("Unblock");
-      return ("Block");
+      else return ("Block");
   }
 
   function ftBlockUser() {
-    if (userToFind) {
-      api
-        .post('/users/block', { id: userToFind.id })
-        .then((response: any) => {
-          userBlockedTab &&
-          userBlockedTab.blockedUsers.map((userBlock: IUser) => {
-            if (userBlock.username === userToFind.username) {
-              toast.error(userToFind.username + ' was already blocked');
-              return;
-            } else {
-              toast.success(userToFind.username + ' was blocked');
-            }
-          });
-          if (!userBlockedTab)
-          toast.success(userToFind.username + ' was blocked');
+    let ret = 0;
+    userToFind &&
+    userBlockedTab &&
+    userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+      if (userBlock.username === userToFind.username) {
+        ret = 1;
+        } 
+      });
+      if (ret===1) 
+      {
+        if (userToFind) {
           api
-            .get('/users/getBlockedUser')
-            .then((response) => {
-              setUserBlockedTab(response.data);
+            .post('/users/unblock', { id: userToFind.id })
+            .then(() => {
+              toast.success(userToFind.username + ' was unblocked');
+              api
+                .get('/users/getBlockedUser')
+                .then((response) => {
+                  setUserBlockedTab(response.data);
+                })
+                .catch((reject) => console.error(reject));
             })
             .catch((reject) => console.error(reject));
-        })
-        .catch((reject) => console.error(reject));
+      }
+      }
+      else 
+      {
+        if (userToFind) {
+          api
+            .post('/users/block', { id: userToFind.id })
+            .then(() => {
+              toast.success(userToFind.username + ' was blocked');
+              api
+                .get('/users/getBlockedUser')
+                .then((response) => {
+                  setUserBlockedTab(response.data);
+                })
+                .catch((reject) => console.error(reject));
+            })
+            .catch((reject) => console.error(reject));
+      }
     }
   }
 
