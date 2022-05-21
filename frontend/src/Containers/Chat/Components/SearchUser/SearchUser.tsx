@@ -21,6 +21,19 @@ function SearchUser(props: Props) {
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
+  useEffect(() => {
+    api
+      .get('/users/getBlockedUser')
+      .then((response) => {
+        setUserBlockedTab(response.data);
+      })
+      .catch((reject) => console.error(reject));
+  }, [userToFind]);
+
+  useEffect(()=>{
+
+  },[])
+
   function handleChangesearchUserInput(
     event: React.FormEvent<HTMLInputElement>,
   ) {
@@ -66,25 +79,41 @@ function SearchUser(props: Props) {
     }
   }
 
+  function textBlocked() {
+    let ret = 0;
+    userToFind &&
+    userBlockedTab &&
+    userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+      if (userBlock.username === userToFind.username) {
+        ret = 1;
+        } 
+      });
+      if (ret===1) return ("Unblock");
+      return ("Block");
+  }
+
   function ftBlockUser() {
     if (userToFind) {
       api
         .post('/users/block', { id: userToFind.id })
         .then((response: any) => {
+          userBlockedTab &&
+          userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+            if (userBlock.username === userToFind.username) {
+              toast.error(userToFind.username + ' was already blocked');
+              return;
+            } else {
+              toast.success(userToFind.username + ' was blocked');
+            }
+          });
+          if (!userBlockedTab)
+          toast.success(userToFind.username + ' was blocked');
           api
             .get('/users/getBlockedUser')
             .then((response) => {
               setUserBlockedTab(response.data);
             })
             .catch((reject) => console.error(reject));
-          userBlockedTab &&
-            userBlockedTab.blockedUsers.map((userBlock: IUser) => {
-              if (userBlock.username === userToFind.username) {
-                toast.error(userToFind.username + ' was already blocked');
-                return;
-              }
-            });
-          toast.success(userToFind.username + ' was blocked');
         })
         .catch((reject) => console.error(reject));
     }
@@ -131,7 +160,7 @@ function SearchUser(props: Props) {
               Invite to play
             </Link>
             <button className={classes.Button} onClick={() => ftBlockUser()}>
-              Block
+            {textBlocked()}
             </button>
           </div>
         </div>
