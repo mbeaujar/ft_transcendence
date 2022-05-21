@@ -69,7 +69,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
+        .HideLink{
+          display: none;
+        }
         button,.Link {
           width: 80%;
           font-size: 1vw;
@@ -145,9 +148,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
 
-        .Button {
+        .HideLink
+        {
+          display: none;
+        }
+
+        button,.Link {
           width: 70%;
           font-size: 1.8vw;
           background-color: $blue4;
@@ -156,8 +164,9 @@
           color: $white1;
           cursor: pointer;
           padding: 0.5vw 0;
+          text-decoration: none;
         }
-        .Button:hover {
+        button:hover,.Link:hover {
           background-color: $black2;
         }
       }

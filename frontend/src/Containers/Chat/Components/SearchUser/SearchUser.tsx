@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { IChannel } from '../../../../interface/channel.interface';
 import { Scope } from '../../../../interface/scope.enum';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { IFriends } from '../../../../interface/friends.interface';
 
 interface Props {
   user: IUser;
@@ -20,6 +21,7 @@ function SearchUser(props: Props) {
   const [searchUserInput, setSearchUserInput] = useState<string>('');
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
+  const [friendsList, setFriendsList] = useState<IFriends>();
 
   useEffect(() => {
     api
@@ -27,6 +29,11 @@ function SearchUser(props: Props) {
       .then((response) => {
         setUserBlockedTab(response.data);
       })
+      .catch((reject) => console.error(reject));
+
+      api
+      .get('/friends/list')
+      .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
   }, [userToFind]);
 
@@ -90,6 +97,20 @@ function SearchUser(props: Props) {
       });
       if (ret===1) return ("Unblock");
       else return ("Block");
+  }
+
+  function showInvite()
+  {
+    let ret = 0;
+    userToFind &&
+    friendsList &&
+    friendsList.friends.map((friend: IUser) => {
+      if (friend.username === userToFind.username) {
+        ret = 1;
+        } 
+      });
+      if (ret===0) return (classes.HideLink);
+      else return (classes.Link);
   }
 
   function ftBlockUser() {
@@ -169,7 +190,7 @@ function SearchUser(props: Props) {
               See profile
             </Link>
             <Link
-              className={classes.Link}
+              className={showInvite()}
               to={'/game/play/room/pong'}
               state={{
                 from: { opponent: userToFind.username, mode: -1 },
