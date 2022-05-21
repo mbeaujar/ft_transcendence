@@ -89,6 +89,15 @@ function SearchUser(props: Props) {
             <button onClick={() => ftCreateDiscussion()}>
               Start Conversation
             </button>
+            <button onClick={() => ftCreateDiscussion()}>
+              Profile
+            </button>
+            <button onClick={() => ftCreateDiscussion()}>
+              Invite To play
+            </button>
+            <button onClick={() => ftCreateDiscussion()}>
+              Block
+            </button>
           </div>
         </div>
       ) : null}

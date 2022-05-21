@@ -7,7 +7,7 @@
   justify-content: center;
   form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
   }
@@ -20,7 +20,7 @@
       width: 100%;
       p {
         font-size: 2vw;
-        margin-bottom: 2vw;
+        margin-right: 1vw;
         width: 22%;
       }
       input {
@@ -53,28 +53,35 @@
         margin-left: 8.5%;
         div {
           img {
-            width: 10vw;
-            height: 10vw;
+            width: 8vw;
+            height: 8vw;
             border-radius: 100%;
           }
         }
         p {
+          font-size: 2vw;
           margin-top: 5%;
         }
       }
       .UserFindRight {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
         button {
           width: 80%;
-          font-size: 2vw;
-          background-color: $green1;
-          border: 0.2vw solid $green3;
+          font-size: 1vw;
+          background-color: $blue4;
+          border: 0.1vw solid $black2;
           border-radius: 1vw;
           color: $white1;
           cursor: pointer;
-          padding: 1vw 0;
+          padding: 0.5vw 0;
         }
         button:hover {
-          background-color: $green2;
+          background-color: $black2;
         }
       }
     }
@@ -88,8 +95,8 @@
       width: 100%;
       p {
         font-size: 4vw;
-        margin-bottom: 2vw;
-        width: 40%;
+       // margin-right: 1vw;
+        width: 30%;
       }
       input {
         background-color: $grey2;
@@ -133,22 +140,24 @@
       }
       .UserFindRight {
         width: 100%;
-        height: 100%;
+        height: 65%;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+
         button {
           width: 70%;
-          font-size: 3vw;
-          background-color: $green1;
-          border: 0.2vw solid $green3;
+          font-size: 1.8vw;
+          background-color: $blue4;
+          border: 0.1vw solid $black2;
           border-radius: 1vw;
           color: $white1;
           cursor: pointer;
-          padding: 1vw 0;
+          padding: 0.5vw 0;
         }
         button:hover {
-          background-color: $green2;
+          background-color: $black2;
         }
       }
     }
