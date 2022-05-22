@@ -51,7 +51,6 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     id: MENU_ID,
   });
 
-
   function displayMenu(
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
     userToVisit: IUser,
@@ -61,7 +60,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   }
 
   const renderedMessages = props.messages.map(
-    (message: IMessage, index: number) => {
+    (message: IMessage) => {
       return (
         <div key={message.id} className={classes.Message}>
           <Avatar user={message.user} />
@@ -70,7 +69,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
               {message.user.username}
             </h4>
             <p> {message.text}</p>
-            <RightClick messageUser={messageUser} socket={props.socket} />
+            <RightClick messageUser={messageUser} />
           </div>
         </div>
       );

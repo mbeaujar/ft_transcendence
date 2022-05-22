@@ -11,6 +11,9 @@ import Dropdown3 from './Dropdown3/Dropdown3';
 import { Scope } from '../../../../interface/scope.enum';
 import clsx from 'clsx';
 import api from '../../../../apis/api';
+import RightClick from '../RightClick/RightClick';
+import { useContextMenu } from 'react-contexify';
+const MENU_ID = 'menu-id';
 
 interface Props {
   user: IUser;
@@ -416,6 +419,18 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     setConfirmNewPassword(value);
   }
 
+  const { show } = useContextMenu({
+    id: MENU_ID,
+  });
+
+  function displayMenu(
+    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+    userToVisit: IUser,
+  ) {
+    // setMessageUser(userToVisit);
+    if (userToVisit.username !== props.user.username) show(e);
+  }
+
   return (
     <div className={classes.ChannelSettings}>
       <button
@@ -431,7 +446,8 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
         {props.channel.users.map((user: IUser) => (
           <div className={classes.ChannelUser} key={user.id}>
             <Avatar user={user.user} />
-            <p>{user.user.username}</p>
+            <p onContextMenu={(e) => displayMenu(e, user.user)}>{user.user.username}</p>
+            <RightClick messageUser={user.user} />
           </div>
         ))}
       </div>

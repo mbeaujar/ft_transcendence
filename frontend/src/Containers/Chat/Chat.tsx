@@ -13,6 +13,8 @@ import { IJoinChannel } from '../../interface/join-channel.interface';
 import ChannelSettings from './Components/ChannelSettings/ChannelSettings';
 import { Scope } from '../../interface/scope.enum';
 import getSocket from '../Socket';
+import RightClick from './Components/RightClick/RightClick';
+import { useContextMenu } from 'react-contexify';
 
 interface Props {
   user: IUser;
@@ -120,21 +122,24 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
 
   const ftDisplayDM = () => {
     return discussion.map((channel: IChannel) => (
-      <p
-        className={classes.ChannelName}
-        key={channel.id}
-        onClick={() => {
-          const joinChannel: IJoinChannel = {
-            channel,
-          };
-          socket.emit('joinChannel', joinChannel);
-          setShowChatLeft(!showChatLeft);
-        }}
-      >
-        {channel.users[0]?.user?.id === props.user.id
-          ? `${channel.users[1]?.user?.username}`
-          : `${channel.users[0]?.user?.username}`}
-      </p>
+      <>
+        {' '}
+        <p
+          className={classes.ChannelName}
+          key={channel.id}
+          onClick={() => {
+            const joinChannel: IJoinChannel = {
+              channel,
+            };
+            socket.emit('joinChannel', joinChannel);
+            setShowChatLeft(!showChatLeft);
+          }}
+        >
+          {channel.users[0]?.user?.id === props.user.id
+            ? `${channel.users[1]?.user?.username}`
+            : `${channel.users[0]?.user?.username}`}
+        </p>
+      </>
     ));
   };
 

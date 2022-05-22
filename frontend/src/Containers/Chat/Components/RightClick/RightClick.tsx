@@ -16,7 +16,6 @@ const MENU_ID = 'menu-id';
 
 interface Props {
   messageUser: IUser|undefined;
-  socket: any;
 }
 
 function RightClick(props: Props) {
@@ -74,7 +73,6 @@ function RightClick(props: Props) {
         <Item
           onClick={() => {
             RightClickInviteToPlay();
-            props.socket.emit('pingToPlay', props.messageUser);
           }}
         >
           <Link
