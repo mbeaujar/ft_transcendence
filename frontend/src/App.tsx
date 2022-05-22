@@ -167,7 +167,7 @@ const App: React.FC = (): JSX.Element => {
         <h1 className="unauthorized">You must log in to access this feature</h1>
       )}
       {/* </Router> */}
-      <ToastContainer theme="colored" />
+      <ToastContainer theme="colored" autoClose={1500}/>
     </div>
   );
 };
