@@ -31,7 +31,7 @@ function RightClick(props: Props) {
       })
       .catch((reject) => console.error(reject));
 
-      api
+    api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
@@ -71,6 +71,20 @@ function RightClick(props: Props) {
         api
           .post('/users/block', { id: props.messageUser.id })
           .then(() => {
+            friendsList &&
+              friendsList.friends.map((friend) => {
+                if (props.messageUser && friend.id === props.messageUser.id) {
+                  api
+                    .delete(`/friends/${friend.id}`)
+                    .then(() =>
+                      api
+                        .get('/friends/list')
+                        .then((response) => setFriendsList(response.data))
+                        .catch((reject) => console.error(reject)),
+                    )
+                    .catch((reject) => console.error(reject));
+                }
+              });
             toast.success(
               props.messageUser
                 ? props.messageUser.username + ' was blocked'
@@ -104,18 +118,21 @@ function RightClick(props: Props) {
     else return 'Block';
   }
 
-  function showInvite()
-  {
+  function showInvite() {
     let ret = 0;
     props.messageUser &&
-    friendsList &&
-    friendsList.friends.map((friend: IUser) => {
-      if (props.messageUser && friend.username === props.messageUser.username) {
-        ret = 1;
-        } 
+      friendsList &&
+      friendsList.friends.map((friend: IUser) => {
+        if (
+          props.messageUser &&
+          friend.username === props.messageUser.username
+        ) {
+          ret = 1;
+        }
       });
-      if (ret===0) return (classes.HideLink);
-      else return (classes.Link);
+    console.log('ret=', ret);
+    if (ret === 0) return classes.HideLink;
+    else return classes.Link;
   }
 
   function RightClickInviteToPlay() {
@@ -125,7 +142,7 @@ function RightClick(props: Props) {
   return (
     <div className={classes.RightClick}>
       <Menu id={MENU_ID} theme="dark">
-        <Item>
+        <Item className={classes.Item}>
           <Link
             className={classes.Link}
             to={'/profile/' + props.messageUser?.username}
@@ -135,7 +152,7 @@ function RightClick(props: Props) {
         </Item>
         <Item onClick={() => ftBlockUser()}>{textBlocked()}</Item>
         <Item
-        className={showInvite()}
+          className={showInvite()}
           onClick={() => {
             RightClickInviteToPlay();
           }}

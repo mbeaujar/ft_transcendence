@@ -22,6 +22,7 @@ function SearchUser(props: Props) {
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
   const [friendsList, setFriendsList] = useState<IFriends>();
+  const [refresh,setRefresh]=useState<number>(0);
 
   useEffect(() => {
     api
@@ -35,7 +36,9 @@ function SearchUser(props: Props) {
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
-  }, [userToFind]);
+
+      console.log("usestate");
+  }, [userToFind,refresh]);
 
   useEffect(()=>{
 
@@ -145,6 +148,19 @@ function SearchUser(props: Props) {
           api
             .post('/users/block', { id: userToFind.id })
             .then(() => {
+              setRefresh(refresh+1);
+              friendsList &&
+              friendsList.friends.map((friend) => {
+                if (userToFind && friend.id === userToFind.id) {
+                  api
+                    .delete(`/friends/${friend.id}`)
+                    .then(()=>api
+                    .get('/friends/list')
+                    .then((response) => setFriendsList(response.data))
+                    .catch((reject) => console.error(reject)))
+                    .catch((reject) => console.error(reject));
+                }
+              });
               toast.success(userToFind.username + ' was blocked');
               api
                 .get('/users/getBlockedUser')
