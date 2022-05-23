@@ -1,6 +1,16 @@
 @import '../../../../utils.scss';
 
-.Link {
-  color: $white1;
-  text-decoration: none;
+.RightClick
+{
+  display: flex;
+  flex-direction: column;
+
+  .HideLink {
+    display: none;
+  }
+
+  .Link {
+    color: $white1;
+    text-decoration: none;
+  }
 }

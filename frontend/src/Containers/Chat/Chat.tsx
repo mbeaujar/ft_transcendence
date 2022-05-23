@@ -15,6 +15,7 @@ import { Scope } from '../../interface/scope.enum';
 import getSocket from '../Socket';
 import RightClick from './Components/RightClick/RightClick';
 import { useContextMenu } from 'react-contexify';
+const MENU_ID = 'menu-id';
 
 interface Props {
   user: IUser;
@@ -120,26 +121,34 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ));
   };
 
+  const { show } = useContextMenu({
+    id: MENU_ID,
+  });
+
+  function displayMenu(
+    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+    userToVisit: IUser,
+  ) {
+    if (userToVisit.username !== props.user.username) show(e);
+  }
+
   const ftDisplayDM = () => {
     return discussion.map((channel: IChannel) => (
-      <>
-        {' '}
-        <p
-          className={classes.ChannelName}
-          key={channel.id}
-          onClick={() => {
-            const joinChannel: IJoinChannel = {
-              channel,
-            };
-            socket.emit('joinChannel', joinChannel);
-            setShowChatLeft(!showChatLeft);
-          }}
-        >
-          {channel.users[0]?.user?.id === props.user.id
-            ? `${channel.users[1]?.user?.username}`
-            : `${channel.users[0]?.user?.username}`}
-        </p>
-      </>
+      <p
+        className={classes.ChannelName}
+        key={channel.id}
+        onClick={() => {
+          const joinChannel: IJoinChannel = {
+            channel,
+          };
+          socket.emit('joinChannel', joinChannel);
+          setShowChatLeft(!showChatLeft);
+        }}
+      >
+        {channel.users[0]?.user?.id === props.user.id
+          ? `${channel.users[1]?.user?.username}`
+          : `${channel.users[0]?.user?.username}`}
+      </p>
     ));
   };
 

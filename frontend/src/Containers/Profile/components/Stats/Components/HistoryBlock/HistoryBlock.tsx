@@ -29,6 +29,7 @@ interface Props {
 
 function HistoryBlock(props: Props) {
   const [historic, setHistoric] = useState<IGame[]>([]);
+
   useEffect(() => {
     if (props.user) {
       api
