@@ -151,7 +151,7 @@ function RightClick(props: Props) {
           </Link>
         </Item>
         <Item onClick={() => ftBlockUser()}>{textBlocked()}</Item>
-        <Item
+        {textBlocked()==="Block"?(<Item
           className={showInvite()}
           onClick={() => {
             RightClickInviteToPlay();
@@ -166,7 +166,7 @@ function RightClick(props: Props) {
           >
             Invite to play
           </Link>
-        </Item>
+        </Item>): <Item><p></p></Item>}
       </Menu>
     </div>
   );
