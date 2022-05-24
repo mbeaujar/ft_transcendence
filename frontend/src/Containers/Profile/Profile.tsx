@@ -9,10 +9,14 @@ import classes from './Profile.module.scss';
 // import styles from "./Profile.module.scss";
 import Avatar from './components/Avatar/Avatar';
 import { IUser } from '../../interface/user.interface';
+import ProfileLeft from './components/ProfileLeft/ProfileLeft';
 // import { IFriends } from "../../interface/friends.interface";
 
-function Profile() {
-  const [activeMenu, setActiveMenu] = useState<string>('Stats');
+interface Props {
+  menu: string;
+}
+function Profile(props: Props) {
+  // const [activeMenu, setActiveMenu] = useState<string>('Stats');
   const [refresh, setRefresh] = useState<number>(0);
   const [user, setUser] = useState<IUser | null>(null);
 
@@ -24,25 +28,26 @@ function Profile() {
       .catch((reject) => console.error(reject));
   }, [refresh]);
 
-  const ftIsActiveMenu = (menuName: string) => {
-    if (menuName === activeMenu) {
-      return classes.activeMenu;
-    }
-    return classes.disactiveMenu;
-  };
+  // const ftIsActiveMenu = (menuName: string) => {
+  //   if (menuName === activeMenu) {
+  //     return classes.activeMenu;
+  //   }
+  //   return classes.disactiveMenu;
+  // };
 
-  const ftIsActiveInfo = (infoName: string) => {
-    if (infoName === activeMenu) {
-      return classes.activeInfo;
-    }
-    return classes.disactiveInfo;
-  };
+  // const ftIsActiveInfo = (infoName: string) => {
+  //   if (infoName === activeMenu) {
+  //     return classes.activeInfo;
+  //   }
+  //   return classes.disactiveInfo;
+  // };
 
   return (
     <Fragment>
       {user ? (
         <div className={clsx(classes.Profile)}>
-          <div className={classes.ProfileLeft}>
+          <ProfileLeft user={user} menu={props.menu} />
+          {/* <div className={classes.ProfileLeft}>
             <div className={classes.User}>
               <Avatar user={user} />
               <h1>{user?.username}</h1>
@@ -80,30 +85,37 @@ function Profile() {
                 <p>Settings</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Stats'))}>
-            <Stats user={user} />
-          </div>
+          {props.menu === 'Stats' ? (
+            <div className={clsx(classes.FriendsInfo)}>
+              <Stats user={user} />
+            </div>
+          ) : props.menu === 'Friends' ? (
+            <div className={clsx(classes.FriendsInfo)}>
+              <Friends />
+            </div>
+          ) : props.menu === 'Leaderboard' ? (
+            <div className={clsx(classes.LeaderboardInfo)}>
+              <Leaderboard />
+            </div>
+          ) : props.menu === 'Settings' ? (
+            <div className={clsx(classes.SettingsInfo)}>
+              <Settings user={user} refresh={refresh} setRefresh={setRefresh} />
+            </div>
+          ) : null}
 
-          <div className={clsx(classes.FriendsInfo, ftIsActiveInfo('Friends'))}>
+          {/* <div className={clsx(classes.FriendsInfo)}>
             <Friends />
           </div>
 
-          <div
-            className={clsx(
-              classes.LeaderboardInfo,
-              ftIsActiveInfo('Leaderboard'),
-            )}
-          >
+          <div className={clsx(classes.LeaderboardInfo)}>
             <Leaderboard />
           </div>
 
-          <div
-            className={clsx(classes.SettingsInfo, ftIsActiveInfo('Settings'))}
-          >
+          <div className={clsx(classes.SettingsInfo)}>
             <Settings user={user} refresh={refresh} setRefresh={setRefresh} />
-          </div>
+          </div> */}
         </div>
       ) : null}
     </Fragment>

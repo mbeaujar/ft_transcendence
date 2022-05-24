@@ -18,8 +18,9 @@ import { IUser } from './interface/user.interface';
 import api from './apis/api';
 import googleAuthImg from './assets/Google_Authenticator_for_Android_icon.png';
 import useWindowSize from './Containers/Game/Components/useWindow/useWindowSize';
-import { Socket } from 'socket.io-client';
 import Test from './Containers/Game/Components/Test/Test';
+import Friends from './Containers/Profile/components/Friends/Friends';
+import ProfileLeft from './Containers/Profile/components/ProfileLeft/ProfileLeft';
 
 export interface IMainProps {
   user: IUser;
@@ -100,8 +101,12 @@ function MainApp(props: IMainProps) {
         path="/chat"
         element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
       />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/profile/:name" element={<OtherUserProfile />} />
+      <Route path="/profile" element={<Profile menu="Profile"/>} />
+      <Route path="/profile/stats" element={<Profile menu="Stats"/>} />
+      <Route path="/profile/friends" element={<Profile menu="Friends"/>} />
+      <Route path="/profile/leaderboard" element={<Profile menu="Leaderboard"/>} />
+      <Route path="/profile/settings" element={<Profile menu="Settings"/>} />
+      <Route path="/profile/stats/:name" element={<OtherUserProfile />} />
       <Route path="*" element={<h1>404 not found</h1>} />
     </Routes>
   );
@@ -120,8 +125,7 @@ const App: React.FC = (): JSX.Element => {
     api
       .get('/auth/status')
       .then((response) => setUser(response.data))
-      .catch((reject) => console.error(reject));
-
+      .catch(() => console.log('error'));
     api
       .get('/auth/authenticated')
       .then((response) => setGoogleAuth(response.data))
@@ -149,7 +153,6 @@ const App: React.FC = (): JSX.Element => {
 
   return (
     <div className="App Layout">
-      {/* <Router> */}
       <Header />
       {user ? (
         <MainApp user={user} refresh={refresh} setRefresh={setRefresh} />
@@ -167,8 +170,7 @@ const App: React.FC = (): JSX.Element => {
       ) : (
         <h1 className="unauthorized">You must log in to access this feature</h1>
       )}
-      {/* </Router> */}
-      <ToastContainer theme="colored" autoClose={1500}/>
+      <ToastContainer theme="colored" autoClose={1500} />
     </div>
   );
 };

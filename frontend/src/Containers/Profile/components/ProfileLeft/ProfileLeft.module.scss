@@ -1,0 +1,174 @@
+@import '../../../../utils.scss';
+
+
+
+  .ProfileLeft {
+    display: flex;
+
+    .User {
+      background-color: $grey6;
+      h1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 90%;
+        margin: auto;
+      }
+    }
+
+    .Menu {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      background-color: $grey6;
+
+      div,.DivMenu{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: left;
+        cursor: pointer;
+        text-decoration: none;
+        color: $white1;
+      }
+
+    }
+  }
+  
+  .activeMenu {
+    background-color: $grey2;
+    color: $black;
+  }
+  
+  .disactiveMenu {
+    background-color: $grey6;
+  }
+  
+  .disactiveMenu:hover {
+    background-color: $blue6;
+  }
+
+  .activeInfo {
+    display: block;
+  }
+
+  .disactiveInfo {
+    display: none;
+  }
+
+
+@media screen and (min-width: 651px) {
+
+    .ProfileLeft {
+      flex-direction: column;
+      height: 38.8vw;
+
+      .User {
+        margin-bottom: 12%;
+        margin-right: 2vw;
+        width: 15vw;
+        border-radius: 1.5vw;
+        height: 40%;
+
+        img {
+          margin-top: 10%;
+          margin-bottom: 5%;
+          width: 10vw;
+          height: 10vw;
+          border-radius: 50%;
+        }
+        h1 {
+          font-size: 2vw;
+          text-align: center;
+          margin: auto;
+        }
+      }
+
+      .Menu {
+        margin-right: 2vw;
+        width: 15vw;
+        border-radius: 1.5vw;
+
+        div,.DivMenu {
+          span {
+            margin-left: 1vw;
+            font-size: 1.5vw;
+          }
+
+          p {
+            margin-left: 1vw;
+            font-size: 1.1vw;
+          }
+        }
+
+        .Stats {
+          border-top-left-radius: 1.5vw;
+          border-top-right-radius: 1.5vw;
+        }
+
+        .Settings {
+          border-bottom-left-radius: 1.5vw;
+          border-bottom-right-radius: 1.5vw;
+        }
+      }
+    }
+  }
+
+
+@media screen and (max-width: 650px) {
+
+
+    .ProfileLeft {
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 5vw;
+      height: 36vw;
+      width: 80vw;
+      .User {
+        margin-bottom: 15%;
+        margin-right: 2vw;
+        width: 47%;
+        border-radius: 5.5vw;
+        height: 100%;
+        img {
+          margin-top: 10%;
+          width: 22vw;
+          height: 22vw;
+          border-radius: 50%;
+        }
+        h1 {
+          margin-top: 3%;
+          font-size: 6vw;
+        }
+      }
+
+      .Menu {
+        width: 47%;
+        border-radius: 3.5vw;
+
+        div,.DivMenu {
+          height: 25%;
+          span {
+            margin-left: 3vw;
+            font-size: 5vw;
+          }
+
+          p {
+            margin-left: 3vw;
+            font-size: 3.5vw;
+          }
+        }
+
+        .Stats {
+          border-top-left-radius: 3.5vw;
+          border-top-right-radius: 3.5vw;
+        }
+
+        .Settings {
+          border-bottom-left-radius: 3.5vw;
+          border-bottom-right-radius: 3.5vw;
+        }
+      }
+    }
+  }
+
