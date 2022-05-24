@@ -130,13 +130,8 @@ function RightClick(props: Props) {
           ret = 1;
         }
       });
-    console.log('ret=', ret);
     if (ret === 0) return classes.HideLink;
     else return classes.Link;
-  }
-
-  function RightClickInviteToPlay() {
-    console.log('RightClickInviteToPlay', props.messageUser);
   }
 
   return (
@@ -151,22 +146,23 @@ function RightClick(props: Props) {
           </Link>
         </Item>
         <Item onClick={() => ftBlockUser()}>{textBlocked()}</Item>
-        {textBlocked()==="Block"?(<Item
-          className={showInvite()}
-          onClick={() => {
-            RightClickInviteToPlay();
-          }}
-        >
-          <Link
-            className={showInvite()}
-            to={'/game/play/room/pong'}
-            state={{
-              from: { opponent: props.messageUser?.username, mode: -1 },
-            }}
-          >
-            Invite to play
-          </Link>
-        </Item>): <Item><p></p></Item>}
+        {textBlocked() === 'Block' ? (
+          <Item className={showInvite()}>
+            <Link
+              className={showInvite()}
+              to={'/game/play/room/pong'}
+              state={{
+                from: { opponent: props.messageUser?.username, mode: -1 },
+              }}
+            >
+              Invite to play
+            </Link>
+          </Item>
+        ) : (
+          <Item>
+            <p></p>
+          </Item>
+        )}
       </Menu>
     </div>
   );

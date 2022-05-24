@@ -41,25 +41,25 @@ interface Props {
   user: IUser;
 }
 
-let itemsOpponent = [{ id: 0, value: 'Random', userId: 0 }];
-api
-  .get('/friends/list')
-  .then((response) => {
-    console.log('debug map friends Pong:46', response.data.friends);
-    response.data.friends.map((friend: IUser, index: number) => {
-      // setItemsOpponent([
-      //   ...itemsOpponent,
-      //   { id: index + 1, value: friend.username, userId: friend.id },
-      // ]);
-      itemsOpponent.push({
-        id: index + 1,
-        value: friend.username,
-        userId: friend.id,
-      });
-      // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
-    });
-  })
-  .catch((reject) => console.error(reject));
+// let itemsOpponent = [{ id: 0, value: 'Random', userId: 0 }];
+// api
+//   .get('/friends/list')
+//   .then((response) => {
+//     console.log('debug map friends Pong:46', response.data.friends);
+//     response.data.friends.map((friend: IUser, index: number) => {
+//       // setItemsOpponent([
+//       //   ...itemsOpponent,
+//       //   { id: index + 1, value: friend.username, userId: friend.id },
+//       // ]);
+//       itemsOpponent.push({
+//         id: index + 1,
+//         value: friend.username,
+//         userId: friend.id,
+//       });
+//       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
+//     });
+//   })
+//   .catch((reject) => console.error(reject));
 
 const Pong = (props: Props) => {
   const canvasRef = useRef(null);
@@ -68,9 +68,9 @@ const Pong = (props: Props) => {
   const [match, setMatch] = useState<IGame>();
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
-  // const [itemsOpponent, setItemsOpponent] = useState([
-  //   { id: 0, value: "Random", userId: 0 },
-  // ]);
+  const [itemsOpponent, setItemsOpponent] = useState([
+    { id: 0, value: 'Random', userId: 0 },
+  ]);
   const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
   const [opponent, setOpponent] = useState(0);
@@ -91,18 +91,20 @@ const Pong = (props: Props) => {
   }, [paddleSpeed]);
 
   useEffect(() => {
-    // api
-    //   .get("/friends/list")
-    //   .then((response) => {
-    //     response.data.friends.map((friend: IUser, index: number) => {
-    //       setItemsOpponent([
-    //         ...itemsOpponent,
-    //         { id: index + 1, value: friend.username, userId: friend.id },
-    //       ]);
-    //       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
-    //     });
-    //   })
-    //   .catch((reject) => console.error(reject));
+    api
+      .get('/friends/list')
+      .then((response) => {
+        response.data.friends.map((friend: IUser, index: number) => {
+          setItemsOpponent([
+            ...itemsOpponent,
+            { id: index + 1, value: friend.username, userId: friend.id },
+          ]);
+          if (from.from.opponent === friend.username) {
+            setOpponent(index + 1);
+          }
+        });
+      })
+      .catch((reject) => console.error(reject));
 
     if (from.from.opponent !== '') setBlockDropdownOpponent(1);
     if (from.from.mode !== -1) {
@@ -285,6 +287,7 @@ const Pong = (props: Props) => {
         index={indexMode}
         blockDropdown={blockDropdownMode}
         paramRouteMode={from.from.mode}
+        paramRouteOpponent={from.from.opponent}
       />
       <Dropdown
         title="Paddle speed"
@@ -297,6 +300,7 @@ const Pong = (props: Props) => {
         setState={setPaddleSpeed}
         index={paddleSpeed - 1}
         blockDropdown={0}
+        paramRouteOpponent={from.from.opponent}
       />
       <Dropdown
         title="Opponent"

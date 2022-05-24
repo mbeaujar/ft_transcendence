@@ -1,5 +1,7 @@
 // import React from "react";
 import { useState, useEffect, useRef } from 'react';
+import api from '../../../../apis/api';
+import { IUser } from '../../../../interface/user.interface';
 import classes from './Dropdown.module.scss';
 
 interface Iitem {
@@ -19,7 +21,7 @@ interface Props {
   index: number;
   blockDropdown: number;
   paramRouteMode?: number;
-  paramRouteOpponent?: string;
+  paramRouteOpponent: string;
 }
 
 function Dropdown(props: Props) {
@@ -39,15 +41,6 @@ function Dropdown(props: Props) {
     };
     document.addEventListener('click', onBodyClick, { capture: true });
 
-    let index = 0;
-    if (props.id == 'Opponent') {
-      props.items.map((item) => {
-        if (item.value === props.paramRouteOpponent) {
-          index = item.id;
-        }
-      });
-    }
-
     if (props.id == 'GameMode') {
       if (props.paramRouteMode === -1) setSelection(props.items[0].value);
       if (props.paramRouteMode && props.paramRouteMode !== -1) {
@@ -57,8 +50,8 @@ function Dropdown(props: Props) {
     } else if (props.id == 'PaddleSpeed')
       setSelection(props.items[props.index].value);
     else if (props.id == 'Opponent') {
-      setSelection(props.items[index].value);
-      props.setState(props.items[index].id);
+      if (props.paramRouteOpponent !== '')
+        setSelection(props.paramRouteOpponent);
     }
 
     return () => {
