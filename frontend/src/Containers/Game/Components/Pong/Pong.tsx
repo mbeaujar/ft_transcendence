@@ -41,26 +41,6 @@ interface Props {
   user: IUser;
 }
 
-// let itemsOpponent = [{ id: 0, value: 'Random', userId: 0 }];
-// api
-//   .get('/friends/list')
-//   .then((response) => {
-//     console.log('debug map friends Pong:46', response.data.friends);
-//     response.data.friends.map((friend: IUser, index: number) => {
-//       // setItemsOpponent([
-//       //   ...itemsOpponent,
-//       //   { id: index + 1, value: friend.username, userId: friend.id },
-//       // ]);
-//       itemsOpponent.push({
-//         id: index + 1,
-//         value: friend.username,
-//         userId: friend.id,
-//       });
-//       // if (from.from.opponent===friend.username) {setIndexOpponent(index+1);console.log("oooookkoo");}
-//     });
-//   })
-//   .catch((reject) => console.error(reject));
-
 const Pong = (props: Props) => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
@@ -265,6 +245,8 @@ const Pong = (props: Props) => {
     console.log('target=', itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
+
+ 
 
   return (
     <div

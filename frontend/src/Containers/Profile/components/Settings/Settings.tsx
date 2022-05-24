@@ -18,7 +18,9 @@ interface Props {
 }
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
-  useEffect(() => {}, []);
+ 
+
+  
 
   return (
     <div className="Settings">
