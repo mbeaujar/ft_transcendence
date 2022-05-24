@@ -50,7 +50,7 @@ function OtherUserProfile() {
           </div>
         </div>
       ) : (
-        <p className={classes.NotFound}>User not found</p>
+        <h1>404 not found</h1>
       )}
     </Fragment>
   );

@@ -102,6 +102,7 @@ function MainApp(props: IMainProps) {
       />
       <Route path="/profile" element={<Profile />} />
       <Route path="/profile/:name" element={<OtherUserProfile />} />
+      <Route path="*" element={<h1>404 not found</h1>} />
     </Routes>
   );
 }
