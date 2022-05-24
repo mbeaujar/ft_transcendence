@@ -201,7 +201,7 @@ function SearchUser(props: Props) {
             </button>
             <Link
               className={classes.Link}
-              to={'/profile/' + userToFind.username}
+              to={'/profile/stats/' + userToFind.username}
             >
               See profile
             </Link>

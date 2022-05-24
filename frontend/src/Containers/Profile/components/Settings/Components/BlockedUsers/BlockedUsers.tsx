@@ -17,7 +17,7 @@ function BlockedUsers() {
 
   return (
     <div className="BlockedUsers">
-      <h3>blocked users</h3>
+      <h3>Blocked users</h3>
       <div className="BlockedUsers">
         {users.map((userBlocked: IUser, index: number) => (
           <div className="BlockedUser" key={userBlocked.id}>

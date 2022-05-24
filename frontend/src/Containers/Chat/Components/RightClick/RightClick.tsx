@@ -140,7 +140,7 @@ function RightClick(props: Props) {
         <Item className={classes.Item}>
           <Link
             className={classes.Link}
-            to={'/profile/' + props.messageUser?.username}
+            to={'/profile/stats/' + props.messageUser?.username}
           >
             See profile
           </Link>

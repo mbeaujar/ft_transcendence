@@ -96,7 +96,7 @@ function Header() {
           CHAT
         </Link>
         <Link
-          to="/profile"
+          to="/profile/stats"
           className={clsx(classes.Link, classes.Profile)}
           onClick={() => setShowLinks(!showLinks)}
         >

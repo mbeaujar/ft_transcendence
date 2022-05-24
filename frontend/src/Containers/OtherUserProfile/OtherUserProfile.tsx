@@ -13,12 +13,12 @@ function OtherUserProfile() {
   function getUser() {
     let path = window.location.pathname;
     let cutPath = path.split('/');
-    if (cutPath.length !== 3) {
+    if (cutPath.length !== 4) {
       setUser(null);
       return;
     }
     api
-      .get(`/users/username/${cutPath[2]}`)
+      .get(`/users/username/${cutPath[3]}`)
       .then((response) => {
         setUser(response.data);
       })
