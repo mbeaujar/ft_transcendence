@@ -220,7 +220,10 @@ const Pong = (props: Props) => {
   }
 
   function showGiveUp() {
-    if (hideButton === true && match) return classes.GiveUp;
+    if (hideButton === true && match) {
+      if (score[0] === 3 || score[1] === 3) return classes.HideGiveUp;
+      return classes.GiveUp;
+    }
     return classes.HideGiveUp;
   }
 
@@ -376,7 +379,9 @@ const Pong = (props: Props) => {
         </div>
       ) : null}
       <div className={showMatchEnd()} style={{ fontSize: props.width / 30 }}>
-        <Link className={classes.LinkEnd} to="/game/play">Start a new game</Link>
+        <Link className={classes.LinkEnd} to="/game/play">
+          Start a new game
+        </Link>
       </div>
       <Link
         to="/game/play"

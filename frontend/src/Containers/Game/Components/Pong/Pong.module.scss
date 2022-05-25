@@ -137,10 +137,16 @@
     .LinkEnd{
       cursor: pointer;
       text-decoration: none;
+      width: 100%;
       color:$white1;
-      padding: 5%;
+      padding:10% 5% ;
       border-radius: 1.5vw;
       border:0.2vw solid $white1;
+    }
+
+    .LinkEnd:hover 
+    {
+      background-color: $black;
     }
   }
 
