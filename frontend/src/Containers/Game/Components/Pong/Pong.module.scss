@@ -109,7 +109,7 @@
     font-family: 'Roboto Slab', serif;
   }
 
-  .hideCanva {
+  .hideCanva,.HideMatchEnd {
     display: none;
   }
 
@@ -122,6 +122,26 @@
 
   .canva:focus {
     outline: none;
+  }
+
+  .MatchEnd{
+    position: absolute;
+    width: 30%;
+    height:20%;
+    top:40%;
+    left:35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .LinkEnd{
+      cursor: pointer;
+      text-decoration: none;
+      color:$white1;
+      padding: 5%;
+      border-radius: 1.5vw;
+      border:0.2vw solid $white1;
+    }
   }
 
   .HideBack,.HideCancel,.HideGiveUp

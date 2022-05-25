@@ -160,6 +160,8 @@ const Pong = (props: Props) => {
       setMatch(data?.match);
     });
     socketEffect.on('infoGame', (data: IGame) => {
+      // console.log("match=",match," id=",id);
+      // console.log("data=",data);
       resetWindow(context);
       drawCircle(
         context,
@@ -199,8 +201,22 @@ const Pong = (props: Props) => {
   }
 
   function showCanva() {
-    if (hideButton === true) return classes.canva;
+    if (hideButton === true) {
+      if (score[0] === 3 || score[1] === 3) {
+        // setMatchEnd(true);
+        return classes.hideCanva;
+      }
+
+      return classes.canva;
+    }
     return classes.hideCanva;
+  }
+
+  function showMatchEnd() {
+    if (hideButton === true) {
+      if (score[0] === 3 || score[1] === 3) return classes.MatchEnd;
+    }
+    return classes.HideMatchEnd;
   }
 
   function showGiveUp() {
@@ -245,8 +261,6 @@ const Pong = (props: Props) => {
     console.log('target=', itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
-
- 
 
   return (
     <div
@@ -361,6 +375,9 @@ const Pong = (props: Props) => {
           </div>
         </div>
       ) : null}
+      <div className={showMatchEnd()} style={{ fontSize: props.width / 30 }}>
+        <Link className={classes.LinkEnd} to="/game/play">Start a new game</Link>
+      </div>
       <Link
         to="/game/play"
         className={showBack()}
