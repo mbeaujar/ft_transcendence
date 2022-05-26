@@ -14,7 +14,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $blue5;
+    background-color: var(--blue5);
     border: 0.01vw solid rgb(95, 93, 93);
     border-radius: 1.5vw;
   }
@@ -33,7 +33,7 @@
     color: $white1;
     width: 80%;
     border: 0.1vw solid $black2;
-    background-color: $blue4;
+    background-color: var(--blue4);
     cursor: pointer;
   }
 
@@ -42,7 +42,7 @@
   }
 
   h3 {
-    background-color: $blue5;
+    background-color: var(--blue5);
     width: 100%;
     margin-bottom: 0;
   }
@@ -59,7 +59,7 @@
   }
 
   .ChannelName:hover {
-    background-color: $blue6;
+    background-color: var(--blue6);
   }
 }
 
@@ -117,7 +117,7 @@
         margin-top: 0;
         padding: 15px 0%;
         color: $white1;
-        background-color: $blue5;
+        background-color: var(--blue5);
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -167,7 +167,7 @@
     }
     .ChatLeft {
       transition: all 0.8s ease-out;
-      background-color: $blue1;
+      background-color: var(--blue1);
       z-index: 8;
       position: fixed;
       min-width: 50vw;
@@ -236,7 +236,7 @@
         padding: 4vw 0vw;
         color: $white1;
         font-size: 6vw;
-        background-color: $blue5;
+        background-color: var(--blue5);
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;

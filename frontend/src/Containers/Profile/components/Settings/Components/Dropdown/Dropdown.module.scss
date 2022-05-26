@@ -2,8 +2,8 @@
 
 @media screen and (min-width: 651px) {
   @mixin styling() {
-    background-color: $blue1;
-    border-color: $blue3;
+    background-color: var(--blue1);
+    border-color: var(--blue3);
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
@@ -62,7 +62,7 @@
           display: flex;
           justify-content: space-between;
           background-color: $black2;
-          color: $blue2;
+          color: var(--blue2);
           padding: 3.5% 10%;
           border: 0;
           width: 100%;
@@ -77,8 +77,8 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $blue2;
-            color: $blue4;
+            background-color: var(--blue2);
+            color: var(--blue4);
           }
 
           .checkLogo {
@@ -94,8 +94,8 @@
 
 @media screen and (max-width: 650px) {
   @mixin styling() {
-    background-color: $blue1;
-    border-color: $blue3;
+    background-color: var(--blue1);
+    border-color: var(--blue3);
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
@@ -155,7 +155,7 @@
           display: flex;
           justify-content: space-between;
           background-color: $black2;
-          color: $blue2;
+          color: var(--blue2);
           padding: 3.5% 10%;
           border: 0;
           width: 100%;
@@ -170,8 +170,8 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $blue2;
-            color: $blue4;
+            background-color: var(--blue2);
+            color: var(--blue4);
           }
 
           .checkLogo {

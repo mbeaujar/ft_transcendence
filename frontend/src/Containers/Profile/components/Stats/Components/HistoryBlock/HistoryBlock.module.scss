@@ -32,7 +32,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: $blue5;
+      background-color: var(--blue5);
       border: 0.01vw solid $black2;
       border-radius: 1.5vw;
     }

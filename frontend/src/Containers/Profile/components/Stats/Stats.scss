@@ -16,7 +16,7 @@
       margin-bottom: 2.25%;
       width: 90%;
       height: 42%;
-      background-color: $blue1;
+      background-color: var(--blue1);
       border-radius: 1.5vw;
       display: flex;
       flex-direction: row;
@@ -34,7 +34,7 @@
     .Bottom {
       width: 90%;
       height: 47%;
-      background-color: $blue1;
+      background-color: var(--blue1);
       border-radius: 1.5vw;
       display: flex;
       flex-direction: row;
@@ -62,7 +62,7 @@
       margin-bottom: 5%;
       width: 90%;
       height: 70vw;
-      background-color: $blue1;
+      background-color: var(--blue1);
       border-radius: 2.5vw;
       display: flex;
       flex-direction: column;
@@ -87,7 +87,7 @@
     .Bottom {
       width: 90%;
       height: 68.5%;
-      background-color: $blue1;
+      background-color: var(--blue1);
       border-radius: 2.5vw;
       display: flex;
       flex-direction: column;

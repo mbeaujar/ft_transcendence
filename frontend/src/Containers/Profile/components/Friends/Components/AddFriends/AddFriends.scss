@@ -38,16 +38,16 @@
       }
 
       button {
-        background-color: $blue4;
-        color: $blue2;
+        background-color: var(--blue4);
+        color: var(--blue2);
         border: 1px solid $blue2;
         border-radius: 5px;
         cursor: pointer;
       }
 
       button:hover {
-        background-color: $blue2;
-        color: $blue1;
+        background-color: var(--blue2);
+        color: var(--blue1);
         border: 1px solid $blue4;
       }
     }
@@ -96,16 +96,16 @@
       }
 
       button {
-        background-color: $blue4;
-        color: $blue2;
+        background-color: var(--blue4);
+        color: var(--blue2);
         border: 1px solid $blue2;
         border-radius: 5px;
         cursor: pointer;
       }
 
       button:hover {
-        background-color: $blue2;
-        color: $blue1;
+        background-color: var(--blue2);
+        color: var(--blue1);
         border: 1px solid $blue4;
       }
     }

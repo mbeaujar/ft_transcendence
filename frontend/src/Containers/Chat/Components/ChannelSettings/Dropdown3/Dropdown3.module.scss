@@ -1,7 +1,7 @@
 @import '../../../../../utils.scss';
 
 @mixin styling() {
-  background-color: $blue1;
+  background-color: var(--blue1);
   border: 0.1vw solid $blue3;
   @media screen and (min-width: 651px) {
     border-radius: 0.5vw;
@@ -96,7 +96,7 @@
         justify-content: space-between;
         align-items: center;
         background-color: black;
-        color: $blue2;
+        color: var(--blue2);
         border: 0;
         text-align: left;
         border-bottom: 0.1vw solid $blue3;
@@ -117,8 +117,8 @@
 
         &:hover {
           cursor: pointer;
-          background-color: $blue3;
-          //color: $blue4;
+          background-color: var(--blue3);
+          //color: var(--blue4);
         }
 
         @media screen and (min-width: 651px) {

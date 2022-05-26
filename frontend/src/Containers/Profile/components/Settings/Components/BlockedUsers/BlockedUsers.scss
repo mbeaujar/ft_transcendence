@@ -5,7 +5,7 @@
     width: 100%;
     min-height: 46%;
     max-height: 46%;
-    background-color: $blue1;
+    background-color: var(--blue1);
     border-radius: 1.5vw;
 
     display: flex;
@@ -78,7 +78,7 @@
     width: 100%;
     min-height: 36vw;
     max-height: 36vw;
-    background-color: $blue1;
+    background-color: var(--blue1);
     border-radius: 2.5vw;
     display: flex;
     flex-direction: column;

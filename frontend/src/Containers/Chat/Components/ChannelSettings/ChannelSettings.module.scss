@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: $blue1;
+  background-color: var(--blue1);
 
   height: 82vh;
   overflow-y: scroll;
@@ -19,14 +19,14 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $blue5;
+    background-color: var(--blue5);
     border: 0.01vw solid rgb(95, 93, 93);
     border-radius: 1.5vw;
   }
 
   h3 {
     margin-top: 0;
-    background-color: $blue5;
+    background-color: var(--blue5);
     margin-bottom: 0;
   }
 

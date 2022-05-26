@@ -60,7 +60,7 @@
       }
 
       button:hover {
-        background-color: $blue3;
+        background-color: var(--blue3);
       }
     }
 
@@ -95,7 +95,7 @@
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          background-color: $blue1;
+          background-color: var(--blue1);
 
           span {
             font-size: 1.5vw;
@@ -196,7 +196,7 @@
       }
 
       button:hover {
-        background-color: $blue3;
+        background-color: var(--blue3);
       }
     }
 
@@ -237,7 +237,7 @@
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          background-color: $blue1;
+          background-color: var(--blue1);
 
           span {
             font-size: 4vw;

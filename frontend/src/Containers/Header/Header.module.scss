@@ -189,30 +189,30 @@
 .Navigation {
   a {
     text-decoration: none;
-    color: $blue2;
+    color: var(--blue2);
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
   }
 
   a:hover {
-    color: $blue3;
+    color: var(--blue3);
   }
 
   .showLogin,
   .showLogout {
     cursor: pointer;
     display: block;
-    background-color: $blue2;
+    background-color: var(--blue2);
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
-    color: $blue1;
+    color: var(--blue1);
   }
 
   .showLogin:hover,
   .showLogout:hover {
-    background-color: $blue3;
+    background-color: var(--blue3);
     border: 0.05px solid $blue2;
-    color: $blue2;
+    color: var(--blue2);
   }
 
   .hideLogin,

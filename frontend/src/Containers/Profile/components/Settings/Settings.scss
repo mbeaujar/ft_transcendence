@@ -24,7 +24,7 @@
       justify-content: space-between;
 
       div {
-        background-color: $blue1;
+        background-color: var(--blue1);
         border-radius: 1.5vw;
       }
     }
@@ -67,7 +67,7 @@
       //    justify-content: space-between;
 
       div {
-        background-color: $blue1;
+        background-color: var(--blue1);
         border-radius: 2.5vw;
       }
     }

@@ -34,13 +34,13 @@
 
   .CreateChannelButton {
     border: none;
-    background-color: $blue4;
-    color: $blue2;
+    background-color: var(--blue4);
+    color: var(--blue2);
     cursor: pointer;
 
     &:hover {
       background-color: $black2;
-      color: $blue2;
+      color: var(--blue2);
     }
   }
 }

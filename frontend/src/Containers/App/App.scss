@@ -6,7 +6,7 @@ body
   div 
   {
   }
-  background-color: $blue2;
+  background-color: var(--blue2);
 }
 
 ::-webkit-scrollbar {
@@ -18,16 +18,16 @@ body
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: $blue5;
+  background-color: var(--blue5);
   border: 0.01vw solid rgb(95, 93, 93);
   border-radius: 1.5vw;
 }
 .Layout {
-  background-color: $blue1;
+  background-color: var(--blue1);
   background-color: var(--blue1);
   min-height: 100vh;
   margin-top:0;
-  color: $blue2;
+  color: var(--blue2);
 
   .DoubleAuth {
     display: flex;
@@ -36,7 +36,7 @@ body
     border-radius: 1.5vw;
     width: 25vw;
     height: 25vw;
-    background-color: $blue4;
+    background-color: var(--blue4);
     margin-left: auto;
     margin-right: auto;
     margin-top: 10vh;
@@ -66,7 +66,7 @@ body
     }
 
     button {
-      background-color: $blue5;
+      background-color: var(--blue5);
       color: $white1;
       width: 40%;
       border: 0.1vw solid $blue3;
@@ -89,7 +89,7 @@ body
 }
 
 body {
-  background-color: $blue1;
+  background-color: var(--blue1);
   background-color: var(--background);
 }
 

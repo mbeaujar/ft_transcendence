@@ -76,7 +76,7 @@
         button,.Link {
           width: 80%;
           font-size: 1vw;
-          background-color: $blue4;
+          background-color: var(--blue4);
           border: 0.1vw solid $black2;
           border-radius: 1vw;
           color: $white1;
@@ -158,7 +158,7 @@
         button,.Link {
           width: 70%;
           font-size: 1.8vw;
-          background-color: $blue4;
+          background-color: var(--blue4);
           border: 0.1vw solid $black2;
           border-radius: 1vw;
           color: $white1;
