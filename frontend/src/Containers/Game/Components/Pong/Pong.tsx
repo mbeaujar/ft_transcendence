@@ -63,6 +63,11 @@ const Pong = (props: Props) => {
   let from: any = null;
   let location = useLocation();
   if (location) from = location.state;
+  const stateGame = useRef<any>({
+    
+    player1Top: Boolean(false),
+    player1Bottom: Boolean(false)
+  });
 
   useEffect(() => {
     api
@@ -158,10 +163,10 @@ const Pong = (props: Props) => {
     socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
+      // console.log("match=",match," id=",id);
     });
     socketEffect.on('infoGame', (data: IGame) => {
-      // console.log("match=",match," id=",id);
-      // console.log("data=",data);
+      //  console.log("data=",data);
       resetWindow(context);
       drawCircle(
         context,
@@ -265,6 +270,34 @@ const Pong = (props: Props) => {
     return itemsOpponent[opponent].userId;
   }
 
+  const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
+    if (event.code === 'ArrowLeft') {
+      stateGame.current.player1Top = true;
+      socket?.emit('moveTopPaddle', { id });
+      console.log("Top")
+    }
+
+    if (event.code === 'ArrowRight') {
+      stateGame.current.player1Bottom = true;
+      socket?.emit('moveBotPaddle', { id });
+      console.log("Bottom")
+    }
+
+
+  };
+
+  const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
+    if (event.code === 'ArrowLeft') {
+      stateGame.current.player1Top = false;
+    }
+
+    if (event.code === 'ArrowRight') {
+      stateGame.current.player1Bottom = false;
+    }
+
+
+  };
+
   return (
     <div
       className={classes.Pong}
@@ -354,10 +387,12 @@ const Pong = (props: Props) => {
         height={props.height}
         ref={canvasRef}
         tabIndex={0}
-        onKeyUp={(event) => {
-          if (event.code === 'ArrowUp') socket?.emit('moveTopPaddle', { id });
-          if (event.code === 'ArrowDown') socket?.emit('moveBotPaddle', { id });
-        }}
+        // onKeyUp={(event) => {
+        //   if (event.code === 'ArrowUp') socket?.emit('moveTopPaddle', { id });
+        //   if (event.code === 'ArrowDown') socket?.emit('moveBotPaddle', { id });
+        // }}
+        onKeyDown={(event) => keyDownHandler(event)}
+        onKeyUp={(event) => keyUpHandler(event)}
       />
       {match ? (
         <div className={classes.Score}>
