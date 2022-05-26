@@ -19,8 +19,6 @@ const MENU_ID = 'menu-id';
 
 interface Props {
   user: IUser;
-  refresh: number;
-  setRefresh: (i: number) => void;
 }
 const Chat: React.FC<Props> = (props: Props): JSX.Element => {
   const [channels, setChannels] = useState<IChannel[]>([]);

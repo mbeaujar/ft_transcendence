@@ -15,12 +15,11 @@ interface Props {
   user: IUser;
   refresh: number;
   setRefresh: (value: number) => void;
+  theme:string;
+  setTheme:(value: string) => void;
 }
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
- 
-
-  
 
   return (
     <div className="Settings">
@@ -35,7 +34,7 @@ const Settings: React.FC<Props> = (props: Props): JSX.Element => {
           refresh={props.refresh}
           setRefresh={props.setRefresh}
         />
-        <Theme />
+        <Theme theme={props.theme} setTheme={props.setTheme} />
       </div>
       <div className="SettingsRight">
         <DoubleAuthSettings

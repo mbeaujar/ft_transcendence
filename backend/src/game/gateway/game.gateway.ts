@@ -180,6 +180,7 @@ export class GameGateway
 
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
+    console.log("backtop")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (
@@ -200,6 +201,7 @@ export class GameGateway
 
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
+    console.log("backbot")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (

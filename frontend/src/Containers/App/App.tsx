@@ -4,35 +4,34 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Game from './Containers/Game/Game';
-import Watch from './Containers/Game/Components/Watch/Watch';
-import Room from './Containers/Game/Components/Room/Room';
-import Pong from './Containers/Game/Components/Pong/Pong';
-import Play from './Containers/Game/Components/Play/Play';
-import Invite from './Containers/Game/Components/Invite/Invite';
-import Chat from './Containers/Chat/Chat';
-import Profile from './Containers/Profile/Profile';
-import Header from './Containers/Header/Header';
-import OtherUserProfile from './Containers/OtherUserProfile/OtherUserProfile';
-import { IUser } from './interface/user.interface';
-import api from './apis/api';
-import googleAuthImg from './assets/Google_Authenticator_for_Android_icon.png';
-import useWindowSize from './Containers/Game/Components/useWindow/useWindowSize';
-import Test from './Containers/Game/Components/Test/Test';
-import Friends from './Containers/Profile/components/Friends/Friends';
-import ProfileLeft from './Containers/Profile/components/ProfileLeft/ProfileLeft';
+import Game from '../Game/Game';
+import Watch from '../Game/Components/Watch/Watch';
+import Room from '../Game/Components/Room/Room';
+import Pong from '../Game/Components/Pong/Pong';
+import Play from '../Game/Components/Play/Play';
+import Invite from '../Game/Components/Invite/Invite';
+import Chat from '../Chat/Chat';
+import Profile from '../Profile/Profile';
+import Header from '../Header/Header';
+import OtherUserProfile from '../OtherUserProfile/OtherUserProfile';
+import { IUser } from '../../interface/user.interface';
+import api from '../../apis/api';
+import googleAuthImg from '../../assets/Google_Authenticator_for_Android_icon.png';
+import useWindowSize from '../Game/Components/useWindow/useWindowSize';
+import Test from '../Game/Components/Test/Test';
+import useLocalStorage from 'use-local-storage';
 
 export interface IMainProps {
   user: IUser;
-  refresh: number;
-  setRefresh: (value: number) => void;
+  theme: string;
+  setTheme: (value: string) => void;
 }
 
 let WIDTH = 800;
 let HEIGHT = 400;
 
 function MainApp(props: IMainProps) {
-  const { user, refresh, setRefresh } = props;
+  const { user } = props;
   const WindowSize = useWindowSize();
 
   useEffect(() => {
@@ -97,15 +96,53 @@ function MainApp(props: IMainProps) {
         path="/game/play/room/pong"
         element={<Pong width={WIDTH} height={HEIGHT} user={user} />}
       ></Route>
+      <Route path="/chat" element={<Chat user={user} />} />
       <Route
-        path="/chat"
-        element={<Chat user={user} refresh={refresh} setRefresh={setRefresh} />}
+        path="/profile"
+        element={
+          <Profile
+            menu="Profile"
+            theme={props.theme}
+            setTheme={props.setTheme}
+          />
+        }
       />
-      <Route path="/profile" element={<Profile menu="Profile"/>} />
-      <Route path="/profile/stats" element={<Profile menu="Stats"/>} />
-      <Route path="/profile/friends" element={<Profile menu="Friends"/>} />
-      <Route path="/profile/leaderboard" element={<Profile menu="Leaderboard"/>} />
-      <Route path="/profile/settings" element={<Profile menu="Settings"/>} />
+      <Route
+        path="/profile/stats"
+        element={
+          <Profile menu="Stats" theme={props.theme} setTheme={props.setTheme} />
+        }
+      />
+      <Route
+        path="/profile/friends"
+        element={
+          <Profile
+            menu="Friends"
+            theme={props.theme}
+            setTheme={props.setTheme}
+          />
+        }
+      />
+      <Route
+        path="/profile/leaderboard"
+        element={
+          <Profile
+            menu="Leaderboard"
+            theme={props.theme}
+            setTheme={props.setTheme}
+          />
+        }
+      />
+      <Route
+        path="/profile/settings"
+        element={
+          <Profile
+            menu="Settings"
+            theme={props.theme}
+            setTheme={props.setTheme}
+          />
+        }
+      />
       <Route path="/profile/stats/:name" element={<OtherUserProfile />} />
       <Route path="*" element={<h1>404 not found</h1>} />
     </Routes>
@@ -120,6 +157,9 @@ const App: React.FC = (): JSX.Element => {
   const [inputPlaceholder, setInputPlaceholder] = useState<string>(
     'Enter the 6 digit code',
   );
+
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage('theme', 'dark');
 
   useEffect(() => {
     api
@@ -151,11 +191,13 @@ const App: React.FC = (): JSX.Element => {
     setTwofaCode(value);
   }
 
+  
+
   return (
-    <div className="App Layout">
+    <div className="App Layout" data-theme={theme}>
       <Header />
       {user ? (
-        <MainApp user={user} refresh={refresh} setRefresh={setRefresh} />
+        <MainApp user={user} theme={theme} setTheme={setTheme} />
       ) : !googleAuth ? (
         <div className="DoubleAuth">
           <img src={googleAuthImg} />

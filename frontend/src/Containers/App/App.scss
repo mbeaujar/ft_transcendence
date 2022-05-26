@@ -1,10 +1,12 @@
-@import 'utils.scss';
+@import '../../utils.scss';
 
-body {
+body
+{
   margin-left: 0;
-  // div
-  // {
-  // }
+  div 
+  {
+  }
+  background-color: $blue2;
 }
 
 ::-webkit-scrollbar {
@@ -22,6 +24,9 @@ body {
 }
 .Layout {
   background-color: $blue1;
+  background-color: var(--background);
+  height: 100vh;
+  margin-top:0;
   color: $blue2;
 
   .DoubleAuth {
@@ -85,6 +90,7 @@ body {
 
 body {
   background-color: $blue1;
+  background-color: var(--background);
 }
 
 .App {

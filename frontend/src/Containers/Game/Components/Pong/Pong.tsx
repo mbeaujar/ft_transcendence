@@ -64,9 +64,8 @@ const Pong = (props: Props) => {
   let location = useLocation();
   if (location) from = location.state;
   const stateGame = useRef<any>({
-    
     player1Top: Boolean(false),
-    player1Bottom: Boolean(false)
+    player1Bottom: Boolean(false),
   });
 
   useEffect(() => {
@@ -174,6 +173,14 @@ const Pong = (props: Props) => {
         calculPercentage(data.bally, props.height),
         PADDLEW,
       );
+      if (stateGame.current.player1Top === true) {
+        console.log('t');
+        socket?.emit('moveTopPaddle', { id });
+      }
+      if (stateGame.current.player1Bottom === true) {
+        console.log('b');
+        socket?.emit('moveBotPaddle', { id });
+      }
       if (data.player1 !== undefined && data.paddleh1 !== undefined) {
         drawPaddle(
           context,
@@ -273,17 +280,17 @@ const Pong = (props: Props) => {
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
-      socket?.emit('moveTopPaddle', { id });
-      console.log("Top")
+      // socket?.emit('moveTopPaddle', { id });
+      console.log('Top');
     }
 
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
-      socket?.emit('moveBotPaddle', { id });
-      console.log("Bottom")
+      // socket?.emit('moveBotPaddle', { id });
+      console.log('Bottom');
     }
 
-
+    
   };
 
   const keyUpHandler = (event: React.KeyboardEvent<Element>) => {
@@ -294,8 +301,6 @@ const Pong = (props: Props) => {
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = false;
     }
-
-
   };
 
   return (

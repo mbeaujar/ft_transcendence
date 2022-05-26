@@ -14,6 +14,8 @@ import ProfileLeft from './components/ProfileLeft/ProfileLeft';
 
 interface Props {
   menu: string;
+  theme:string;
+  setTheme:(value: string) => void;
 }
 function Profile(props: Props) {
   // const [activeMenu, setActiveMenu] = useState<string>('Stats');
@@ -47,46 +49,6 @@ function Profile(props: Props) {
       {user ? (
         <div className={clsx(classes.Profile)}>
           <ProfileLeft user={user} menu={props.menu} />
-          {/* <div className={classes.ProfileLeft}>
-            <div className={classes.User}>
-              <Avatar user={user} />
-              <h1>{user?.username}</h1>
-            </div>
-            <div className={classes.Menu}>
-              <div
-                className={clsx(classes.Stats, ftIsActiveMenu('Stats'))}
-                onClick={() => setActiveMenu('Stats')}
-              >
-                <span className="material-icons">show_chart</span>
-                <p>Stats</p>
-              </div>
-              <div
-                className={clsx(classes.Friends, ftIsActiveMenu('Friends'))}
-                onClick={() => setActiveMenu('Friends')}
-              >
-                <span className="material-icons">people_outline</span>
-                <p>Friends</p>
-              </div>
-              <div
-                className={clsx(
-                  classes.Leaderboard,
-                  ftIsActiveMenu('Leaderboard'),
-                )}
-                onClick={() => setActiveMenu('Leaderboard')}
-              >
-                <span className="material-icons">leaderboard</span>
-                <p>Leaderboard</p>
-              </div>
-              <div
-                className={clsx(classes.Settings, ftIsActiveMenu('Settings'))}
-                onClick={() => setActiveMenu('Settings')}
-              >
-                <span className="material-icons">settings</span>
-                <p>Settings</p>
-              </div>
-            </div>
-          </div> */}
-
           {props.menu === 'Stats' ? (
             <div className={clsx(classes.FriendsInfo)}>
               <Stats user={user} />
@@ -101,21 +63,9 @@ function Profile(props: Props) {
             </div>
           ) : props.menu === 'Settings' ? (
             <div className={clsx(classes.SettingsInfo)}>
-              <Settings user={user} refresh={refresh} setRefresh={setRefresh} />
+              <Settings user={user} refresh={refresh} setRefresh={setRefresh} theme={props.theme} setTheme={props.setTheme}/>
             </div>
           ) : null}
-
-          {/* <div className={clsx(classes.FriendsInfo)}>
-            <Friends />
-          </div>
-
-          <div className={clsx(classes.LeaderboardInfo)}>
-            <Leaderboard />
-          </div>
-
-          <div className={clsx(classes.SettingsInfo)}>
-            <Settings user={user} refresh={refresh} setRefresh={setRefresh} />
-          </div> */}
         </div>
       ) : null}
     </Fragment>
