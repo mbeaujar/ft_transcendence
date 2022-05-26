@@ -24,8 +24,8 @@
         width: 22%;
       }
       input {
-        background-color: $grey2;
-        border: 1px solid $grey2;
+        background-color: var(--grey2);
+        border: 1px solid var(--grey2);;
         border-radius: 3vw;
         outline: none;
         color: $white1;
@@ -77,7 +77,7 @@
           width: 80%;
           font-size: 1vw;
           background-color: var(--blue4);
-          border: 0.1vw solid $black2;
+          border: 0.1vw solid var(--black2);
           border-radius: 1vw;
           color: $white1;
           text-decoration: none;
@@ -85,7 +85,7 @@
           padding: 0.5vw 0;
         }
         button:hover,.Link:hover {
-          background-color: $black2;
+          background-color: var(--black2);
         }
       }
     }
@@ -103,8 +103,8 @@
         width: 30%;
       }
       input {
-        background-color: $grey2;
-        border: 1px solid $grey2;
+        background-color: var(--grey2);
+        border: 1px solid var(--grey2);;
         border-radius: 3vw;
         outline: none;
         color: $white1;
@@ -159,7 +159,7 @@
           width: 70%;
           font-size: 1.8vw;
           background-color: var(--blue4);
-          border: 0.1vw solid $black2;
+          border: 0.1vw solid var(--black2);
           border-radius: 1vw;
           color: $white1;
           cursor: pointer;
@@ -167,7 +167,7 @@
           text-decoration: none;
         }
         button:hover,.Link:hover {
-          background-color: $black2;
+          background-color: var(--black2);
         }
       }
     }

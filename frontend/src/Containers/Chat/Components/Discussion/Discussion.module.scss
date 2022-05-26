@@ -12,7 +12,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: $blue5;
+    background:var(--blue5);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -60,19 +60,7 @@
   .Discussion {
     position: relative;
 
-    /*::-webkit-scrollbar {
-      width: 0.4vw;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: $blue5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--blue5);
-      border: 0.01vw solid rgb(95, 93, 93);
-      border-radius: 1.5vw;
-    }*/
+   
 
     .OpenChannelSettings {
       display: none;
@@ -84,7 +72,7 @@
       .Message {
         width: 80%;
         padding: 0 5%;
-        border-top: 0.8px solid $grey8;
+        border-top: 0.8px solid var(--grey8);;
 
         &:first-child {
           border-top: 0;
@@ -132,21 +120,7 @@
 @media screen and (max-width: 650px) {
   .Discussion {
     position: relative;
-    //background-color: red;
 
-    /*::-webkit-scrollbar {
-      width: 0.4vw;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: $blue5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--blue5);
-      border: 0.01vw solid rgb(95, 93, 93);
-      border-radius: 1.5vw;
-    }*/
     .HideOpenChannelSettings {
       visibility: hidden;
     }
@@ -180,7 +154,7 @@
       .Message {
         width: 80%;
         padding: 0 5%;
-        border-top: 0.8px solid $grey8;
+        border-top: 0.8px solid var(--grey8);;
 
         &:first-child {
           border-top: 0;

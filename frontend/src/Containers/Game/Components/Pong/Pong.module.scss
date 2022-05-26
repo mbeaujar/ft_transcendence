@@ -5,7 +5,7 @@
   margin-top: 5vw;
   margin-left: auto;
   margin-right: auto;
-  background-color: $black2;
+  background-color: var(--black2);
 
   .Score {
     position: absolute;
@@ -15,7 +15,7 @@
     height: 15%;
     border-radius: 1vw;
     border: 1px solid $white1;
-    background-color: $grey4;
+    background-color: var(--grey4);
     display: flex;
     flex-direction: row;
 
@@ -80,12 +80,12 @@
     width: 40%;
     padding: 2%;
     color: $white1;
-    background-color: $black2;
+    background-color: var(--black2);
     border: 2px solid $white1;
     border-radius: 2vw;
   }
   button:hover {
-    background-color: $black;
+    background-color: var(--black);
   }
 
   .HideLoading,
@@ -146,7 +146,7 @@
 
     .LinkEnd:hover 
     {
-      background-color: $black;
+      background-color: var(--black);
     }
   }
 
@@ -165,7 +165,7 @@
     width: 10%;
     padding: 1% 0;
     color: $white1;
-    background-color: $black2;
+    background-color: var(--black2);
     border: 0.2vw solid $white1;
     border-radius: 2vw;
     text-decoration: none;
@@ -177,7 +177,7 @@
   }
 
   .Back:hover,.Cancel:hover {
-    background-color: $black;
+    background-color: var(--black);
   }
 
   .GiveUp

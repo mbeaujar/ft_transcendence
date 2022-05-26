@@ -36,12 +36,12 @@
         justify-content: left;
         width: 50%;
         padding-left: 3%;
-        background-color: $grey4;
-        color: $grey2;
+        background-color: var(--grey4);
+        color: var(--grey2);
         font-size: 1.2vw;
         height: 55%;
         border-radius: 0.1vw;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
       }
 
       button {
@@ -52,7 +52,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
 
         span {
           font-size: 1.5vw;
@@ -78,12 +78,12 @@
         .NewName {
           width: 50%;
           padding-left: 3%;
-          background-color: $grey10;
+          background-color: var(--grey10);
           font-size: 1vw;
           height: 55%;
-          color: $black;
+          color: var(--black);
           border-radius: 0.1vw;
-          border: 0.1vw solid $blue3;
+          border: 0.1vw solid var(--blue3);;
           outline: none;
         }
 
@@ -171,13 +171,13 @@
         justify-content: left;
         width: 50%;
         padding-left: 3%;
-        background-color: $grey4;
-        color: $grey2;
+        background-color: var(--grey4);
+        color: var(--grey2);
         font-size: 3vw;
         height: 55%;
         border-radius: 0.1vw;
         padding: 1vw;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
       }
 
       button {
@@ -188,7 +188,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
 
         span {
           font-size: 4vw;
@@ -219,13 +219,13 @@
         .NewName {
           width: 50%;
           padding-left: 3%;
-          background-color: $grey10;
+          background-color: var(--grey10);
           font-size: 3vw;
           height: 55%;
-          color: $black;
+          color: var(--black);
           border-radius: 0.1vw;
           padding: 1vw;
-          border: 0.1vw solid $blue3;
+          border: 0.1vw solid var(--blue3);;
           outline: none;
         }
 

@@ -5,7 +5,7 @@
     width: 65vw;
     height: 73vh;
     height: 38.8vw;
-    background-color: $grey6;
+    background-color: var(--grey6);
     border-radius: 1.5vw;
     display: flex;
     flex-direction: column;
@@ -49,7 +49,7 @@
   .Stats {
     width: 85vw;
     height: 255vw;
-    background-color: $grey6;
+    background-color: var(--grey6);
     border-radius: 2.5vw;
     display: flex;
     flex-direction: column;

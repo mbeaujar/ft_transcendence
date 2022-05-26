@@ -1,7 +1,7 @@
 @import '../../../../utils.scss';
 
 @mixin styling() {
-  background-color: $black2;
+  background-color: var(--black2);
   border: 1px solid $white1;
   border-radius: 0.5vw;
 }
@@ -65,7 +65,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: $black2;
+        background-color: var(--black2);
         color: var(--blue2);
         border: 0;
         text-align: left;
@@ -78,7 +78,7 @@
 
         &:hover {
           cursor: pointer;
-          background-color: $black;
+          background-color: var(--black);
         }
 
         span {

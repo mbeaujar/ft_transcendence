@@ -13,7 +13,7 @@
     border-radius: 1.5vw;
     margin-left: -1.5vw;
     h3 {
-      background-color: $grey6;
+      background-color: var(--grey6);
       padding: 3px 10px;
       padding: 0.3vw 1vw;
       border-radius: 5px;
@@ -27,13 +27,13 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: $blue6;
+      background: var(--blue6);
       border-radius: 1.5vw;
     }
 
     ::-webkit-scrollbar-thumb {
       background-color: var(--blue5);
-      border: 0.01vw solid $black2;
+      border: 0.01vw solid var(--black2);
       border-radius: 1.5vw;
     }
     .History {
@@ -46,7 +46,7 @@
       max-width: 30vw;
       min-height: 75%;
       max-height: 75%;
-      background-color: $grey6;
+      background-color: var(--grey6);
       margin-top: -4%;
       border-radius: 1.5vw;
       .MatchsList {
@@ -60,7 +60,7 @@
           width: 100%;
           min-height: 35%;
           max-height: 35%;
-          border-bottom: 1px solid $grey2;
+          border-bottom: 1px solid var(--grey2);;
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -151,7 +151,7 @@
     justify-content: space-around;
     border-radius: 2.5vw;
     h3 {
-      background-color: $grey6;
+      background-color: var(--grey6);
       padding: 2vw 2vw;
       border-radius: 1vw;
       color: $white1;
@@ -167,7 +167,7 @@
       width: 92%;
       min-height: 75%;
       max-height: 75%;
-      background-color: $grey6;
+      background-color: var(--grey6);
       margin-top: -20%;
       border-radius: 2.5vw;
 
@@ -182,7 +182,7 @@
           width: 100%;
           min-height: 18%;
           max-height: 18%;
-          border-bottom: 1px solid $grey2;
+          border-bottom: 1px solid var(--grey2);;
           display: flex;
           flex-direction: row;
           align-items: center;

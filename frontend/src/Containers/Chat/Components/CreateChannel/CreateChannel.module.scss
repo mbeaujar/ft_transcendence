@@ -7,8 +7,8 @@
 
   input {
     outline: none;
-    border: 0.5vw solid $grey2;
-    background-color: $grey2;
+    border: 0.5vw solid var(--grey2);;
+    background-color: var(--grey2);
     border-radius: 4vw;
     color: $white1;
   }
@@ -39,7 +39,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $black2;
+      background-color: var(--black2);
       color: var(--blue2);
     }
   }

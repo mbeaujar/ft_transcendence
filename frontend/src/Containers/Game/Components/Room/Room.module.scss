@@ -1,7 +1,7 @@
 @import '../../../../utils.scss';
 
 .Room {
-  background-color: $black2;
+  background-color: var(--black2);
   position: relative;
   margin-top: 5vw;
   margin-left: auto;
@@ -23,11 +23,11 @@
     width: 40%;
     padding: 2%;
     color: $white1;
-    background-color: $black2;
+    background-color: var(--black2);
     border: 2px solid $white1;
     border-radius: 2vw;
   }
   button:hover {
-    background-color: $black;
+    background-color: var(--black);
   }
 }

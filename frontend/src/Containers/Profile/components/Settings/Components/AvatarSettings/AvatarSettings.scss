@@ -44,7 +44,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
 
         span {
           font-size: 1.5vw;
@@ -87,7 +87,7 @@
           align-items: center;
           justify-content: flex-start;
           border-radius: 0.3vw;
-          background-color: $grey6;
+          background-color: var(--grey6);
           color: $white1;
           border: none;
           cursor: pointer;
@@ -110,7 +110,7 @@
           }
         }
         .buttonChooseFile:hover {
-          background-color: $grey2;
+          background-color: var(--grey2);
         }
 
         .ButtonsValidation {
@@ -215,7 +215,7 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid $blue3;
+        border: 0.1vw solid var(--blue3);;
 
         span {
           font-size: 4vw;
@@ -259,7 +259,7 @@
           align-items: center;
           justify-content: flex-start;
           border-radius: 1vw;
-          background-color: $grey6;
+          background-color: var(--grey6);
           color: $white1;
           border: none;
           cursor: pointer;
@@ -282,7 +282,7 @@
           }
         }
         .buttonChooseFile:hover {
-          background-color: $grey2;
+          background-color: var(--grey2);
         }
 
         .ButtonsValidation {

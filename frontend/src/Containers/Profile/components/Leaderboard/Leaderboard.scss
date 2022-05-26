@@ -5,7 +5,7 @@
     width: 0;
   }
   .Leaderboard {
-    background-color: $grey6;
+    background-color: var(--grey6);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +23,7 @@
       flex-direction: row;
       align-items: space-between;
       justify-content: space-between;
-      background-color: $grey3;
+      background-color: var(--grey3);
       font-size: 1.2vw;
 
       .HeaderLeft {
@@ -53,7 +53,7 @@
         width: 100%;
         padding-top: 0.5vw;
         padding-bottom: 0.5vw;
-        border-bottom: 1px solid $grey2;
+        border-bottom: 1px solid var(--grey2);;
 
         .UserLeft {
           display: flex;
@@ -130,7 +130,7 @@
     ::-webkit-scrollbar {
       width: 0;
     }
-    background-color: $grey6;
+    background-color: var(--grey6);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,6 +141,7 @@
     min-height: 80vw;
     max-height: 80vw;
     font-family: 'Roboto', sans-serif;
+    margin-bottom: 5%;
 
     .Header {
       width: 93.3%;
@@ -151,7 +152,7 @@
       flex-direction: row;
       align-items: space-between;
       justify-content: space-between;
-      background-color: $grey3;
+      background-color: var(--grey3);
       font-size: 3vw;
 
       .HeaderLeft {
@@ -185,7 +186,7 @@
         width: 100%;
         padding-top: 0.5vw;
         padding-bottom: 0.5vw;
-        border-bottom: 1px solid $grey2;
+        border-bottom: 1px solid var(--grey2);;
         min-height: 10vw;
         max-height: 10vw;
 

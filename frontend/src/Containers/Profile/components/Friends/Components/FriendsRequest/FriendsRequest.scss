@@ -10,7 +10,7 @@
     width: 100%;
     margin-top: 1.75vw;
     border-radius: 1.5vw;
-    background-color: $black;
+    background-color: var(--black);
     height: 70%;
     overflow-y: auto;
 
@@ -24,7 +24,7 @@
         width: 86%;
         margin-left: 3%;
         padding: 0.4vw;
-        border-bottom: 1px solid $grey1;
+        border-bottom: 1px solid var(--grey1);;
 
         img {
           width: 35px;
@@ -70,7 +70,7 @@
   .FriendsRequest {
     width: 100%;
     border-radius: 2.5vw;
-    background-color: $black;
+    background-color: var(--black);
     min-height: 59%;
     max-height: 59%;
     overflow-y: auto;
@@ -90,7 +90,7 @@
         justify-content: center;
         width: 100%;
         padding: 0.4vw;
-        border-bottom: 1px solid $grey1;
+        border-bottom: 1px solid var(--grey1);;
         height: 12vw;
 
         img {
@@ -115,7 +115,7 @@
           font-size: 3vw;
           padding: 1vw;
           border-radius: 1.5vw;
-          border: 0.1vw solid $black;
+          border: 0.1vw solid var(--black);
           color: $white1;
           cursor: pointer;
         }

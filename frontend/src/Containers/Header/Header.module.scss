@@ -11,7 +11,7 @@
     margin-right: 3%;
     padding-left: 2%;
     padding-right: 2%;
-    border-bottom: 0.3px solid $grey2;
+    border-bottom: 0.3px solid var(--grey2);;
     min-height: 20vw;
     max-height: 20vw;
     position: relative;
@@ -104,7 +104,7 @@
       bottom: 0vw;
       transition: all 0.8s ease-out;
       width: 100vw;
-      background-color: $black;
+      background-color: var(--black);
       min-height: -webkit-calc(100vh - 23vw);
       max-height: -webkit-calc(100vh - 23vw);
       z-index: 10;
@@ -125,14 +125,14 @@
         justify-content: center;
         width: 30%;
         padding: 5% 0%;
-        border-bottom: 0.01vw solid $grey2;
+        border-bottom: 0.01vw solid var(--grey2);;
       }
 
       .showLogin,
       .showLogout {
         margin-top: 25%;
         padding: 2vw;
-        border: 0.05px solid $blue3;
+        border: 0.05px solid var(--blue3);;
         border-radius: 1.5vw;
       }
     }
@@ -148,7 +148,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 0.01cm solid $grey1;
+    border-bottom: 0.01cm solid var(--grey1);;
     height: 16vh;
     margin-bottom: 0;
 
@@ -179,7 +179,7 @@
       .showLogout {
         padding: 1vw;
         font-size: 1.65vw;
-        border: 0.05px solid $blue3;
+        border: 0.05px solid var(--blue3);;
         border-radius: 0.8vw;
       }
     }
@@ -211,7 +211,7 @@
   .showLogin:hover,
   .showLogout:hover {
     background-color: var(--blue3);
-    border: 0.05px solid $blue2;
+    border: 0.05px solid var(--blue2);;
     color: var(--blue2);
   }
 

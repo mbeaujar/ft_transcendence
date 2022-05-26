@@ -9,14 +9,14 @@
     display: flex;
 
     .User {
-      background-color: $grey6;
+      background-color: var(--grey6);
     }
 
     .Menu {
       display: flex;
       flex-direction: column;
       align-items: left;
-      background-color: $grey6;
+      background-color: var(--grey6);
 
       div {
         display: flex;
@@ -33,12 +33,12 @@
   }
 
   .activeMenu {
-    background-color: $grey2;
-    color: $black;
+    background-color: var(--grey2);
+    color: var(--black);
   }
 
   .disactiveMenu {
-    background-color: $grey6;
+    background-color: var(--grey6);
   }
 
   .activeInfo {

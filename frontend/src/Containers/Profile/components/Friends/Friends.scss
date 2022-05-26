@@ -2,7 +2,7 @@
 
 @media screen and (min-width: 651px) {
   .Friends {
-    background-color: $grey6;
+    background-color: var(--grey6);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -34,11 +34,12 @@
 
 @media screen and (max-width: 650px) {
   .Friends {
-    background-color: $grey6;
+    background-color: var(--grey6);
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 2.5vw;
+    margin-bottom: 5%;
     width: 85vw;
     height: 150vw;
 

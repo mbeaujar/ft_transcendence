@@ -3,12 +3,12 @@
 @media screen and (min-width: 651px) {
   .AddFriends {
     border-radius: 1.5vw;
-    background-color: $black;
+    background-color: var(--black);
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    border-bottom: 1px solid $grey1;
+    border-bottom: 1px solid var(--grey1);;
     padding-bottom: 1.5vw;
     padding-left: 1vw;
 
@@ -27,8 +27,8 @@
         margin-left: 0.5vw;
         width: 10vw;
         border-radius: 1.5vw;
-        border: 1px solid $blue1;
-        background-color: $grey7;
+        border: 1px solid var(--blue1);;
+        background-color: var(--grey7);
         color: $white1;
         font-size: 1vw;
       }
@@ -40,7 +40,7 @@
       button {
         background-color: var(--blue4);
         color: var(--blue2);
-        border: 1px solid $blue2;
+        border: 1px solid var(--blue2);;
         border-radius: 5px;
         cursor: pointer;
       }
@@ -48,7 +48,7 @@
       button:hover {
         background-color: var(--blue2);
         color: var(--blue1);
-        border: 1px solid $blue4;
+        border: 1px solid var(--blue4);;
       }
     }
   }
@@ -57,12 +57,12 @@
 @media screen and (max-width: 650px) {
   .AddFriends {
     border-radius: 2.5vw;
-    background-color: $black;
+    background-color: var(--black);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
-    border-bottom: 1px solid $grey1;
+    border-bottom: 1px solid var(--grey1);;
     //padding-bottom: 1.5vw;
     //padding-left: 1vw;
     margin-bottom: 5%;
@@ -85,8 +85,8 @@
         margin-left: 3%;
         width: 40%;
         border-radius: 3.5vw;
-        border: 1px solid $blue1;
-        background-color: $grey7;
+        border: 1px solid var(--blue1);;
+        background-color: var(--grey7);
         color: $white1;
         font-size: 3vw;
       }
@@ -98,7 +98,7 @@
       button {
         background-color: var(--blue4);
         color: var(--blue2);
-        border: 1px solid $blue2;
+        border: 1px solid var(--blue2);;
         border-radius: 5px;
         cursor: pointer;
       }
@@ -106,7 +106,7 @@
       button:hover {
         background-color: var(--blue2);
         color: var(--blue1);
-        border: 1px solid $blue4;
+        border: 1px solid var(--blue4);;
       }
     }
   }
