@@ -25,3 +25,10 @@ code {
   --text-secondary: grey;
   --accent: darkred;
 }
+
+[data-theme='blue'] {
+  --background: #081531;;
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}

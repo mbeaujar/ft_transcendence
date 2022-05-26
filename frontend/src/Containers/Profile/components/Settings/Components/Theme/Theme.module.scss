@@ -1,0 +1,86 @@
+@import '../../../../../../utils.scss';
+
+.Theme 
+{
+  .ThemeBottom{
+    display: flex;
+    flex-direction: row;
+    .Buttontheme
+    {
+      cursor:pointer;
+      border-radius: 100%;
+      
+    }
+    .DarkTheme{
+      background-color:#222121;
+    }
+    .LightTheme{
+      background-color:#ffffff;
+    }
+    .BlueTheme{
+      background-color:#081531;
+    }
+    .ActiveTheme
+    {
+      border:0.2vw solid $green1;
+    }
+    .DisactiveTheme
+    {
+      border:0.2vw solid $grey2;
+    }
+  }
+}
+
+@media screen and (min-width: 651px) {
+  .Theme {
+    height: 25%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    h3 {
+      margin-left: 10%;
+      margin-top: 5%;
+      margin-bottom: 3.2%;
+      font-size: 1.5vw;
+    }
+    .ThemeBottom{
+      margin-left: 10%;
+      .Buttontheme
+      {
+        min-width: 2.5vw;
+        min-height:2.5vw;
+        margin-right: 15%;
+        
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .Theme {
+    margin-bottom: 5%;
+    min-height: 20vw;
+    max-height: 20vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    h3 {
+      margin-left: 10%;
+      margin-top: 5%;
+      margin-bottom: 3.5%;
+      font-size: 3.5vw;
+    }
+    .ThemeBottom{
+      margin-left: 10%;
+      .Buttontheme
+      {
+        min-width: 6vw;
+        min-height:6vw;
+        margin-right: 15%;
+        
+      }
+    }
+  }
+}

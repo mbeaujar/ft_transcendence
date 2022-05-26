@@ -25,7 +25,7 @@ body
 .Layout {
   background-color: $blue1;
   background-color: var(--background);
-  height: 100vh;
+  min-height: 100vh;
   margin-top:0;
   color: $blue2;
 
