@@ -45,11 +45,11 @@ code {
   --blue4: #3b3d3b;
   --blue5: rgba(14, 14, 15, 0.562);
   --blue6: rgba(22, 23, 26, 0.562);
-  
+  --black:#222121;
 }
 
 [data-theme='light'] {
-  --blue1: #817b7b;
+  --blue1: #676767;
 --blue2: #000000;
 --blue3: #0f49c7;
 --blue4: #394257;
@@ -57,6 +57,7 @@ code {
 --blue5: rgba(14, 14, 15, 0.562);
 --blue6: rgba(22, 23, 26, 0.562);
 --black:  #dad7d7;
+
 }
 
 [data-theme='blue'] {

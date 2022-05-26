@@ -18,7 +18,7 @@
       padding: 0.3vw 1vw;
       border-radius: 5px;
       border-radius: 0.4vw;
-      color: $white1;
+      color: var(--blue2);
       font-size: 1.3vw;
     }
     width: 35vw;
@@ -69,7 +69,7 @@
             width: 12%;
             font-size: 1.3vw;
             padding: 0.5vw;
-            border-right: 0.25vw solid $white1;
+            border-right: 0.25vw solid var(--blue2);
           }
           .MatchUserLeft,
           .MatchUserRight {
@@ -154,7 +154,7 @@
       background-color: var(--grey6);
       padding: 2vw 2vw;
       border-radius: 1vw;
-      color: $white1;
+      color: var(--blue2);
       font-size: 3.5vw;
       margin-top: -7.5%;
       margin-bottom: 0;
@@ -191,7 +191,7 @@
             width: 15%;
             font-size: 3.5vw;
             padding: 0.5vw;
-            border-right: 0.25vw solid $white1;
+            border-right: 0.25vw solid var(--blue2);
           }
           .MatchUserLeft,
           .MatchUserRight {

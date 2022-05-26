@@ -52,7 +52,8 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid var(--blue3);;
+        border: 0.1vw solid var(--blue3);
+        background-color: var(--blue2);
 
         span {
           font-size: 1.5vw;
@@ -188,7 +189,8 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 0.1vw solid var(--blue3);;
+        border: 0.1vw solid var(--blue3);
+        background-color: var(--blue2);
 
         span {
           font-size: 4vw;
