@@ -77,8 +77,8 @@ export class GameService implements OnModuleInit {
     }
   }
 
-  getGame(id: number) {
-    return this.game[id];
+  async getGame(id: number) {
+    return this.matchService.find(id);
   }
 
   moveTop(id: number, user: IUser) {

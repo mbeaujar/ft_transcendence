@@ -105,26 +105,23 @@ const Pong = (props: Props) => {
 
     return () => {
       if (socketEffect && socketEffect.connected === true) {
-        socketEffect?.emit('leaveGame', { id });
+        // socketEffect?.emit('leaveGame', { id });
         socketEffect.disconnect();
       }
     };
   }, []);
 
-  // useEffect(() => {
-  //   // const canvas: any = canvasRef.current;
-  //   // const context = canvas.getContext('2d');
+  useEffect(() => {
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext('2d');
 
-  //   // const socketEffect = getSocket('game');
-  //   // addListenerGame(socketEffect, context);
-  //   // setSocket(socketEffect);
+    if (socket)
+    {
+      socket.removeAllListeners();
+      addListenerGame(socket, context);
+    }
 
-  //   // return () => {
-  //   //   if (socketEffect && socketEffect.connected === true) {
-  //   //     socketEffect.disconnect();
-  //   //   }
-  //   // };
-  // }, [WindowSize]);
+  }, [WindowSize]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -156,22 +153,22 @@ const Pong = (props: Props) => {
     return (percentage * max) / 100;
   };
 
+  useEffect(() => {
+    // console.log('id======', id);
+    if (id && !match) {
+      // console.log('callemit');
+      socket?.emit('getGame', id);
+    }
+  }, [matchEnd]);
+
   const addListenerGame = (socketEffect: Socket, context: any) => {
     PADDLEW = props.width / 80;
     socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
-     //console.log("match=",match," id=",id);
     });
     socketEffect.on('infoGame', (data: IGame) => {
-      //console.log("data=",data);
       setId(data.id);
-     // console.log("id===",data.id,"  match=",match);
-      if (data.id && !match)
-      {
-      //  console.log("callemit")
-        // socketEffect.emit('getGame',id);
-      }
       setMatchEnd(false);
       setHideButton(true);
       resetWindow(context);
@@ -215,6 +212,10 @@ const Pong = (props: Props) => {
       setScore(data.score);
     });
   };
+
+
+
+
 
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
@@ -261,14 +262,14 @@ const Pong = (props: Props) => {
   function showLoading() {
     // if (hideButton === true && !match) return classes.Loading;
     // return classes.HideLoading;
-    if (hideButton === true && matchEnd===true) return classes.Loading;
+    if (hideButton === true && matchEnd === true) return classes.Loading;
     return classes.HideLoading;
   }
 
   function showLoadingText() {
     // if (hideButton === true && !match) return classes.LoadingText;
     // return classes.HideLoadingText;
-    if (hideButton === true && matchEnd===true) return classes.LoadingText;
+    if (hideButton === true && matchEnd === true) return classes.LoadingText;
     return classes.HideLoadingText;
   }
 
@@ -280,7 +281,7 @@ const Pong = (props: Props) => {
   function showCancel() {
     // if (hideButton === true && !match) return classes.Cancel;
     // return classes.HideCancel;
-    if (hideButton === true && matchEnd===true) return classes.Cancel;
+    if (hideButton === true && matchEnd === true) return classes.Cancel;
     return classes.HideCancel;
   }
 
@@ -314,8 +315,6 @@ const Pong = (props: Props) => {
       socket?.emit('moveBotPaddle', { id });
       console.log('Bottom');
     }
-
-    
   };
 
   const keyUpHandler = (event: React.KeyboardEvent<Element>) => {

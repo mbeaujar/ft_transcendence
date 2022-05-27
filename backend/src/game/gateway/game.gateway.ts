@@ -103,11 +103,13 @@ export class GameGateway
     }
   }
 
-  
-
   /** --------------------------- QUEUE -------------------------------------- */
 
-  private async startGame(user1: IUser, user2: IUser, mode: number): Promise<IMatch> {
+  private async startGame(
+    user1: IUser,
+    user2: IUser,
+    mode: number,
+  ): Promise<IMatch> {
     return this.gameService.startGame(user1, user2, mode, this.server);
   }
 
@@ -140,7 +142,9 @@ export class GameGateway
         const me = await this.usersService.findUser(client.data.user.id);
         const match = await this.startGame(me, user, game.mode);
         // prevent every spectator that a new game has been created
-        const connectedSpectators = await this.connectedUserService.getAll(Mode.game);
+        const connectedSpectators = await this.connectedUserService.getAll(
+          Mode.game,
+        );
         for (const connectedSpectator of connectedSpectators) {
           this.server.to(connectedSpectator.socketId).emit('newGame', match);
         }
@@ -173,14 +177,14 @@ export class GameGateway
       ) {
         this.gameService.leaveGame(match.id, client.data.user);
       }
-    } 
+    }
   }
 
   /** --------------------------- MOVEMENT -------------------------------------- */
 
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
- //   console.log("backtop")
+    //   console.log("backtop")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (
@@ -201,7 +205,7 @@ export class GameGateway
 
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
-   // console.log("backbot")
+    // console.log("backbot")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (
@@ -226,10 +230,12 @@ export class GameGateway
   }
 
   @SubscribeMessage('getGame')
-  async getGame(socket: Socket,id:number) {
-    const match = this.gameService.getGame(id);
-    this.server.to(socket.id).emit('startGame', { match })
-  //  console.log("match=",match);
+  async getGame(socket: Socket, id: number) {
+    console.log("idback=",id);
+    if (id){
+      const match = await this.gameService.getGame(id);
+      this.server.to(socket.id).emit('startGame', { match });
+      // console.log('match=', match);
+    }
   }
-
 }
