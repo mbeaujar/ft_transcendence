@@ -49,15 +49,19 @@ code {
 }
 
 [data-theme='light'] {
-  --blue1: #676767;
---blue2: #000000;
+  --blue1: #a1a1a1;
+--blue2: #ffffff;
 --blue3: #0f49c7;
 --blue4: #394257;
 --blue4: #3b3d3b;
 --blue5: rgba(14, 14, 15, 0.562);
 --blue6: rgba(22, 23, 26, 0.562);
---black:  #dad7d7;
-
+--grey3: #626262;
+--grey6: #777777;
+--grey2: #959595;
+--white1: #ffffff;
+--grey10: #e1e1e1;
+--black:var(--blue1);
 }
 
 [data-theme='blue'] {
