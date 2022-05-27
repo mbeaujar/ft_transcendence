@@ -2,14 +2,14 @@
 
 .Pong {
   position: relative;
-  margin-top: 5vw;
+  margin-top: 3vw;
   margin-left: auto;
   margin-right: auto;
   background-color: var(--black2);
 
   .Score {
     position: absolute;
-    top: 102%;
+    top: 104%;
     left: 10%;
     width: 80%;
     height: 15%;
@@ -186,7 +186,7 @@
   {
     position: absolute;
     left:42.5%;
-    top:120%;
+    top:123%;
     cursor: pointer;
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
