@@ -158,7 +158,6 @@ const App: React.FC = (): JSX.Element => {
     'Enter the 6 digit code',
   );
 
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [theme, setTheme] = useLocalStorage('theme', 'dark');
 
   useEffect(() => {

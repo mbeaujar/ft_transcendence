@@ -180,7 +180,7 @@ export class GameGateway
 
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
-    console.log("backtop")
+ //   console.log("backtop")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (
@@ -201,7 +201,7 @@ export class GameGateway
 
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
-    console.log("backbot")
+   // console.log("backbot")
     const match = await this.matchService.find(game.id);
     if (match && match.live === 1) {
       if (
@@ -224,4 +224,12 @@ export class GameGateway
   async on(socket: Socket) {
     await this.connectedUserService.deleteByUser(socket.data.user);
   }
+
+  @SubscribeMessage('getGame')
+  async getGame(socket: Socket,id:number) {
+    const match = this.gameService.getGame(id);
+    this.server.to(socket.id).emit('startGame', { match })
+  //  console.log("match=",match);
+  }
+
 }

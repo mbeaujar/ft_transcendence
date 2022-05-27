@@ -126,9 +126,9 @@
 
   .MatchEnd{
     position: absolute;
-    width: 30%;
-    height:20%;
-    top:40%;
+    width: 35%;
+    //height:20%;
+    top:41%;
     left:35%;
     display: flex;
     align-items: center;
@@ -139,9 +139,11 @@
       text-decoration: none;
       width: 100%;
       color:$white1;
-      padding:10% 5% ;
-      border-radius: 1.5vw;
-      border:0.2vw solid $white1;
+      padding:5% ;
+      border: 0.3vw solid $white1;
+      font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    border-radius: 2vw;
     }
 
     .LinkEnd:hover 

@@ -54,7 +54,7 @@ const Pong = (props: Props) => {
   const [mode, setMode] = useState<number>(0);
   const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
   const [opponent, setOpponent] = useState(0);
-  const [matchEnd, setMatchEnd] = useState(false);
+  const [matchEnd, setMatchEnd] = useState(true);
   const [blockDropdownMode, setBlockDropdownMode] = useState(0);
   const [blockDropdownOpponent, setBlockDropdownOpponent] = useState(0);
   const [indexMode, setIndexMode] = useState(0);
@@ -94,7 +94,6 @@ const Pong = (props: Props) => {
     if (from.from.mode !== -1) {
       setBlockDropdownMode(1);
       setIndexMode(from.from.mode);
-      console.log('frommode=', from.from.mode);
     }
 
     const canvas: any = canvasRef.current;
@@ -105,27 +104,27 @@ const Pong = (props: Props) => {
     setSocket(socketEffect);
 
     return () => {
-      socket?.emit('leaveGame', { id });
       if (socketEffect && socketEffect.connected === true) {
+        socketEffect?.emit('leaveGame', { id });
         socketEffect.disconnect();
       }
     };
   }, []);
 
-  useEffect(() => {
-    const canvas: any = canvasRef.current;
-    const context = canvas.getContext('2d');
+  // useEffect(() => {
+  //   // const canvas: any = canvasRef.current;
+  //   // const context = canvas.getContext('2d');
 
-    const socketEffect = getSocket('game');
-    addListenerGame(socketEffect, context);
-    setSocket(socketEffect);
+  //   // const socketEffect = getSocket('game');
+  //   // addListenerGame(socketEffect, context);
+  //   // setSocket(socketEffect);
 
-    // return () => {
-    //   if (socketEffect && socketEffect.connected === true) {
-    //     socketEffect.disconnect();
-    //   }
-    // };
-  }, [WindowSize]);
+  //   // return () => {
+  //   //   if (socketEffect && socketEffect.connected === true) {
+  //   //     socketEffect.disconnect();
+  //   //   }
+  //   // };
+  // }, [WindowSize]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -162,10 +161,19 @@ const Pong = (props: Props) => {
     socketEffect.on('startGame', (data: any) => {
       setId(data?.match?.id);
       setMatch(data?.match);
-      // console.log("match=",match," id=",id);
+     //console.log("match=",match," id=",id);
     });
     socketEffect.on('infoGame', (data: IGame) => {
-      //  console.log("data=",data);
+      //console.log("data=",data);
+      setId(data.id);
+     // console.log("id===",data.id,"  match=",match);
+      if (data.id && !match)
+      {
+      //  console.log("callemit")
+        // socketEffect.emit('getGame',id);
+      }
+      setMatchEnd(false);
+      setHideButton(true);
       resetWindow(context);
       drawCircle(
         context,
@@ -173,14 +181,15 @@ const Pong = (props: Props) => {
         calculPercentage(data.bally, props.height),
         PADDLEW,
       );
-      if (stateGame.current.player1Top === true) {
-        console.log('t');
-        socket?.emit('moveTopPaddle', { id });
-      }
-      if (stateGame.current.player1Bottom === true) {
-        console.log('b');
-        socket?.emit('moveBotPaddle', { id });
-      }
+      // if (stateGame.current.player1Top === true) {
+      //   console.log('t');
+      //   console.log("socket=",socket);
+      //   socketEffect?.emit('moveTopPaddle', { id });
+      // }
+      // if (stateGame.current.player1Bottom === true) {
+      //   console.log('b');
+      //   socketEffect?.emit('moveBotPaddle', { id });
+      // }
       if (data.player1 !== undefined && data.paddleh1 !== undefined) {
         drawPaddle(
           context,
@@ -210,6 +219,8 @@ const Pong = (props: Props) => {
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
+    // if (matchEnd === true) return classes.ShowButton;
+    // return classes.HideButton;
   }
 
   function showCanva() {
@@ -222,6 +233,14 @@ const Pong = (props: Props) => {
       return classes.canva;
     }
     return classes.hideCanva;
+    // if (matchEnd === false) {
+    //   if (score[0] === 3 || score[1] === 3) {
+    //      setMatchEnd(true);
+    //     return classes.hideCanva;
+    //   }
+    //   return classes.canva;
+    // }
+    // return classes.hideCanva;
   }
 
   function showMatchEnd() {
@@ -240,12 +259,16 @@ const Pong = (props: Props) => {
   }
 
   function showLoading() {
-    if (hideButton === true && !match) return classes.Loading;
+    // if (hideButton === true && !match) return classes.Loading;
+    // return classes.HideLoading;
+    if (hideButton === true && matchEnd===true) return classes.Loading;
     return classes.HideLoading;
   }
 
   function showLoadingText() {
-    if (hideButton === true && !match) return classes.LoadingText;
+    // if (hideButton === true && !match) return classes.LoadingText;
+    // return classes.HideLoadingText;
+    if (hideButton === true && matchEnd===true) return classes.LoadingText;
     return classes.HideLoadingText;
   }
 
@@ -255,7 +278,9 @@ const Pong = (props: Props) => {
   }
 
   function showCancel() {
-    if (hideButton === true && !match) return classes.Cancel;
+    // if (hideButton === true && !match) return classes.Cancel;
+    // return classes.HideCancel;
+    if (hideButton === true && matchEnd===true) return classes.Cancel;
     return classes.HideCancel;
   }
 
@@ -280,13 +305,13 @@ const Pong = (props: Props) => {
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
-      // socket?.emit('moveTopPaddle', { id });
+      socket?.emit('moveTopPaddle', { id });
       console.log('Top');
     }
 
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
-      // socket?.emit('moveBotPaddle', { id });
+      socket?.emit('moveBotPaddle', { id });
       console.log('Bottom');
     }
 

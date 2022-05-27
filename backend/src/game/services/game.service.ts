@@ -42,7 +42,12 @@ export class GameService implements OnModuleInit {
     }
   }
 
-  async startGame(user1: IUser, user2: IUser, mode: number, server: Server): Promise<IMatch> {
+  async startGame(
+    user1: IUser,
+    user2: IUser,
+    mode: number,
+    server: Server,
+  ): Promise<IMatch> {
     const match = await this.create(user1, user2, mode);
 
     this.game[match.id] = new Game(
@@ -70,6 +75,10 @@ export class GameService implements OnModuleInit {
         await this.game[id].addSpectatorToGame(user);
       }
     }
+  }
+
+  getGame(id: number) {
+    return this.game[id];
   }
 
   moveTop(id: number, user: IUser) {
@@ -100,7 +109,7 @@ export class GameService implements OnModuleInit {
       await this.playerService.delete(player1.id);
       return;
     }
-    return  this.matchService.create({
+    return this.matchService.create({
       players: [player1, player2],
       spectators: [],
       mode,

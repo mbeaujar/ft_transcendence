@@ -7,6 +7,7 @@ interface IPlayers {
 }
 
 export interface IGame {
+  id:number;
   ballx: number;
   bally: number;
   player1?: number;

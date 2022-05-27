@@ -1,4 +1,5 @@
 export interface IInfoGame {
+  id:number;
   ballx: number;
   bally: number;
   player1: number;
