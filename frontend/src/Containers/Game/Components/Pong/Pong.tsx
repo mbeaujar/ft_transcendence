@@ -42,7 +42,7 @@ interface Props {
 }
 
 const Pong = (props: Props) => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<any>(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
   const [match, setMatch] = useState<IGame>();
@@ -103,6 +103,8 @@ const Pong = (props: Props) => {
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
+    
+
     return () => {
       if (socketEffect && socketEffect.connected === true) {
         // socketEffect?.emit('leaveGame', { id });
@@ -159,6 +161,7 @@ const Pong = (props: Props) => {
       // console.log('callemit');
       socket?.emit('getGame', id);
     }
+    canvasRef.current?.focus();
   }, [matchEnd]);
 
   const addListenerGame = (socketEffect: Socket, context: any) => {
@@ -168,6 +171,7 @@ const Pong = (props: Props) => {
       setMatch(data?.match);
     });
     socketEffect.on('infoGame', (data: IGame) => {
+      canvasRef.current?.focus();
       setId(data.id);
       setMatchEnd(false);
       setHideButton(true);
@@ -416,10 +420,6 @@ const Pong = (props: Props) => {
         height={props.height}
         ref={canvasRef}
         tabIndex={0}
-        // onKeyUp={(event) => {
-        //   if (event.code === 'ArrowUp') socket?.emit('moveTopPaddle', { id });
-        //   if (event.code === 'ArrowDown') socket?.emit('moveBotPaddle', { id });
-        // }}
         onKeyDown={(event) => keyDownHandler(event)}
         onKeyUp={(event) => keyUpHandler(event)}
       />

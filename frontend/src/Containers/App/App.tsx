@@ -78,7 +78,7 @@ function MainApp(props: IMainProps) {
       <Route path="/game" element={<Game width={WIDTH} height={HEIGHT} />} />
       <Route
         path="/game/watch"
-        element={<Watch width={WIDTH} height={HEIGHT} />}
+        element={<Watch width={WIDTH} height={HEIGHT} user={props.user}/>}
       />
       <Route
         path="/game/play"

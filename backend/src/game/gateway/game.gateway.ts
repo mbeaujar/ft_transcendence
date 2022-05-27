@@ -231,7 +231,7 @@ export class GameGateway
 
   @SubscribeMessage('getGame')
   async getGame(socket: Socket, id: number) {
-    console.log("idback=",id);
+    //console.log("idback=",id);
     if (id){
       const match = await this.gameService.getGame(id);
       this.server.to(socket.id).emit('startGame', { match });

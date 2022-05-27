@@ -6,6 +6,7 @@ import getSocket from '../../../Socket';
 import useWindowSize from '../useWindow/useWindowSize';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { IUser } from '../../../../interface/user.interface';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -16,6 +17,7 @@ const BALL = '#00007f';
 interface Props {
   width: number;
   height: number;
+  user: IUser;
 }
 
 function WatchGame(props: Props) {
@@ -169,26 +171,33 @@ function WatchGame(props: Props) {
     >
       <div className={classes.ListGame}>
         {listGame.length > 0 ? (
-          listGame.map((game: any, index: number) => (
-            <div className={classes.Game} key={index}>
-              <p className={classes.Username} style={{}}>
-                {game.players[0].user.username} vs{' '}
-                {game.players[1].user.username}
-              </p>
-              <button
-                onClick={() => {
-                  socket?.emit('joinGame', game.id);
-                  setMatch(game);
-                  setHideButton(!hideButton);
-                }}
-                style={{ fontSize: props.width / 45 }}
-              >
-                Watch
-              </button>
-            </div>
-          ))
+          listGame.map((game: any, index: number) =>
+            game.players[0].user.username !== props.user.username &&
+            game.players[1].user.username !== props.user.username ? (
+              <div className={classes.Game} key={index}>
+                <p className={classes.Username} style={{}}>
+                  {game.players[0].user.username} vs{' '}
+                  {game.players[1].user.username}
+                </p>
+                <button
+                  onClick={() => {
+                    socket?.emit('joinGame', game.id);
+                    setMatch(game);
+                    setHideButton(!hideButton);
+                  }}
+                  style={{ fontSize: props.width / 45 }}
+                >
+                  Watch
+                </button>
+              </div>
+            ) : <p className={classes.NoInvitation}>
+            There are currently no users playing
+          </p>
+          )
         ) : (
-          <p className={classes.NoInvitation}>There are currently no users playing</p>
+          <p className={classes.NoInvitation}>
+            There are currently no users playing
+          </p>
         )}
       </div>
       <canvas
@@ -199,7 +208,9 @@ function WatchGame(props: Props) {
         ref={canvasRef}
         tabIndex={0}
       />
-        <Link to="/game" className={classes.Back}>Back</Link>
+      <Link to="/game" className={classes.Back}>
+        Back
+      </Link>
       {match ? (
         <div className={classes.Score}>
           <div className={classes.PlayerLeft}>
