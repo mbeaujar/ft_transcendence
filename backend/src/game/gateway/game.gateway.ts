@@ -184,13 +184,14 @@ export class GameGateway
 
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
-    //   console.log("backtop")
     const match = await this.matchService.find(game.id);
-    if (match && match.live === 1) {
+    // console.log("match===",match," matchlive==",match.live);
+    if (match && match.live === 1  ) {
+      // console.log("backtop")
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
-      ) {
+        ) {
         this.gameService.moveTop(match.id, client.data.user);
       }
     } else {
@@ -205,13 +206,14 @@ export class GameGateway
 
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
-    // console.log("backbot")
     const match = await this.matchService.find(game.id);
+    // console.log("match===",match," matchlive==",match.live);
     if (match && match.live === 1) {
+      // console.log("backbot")  
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
-      ) {
+        ) {
         this.gameService.moveBot(match.id, client.data.user);
       }
     } else {

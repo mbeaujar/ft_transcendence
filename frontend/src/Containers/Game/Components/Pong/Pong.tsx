@@ -8,7 +8,6 @@ import getSocket from '../../../Socket';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { IUser } from '../../../../interface/user.interface';
 import api from '../../../../apis/api';
-import useWindowSize from '../useWindow/useWindowSize';
 import ReactLoading from 'react-loading';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
@@ -59,7 +58,7 @@ const Pong = (props: Props) => {
   const [blockDropdownOpponent, setBlockDropdownOpponent] = useState(0);
   const [indexMode, setIndexMode] = useState(0);
   const [indexOpponent, setIndexOpponent] = useState(0);
-  const WindowSize = useWindowSize();
+  //const WindowSize = useWindowSize();
   let from: any = null;
   let location = useLocation();
   if (location) from = location.state;
@@ -123,7 +122,7 @@ const Pong = (props: Props) => {
       addListenerGame(socket, context);
     }
 
-  }, [WindowSize]);
+  }, [window.innerWidth]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -182,15 +181,7 @@ const Pong = (props: Props) => {
         calculPercentage(data.bally, props.height),
         PADDLEW,
       );
-      // if (stateGame.current.player1Top === true) {
-      //   console.log('t');
-      //   console.log("socket=",socket);
-      //   socketEffect?.emit('moveTopPaddle', { id });
-      // }
-      // if (stateGame.current.player1Bottom === true) {
-      //   console.log('b');
-      //   socketEffect?.emit('moveBotPaddle', { id });
-      // }
+
       if (data.player1 !== undefined && data.paddleh1 !== undefined) {
         drawPaddle(
           context,
@@ -211,6 +202,16 @@ const Pong = (props: Props) => {
           calculPercentage(data.paddleh2, props.height),
         );
       }
+      // const idTmp = data.id;
+      // if (stateGame.current.player1Top === true) {
+      //   console.log('t');
+      //   console.log("socket=",socketEffect," iidd=",idTmp);
+      //   socketEffect?.emit('moveTopPaddle', { idTmp });
+      // }
+      // if (stateGame.current.player1Bottom === true) {
+      //   console.log('b');
+      //   socketEffect?.emit('moveBotPaddle', { idTmp });
+      // }
     });
     socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
@@ -442,7 +443,7 @@ const Pong = (props: Props) => {
           </div>
         </div>
       ) : null}
-      <div className={showMatchEnd()} style={{ fontSize: props.width / 30 }}>
+      <div className={showMatchEnd()} style={{ fontSize: props.width / 40 }}>
         <Link className={classes.LinkEnd} to="/game/play">
           Start a new game
         </Link>

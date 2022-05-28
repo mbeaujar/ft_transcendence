@@ -27,49 +27,93 @@ export interface IMainProps {
   setTheme: (value: string) => void;
 }
 
-let WIDTH = 800;
-let HEIGHT = 400;
+
+let WIDTH:number;
+let HEIGHT:number;
+
+function defineCanva()
+{
+  if (window.innerWidth < 160.01) {
+    WIDTH = 100;
+    HEIGHT = 50;
+  } else if (window.innerWidth < 215.01) {
+    WIDTH = 150;
+    HEIGHT = 75;
+  } else if (window.innerWidth < 330.01) {
+    WIDTH = 200;
+    HEIGHT = 100;
+  } else if (window.innerWidth < 430.01) {
+    WIDTH = 300;
+    HEIGHT = 150;
+  } else if (window.innerWidth < 650.01) {
+    WIDTH = 400;
+    HEIGHT = 200;
+  } else if (window.innerWidth < 840.01) {
+    WIDTH = 600;
+    HEIGHT = 300;
+  } else if (window.innerWidth < 1500.01) {
+    WIDTH = 800;
+    HEIGHT = 400;
+  } else if (window.innerWidth < 2000.01) {
+    WIDTH = 1000;
+    HEIGHT = 500;
+  } else if (window.innerWidth < 2500.01) {
+    WIDTH = 1200;
+    HEIGHT = 600;
+  } else if (window.innerWidth < 3000.01) {
+    WIDTH = 1600;
+    HEIGHT = 800;
+  } else {
+    WIDTH = 1800;
+    HEIGHT = 900;
+  }
+}
+
+defineCanva();
 
 function MainApp(props: IMainProps) {
   const { user } = props;
   const WindowSize = useWindowSize();
 
+
+
   useEffect(() => {
-    if (WindowSize.innerWidth < 160.01) {
-      WIDTH = 100;
-      HEIGHT = 50;
-    } else if (WindowSize.innerWidth < 215.01) {
-      WIDTH = 150;
-      HEIGHT = 75;
-    } else if (WindowSize.innerWidth < 330.01) {
-      WIDTH = 200;
-      HEIGHT = 100;
-    } else if (WindowSize.innerWidth < 430.01) {
-      WIDTH = 300;
-      HEIGHT = 150;
-    } else if (WindowSize.innerWidth < 650.01) {
-      WIDTH = 400;
-      HEIGHT = 200;
-    } else if (WindowSize.innerWidth < 840.01) {
-      WIDTH = 600;
-      HEIGHT = 300;
-    } else if (WindowSize.innerWidth < 1500.01) {
-      WIDTH = 800;
-      HEIGHT = 400;
-    } else if (WindowSize.innerWidth < 2000.01) {
-      WIDTH = 1000;
-      HEIGHT = 500;
-    } else if (WindowSize.innerWidth < 2500.01) {
-      WIDTH = 1200;
-      HEIGHT = 600;
-    } else if (WindowSize.innerWidth < 3000.01) {
-      WIDTH = 1600;
-      HEIGHT = 800;
-    } else {
-      WIDTH = 1800;
-      HEIGHT = 900;
-    }
-  }, [WindowSize]);
+    // if (window.innerWidth < 160.01) {
+    //   WIDTH = 100;
+    //   HEIGHT = 50;
+    // } else if (window.innerWidth < 215.01) {
+    //   WIDTH = 150;
+    //   HEIGHT = 75;
+    // } else if (window.innerWidth < 330.01) {
+    //   WIDTH = 200;
+    //   HEIGHT = 100;
+    // } else if (window.innerWidth < 430.01) {
+    //   WIDTH = 300;
+    //   HEIGHT = 150;
+    // } else if (window.innerWidth < 650.01) {
+    //   WIDTH = 400;
+    //   HEIGHT = 200;
+    // } else if (window.innerWidth < 840.01) {
+    //   WIDTH = 600;
+    //   HEIGHT = 300;
+    // } else if (window.innerWidth < 1500.01) {
+    //   WIDTH = 800;
+    //   HEIGHT = 400;
+    // } else if (window.innerWidth < 2000.01) {
+    //   WIDTH = 1000;
+    //   HEIGHT = 500;
+    // } else if (window.innerWidth < 2500.01) {
+    //   WIDTH = 1200;
+    //   HEIGHT = 600;
+    // } else if (window.innerWidth < 3000.01) {
+    //   WIDTH = 1600;
+    //   HEIGHT = 800;
+    // } else {
+    //   WIDTH = 1800;
+    //   HEIGHT = 900;
+    // }
+    defineCanva();
+  }, [window.innerWidth]);
 
   return (
     <Routes>
