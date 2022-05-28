@@ -1,9 +1,11 @@
-import React, { ClassAttributes, useEffect, useState } from 'react';
+import React, { ClassAttributes, useContext, useEffect, useState } from 'react';
 import classes from './Header.module.scss';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import api from '../../apis/api';
 import clsx from 'clsx';
 import { IUser } from '../../interface/user.interface';
+import { checkIsLogged } from '../../utils';
+import { UserContext } from '../../context';
 
 interface Props {
   className: string;
@@ -23,6 +25,13 @@ const Button = (props: Props) => {
 function Header(props: any) {
   const [user, setUser] = useState<IUser | null>(null);
   const [showLinks, setShowLinks] = useState(false);
+  const {googleAuth, isLogged, user: Uuser} = useContext(UserContext);
+  useEffect(() => {
+    console.log('preuve que ca fonctionne');
+    console.log('++++++++++++++++++++++++++++++++++++');
+    console.log({ Uuser, googleAuth, isLogged });
+    console.log('++++++++++++++++++++++++++++++++++++');
+  });
 
   function ftShowLogin(user: IUser | null) {
     if (props.show === 2) return classes.hideLogin;
@@ -40,12 +49,20 @@ function Header(props: any) {
   }
 
   useEffect(() => {
-    api
-      .get('/auth/status')
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch(() => setUser(null));
+    // api
+    //   .get('/auth/status')
+    //   .then((response) => {
+    //     setUser(response.data);
+    //   })
+    //   .catch(() => setUser(null));
+    (async () => {
+      try {
+        const { logged } = await checkIsLogged();
+        setUser(logged);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   function BurgerMenuMode() {

@@ -10,6 +10,7 @@ import classes from './Profile.module.scss';
 import Avatar from './components/Avatar/Avatar';
 import { IUser } from '../../interface/user.interface';
 import ProfileLeft from './components/ProfileLeft/ProfileLeft';
+import { checkIsLogged } from '../../utils';
 // import { IFriends } from "../../interface/friends.interface";
 
 interface Props {
@@ -24,10 +25,18 @@ function Profile(props: Props) {
 
   useEffect(() => {
     /*props.setRefresh(props.refresh + 1);*/
-    api
-      .get('/auth/status')
-      .then((response) => setUser(response.data))
-      .catch((reject) => console.error(reject));
+    // api
+    //   .get('/auth/status')
+    //   .then((response) => setUser(response.data))
+    //   .catch((reject) => console.error(reject));
+    (async () => {
+      try {
+        const {logged} = await checkIsLogged()
+        setUser(logged);
+      } catch (error) {
+        console.log(error);
+      }
+    })()
   }, [refresh]);
 
   // const ftIsActiveMenu = (menuName: string) => {

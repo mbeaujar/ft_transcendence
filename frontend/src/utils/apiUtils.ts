@@ -10,6 +10,13 @@ export const is2fa = async () => {
   return data;
 };
 
+export const checkIsLogged = async () => {
+  const logged = await isLogged();
+  console.log({ logged });
+  const googleAuth2 = await is2fa();
+  return { logged, googleAuth2 };
+};
+
 export const handleSubmitForm2faCode = async () => {};
 
 export const handleChange2faCode = async (

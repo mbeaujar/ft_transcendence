@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import classes from './Invite.module.scss';
-// import { IGame } from '../../../../interface/game.interface';
-// import { Socket } from 'socket.io-client';
-// import getSocket from '../../../Socket';
 import api from '../../../../apis/api';
-// import { IUser } from '../../../../interface/user.interface';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 interface Props {

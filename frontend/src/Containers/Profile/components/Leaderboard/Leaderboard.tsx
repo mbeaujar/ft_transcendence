@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../../apis/api';
 import Avatar from '../Avatar/Avatar';
-//import classes from './Leaderboard.module.scss';
-import './Leaderboard.scss';
+import classes from './Leaderboard.module.scss';
+//import './Leaderboard.scss';
 import { IUser } from '../../../../interface/user.interface';
 
 function ftSetLevel(pongopoints: number) {
@@ -33,9 +33,9 @@ const Leaderboard: React.FC = (): JSX.Element => {
   }, []);
 
   return (
-    <div className="Leaderboard">
-      <div className="Header">
-        <div className="HeaderLeft">
+    <div className={classes.Leaderboard}>
+      <div className={classes.Header}>
+        <div className={classes.HeaderLeft}>
           <h3>Rank</h3>
           <h3>User</h3>
         </div>
@@ -44,29 +44,29 @@ const Leaderboard: React.FC = (): JSX.Element => {
         <h3>Pongopoints</h3>
       </div>
 
-      <div className="Users">
+      <div className={classes.Users}>
         {leaderboard
           .slice(0)
           .reverse()
           .map((user: IUser, index: number) => (
-            <div className="User" key={index}>
-              <div className="UserLeft">
-                <p className="Rank">
+            <div className={classes.User} key={index}>
+              <div className={classes.UserLeft}>
+                <p className={classes.Rank}>
                   {leaderboard[index - 1] &&
                   leaderboard[index - 1].elo === leaderboard[index].elo
                     ? '-'
                     : index + 1}
                 </p>
                 <Avatar user={user} />
-                <p className="Username">{user.username}</p>
+                <p className={classes.Username}>{user.username}</p>
               </div>
-              <div className="Right">
-                <p className="Level">{ftSetLevel(user.elo)}</p>
-                <p className="Ratio">
-                  <span className="Wins">{user.wins}W</span> /{' '}
-                  <span className="Losses">{user.losses}L</span>
+              <div className={classes.Right}>
+                <p className={classes.Level}>{ftSetLevel(user.elo)}</p>
+                <p className={classes.Ratio}>
+                  <span className={classes.Wins}>{user.wins}W</span> /{' '}
+                  <span className={classes.Losses}>{user.losses}L</span>
                 </p>
-                <p className="Pongopoints">{user.elo}</p>
+                <p className={classes.Pongopoints}>{user.elo}</p>
               </div>
             </div>
           ))}

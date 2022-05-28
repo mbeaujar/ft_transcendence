@@ -58,7 +58,6 @@ function defineCanva() {
     HEIGHT = 900;
   }
 }
-
 defineCanva();
 
 function MainApp(props: IMainProps) {
