@@ -225,28 +225,17 @@ const Pong = (props: Props) => {
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
     return classes.HideButton;
-    // if (matchEnd === true) return classes.ShowButton;
-    // return classes.HideButton;
   }
 
   function showCanva() {
     if (hideButton === true) {
       if (score[0] === 3 || score[1] === 3) {
-        // setMatchEnd(true);
         return classes.hideCanva;
       }
 
       return classes.canva;
     }
     return classes.hideCanva;
-    // if (matchEnd === false) {
-    //   if (score[0] === 3 || score[1] === 3) {
-    //      setMatchEnd(true);
-    //     return classes.hideCanva;
-    //   }
-    //   return classes.canva;
-    // }
-    // return classes.hideCanva;
   }
 
   function showMatchEnd() {
@@ -265,15 +254,11 @@ const Pong = (props: Props) => {
   }
 
   function showLoading() {
-    // if (hideButton === true && !match) return classes.Loading;
-    // return classes.HideLoading;
     if (hideButton === true && matchEnd === true) return classes.Loading;
     return classes.HideLoading;
   }
 
   function showLoadingText() {
-    // if (hideButton === true && !match) return classes.LoadingText;
-    // return classes.HideLoadingText;
     if (hideButton === true && matchEnd === true) return classes.LoadingText;
     return classes.HideLoadingText;
   }
@@ -284,8 +269,6 @@ const Pong = (props: Props) => {
   }
 
   function showCancel() {
-    // if (hideButton === true && !match) return classes.Cancel;
-    // return classes.HideCancel;
     if (hideButton === true && matchEnd === true) return classes.Cancel;
     return classes.HideCancel;
   }
@@ -308,17 +291,19 @@ const Pong = (props: Props) => {
     return itemsOpponent[opponent].userId;
   }
 
+
+
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
       socket?.emit('moveTopPaddle', { id });
-      console.log('Top');
+      // console.log('Top');
     }
 
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
       socket?.emit('moveBotPaddle', { id });
-      console.log('Bottom');
+      // console.log('Bottom');
     }
   };
 
