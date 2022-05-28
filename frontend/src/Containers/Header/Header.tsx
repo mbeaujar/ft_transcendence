@@ -20,11 +20,12 @@ const Button = (props: Props) => {
   );
 };
 
-function Header() {
+function Header(props: any) {
   const [user, setUser] = useState<IUser | null>(null);
   const [showLinks, setShowLinks] = useState(false);
 
   function ftShowLogin(user: IUser | null) {
+    if (props.show === 2) return classes.hideLogin;
     if (user === null) {
       return classes.showLogin;
     }
@@ -32,7 +33,7 @@ function Header() {
   }
 
   function ftShowLogout(user: IUser | null) {
-    if (user === null) {
+    if (user === null && props.show !== 2) {
       return classes.hideLogout;
     }
     return classes.showLogout;
