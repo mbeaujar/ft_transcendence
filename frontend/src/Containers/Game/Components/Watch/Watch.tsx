@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import classes from './Watch.module.scss';
 import { IGame } from '../../../../interface/game.interface';
 import { Socket } from 'socket.io-client';
@@ -7,6 +7,7 @@ import useWindowSize from '../useWindow/useWindowSize';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { IUser } from '../../../../interface/user.interface';
+import { UserContext } from '../../../../context';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
@@ -17,7 +18,7 @@ const BALL = '#00007f';
 interface Props {
   width: number;
   height: number;
-  user: IUser;
+  // user: IUser;
 }
 
 function WatchGame(props: Props) {
@@ -27,6 +28,8 @@ function WatchGame(props: Props) {
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const canvasRef = useRef(null);
+  const { user } = useContext(UserContext);
+
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -172,8 +175,8 @@ function WatchGame(props: Props) {
       <div className={classes.ListGame}>
         {listGame.length > 0 ? (
           listGame.map((game: any, index: number) =>
-            game.players[0].user.username !== props.user.username &&
-            game.players[1].user.username !== props.user.username ? (
+            game.players[0].user.username !== user?.username &&
+            game.players[1].user.username !== user?.username ? (
               <div className={classes.Game} key={index}>
                 <p className={classes.Username} style={{}}>
                   {game.players[0].user.username} vs{' '}

@@ -1,6 +1,7 @@
 import api from '../apis/api';
 
-export const isLogged = async () => {
+
+export const getUser = async () => {
   const { data } = await api.get('/auth/status');
   return data;
 };
@@ -11,31 +12,7 @@ export const is2fa = async () => {
 };
 
 export const checkIsLogged = async () => {
-  const logged = await isLogged();
-  console.log({ logged });
+  const userData = await getUser();
   const googleAuth2 = await is2fa();
-  return { logged, googleAuth2 };
+  return { userData, googleAuth2 };
 };
-
-export const handleSubmitForm2faCode = async () => {};
-
-export const handleChange2faCode = async (
-  event: React.FormEvent<HTMLInputElement>,
-) => {};
-
-// function handleSubmitForm2faCode() {
-//   api
-//     .post("/auth/2fa/authenticate", { code: twofaCode })
-//     .then((response) => {
-//       // Notes: 0 (ZERO)
-//       // window.location.reload();
-//     })
-//     .catch((reject) => {
-//       toast.error("Wrong code");
-//     });
-// }
-
-// function handleChange2faCode(event: React.FormEvent<HTMLInputElement>) {
-//   var value = event.currentTarget.value;
-//   setTwofaCode(value);
-// }

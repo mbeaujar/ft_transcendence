@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState, useEffect, useRef } from 'react';
 import classes from './SearchUser.module.scss';
 import clsx from 'clsx';
@@ -11,9 +11,10 @@ import { IChannel } from '../../../../interface/channel.interface';
 import { Scope } from '../../../../interface/scope.enum';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { IFriends } from '../../../../interface/friends.interface';
+import { UserContext } from '../../../../context';
 
 interface Props {
-  user: IUser;
+  user: IUser | null;
   socketEmit: any;
 }
 
@@ -22,7 +23,9 @@ function SearchUser(props: Props) {
   const [userToFind, setUserToFind] = useState<IUser | null>(null);
   const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
   const [friendsList, setFriendsList] = useState<IFriends>();
-  const [refresh,setRefresh]=useState<number>(0);
+  const [refresh, setRefresh] = useState<number>(0);
+  const { user } = useContext(UserContext);
+
 
   useEffect(() => {
     api
@@ -32,17 +35,15 @@ function SearchUser(props: Props) {
       })
       .catch((reject) => console.error(reject));
 
-      api
+    api
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
 
-      console.log("usestate");
-  }, [userToFind,refresh]);
+    console.log('usestate');
+  }, [userToFind, refresh]);
 
-  useEffect(()=>{
-
-  },[])
+  useEffect(() => {}, []);
 
   function handleChangesearchUserInput(
     event: React.FormEvent<HTMLInputElement>,
@@ -53,7 +54,7 @@ function SearchUser(props: Props) {
 
   function handleSubmitFormSearchUser(event: React.FormEvent<HTMLFormElement>) {
     console.log('userr=', searchUserInput);
-    if (searchUserInput === props.user.username) {
+    if (searchUserInput === user?.username) {
       toast.error("You can't search yourself");
       event.preventDefault();
       return;
@@ -92,84 +93,82 @@ function SearchUser(props: Props) {
   function textBlocked() {
     let ret = 0;
     userToFind &&
-    userBlockedTab &&
-    userBlockedTab.blockedUsers.map((userBlock: IUser) => {
-      if (userBlock.username === userToFind.username) {
-        ret = 1;
-        } 
+      userBlockedTab &&
+      userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+        if (userBlock.username === userToFind.username) {
+          ret = 1;
+        }
       });
-      if (ret===1) return ("Unblock");
-      else return ("Block");
+    if (ret === 1) return 'Unblock';
+    else return 'Block';
   }
 
-  function showInvite()
-  {
+  function showInvite() {
     let ret = 0;
     userToFind &&
-    friendsList &&
-    friendsList.friends.map((friend: IUser) => {
-      if (friend.username === userToFind.username) {
-        ret = 1;
-        } 
+      friendsList &&
+      friendsList.friends.map((friend: IUser) => {
+        if (friend.username === userToFind.username) {
+          ret = 1;
+        }
       });
-      if (ret===0) return (classes.HideLink);
-      else return (classes.Link);
+    if (ret === 0) return classes.HideLink;
+    else return classes.Link;
   }
 
   function ftBlockUser() {
     let ret = 0;
     userToFind &&
-    userBlockedTab &&
-    userBlockedTab.blockedUsers.map((userBlock: IUser) => {
-      if (userBlock.username === userToFind.username) {
-        ret = 1;
-        } 
+      userBlockedTab &&
+      userBlockedTab.blockedUsers.map((userBlock: IUser) => {
+        if (userBlock.username === userToFind.username) {
+          ret = 1;
+        }
       });
-      if (ret===1) 
-      {
-        if (userToFind) {
-          api
-            .post('/users/unblock', { id: userToFind.id })
-            .then(() => {
-              toast.success(userToFind.username + ' was unblocked');
-              api
-                .get('/users/getBlockedUser')
-                .then((response) => {
-                  setUserBlockedTab(response.data);
-                })
-                .catch((reject) => console.error(reject));
-            })
-            .catch((reject) => console.error(reject));
+    if (ret === 1) {
+      if (userToFind) {
+        api
+          .post('/users/unblock', { id: userToFind.id })
+          .then(() => {
+            toast.success(userToFind.username + ' was unblocked');
+            api
+              .get('/users/getBlockedUser')
+              .then((response) => {
+                setUserBlockedTab(response.data);
+              })
+              .catch((reject) => console.error(reject));
+          })
+          .catch((reject) => console.error(reject));
       }
-      }
-      else 
-      {
-        if (userToFind) {
-          api
-            .post('/users/block', { id: userToFind.id })
-            .then(() => {
-              setRefresh(refresh+1);
-              friendsList &&
+    } else {
+      if (userToFind) {
+        api
+          .post('/users/block', { id: userToFind.id })
+          .then(() => {
+            setRefresh(refresh + 1);
+            friendsList &&
               friendsList.friends.map((friend) => {
                 if (userToFind && friend.id === userToFind.id) {
                   api
                     .delete(`/friends/${friend.id}`)
-                    .then(()=>api
-                    .get('/friends/list')
-                    .then((response) => setFriendsList(response.data))
-                    .catch((reject) => console.error(reject)))
+                    .then(() =>
+                      api
+                        .get('/friends/list')
+                        .then((response) => setFriendsList(response.data))
+                        .catch((reject) => console.error(reject)),
+                    )
                     .catch((reject) => console.error(reject));
                 }
               });
-              toast.success(userToFind.username + ' was blocked');
-              api
-                .get('/users/getBlockedUser')
-                .then((response) => {
-                  setUserBlockedTab(response.data);
-                })
-                .catch((reject) => console.error(reject));
-            })
-            .catch((reject) => console.error(reject));
+            toast.success(userToFind.username + ' was blocked');
+            api
+              .get('/users/getBlockedUser')
+              .then((response) => {
+                setUserBlockedTab(response.data);
+              })
+              .catch((reject) => console.error(reject));
+          })
+          .catch((reject) => console.error(reject));
       }
     }
   }
@@ -215,7 +214,7 @@ function SearchUser(props: Props) {
               Invite to play
             </Link>
             <button className={classes.Button} onClick={() => ftBlockUser()}>
-            {textBlocked()}
+              {textBlocked()}
             </button>
           </div>
         </div>

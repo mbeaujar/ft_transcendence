@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import api from '../../apis/api';
 import clsx from 'clsx';
 import { IUser } from '../../interface/user.interface';
-import { checkIsLogged } from '../../utils';
 import { UserContext } from '../../context';
 
 interface Props {
@@ -22,48 +21,18 @@ const Button = (props: Props) => {
   );
 };
 
+const LoginBtn = ({ onClick }: { onClick: () => void }) => (
+  <Button className={classes.showLogin} text="LOGIN" onClick={onClick} />
+);
+
+const LogoutBtn = ({ onClick }: { onClick: () => void }) => (
+  <Button className={classes.showLogout} text="LOGOUT" onClick={onClick} />
+);
+
 function Header(props: any) {
-  const [user, setUser] = useState<IUser | null>(null);
   const [showLinks, setShowLinks] = useState(false);
-  const {googleAuth, isLogged, user: Uuser} = useContext(UserContext);
-  useEffect(() => {
-    console.log('preuve que ca fonctionne');
-    console.log('++++++++++++++++++++++++++++++++++++');
-    console.log({ Uuser, googleAuth, isLogged });
-    console.log('++++++++++++++++++++++++++++++++++++');
-  });
+  const { handleLogout, isLogged } = useContext(UserContext);
 
-  function ftShowLogin(user: IUser | null) {
-    if (props.show === 2) return classes.hideLogin;
-    if (user === null) {
-      return classes.showLogin;
-    }
-    return classes.hideLogin;
-  }
-
-  function ftShowLogout(user: IUser | null) {
-    if (user === null && props.show !== 2) {
-      return classes.hideLogout;
-    }
-    return classes.showLogout;
-  }
-
-  useEffect(() => {
-    // api
-    //   .get('/auth/status')
-    //   .then((response) => {
-    //     setUser(response.data);
-    //   })
-    //   .catch(() => setUser(null));
-    (async () => {
-      try {
-        const { logged } = await checkIsLogged();
-        setUser(logged);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
 
   function BurgerMenuMode() {
     if (showLinks === false) return classes.BurgerMenu;
@@ -99,41 +68,44 @@ function Header(props: any) {
         <div className={classes.BurgerMenuBottom}></div>
       </div>
       <nav className={clsx(classes.Navigation, showNavigation())}>
-        <Link
-          to="/game"
-          className={clsx(classes.Link, classes.Game)}
-          onClick={() => setShowLinks(!showLinks)}
-        >
-          GAME
-        </Link>
-        <Link
-          to="/chat"
-          className={clsx(classes.Link, classes.Chat)}
-          onClick={() => setShowLinks(!showLinks)}
-        >
-          CHAT
-        </Link>
-        <Link
-          to="/profile/stats"
-          className={clsx(classes.Link, classes.Profile)}
-          onClick={() => setShowLinks(!showLinks)}
-        >
-          PROFILE
-        </Link>
-        <Button
-          className={ftShowLogin(user)}
-          text="LOGIN"
-          onClick={() => {
-            window.location.href = 'http://localhost:3000/api/auth/login';
-          }}
-        />
-        <Button
-          className={ftShowLogout(user)}
-          text="LOGOUT"
-          onClick={() => {
-            window.location.href = 'http://localhost:3000/api/auth/logout';
-          }}
-        />
+        {isLogged && (
+          <>
+            <Link
+              to="/game"
+              className={clsx(classes.Link, classes.Game)}
+              onClick={() => setShowLinks(!showLinks)}
+            >
+              GAME
+            </Link>
+            <Link
+              to="/chat"
+              className={clsx(classes.Link, classes.Chat)}
+              onClick={() => setShowLinks(!showLinks)}
+            >
+              CHAT
+            </Link>
+            <Link
+              to="/profile/stats"
+              className={clsx(classes.Link, classes.Profile)}
+              onClick={() => setShowLinks(!showLinks)}
+            >
+              PROFILE
+            </Link>
+          </>
+        )}
+        {!isLogged ? (
+          <LoginBtn
+            onClick={() =>
+              (window.location.href = 'http://localhost:3000/api/auth/login')
+            }
+          />
+        ) : (
+          <LogoutBtn
+            onClick={() => {
+              if (handleLogout) handleLogout();
+            }}
+          />
+        )}
       </nav>
     </div>
   );

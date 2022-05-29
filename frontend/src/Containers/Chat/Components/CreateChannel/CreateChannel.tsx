@@ -7,7 +7,7 @@ import classes from './CreateChannel.module.scss';
 import { toast } from 'react-toastify';
 
 interface Props {
-  user: IUser;
+  user: IUser | null;
   socketEmit: any;
 }
 

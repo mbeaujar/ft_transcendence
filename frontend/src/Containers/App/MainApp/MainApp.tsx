@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { IUser } from '../../../interface/user.interface';
 import Chat from '../../Chat/Chat';
@@ -10,11 +10,12 @@ import Test from '../../Game/Components/Test/Test';
 import useWindowSize from '../../Game/Components/useWindow/useWindowSize';
 import WatchGame from '../../Game/Components/Watch/Watch';
 import Game from '../../Game/Game';
-import OtherUserProfile from "../../OtherUserProfile/OtherUserProfile";
-import Profile from "../../Profile/Profile";
+import OtherUserProfile from '../../OtherUserProfile/OtherUserProfile';
+import Profile from '../../Profile/Profile';
+import { UserContext } from '../../../context';
 
 export interface IMainProps {
-  user: IUser;
+  // user: IUser;
   theme: string;
   setTheme: (value: string) => void;
 }
@@ -61,8 +62,9 @@ function defineCanva() {
 defineCanva();
 
 function MainApp(props: IMainProps) {
-  const { user } = props;
+  // const { user } = props;
   const WindowSize = useWindowSize();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     defineCanva();
@@ -75,7 +77,7 @@ function MainApp(props: IMainProps) {
       <Route path="/game" element={<Game width={WIDTH} height={HEIGHT} />} />
       <Route
         path="/game/watch"
-        element={<WatchGame width={WIDTH} height={HEIGHT} user={props.user} />}
+        element={<WatchGame width={WIDTH} height={HEIGHT} />}
       />
       <Route
         path="/game/play"
@@ -91,9 +93,9 @@ function MainApp(props: IMainProps) {
       />
       <Route
         path="/game/play/room/pong"
-        element={<Pong width={WIDTH} height={HEIGHT} user={user} />}
+        element={<Pong width={WIDTH} height={HEIGHT} />}
       ></Route>
-      <Route path="/chat" element={<Chat user={user} />} />
+      <Route path="/chat" element={<Chat />} />
       <Route
         path="/profile"
         element={

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import classes from './ChannelSettings.module.scss';
@@ -11,9 +11,9 @@ import Dropdown3 from './Dropdown3/Dropdown3';
 import { Scope } from '../../../../interface/scope.enum';
 import clsx from 'clsx';
 import api from '../../../../apis/api';
+import { UserContext } from '../../../../context';
 
 interface Props {
-  user: IUser;
   channel: IChannel;
   channels: IChannel[];
   socket: any;
@@ -38,6 +38,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   const [confirmSetPassword, setConfirmSetPassword] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     setNewChannelMode(initChangeChannelMode());
@@ -50,7 +51,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     while (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].user.username !== props.user.username
+      props.channel.users[i].user.username !== user?.username
     ) {
       i++;
     }
@@ -69,7 +70,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     while (
       props.channel.users[i] &&
       props.channel.users[i].user &&
-      props.channel.users[i].user.username !== props.user.username
+      props.channel.users[i].user.username !== user?.username
     ) {
       i++;
     }
@@ -107,7 +108,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     userToBan = findUser(banUser);
 
     if (userToBan !== null) {
-      if (userToBan?.username !== props.user.username) {
+      if (userToBan?.username !== user?.username) {
         if (banUserDuration !== 'Unlimited')
           toast.success(
             userToBan.username + ' is ban during ' + banUserDuration,
@@ -193,7 +194,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let time = setMuteTime();
     userToMute = findUser(muteUser);
     if (userToMute !== null) {
-      if (userToMute?.username !== props.user.username)
+      if (userToMute?.username !== user?.username)
         toast.success(
           userToMute.username + ' is mute during ' + muteUserDuration,
         );

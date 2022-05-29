@@ -26,7 +26,6 @@ function AddFriends() {
               toast.success('Your friend request was sent to ' + text);
             })
             .catch((reject) => {
-              console.log(reject);
               toast.error("Your friend request wasn't send");
             });
         }}

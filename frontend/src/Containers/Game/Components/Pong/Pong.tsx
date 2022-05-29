@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { IGame } from '../../../../interface/game.interface';
 import classes from './Pong.module.scss';
 import clsx from 'clsx';
@@ -12,6 +12,7 @@ import ReactLoading from 'react-loading';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../../context';
 
 let PADDLEW = 10;
 // const PADDLEH = 80;
@@ -37,10 +38,12 @@ const itemsPaddleSensibility = [
 interface Props {
   width: number;
   height: number;
-  user: IUser;
+  // user: IUser;
 }
 
 const Pong = (props: Props) => {
+  const { user } = useContext(UserContext);
+
   const canvasRef = useRef<any>(null);
   const [score, setScore] = useState<Array<number>>([0, 0]);
   const [id, setId] = useState<number>();
@@ -51,7 +54,7 @@ const Pong = (props: Props) => {
     { id: 0, value: 'Random', userId: 0 },
   ]);
   const [mode, setMode] = useState<number>(0);
-  const [paddleSpeed, setPaddleSpeed] = useState(props.user.sensitivity);
+  const [paddleSpeed, setPaddleSpeed] = useState(user?.sensitivity);
   const [opponent, setOpponent] = useState(0);
   const [matchEnd, setMatchEnd] = useState(true);
   const [blockDropdownMode, setBlockDropdownMode] = useState(0);
@@ -349,7 +352,7 @@ const Pong = (props: Props) => {
         id="PaddleSpeed"
         hideButton={hideButton}
         setState={setPaddleSpeed}
-        index={paddleSpeed - 1}
+        index={paddleSpeed || 0 - 1}
         blockDropdown={0}
         paramRouteOpponent={from.from.opponent}
       />

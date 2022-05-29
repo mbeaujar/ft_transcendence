@@ -47,7 +47,7 @@ export class AuthService {
     user: User,
   ) {
     const secret = await this.usersService.findSecret(user.id);
-    // console.log(secret.twoFactorAuthenticationSecret);
+
     return authenticator.verify({
       token: twoFactorAuthenticationCode,
       secret: secret.twoFactorAuthenticationSecret,
@@ -77,7 +77,15 @@ export class AuthService {
     user: User,
     twoFactorAuthenticatedEnabled: boolean = false,
   ) {
-    const payload: IPayload = { twoFactorAuthenticatedEnabled, sub: user.id };
+    // Commentaire Hassan, en dessous tu avais une erreur, dans tous les cas tu renvoyait twoFactorAuthenticatedEnabled a false, j'ai fais ce petit fix, regarde si j'ai pas cassé autre chose
+
+    console.log({ user });
+    const payload: IPayload = {
+      twoFactorAuthenticatedEnabled: user.isTwoFactorEnabled,
+      // juste en dessous ce que tu avais avant
+      // twoFactorAuthenticatedEnabled,
+      sub: user.id,
+    };
     const access_token = this.jwtService.sign(payload);
     res.cookie('access_token', access_token, {
       sameSite: true,

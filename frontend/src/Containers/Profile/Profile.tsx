@@ -31,8 +31,8 @@ function Profile(props: Props) {
     //   .catch((reject) => console.error(reject));
     (async () => {
       try {
-        const {logged} = await checkIsLogged()
-        setUser(logged);
+        const {userData} = await checkIsLogged()
+        setUser(userData);
       } catch (error) {
         console.log(error);
       }

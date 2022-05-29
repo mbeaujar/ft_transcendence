@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useContext } from 'react';
 import { toast } from 'react-toastify';
 import clsx from 'clsx';
 import classes from './Chat.module.scss';
@@ -15,12 +15,12 @@ import { Scope } from '../../interface/scope.enum';
 import getSocket from '../Socket';
 import RightClick from './Components/RightClick/RightClick';
 import { useContextMenu } from 'react-contexify';
+import { UserContext } from '../../context';
 const MENU_ID = 'menu-id';
 
-interface Props {
-  user: IUser;
-}
-const Chat: React.FC<Props> = (props: Props): JSX.Element => {
+const Chat: React.FC = (): JSX.Element => {
+  const { user } = useContext(UserContext);
+
   const [channels, setChannels] = useState<IChannel[]>([]);
   const [discussion, setDiscussion] = useState<IChannel[]>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -90,7 +90,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     channels.map((channel: IChannel) => {
       i = 0;
       channel.users.map((userList: IUser) => {
-        if (userList.user.username === props.user.username) {
+        if (userList.user.username === user?.username) {
           setChannelsJoin((prev) => [...prev, channel]);
           i = 1;
         }
@@ -127,7 +127,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
     userToVisit: IUser,
   ) {
-    if (userToVisit.username !== props.user.username) show(e);
+    if (userToVisit.username !== user?.username) show(e);
   }
 
   const ftDisplayDM = () => {
@@ -143,7 +143,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           setShowChatLeft(!showChatLeft);
         }}
       >
-        {channel.users[0]?.user?.id === props.user.id
+        {channel.users[0]?.user?.id === user?.id
           ? `${channel.users[1]?.user?.username}`
           : `${channel.users[0]?.user?.username}`}
       </p>
@@ -155,7 +155,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
       if (channelChoose) {
         return (
           <Discussion
-            user={props.user}
             socket={socket}
             channel={channelChoose}
             messages={messages}
@@ -170,13 +169,13 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
           socketEmit={(message: string, channel: IChannel) => {
             socket.emit(message, channel);
           }}
-          user={props.user}
+          user={user}
         />
       );
     else if (activeChatMenu === 'JoinChannel') {
       return (
         <JoinChannel
-          user={props.user}
+          user={user}
           socket={socket}
           channels={channels}
           channelNotJoin={channelsNotJoin}
@@ -185,7 +184,7 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     } else if (activeChatMenu === 'CreateChannel')
       return (
         <CreateChannel
-          user={props.user}
+          user={user}
           socketEmit={(channel: IChannel) => {
             socket.emit('createChannel', channel);
           }}
@@ -197,7 +196,6 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     if (channelChoose && channelChoose.state !== Scope.discussion) {
       return (
         <ChannelSettings
-          user={props.user}
           channel={channelChoose}
           socket={socket}
           channels={channels}

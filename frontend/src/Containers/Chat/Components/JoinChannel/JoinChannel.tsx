@@ -9,7 +9,7 @@ import { IChannel } from '../../../../interface/channel.interface';
 import { IJoinChannel } from '../../../../interface/join-channel.interface';
 
 interface Props {
-  user: IUser;
+  user: IUser | null;
   socket: any;
   channels: IChannel[];
   channelNotJoin: IChannel[];

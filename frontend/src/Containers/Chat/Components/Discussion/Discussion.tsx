@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import classes from './Discussion.module.scss';
 import { IUser } from '../../../../interface/user.interface';
@@ -23,11 +23,11 @@ import 'react-contexify/dist/ReactContexify.css';
 import clsx from 'clsx';
 import api from '../../../../apis/api';
 import RightClick from '../RightClick/RightClick';
+import { UserContext } from '../../../../context';
 
 const MENU_ID = 'menu-id';
 
 interface Props {
-  user: IUser;
   channel: IChannel;
   socket: any;
   messages: IMessage[];
@@ -38,6 +38,8 @@ interface Props {
 const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
   var messageBody = document.querySelector('#msg');
   const [messageUser, setMessageUser] = useState<IUser>();
+  const { user } = useContext(UserContext);
+
   // const [userBlockedTab, setUserBlockedTab] = useState<IUser | null>(null);
 
   useEffect(() => {
@@ -53,10 +55,12 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
 
   function displayMenu(
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
-    userToVisit: IUser,
+    userToVisit: IUser | null,
   ) {
+    if (!userToVisit)
+      return;
     setMessageUser(userToVisit);
-    if (userToVisit.username !== props.user.username) show(e);
+    if (userToVisit.username !== user?.username) show(e);
   }
 
   const renderedMessages = props.messages.map(
@@ -66,7 +70,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
           <Avatar user={message.user} />
           <div className={classes.MessageRight}>
             <h4 onContextMenu={(e) => displayMenu(e, message.user)}>
-              {message.user.username}
+              {message.user?.username}
             </h4>
             <p> {message.text}</p>
             <RightClick messageUser={messageUser} />
@@ -81,7 +85,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
       <h1>
         {props.channel.state !== 3
           ? props.channel.name
-          : props.channel.users[0]?.user?.id === props.user.id
+          : props.channel.users[0]?.user?.id === user?.id
           ? `${props.channel.users[1]?.user?.username}`
           : `${props.channel.users[0]?.user?.username}`}
       </h1>
@@ -102,7 +106,7 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
           onSubmit={(text: string) => {
             const message: IMessage = {
               text,
-              user: props.user,
+              user:user,
             };
             if (props.channel !== null) {
               Object.assign(message, { channel: props.channel });

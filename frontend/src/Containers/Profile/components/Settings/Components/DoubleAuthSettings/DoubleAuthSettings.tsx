@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../../../../../../apis/api';
 import Dropdown from '../Dropdown/Dropdown.module';
 import { toast } from 'react-toastify';
 import './DoubleAuthSettings.scss';
 import { IUser } from '../../../../../../interface/user.interface';
+import { UserContext } from '../../../../../../context';
 
 interface Props {
   user: IUser;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 function DoubleAuthSettings(props: Props) {
+  const { handleLogout } = useContext(UserContext);
   const [refresh, setRefresh] = useState<number>(0);
   const [valueEnableDoubleAuth, setValueEnableDoubleAuth] = useState(
     props.user.isTwoFactorEnabled ? 'Yes' : 'no',
@@ -27,7 +29,9 @@ function DoubleAuthSettings(props: Props) {
     ) {
       api
         .post('/auth/2fa/generate', {}, { responseType: 'blob' })
-        .then((response) => setQrcode(response.data))
+        .then((response) => {
+          setQrcode(response.data);
+        })
         .catch((reject) => console.log(reject));
     }
 
@@ -53,6 +57,7 @@ function DoubleAuthSettings(props: Props) {
         toast.success('Google authenticator is now enable');
         props.user.isTwoFactorEnabled = true;
         setRefresh(refresh + 1);
+        if (handleLogout) handleLogout();
       })
       .catch((reject) => {
         toast.error('Wrong code');
@@ -74,6 +79,7 @@ function DoubleAuthSettings(props: Props) {
         toast.success('Google authenticator is now disable');
         props.user.isTwoFactorEnabled = false;
         setRefresh(refresh + 1);
+        if (handleLogout) handleLogout();
       })
       .catch((reject) => {
         toast.error('Wrong code');

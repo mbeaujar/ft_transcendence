@@ -3,7 +3,7 @@ import api from '../../../../apis/api';
 import { IUser } from '../../../../interface/user.interface';
 
 interface Props {
-  user: IUser;
+  user: IUser | null;
 }
 
 const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
@@ -18,7 +18,7 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
         })
         .then((response) => setAvatar(response.data))
         .catch((reject) => console.log(reject));
-    }, [props.user.avatarId]);
+    }, [props.user?.avatarId]);
 
     return (
       <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>
