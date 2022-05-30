@@ -44,7 +44,7 @@
     "eject": "react-scripts eject",
     "serve": "NODE_ENV=production serve ./build -p 8080",
     "preserve": "NODE_ENV=production npm run build",
-    "lint": "eslint '/**/.{js,jsx,ts,tsx}' --quiet --fix"
+    "lint": "eslint --fix --ext .ts,.tsx ."
   },
   "eslintConfig": {
     "extends": [
