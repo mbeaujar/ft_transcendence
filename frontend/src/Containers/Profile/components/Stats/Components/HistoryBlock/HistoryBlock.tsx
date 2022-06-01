@@ -36,7 +36,6 @@ function HistoryBlock(props: Props) {
         .get(`/users/history/${props.user.id}`)
         .then((response) => {
           setHistoric(response.data);
-          console.log('response=', response.data);
         })
         .catch((reject) => console.error(reject));
     }

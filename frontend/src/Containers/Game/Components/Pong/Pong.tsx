@@ -230,6 +230,7 @@ const Pong = (props: Props) => {
   function showCanva() {
     if (hideButton === true) {
       if (score[0] === 3 || score[1] === 3) {
+        socket?.emit('gameIsOver', { id });
         return classes.hideCanva;
       }
 
@@ -288,8 +289,8 @@ const Pong = (props: Props) => {
       return 0;
     }
     console.log("itemsopp=",itemsOpponent," opponent=",opponent);
-    console.log('target=', itemsOpponent[opponent-1].userId);
-    return itemsOpponent[opponent-1].userId;
+    console.log('target=', itemsOpponent[opponent].userId);
+    return itemsOpponent[opponent].userId;
   }
 
 

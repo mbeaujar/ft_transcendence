@@ -14,7 +14,6 @@ function Friends() {
   const [refreshMyFriends, setRefreshMyFriends] = useState<number>(0);
 
   useEffect(() => {
-    console.log('friends effect');
   }, []);
 
   return (

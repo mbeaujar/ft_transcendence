@@ -19,7 +19,6 @@ function MyFriends(props: Props) {
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
 
-    console.log('myfriends effect');
   }, [refresh, props.refreshMyFriends]);
 
   const deleteFriend = (friendsList: IUser) => {

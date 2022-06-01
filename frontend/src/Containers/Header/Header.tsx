@@ -54,11 +54,8 @@ function Header(props: any) {
   }
 
   function showNavigation() {
-    if (window.innerWidth > 650.01) return classes.Nav;
-    else {
-      if (showLinks === false) return classes.HideNavigation;
-      return classes.ShowNavigation;
-    }
+    if (showLinks === false) return classes.HideNavigation;
+    return classes.ShowNavigation;
   }
 
   useEffect(() => {

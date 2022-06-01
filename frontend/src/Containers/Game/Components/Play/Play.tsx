@@ -13,7 +13,7 @@ function Play(props: Props) {
   return (
     <div
       className={clsx(classes.Play)}
-      style={{ width: props.width, height: props.height }}
+      style={{ width: props.width, height: props.height,fontSize: props.width / 50 }}
     >
       <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
         <Link

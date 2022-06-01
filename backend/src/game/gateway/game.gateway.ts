@@ -162,6 +162,15 @@ export class GameGateway
     }
   }
 
+  @SubscribeMessage('gameIsOver')
+  async gameEnded(client: Socket, gameId: number) {
+    console.log('imagine');
+    const match = await this.matchService.find(gameId);
+    
+    // this.server.to(client.id).emit('removeGame', { match });
+    // return await this.matchService.delete(gameId);
+  }
+
   @SubscribeMessage('leaveQueue')
   async onLeaveQueue(client: Socket) {
     await this.queueService.delete(client.data.user.id);

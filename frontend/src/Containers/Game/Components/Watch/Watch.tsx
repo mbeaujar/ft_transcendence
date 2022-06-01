@@ -26,7 +26,7 @@ function WatchGame(props: Props) {
   const [match, setMatch] = useState<IGame | null>(null);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [refresh,setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(0);
   const canvasRef = useRef(null);
 
   const resetWindow = (context: any) => {
@@ -113,7 +113,7 @@ function WatchGame(props: Props) {
       socket.removeAllListeners();
       addListenerGame(socket, context);
     }
-  }, [window.innerWidth,refresh]);
+  }, [window.innerWidth, refresh]);
 
   // useEffect(() => {
   //   const canvas: any = canvasRef.current;
@@ -148,11 +148,13 @@ function WatchGame(props: Props) {
     });
 
     socketEffect.on('newGame', (data: any) => {
+      console.log("datanewgame==",data);
       setListGame([...listGame, data]);
     });
 
     socketEffect.on('removeGame', (data: any) => {
       const index = listGame.findIndex((element) => element.id === data.id);
+      console.log("dataremovegame==",data);
       listGame.splice(index, 1);
       setListGame([...listGame]);
     });
@@ -166,13 +168,6 @@ function WatchGame(props: Props) {
       }
     };
   }, []);
-
-  const [end,setEnd] = useState(false);
-  function showMatchEnd() {
-    if (end===true) return classes.HideMatchEnd;
-    if (score[0] === 3 || score[1] === 3) return classes.MatchEnd;
-    return classes.HideMatchEnd;
-  }
 
   useEffect(() => {
     console.log('list=', listGame);
@@ -202,7 +197,7 @@ function WatchGame(props: Props) {
                     socket?.emit('joinGame', game.id);
                     setMatch(game);
                     setHideButton(!hideButton);
-                    setRefresh(refresh+1);
+                    setRefresh(refresh + 1);
                   }}
                   style={{ fontSize: props.width / 45 }}
                 >

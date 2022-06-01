@@ -20,7 +20,6 @@ function FriendsRequest(props: Props) {
       .catch((reject) => console.error(reject));
 
     if (refresh > 0) props.setRefreshMyFriends(props.refreshMyFriends + 1);
-    console.log('friendsrequest effect');
   }, [refresh]);
 
   const acceptRequest = (username: string) => {

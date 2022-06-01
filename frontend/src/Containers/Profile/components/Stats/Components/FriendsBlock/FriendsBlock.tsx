@@ -13,7 +13,6 @@ function FriendsBlock() {
       .get('/friends/list')
       .then((response) => {
         setFriendsList(response.data);
-        console.log('friiiiends:', response.data);
       })
       .catch((reject) => console.error(reject));
   }, []);
