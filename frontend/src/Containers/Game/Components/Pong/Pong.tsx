@@ -169,6 +169,9 @@ const Pong = (props: Props) => {
       setId(data?.match?.id);
       setMatch(data?.match);
     });
+    socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
+      setScore(data.score);
+    });
     socketEffect.on('infoGame', (data: IGame) => {
       canvasRef.current?.focus();
       setId(data.id);
@@ -202,20 +205,18 @@ const Pong = (props: Props) => {
           calculPercentage(data.paddleh2, props.height),
         );
       }
-      // const idTmp = data.id;
-      // if (stateGame.current.player1Top === true) {
-      //   console.log('t');
-      //   console.log("socket=",socketEffect," iidd=",idTmp);
-      //   socketEffect?.emit('moveTopPaddle', { idTmp });
-      // }
-      // if (stateGame.current.player1Bottom === true) {
-      //   console.log('b');
-      //   socketEffect?.emit('moveBotPaddle', { idTmp });
-      // }
+      const idTmp = data.id;
+      if (stateGame.current.player1Top === true) {
+        console.log('t');
+       // console.log("socket=",socketEffect," iidd=",idTmp);
+        socketEffect?.emit('moveTopPaddle', { idTmp });
+      }
+      if (stateGame.current.player1Bottom === true) {
+        console.log('b');
+        socketEffect?.emit('moveBotPaddle', { idTmp });
+      }
     });
-    socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
-      setScore(data.score);
-    });
+
   };
 
 
@@ -298,13 +299,13 @@ const Pong = (props: Props) => {
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
-      socket?.emit('moveTopPaddle', { id });
+     // socket?.emit('moveTopPaddle', { id });
       // console.log('Top');
     }
 
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
-      socket?.emit('moveBotPaddle', { id });
+     // socket?.emit('moveBotPaddle', { id });
       // console.log('Bottom');
     }
   };
@@ -416,7 +417,7 @@ const Pong = (props: Props) => {
           <div className={classes.PlayerLeft}>
             <Avatar user={match.players[0].user} />
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
-              {match.players[0].user.username}
+              {match.players[0].user?match.players[0].user.username:null}
             </p>
             <p style={{ fontSize: props.width / 20 }}>{score[0]}</p>
           </div>
@@ -424,9 +425,9 @@ const Pong = (props: Props) => {
           <div className={classes.PlayerRight}>
             <p style={{ fontSize: props.width / 20 }}>{score[1]}</p>
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
-              {match.players[1].user.username}
+              {match.players[1]&&match.players[1].user?match.players[1].user.username:null}
             </p>
-            <Avatar user={match.players[1].user} />
+            {match.players[1]&&match.players[1].user? <Avatar user={match.players[1].user} />:null }
           </div>
         </div>
       ) : null}

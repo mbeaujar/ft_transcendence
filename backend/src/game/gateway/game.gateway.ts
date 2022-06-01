@@ -194,9 +194,8 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    // console.log("match===",match," matchlive==",match.live);
+    console.log("match===",match," matchlive==",match.live);
     if (match && match.live === 1  ) {
-      // console.log("backtop")
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id

@@ -148,15 +148,17 @@ function WatchGame(props: Props) {
     });
 
     socketEffect.on('newGame', (data: any) => {
-      console.log("datanewgame==",data);
+      console.log('datanewgame==', data);
       setListGame([...listGame, data]);
     });
 
     socketEffect.on('removeGame', (data: any) => {
       const index = listGame.findIndex((element) => element.id === data.id);
-      console.log("dataremovegame==",data);
+      console.log('dataremovegame==', data);
+      console.log('== ', listGame);
       listGame.splice(index, 1);
-      setListGame([...listGame]);
+      // setListGame([...listGame]);
+      console.log('=+ ', listGame);
     });
 
     // emit -> problem
