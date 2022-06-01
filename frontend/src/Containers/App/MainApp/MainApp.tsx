@@ -10,8 +10,8 @@ import Test from '../../Game/Components/Test/Test';
 import useWindowSize from '../../Game/Components/useWindow/useWindowSize';
 import WatchGame from '../../Game/Components/Watch/Watch';
 import Game from '../../Game/Game';
-import OtherUserProfile from "../../OtherUserProfile/OtherUserProfile";
-import Profile from "../../Profile/Profile";
+import OtherUserProfile from '../../OtherUserProfile/OtherUserProfile';
+import Profile from '../../Profile/Profile';
 
 export interface IMainProps {
   user: IUser;
@@ -142,7 +142,18 @@ function MainApp(props: IMainProps) {
         }
       />
       <Route path="/profile/stats/:name" element={<OtherUserProfile />} />
-      <Route path="*" element={<h1>404 not found</h1>} />
+      <Route
+        path="*"
+        element={
+          <html>
+            <body>
+              <br />
+              <br />
+              <h1>404 NOT FOUND</h1>
+            </body>
+          </html>
+        }
+      />
     </Routes>
   );
 }

@@ -287,8 +287,9 @@ const Pong = (props: Props) => {
       console.log('target=', 0);
       return 0;
     }
-    console.log('target=', itemsOpponent[opponent].userId);
-    return itemsOpponent[opponent].userId;
+    console.log("itemsopp=",itemsOpponent," opponent=",opponent);
+    console.log('target=', itemsOpponent[opponent-1].userId);
+    return itemsOpponent[opponent-1].userId;
   }
 
 

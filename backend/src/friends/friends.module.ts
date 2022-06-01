@@ -16,5 +16,6 @@ import { LocalFile } from 'src/users/model/localFile.entity';
   ],
   controllers: [FriendsController],
   providers: [FriendsService, UsersService],
+  exports: [FriendsService],
 })
 export class FriendsModule {}

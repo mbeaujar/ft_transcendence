@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BlockList } from 'net';
 import { User } from 'src/users/model/user/user.entity';
 import { Repository } from 'typeorm';
 import { FriendsRequest } from './model/friends-request.entity';
@@ -39,6 +40,19 @@ export class FriendsService {
     }
   }
 
+  async blockFriend(userId: number, target: number) {
+    
+    const friend = await this.friendsRepository.findOne(userId);
+    if (!friend)
+      throw new BadRequestException('');
+    if (this.isAlreadyOnFriendList(friend, target)) {
+      const user = await this.usersRepository.findOne(userId);
+      if (!user)
+        throw new BadRequestException('');
+      this.deleteFriendship(user, target);
+    }
+  }
+
   async deleteFriendsRequest(user: number, target: number) {
     await this.friendsRequestRepository.delete({ user, target });
   }
@@ -46,6 +60,8 @@ export class FriendsService {
   async deleteFriendship(user: User, target: number): Promise<Friends> {
     const friendsUser = await this.friendsRepository.findOne({ id: user.id });
     const friendsTarget = await this.friendsRepository.findOne({ id: target });
+    if (!friendsTarget || !friendsUser)
+      throw new BadRequestException('you are not friends');
     this.RemoveFriendOnFriendsList(friendsUser, target);
     this.RemoveFriendOnFriendsList(friendsTarget, user.id);
     await this.friendsRepository.save(friendsTarget);
@@ -100,12 +116,21 @@ export class FriendsService {
     if (user.username === target) {
       throw new BadRequestException("can't add yourself");
     }
-    const friendsUser = await this.findFriends(user.id);
-    const targetUser = await this.usersRepository.findOne({ username: target });
-
+    user.blockedUsers.map((index) => {
+      if (index.username === target) {
+        throw new BadRequestException("you can't add a blocked user");
+      }
+    })
+    const targetUser = await this.usersRepository.findOne({ username: target }, { relations: ['blockedUsers'] });
     if (!targetUser) {
       throw new NotFoundException('user not found');
     }
+    targetUser.blockedUsers.map((index) => {
+      if (index.username === user.username) {
+        throw new BadRequestException("this user blocked you");
+      }
+    })
+    const friendsUser = await this.findFriends(user.id);
 
     if (this.isAlreadyOnFriendList(friendsUser, targetUser.id) === true) {
       throw new BadRequestException('Friends already exist on friends list');

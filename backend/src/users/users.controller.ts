@@ -26,6 +26,7 @@ import { Response } from 'express';
 import { MatchService } from 'src/game/services/match.service';
 import { Match } from 'src/game/model/match/match.entity';
 import { SensitivityUserDto } from './dtos/sensitivity-user.dto';
+import { FriendsService } from 'src/friends/friends.service';
 
 @ApiBasicAuth()
 @ApiTags('users')
@@ -34,6 +35,7 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly matchService: MatchService,
+    private readonly friendsService: FriendsService,
   ) {}
 
   /** --------------------------- AVATAR -------------------------------- */

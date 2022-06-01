@@ -13,7 +13,7 @@ export class Player {
     this.score = 0;
     this.y = 200;
     this.paddleh = PADDLEH;
-    this.step = 20 * playerSensitivity;
+    this.step = 4 * playerSensitivity;
     this.draw = true;
   }
 

@@ -10,9 +10,9 @@ import { IUser } from '../../../../interface/user.interface';
 
 const PADDLEW = 10;
 // const PADDLEH = 80;
-const BACKGROUND = '#000000';
+let BACKGROUND = '#000000';
 const PADDLE = '#ffffff';
-const BALL = '#00007f';
+const BALL = '#FFA500';
 
 interface Props {
   width: number;
@@ -26,6 +26,7 @@ function WatchGame(props: Props) {
   const [match, setMatch] = useState<IGame | null>(null);
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [refresh,setRefresh] = useState(0);
   const canvasRef = useRef(null);
 
   const resetWindow = (context: any) => {
@@ -87,7 +88,7 @@ function WatchGame(props: Props) {
     });
   };
 
-  const WindowSize = useWindowSize();
+  // const WindowSize = useWindowSize();
 
   useEffect(() => {
     const canvas: any = canvasRef.current;
@@ -108,16 +109,26 @@ function WatchGame(props: Props) {
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    const socketEffect = getSocket('game');
-    addListenerGame(socketEffect, context);
-    setSocket(socketEffect);
+    if (socket) {
+      socket.removeAllListeners();
+      addListenerGame(socket, context);
+    }
+  }, [window.innerWidth,refresh]);
 
-    return () => {
-      if (socketEffect && socketEffect.connected === true) {
-        socketEffect.disconnect();
-      }
-    };
-  }, [WindowSize]);
+  // useEffect(() => {
+  //   const canvas: any = canvasRef.current;
+  //   const context = canvas.getContext('2d');
+
+  //   const socketEffect = getSocket('game');
+  //   addListenerGame(socketEffect, context);
+  //   setSocket(socketEffect);
+
+  //   return () => {
+  //     if (socketEffect && socketEffect.connected === true) {
+  //       socketEffect.disconnect();
+  //     }
+  //   };
+  // }, [WindowSize]);
 
   function showCanva() {
     if (match) {
@@ -156,6 +167,13 @@ function WatchGame(props: Props) {
     };
   }, []);
 
+  const [end,setEnd] = useState(false);
+  function showMatchEnd() {
+    if (end===true) return classes.HideMatchEnd;
+    if (score[0] === 3 || score[1] === 3) return classes.MatchEnd;
+    return classes.HideMatchEnd;
+  }
+
   useEffect(() => {
     console.log('list=', listGame);
   }, [listGame]);
@@ -184,15 +202,18 @@ function WatchGame(props: Props) {
                     socket?.emit('joinGame', game.id);
                     setMatch(game);
                     setHideButton(!hideButton);
+                    setRefresh(refresh+1);
                   }}
                   style={{ fontSize: props.width / 45 }}
                 >
                   Watch
                 </button>
               </div>
-            ) : <p className={classes.NoInvitation}>
-            There are currently no users playing
-          </p>
+            ) : (
+              <p className={classes.NoInvitation}>
+                There are currently no users playing
+              </p>
+            ),
           )
         ) : (
           <p className={classes.NoInvitation}>
