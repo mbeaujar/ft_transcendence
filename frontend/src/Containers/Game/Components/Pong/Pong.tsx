@@ -151,9 +151,7 @@ const Pong = (props: Props) => {
   };
 
   useEffect(() => {
-    // console.log('id======', id);
     if (id && !match) {
-      // console.log('callemit');
       socket?.emit('getGame', id);
     }
     canvasRef.current?.focus();
@@ -286,14 +284,9 @@ const Pong = (props: Props) => {
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
-      // socket?.emit('moveTopPaddle', { id });
-      // console.log('Top');
     }
-
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
-      // socket?.emit('moveBotPaddle', { id });
-      // console.log('Bottom');
     }
   };
 

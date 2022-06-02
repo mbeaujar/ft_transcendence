@@ -195,13 +195,13 @@
     width: 15%;
     padding: 1.5% 0;
     color: $white1;
-    background-color: $red2;
-    border: 0.1vw solid $red1;
+    background-color: $red1;
+    border: 0.2vw solid $red1;
     border-radius: 2vw;
     text-decoration: none;
   }
 
   .GiveUp:hover {
-    background-color: $red1;
+    background-color: $red2;
   }
 }
