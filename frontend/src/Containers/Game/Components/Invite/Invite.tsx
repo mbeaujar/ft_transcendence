@@ -42,17 +42,22 @@ function Invite(props: Props) {
         fontSize: props.width / 50,
       }}
     >
-            <button className={classes.refreshButton} onClick={() => {    api
-      .get('/game/invite')
-      .then((response) => {
-        console.log('invites=', response.data);
-        setListInvites(response.data);
-      })
-      .catch((reject) => console.error(reject));}}>
-        Refresh invite 
+      <button
+        className={classes.refreshButton}
+        onClick={() => {
+          api
+            .get('/game/invite')
+            .then((response) => {
+              console.log('invites=', response.data);
+              setListInvites(response.data);
+            })
+            .catch((reject) => console.error(reject));
+        }}
+      >
+        Refresh invite
       </button>
       <div className={classes.ListInvite}>
-        {listInvites.length !== 0 ?
+        {listInvites.length !== 0 ? (
           listInvites.map((invitation: any, index: number) => (
             <div className={classes.Invitation} key={index}>
               <div className={classes.Text}>
@@ -76,9 +81,14 @@ function Invite(props: Props) {
                 </Link>
               </button>
             </div>
-          )):(<p className={classes.NoInvitation}>You don't have any invitation</p>)}
+          ))
+        ) : (
+          <p className={classes.NoInvitation}>You don't have any invitation</p>
+        )}
       </div>
-      <Link to="/game/play" className={classes.Back}>Back</Link>
+      <Link to="/game/play" className={classes.Back}>
+        Back
+      </Link>
     </div>
   );
 }

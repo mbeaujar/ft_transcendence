@@ -15,12 +15,11 @@ interface Props {
   user: IUser;
   refresh: number;
   setRefresh: (value: number) => void;
-  theme:string;
-  setTheme:(value: string) => void;
+  theme: string;
+  setTheme: (value: string) => void;
 }
 
 const Settings: React.FC<Props> = (props: Props): JSX.Element => {
-
   return (
     <div className="Settings">
       <div className="SettingsLeft">

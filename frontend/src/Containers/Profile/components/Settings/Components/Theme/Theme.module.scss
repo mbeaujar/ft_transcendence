@@ -1,32 +1,27 @@
 @import '../../../../../../utils.scss';
 
-.Theme 
-{
-  .ThemeBottom{
+.Theme {
+  .ThemeBottom {
     display: flex;
     flex-direction: row;
-    .Buttontheme
-    {
-      cursor:pointer;
+    .Buttontheme {
+      cursor: pointer;
       border-radius: 100%;
-      
     }
-    .DarkTheme{
-      background-color:#222121;
+    .DarkTheme {
+      background-color: #222121;
     }
-    .LightTheme{
-      background-color:#a1a1a1;
+    .LightTheme {
+      background-color: #a1a1a1;
     }
-    .BlueTheme{
-      background-color:#1500a0;
+    .BlueTheme {
+      background-color: #1500a0;
     }
-    .ActiveTheme
-    {
-      border:0.2vw solid $green1;
+    .ActiveTheme {
+      border: 0.2vw solid $green1;
     }
-    .DisactiveTheme
-    {
-      border:0.2vw solid var(--grey2);;
+    .DisactiveTheme {
+      border: 0.2vw solid var(--grey2);
     }
   }
 }
@@ -44,14 +39,12 @@
       margin-bottom: 3.2%;
       font-size: 1.5vw;
     }
-    .ThemeBottom{
+    .ThemeBottom {
       margin-left: 10%;
-      .Buttontheme
-      {
+      .Buttontheme {
         min-width: 2.5vw;
-        min-height:2.5vw;
+        min-height: 2.5vw;
         margin-right: 15%;
-        
       }
     }
   }
@@ -72,14 +65,12 @@
       margin-bottom: 3.5%;
       font-size: 3.5vw;
     }
-    .ThemeBottom{
+    .ThemeBottom {
       margin-left: 10%;
-      .Buttontheme
-      {
+      .Buttontheme {
         min-width: 6vw;
-        min-height:6vw;
+        min-height: 6vw;
         margin-right: 15%;
-        
       }
     }
   }

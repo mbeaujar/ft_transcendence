@@ -13,7 +13,11 @@ function Play(props: Props) {
   return (
     <div
       className={clsx(classes.Play)}
-      style={{ width: props.width, height: props.height,fontSize: props.width / 50 }}
+      style={{
+        width: props.width,
+        height: props.height,
+        fontSize: props.width / 50,
+      }}
     >
       <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
         <Link
@@ -34,7 +38,9 @@ function Play(props: Props) {
           Current game invite
         </Link>
       </div>
-      <Link to="/game" className={classes.Back}>Back</Link>
+      <Link to="/game" className={classes.Back}>
+        Back
+      </Link>
     </div>
   );
 }

@@ -12,7 +12,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background:var(--blue5);
+    background: var(--blue5);
   }
 
   ::-webkit-scrollbar-thumb {
@@ -60,8 +60,6 @@
   .Discussion {
     position: relative;
 
-   
-
     .OpenChannelSettings {
       display: none;
     }
@@ -72,7 +70,7 @@
       .Message {
         width: 80%;
         padding: 0 5%;
-        border-top: 0.8px solid var(--grey8);;
+        border-top: 0.8px solid var(--grey8);
 
         &:first-child {
           border-top: 0;
@@ -154,7 +152,7 @@
       .Message {
         width: 80%;
         padding: 0 5%;
-        border-top: 0.8px solid var(--grey8);;
+        border-top: 0.8px solid var(--grey8);
 
         &:first-child {
           border-top: 0;

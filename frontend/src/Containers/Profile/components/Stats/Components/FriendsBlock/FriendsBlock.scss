@@ -54,7 +54,7 @@
           justify-content: left;
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
-          border-bottom: 1px solid var(--grey2);;
+          border-bottom: 1px solid var(--grey2);
           height: 80px;
           height: 4vw;
 
@@ -68,7 +68,7 @@
               max-height: 2.2vw;
               border-radius: 100%;
               border: 0.2vw solid var(--blue2);
-              border: 0.1vw solid var(--grey2);;
+              border: 0.1vw solid var(--grey2);
               margin-right: 0;
             }
           }
@@ -108,7 +108,7 @@
         }
 
         .friendsListElement:last-child {
-          border-bottom: 0px solid var(--grey2);;
+          border-bottom: 0px solid var(--grey2);
         }
       }
     }
@@ -170,7 +170,7 @@
           justify-content: left;
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
-          border-bottom: 1px solid var(--grey2);;
+          border-bottom: 1px solid var(--grey2);
           height: 12vw;
 
           div {
@@ -183,7 +183,7 @@
               max-height: 8vw;
               border-radius: 100%;
               border: 0.2vw solid $white1;
-              border: 0.1vw solid var(--grey2);;
+              border: 0.1vw solid var(--grey2);
               margin-right: 0;
               margin-left: 30%;
             }
@@ -227,7 +227,7 @@
         }
 
         .friendsListElement:last-child {
-          border-bottom: 0px solid var(--grey2);;
+          border-bottom: 0px solid var(--grey2);
         }
       }
     }

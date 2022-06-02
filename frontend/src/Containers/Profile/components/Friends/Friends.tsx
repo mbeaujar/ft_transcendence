@@ -13,8 +13,7 @@ import FriendsRequest from './Components/FriendsRequest/FriendsRequest';
 function Friends() {
   const [refreshMyFriends, setRefreshMyFriends] = useState<number>(0);
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="Friends">

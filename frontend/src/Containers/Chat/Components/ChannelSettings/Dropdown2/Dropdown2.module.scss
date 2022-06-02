@@ -2,7 +2,7 @@
 
 @mixin styling() {
   background-color: var(--blue1);
-  border: 0.1vw solid var(--blue3);;
+  border: 0.1vw solid var(--blue3);
   @media screen and (min-width: 651px) {
     border-radius: 0.5vw;
   }
@@ -85,7 +85,7 @@
 
       &:first-of-type {
         > button {
-          border-top: 0.1vw solid var(--blue3);;
+          border-top: 0.1vw solid var(--blue3);
           border-top-left-radius: 0.5vw;
           border-top-right-radius: 0.5vw;
         }
@@ -104,9 +104,9 @@
         color: var(--blue2);
         border: 0;
         text-align: left;
-        border-bottom: 0.1vw solid var(--blue3);;
-        border-left: 0.1vw solid var(--blue3);;
-        border-right: 0.1vw solid var(--blue3);;
+        border-bottom: 0.1vw solid var(--blue3);
+        border-left: 0.1vw solid var(--blue3);
+        border-right: 0.1vw solid var(--blue3);
         @media screen and (min-width: 651px) {
           font-size: 1vw;
           height: 3vw;

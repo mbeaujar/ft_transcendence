@@ -14,8 +14,8 @@ import ProfileLeft from './components/ProfileLeft/ProfileLeft';
 
 interface Props {
   menu: string;
-  theme:string;
-  setTheme:(value: string) => void;
+  theme: string;
+  setTheme: (value: string) => void;
 }
 function Profile(props: Props) {
   // const [activeMenu, setActiveMenu] = useState<string>('Stats');
@@ -63,7 +63,13 @@ function Profile(props: Props) {
             </div>
           ) : props.menu === 'Settings' ? (
             <div className={clsx(classes.SettingsInfo)}>
-              <Settings user={user} refresh={refresh} setRefresh={setRefresh} theme={props.theme} setTheme={props.setTheme}/>
+              <Settings
+                user={user}
+                refresh={refresh}
+                setRefresh={setRefresh}
+                theme={props.theme}
+                setTheme={props.setTheme}
+              />
             </div>
           ) : null}
         </div>

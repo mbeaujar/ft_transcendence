@@ -109,7 +109,8 @@
     font-family: 'Roboto Slab', serif;
   }
 
-  .hideCanva,.HideMatchEnd {
+  .hideCanva,
+  .HideMatchEnd {
     display: none;
   }
 
@@ -124,43 +125,44 @@
     outline: none;
   }
 
-  .MatchEnd{
+  .MatchEnd {
     position: absolute;
     width: 35%;
     //height:20%;
-    top:41%;
-    left:35%;
+    top: 41%;
+    left: 35%;
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    .LinkEnd{
+
+    .LinkEnd {
       cursor: pointer;
       text-decoration: none;
       width: 100%;
-      color:$white1;
-      padding:5% ;
+      color: $white1;
+      padding: 5%;
       border: 0.3vw solid $white1;
       font-family: 'Roboto Slab', serif;
-    font-weight: bold;
-    border-radius: 2vw;
+      font-weight: bold;
+      border-radius: 2vw;
     }
 
-    .LinkEnd:hover 
-    {
+    .LinkEnd:hover {
       background-color: var(--black);
     }
   }
 
-  .HideBack,.HideCancel,.HideGiveUp
-  {
+  .HideBack,
+  .HideCancel,
+  .HideGiveUp {
     display: none;
   }
 
-  .Back,.Cancel {
+  .Back,
+  .Cancel {
     position: absolute;
-    left:45%;
-    top:105%;
+    left: 45%;
+    top: 105%;
     cursor: pointer;
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
@@ -174,19 +176,19 @@
   }
 
   .Cancel {
-    left:44%;
+    left: 44%;
     width: 12%;
   }
 
-  .Back:hover,.Cancel:hover {
+  .Back:hover,
+  .Cancel:hover {
     background-color: var(--black);
   }
 
-  .GiveUp
-  {
+  .GiveUp {
     position: absolute;
-    left:42.5%;
-    top:123%;
+    left: 42.5%;
+    top: 123%;
     cursor: pointer;
     font-family: 'Roboto Slab', serif;
     font-weight: bold;
@@ -199,8 +201,7 @@
     text-decoration: none;
   }
 
-  .GiveUp:hover
-  {
+  .GiveUp:hover {
     background-color: $red1;
   }
 }

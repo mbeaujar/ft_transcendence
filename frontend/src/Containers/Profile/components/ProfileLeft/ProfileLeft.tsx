@@ -41,7 +41,7 @@ function ProfileLeft(props: Props) {
           <p>Stats</p>
         </Link>
         <Link
-        to="/profile/friends"
+          to="/profile/friends"
           className={clsx(
             classes.DivMenu,
             classes.Friends,
@@ -52,7 +52,7 @@ function ProfileLeft(props: Props) {
           <p>Friends</p>
         </Link>
         <Link
-        to="/profile/leaderboard"
+          to="/profile/leaderboard"
           className={clsx(
             classes.DivMenu,
             classes.Leaderboard,
@@ -63,7 +63,7 @@ function ProfileLeft(props: Props) {
           <p>Leaderboard</p>
         </Link>
         <Link
-        to="/profile/settings"
+          to="/profile/settings"
           className={clsx(
             classes.DivMenu,
             classes.Settings,

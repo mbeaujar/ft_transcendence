@@ -99,7 +99,8 @@ export class GameGateway
   async spectatorJoinGame(client: Socket, id: number) {
     const match = await this.matchService.find(id);
     if (match) {
-      await this.gameService.joinGame(match.id, client.data.user);
+      const score = await this.gameService.joinGame(match.id, client.data.user);
+      this.server.to(client.id).emit('scoreGame',{score})
     }
   }
 
@@ -192,14 +193,15 @@ export class GameGateway
         ) {
         this.gameService.moveTop(match.id, client.data.user);
       }
-    } else {
-      const matchExist = await this.matchService.userIsPlaying(
-        client.data.user.id,
-      );
-      if (matchExist) {
-        this.server.to(client.id).emit('startGame', { match: matchExist });
-      }
-    }
+    } 
+    // else {
+    //   const matchExist = await this.matchService.userIsPlaying(
+    //     client.data.user.id,
+    //   );
+    //   if (matchExist) {
+    //     this.server.to(client.id).emit('startGame', { match: matchExist });
+    //   }
+    // }
   }
 
   @SubscribeMessage('moveBotPaddle')
@@ -212,14 +214,15 @@ export class GameGateway
         ) {
         this.gameService.moveBot(match.id, client.data.user);
       }
-    } else {
-      const matchExist = await this.matchService.userIsPlaying(
-        client.data.user.id,
-      );
-      if (matchExist) {
-        this.server.to(client.id).emit('startGame', { match: matchExist });
-      }
-    }
+    } 
+    // else {
+    //   const matchExist = await this.matchService.userIsPlaying(
+    //     client.data.user.id,
+    //   );
+    //   if (matchExist) {
+    //     this.server.to(client.id).emit('startGame', { match: matchExist });
+    //   }
+    // }
   }
 
   @SubscribeMessage('deleteConnected')
@@ -230,8 +233,9 @@ export class GameGateway
   @SubscribeMessage('getGame')
   async getGame(socket: Socket, id: number) {
     if (id){
-      const match = await this.gameService.getGame(id);
-      this.server.to(socket.id).emit('startGame', { match });
+      const info = await this.gameService.getGame(id);
+      console.log("info==",info);
+      this.server.to(socket.id).emit('startGame', { match:info.match, score:info.score });
     }
   }
 }

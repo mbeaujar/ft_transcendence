@@ -1,13 +1,11 @@
 @import '../../../../utils.scss';
 
-.RightClick
-{
+.RightClick {
   display: flex;
   flex-direction: column;
 
-  .Item:hover
-  {
-background-color: var(--black2);
+  .Item:hover {
+    background-color: var(--black2);
   }
 
   .HideLink {

@@ -102,8 +102,6 @@ const Pong = (props: Props) => {
     addListenerGame(socketEffect, context);
     setSocket(socketEffect);
 
-    
-
     return () => {
       if (socketEffect && socketEffect.connected === true) {
         // socketEffect?.emit('leaveGame', { id });
@@ -116,12 +114,10 @@ const Pong = (props: Props) => {
     const canvas: any = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    if (socket)
-    {
+    if (socket) {
       socket.removeAllListeners();
       addListenerGame(socket, context);
     }
-
   }, [window.innerWidth]);
 
   const resetWindow = (context: any) => {
@@ -166,11 +162,10 @@ const Pong = (props: Props) => {
   const addListenerGame = (socketEffect: Socket, context: any) => {
     PADDLEW = props.width / 80;
     socketEffect.on('startGame', (data: any) => {
+      console.log("data====",data)
       setId(data?.match?.id);
       setMatch(data?.match);
-    });
-    socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
-      setScore(data.score);
+      setScore(data?.score);
     });
     socketEffect.on('infoGame', (data: IGame) => {
       canvasRef.current?.focus();
@@ -206,20 +201,16 @@ const Pong = (props: Props) => {
         );
       }
       if (stateGame.current.player1Top === true) {
-        socketEffect?.emit('moveTopPaddle', {id:data.id});
+        socketEffect?.emit('moveTopPaddle', { id: data.id });
       }
       if (stateGame.current.player1Bottom === true) {
-        socketEffect?.emit('moveBotPaddle', { id:data.id });
+        socketEffect?.emit('moveBotPaddle', { id: data.id });
       }
     });
-
+    socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
+      setScore(data.score);
+    });
   };
-
-    
-
-  
-
-
 
   function showButton() {
     if (hideButton === false) return classes.ShowButton;
@@ -287,23 +278,21 @@ const Pong = (props: Props) => {
       console.log('target=', 0);
       return 0;
     }
-    console.log("itemsopp=",itemsOpponent," opponent=",opponent);
+    console.log('itemsopp=', itemsOpponent, ' opponent=', opponent);
     console.log('target=', itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
 
-
-
   const keyDownHandler = (event: React.KeyboardEvent<Element>) => {
     if (event.code === 'ArrowLeft') {
       stateGame.current.player1Top = true;
-     // socket?.emit('moveTopPaddle', { id });
+      // socket?.emit('moveTopPaddle', { id });
       // console.log('Top');
     }
 
     if (event.code === 'ArrowRight') {
       stateGame.current.player1Bottom = true;
-     // socket?.emit('moveBotPaddle', { id });
+      // socket?.emit('moveBotPaddle', { id });
       // console.log('Bottom');
     }
   };
@@ -415,7 +404,7 @@ const Pong = (props: Props) => {
           <div className={classes.PlayerLeft}>
             <Avatar user={match.players[0].user} />
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
-              {match.players[0].user?match.players[0].user.username:null}
+              {match.players[0].user ? match.players[0].user.username : null}
             </p>
             <p style={{ fontSize: props.width / 20 }}>{score[0]}</p>
           </div>
@@ -423,9 +412,13 @@ const Pong = (props: Props) => {
           <div className={classes.PlayerRight}>
             <p style={{ fontSize: props.width / 20 }}>{score[1]}</p>
             <p className={classes.Name} style={{ fontSize: props.width / 40 }}>
-              {match.players[1]&&match.players[1].user?match.players[1].user.username:null}
+              {match.players[1] && match.players[1].user
+                ? match.players[1].user.username
+                : null}
             </p>
-            {match.players[1]&&match.players[1].user? <Avatar user={match.players[1].user} />:null }
+            {match.players[1] && match.players[1].user ? (
+              <Avatar user={match.players[1].user} />
+            ) : null}
           </div>
         </div>
       ) : null}

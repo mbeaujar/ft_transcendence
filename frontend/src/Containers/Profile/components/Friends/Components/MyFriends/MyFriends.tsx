@@ -18,7 +18,6 @@ function MyFriends(props: Props) {
       .get('/friends/list')
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
-
   }, [refresh, props.refreshMyFriends]);
 
   const deleteFriend = (friendsList: IUser) => {

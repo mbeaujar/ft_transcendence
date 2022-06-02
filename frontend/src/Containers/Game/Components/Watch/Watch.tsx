@@ -198,6 +198,7 @@ function WatchGame(props: Props) {
                   onClick={() => {
                     socket?.emit('joinGame', game.id);
                     setMatch(game);
+
                     setHideButton(!hideButton);
                     setRefresh(refresh + 1);
                   }}

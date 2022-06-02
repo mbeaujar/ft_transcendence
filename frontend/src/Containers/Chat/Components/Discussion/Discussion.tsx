@@ -59,22 +59,20 @@ const Discussion: React.FC<Props> = (props: Props): JSX.Element => {
     if (userToVisit.username !== props.user.username) show(e);
   }
 
-  const renderedMessages = props.messages.map(
-    (message: IMessage) => {
-      return (
-        <div key={message.id} className={classes.Message}>
-          <Avatar user={message.user} />
-          <div className={classes.MessageRight}>
-            <h4 onContextMenu={(e) => displayMenu(e, message.user)}>
-              {message.user.username}
-            </h4>
-            <p> {message.text}</p>
-            <RightClick messageUser={messageUser} />
-          </div>
+  const renderedMessages = props.messages.map((message: IMessage) => {
+    return (
+      <div key={message.id} className={classes.Message}>
+        <Avatar user={message.user} />
+        <div className={classes.MessageRight}>
+          <h4 onContextMenu={(e) => displayMenu(e, message.user)}>
+            {message.user.username}
+          </h4>
+          <p> {message.text}</p>
+          <RightClick messageUser={messageUser} />
         </div>
-      );
-    },
-  );
+      </div>
+    );
+  });
 
   return (
     <div className={classes.Discussion}>

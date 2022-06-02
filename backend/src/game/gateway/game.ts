@@ -216,6 +216,7 @@ export class Game {
   async addSpectatorToGame(user: User) {
     this.match.spectators.push(user);
     this.match = await this.matchService.save(this.match);
+    return ([this.player1.score,this.player2.score])
   }
 
   async sendPlayersInformation(users: User[], emitMessage: string, info: any) {

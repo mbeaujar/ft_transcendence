@@ -38,7 +38,7 @@ export class GameService implements OnModuleInit {
       Mode.game,
     );
     if (connectedPlayer) {
-      server.to(connectedPlayer.socketId).emit('startGame', { match });
+      server.to(connectedPlayer.socketId).emit('startGame', { match,score:[0,0] });
     }
   }
 
@@ -73,13 +73,14 @@ export class GameService implements OnModuleInit {
         this.game[id].player1.name !== user.username &&
         this.game[id].player2.name !== user.username
       ) {
-        await this.game[id].addSpectatorToGame(user);
+        return this.game[id].addSpectatorToGame(user);
       }
     }
   }
 
   async getGame(id: number) {
-    return this.matchService.find(id);
+    const match = await this.matchService.find(id);
+    return {match,score: [this.game[id].player1.score,this.game[id].player2.score]}
   }
 
   moveTop(id: number, user: IUser) {
