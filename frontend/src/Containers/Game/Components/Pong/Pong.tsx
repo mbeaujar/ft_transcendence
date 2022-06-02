@@ -205,21 +205,19 @@ const Pong = (props: Props) => {
           calculPercentage(data.paddleh2, props.height),
         );
       }
-      const idTmp = data.id;
       if (stateGame.current.player1Top === true) {
-        console.log('t');
-       // console.log("socket=",socketEffect," iidd=",idTmp);
-        socketEffect?.emit('moveTopPaddle', { idTmp });
+        socketEffect?.emit('moveTopPaddle', {id:data.id});
       }
       if (stateGame.current.player1Bottom === true) {
-        console.log('b');
-        socketEffect?.emit('moveBotPaddle', { idTmp });
+        socketEffect?.emit('moveBotPaddle', { id:data.id });
       }
     });
 
   };
 
+    
 
+  
 
 
 
@@ -231,7 +229,7 @@ const Pong = (props: Props) => {
   function showCanva() {
     if (hideButton === true) {
       if (score[0] === 3 || score[1] === 3) {
-        socket?.emit('gameIsOver', { id });
+        // socket?.emit('gameIsOver', { id });
         return classes.hideCanva;
       }
 

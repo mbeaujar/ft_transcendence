@@ -162,15 +162,6 @@ export class GameGateway
     }
   }
 
-  @SubscribeMessage('gameIsOver')
-  async gameEnded(client: Socket, gameId: number) {
-    console.log('imagine');
-    const match = await this.matchService.find(gameId);
-    
-    // this.server.to(client.id).emit('removeGame', { match });
-    // return await this.matchService.delete(gameId);
-  }
-
   @SubscribeMessage('leaveQueue')
   async onLeaveQueue(client: Socket) {
     await this.queueService.delete(client.data.user.id);
@@ -194,7 +185,6 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    console.log("match===",match," matchlive==",match.live);
     if (match && match.live === 1  ) {
       if (
         match.players[0].user.id === client.data.user.id ||
@@ -215,9 +205,7 @@ export class GameGateway
   @SubscribeMessage('moveBotPaddle')
   async moveBotPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    // console.log("match===",match," matchlive==",match.live);
     if (match && match.live === 1) {
-      // console.log("backbot")  
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
@@ -241,11 +229,9 @@ export class GameGateway
 
   @SubscribeMessage('getGame')
   async getGame(socket: Socket, id: number) {
-    //console.log("idback=",id);
     if (id){
       const match = await this.gameService.getGame(id);
       this.server.to(socket.id).emit('startGame', { match });
-      // console.log('match=', match);
     }
   }
 }

@@ -63,6 +63,7 @@ export class GameService implements OnModuleInit {
     await this.usersService.updateUser(user2, { state: State.inGame });
     this.sendGameStarted(match.players[0], match, server);
     this.sendGameStarted(match.players[1], match, server);
+    console.log('id ==> ', match.id,  ' live ==> ', match.live);
     return match;
   }
 

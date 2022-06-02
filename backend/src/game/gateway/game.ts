@@ -84,7 +84,8 @@ export class Game {
     if (this.player1.score === 3 || this.player2.score === 3) {
       clearInterval(this.interval);
       this.endGame();
-      return;
+      // console.log('live ==> ', this.match.live);
+      return ;
     }
 
     if (this.match.mode === GameMode.draw) {
@@ -104,7 +105,7 @@ export class Game {
     await this.ballHitWall();
 
     this.ball.move();
-  //  console.log("this.match===",this.match);
+
     const infoGame: IInfoGame = {
       id: this.match.id,
       ballx: this.calculPercentage(this.ball.x, WIDTH),
