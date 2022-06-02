@@ -134,6 +134,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Unban User
   function handleSubmitFormUnban(event: React.FormEvent<HTMLFormElement>) {
+    console.log('unbanuser', unbanUser);
     api
       .get(`/users/username/${unbanUser}`)
       .then((response) => {
