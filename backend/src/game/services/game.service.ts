@@ -38,7 +38,9 @@ export class GameService implements OnModuleInit {
       Mode.game,
     );
     if (connectedPlayer) {
-      server.to(connectedPlayer.socketId).emit('startGame', { match,score:[0,0] });
+      server
+        .to(connectedPlayer.socketId)
+        .emit('startGame', { match, score: [0, 0] });
     }
   }
 
@@ -63,7 +65,7 @@ export class GameService implements OnModuleInit {
     await this.usersService.updateUser(user2, { state: State.inGame });
     this.sendGameStarted(match.players[0], match, server);
     this.sendGameStarted(match.players[1], match, server);
-    console.log('id ==> ', match.id,  ' live ==> ', match.live);
+    console.log('id ==> ', match.id, ' live ==> ', match.live);
     return match;
   }
 
@@ -80,7 +82,10 @@ export class GameService implements OnModuleInit {
 
   async getGame(id: number) {
     const match = await this.matchService.find(id);
-    return {match,score: [this.game[id].player1.score,this.game[id].player2.score]}
+    return {
+      match,
+      score: [this.game[id].player1.score, this.game[id].player2.score],
+    };
   }
 
   moveTop(id: number, user: IUser) {

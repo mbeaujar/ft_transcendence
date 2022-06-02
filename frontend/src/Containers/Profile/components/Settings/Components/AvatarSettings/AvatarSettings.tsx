@@ -22,15 +22,22 @@ function AvatarSettings(props: Props) {
 
   useEffect(() => {
     props.setRefresh(props.refresh + 1);
+    const controller = new AbortController();
+
     if (refreshImg === 0) {
       api
         .get(`/users/avatar/${props.user.avatarId}`, {
           responseType: 'blob',
+          signal: controller.signal,
         })
         .then((response) => setAvatarImg(URL.createObjectURL(response.data)))
         .catch((reject) => console.log(reject));
     }
     setRefreshImg(1);
+
+    return () => {
+      controller.abort();
+    };
   }, [refresh, uploadedFile]);
 
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);

@@ -45,31 +45,32 @@ const Leaderboard: React.FC = (): JSX.Element => {
       </div>
 
       <div className="Users">
-        {leaderboard
-          .slice(0)
-          .reverse()
-          .map((user: IUser, index: number) => (
-            <div className="User" key={index}>
-              <div className="UserLeft">
-                <p className="Rank">
-                  {leaderboard[index - 1] &&
-                  leaderboard[index - 1].elo === leaderboard[index].elo
-                    ? '-'
-                    : index + 1}
-                </p>
-                <Avatar user={user} />
-                <p className="Username">{user.username}</p>
+        {leaderboard.length &&
+          leaderboard
+            .slice(0)
+            .reverse()
+            .map((user: IUser, index: number) => (
+              <div className="User" key={index}>
+                <div className="UserLeft">
+                  <p className="Rank">
+                    {leaderboard[index - 1] &&
+                    leaderboard[index - 1].elo === leaderboard[index].elo
+                      ? '-'
+                      : index + 1}
+                  </p>
+                  <Avatar user={user} />
+                  <p className="Username">{user.username}</p>
+                </div>
+                <div className="Right">
+                  <p className="Level">{ftSetLevel(user.elo)}</p>
+                  <p className="Ratio">
+                    <span className="Wins">{user.wins}W</span> /{' '}
+                    <span className="Losses">{user.losses}L</span>
+                  </p>
+                  <p className="Pongopoints">{user.elo}</p>
+                </div>
               </div>
-              <div className="Right">
-                <p className="Level">{ftSetLevel(user.elo)}</p>
-                <p className="Ratio">
-                  <span className="Wins">{user.wins}W</span> /{' '}
-                  <span className="Losses">{user.losses}L</span>
-                </p>
-                <p className="Pongopoints">{user.elo}</p>
-              </div>
-            </div>
-          ))}
+            ))}
       </div>
     </div>
   );

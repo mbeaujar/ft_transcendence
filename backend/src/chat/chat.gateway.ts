@@ -693,6 +693,7 @@ export class ChatGateway
 
   @SubscribeMessage('unbanUser')
   async onUnbanUser(socket: Socket, unbanUser: IUpdateUser) {
+    console.log('unbanUser', unbanUser);
     if (socket.data.user === undefined) return;
     const target = await this.getTargetAndSecureRights(
       socket,

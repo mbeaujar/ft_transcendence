@@ -3,11 +3,11 @@ import classes from './Watch.module.scss';
 import { IGame } from '../../../../interface/game.interface';
 import { Socket } from 'socket.io-client';
 import getSocket from '../../../Socket';
-import useWindowSize from '../useWindow/useWindowSize';
+// import useWindowSize from '../useWindow/useWindowSize';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { IUser } from '../../../../interface/user.interface';
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 let PADDLEW = 10;
 // const PADDLEH = 80;
@@ -28,7 +28,32 @@ function WatchGame(props: Props) {
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [refresh, setRefresh] = useState(0);
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<any>(null);
+
+  useEffect(() => {
+    const socketEffect = getSocket('game');
+    const canvas: any = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    addListenerGame(socketEffect, context);
+    setSocket(socketEffect);
+
+    return () => {
+      if (socketEffect && socketEffect.connected === true) {
+        socketEffect.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    if (socket) {
+      socket.removeAllListeners();
+      addListenerGame(socket, context);
+    }
+  }, [window.innerWidth, refresh]);
 
   const resetWindow = (context: any) => {
     context.clearRect(0, 0, props.width, props.height);
@@ -77,7 +102,7 @@ function WatchGame(props: Props) {
       if (data.player2 !== undefined && data.paddleh2 !== undefined) {
         drawPaddle(
           context,
-          props.width - PADDLEW ,
+          props.width - PADDLEW,
           calculPercentage(data.player2, props.height) -
             calculPercentage(data.paddleh2, props.height) / 2,
           PADDLEW,
@@ -85,37 +110,34 @@ function WatchGame(props: Props) {
         );
       }
     });
+
+    // problem maybe
+    socketEffect.emit('listGame');
+
     socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
     });
+
+    socketEffect.on('listAllGame', (data: any) => {
+      console.log('listAllGame', data.matchs);
+      setListGame(data.matchs);
+    });
+
+    socketEffect.on('newGame', (data: any) => {
+      setListGame([...listGame, data]);
+    });
+
+    socketEffect.on('removeGame', (data: any) => {
+      console.log('listgame remove', listGame);
+
+      // console.log('data remove', data);
+      // const index = listGame.findIndex((element) => element.id === data.id);
+      // console.log('before remove', listGame);
+      // listGame.splice(index, 1);
+      // console.log('after remove', listGame);
+      // setListGame([...listGame]);
+    });
   };
-
-  // const WindowSize = useWindowSize();
-
-  // useEffect(() => {
-  //   const canvas: any = canvasRef.current;
-  //   const context = canvas.getContext('2d');
-
-  //   const socketEffect = getSocket('game');
-  //   addListenerGame(socketEffect, context);
-  //   setSocket(socketEffect);
-
-  //   return () => {
-  //     if (socketEffect && socketEffect.connected === true) {
-  //       socketEffect.disconnect();
-  //     }
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    const canvas: any = canvasRef.current;
-    const context = canvas.getContext('2d');
-
-    if (socket) {
-      socket.removeAllListeners();
-      addListenerGame(socket, context);
-    }
-  }, [window.innerWidth, refresh]);
 
   function showCanva() {
     if (match) {
@@ -128,39 +150,9 @@ function WatchGame(props: Props) {
     return classes.hideCanva;
   }
 
-  useEffect(() => {
-    const socketEffect = getSocket('game');
-    socketEffect.on('listAllGame', (data: any) => {
-      setListGame(data.matchs);
-    });
-
-    socketEffect.on('newGame', (data: any) => {
-      console.log('datanewgame==', data);
-      setListGame([...listGame, data]);
-    });
-
-    socketEffect.on('removeGame', (data: any) => {
-      const index = listGame.findIndex((element) => element.id === data.id);
-      console.log('dataremovegame==', data);
-      console.log('== ', listGame);
-      listGame.splice(index, 1);
-      // setListGame([...listGame]);
-      console.log('=+ ', listGame);
-    });
-
-    // emit -> problem
-    socketEffect.emit('listGame');
-    setSocket(socketEffect);
-    return () => {
-      if (socketEffect && socketEffect.connected === true) {
-        socketEffect.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('list=', listGame);
-  }, [listGame]);
+  // useEffect(() => {
+  //   console.log('list=', listGame);
+  // }, [listGame]);
 
   return (
     <div
@@ -242,7 +234,12 @@ function WatchGame(props: Props) {
               <Avatar user={match.players[1].user} />
             </div>
           </div>
-          <button onClick={()=>setMatch(null)} className={clsx(classes.Back,classes.Back2)}>Back</button>
+          <button
+            onClick={() => setMatch(null)}
+            className={clsx(classes.Back, classes.Back2)}
+          >
+            Back
+          </button>
         </>
       ) : null}
     </div>

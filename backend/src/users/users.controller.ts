@@ -217,6 +217,7 @@ export class UsersController {
   async findUserByUsername(
     @Param('username') username: string,
   ): Promise<IUser> {
+    console.log('username', username); 
     if (username !== 'null') {
       const user = await this.usersService.findUserByUsername(username);
       if (!user) {

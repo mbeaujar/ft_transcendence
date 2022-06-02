@@ -100,7 +100,7 @@ export class GameGateway
     const match = await this.matchService.find(id);
     if (match) {
       const score = await this.gameService.joinGame(match.id, client.data.user);
-      this.server.to(client.id).emit('scoreGame',{score})
+      this.server.to(client.id).emit('scoreGame', { score });
     }
   }
 
@@ -186,14 +186,14 @@ export class GameGateway
   @SubscribeMessage('moveTopPaddle')
   async moveTopPaddle(client: Socket, game: IGame) {
     const match = await this.matchService.find(game.id);
-    if (match && match.live === 1  ) {
+    if (match && match.live === 1) {
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
-        ) {
+      ) {
         this.gameService.moveTop(match.id, client.data.user);
       }
-    } 
+    }
     // else {
     //   const matchExist = await this.matchService.userIsPlaying(
     //     client.data.user.id,
@@ -211,10 +211,10 @@ export class GameGateway
       if (
         match.players[0].user.id === client.data.user.id ||
         match.players[1].user.id === client.data.user.id
-        ) {
+      ) {
         this.gameService.moveBot(match.id, client.data.user);
       }
-    } 
+    }
     // else {
     //   const matchExist = await this.matchService.userIsPlaying(
     //     client.data.user.id,
@@ -232,10 +232,12 @@ export class GameGateway
 
   @SubscribeMessage('getGame')
   async getGame(socket: Socket, id: number) {
-    if (id){
+    if (id) {
       const info = await this.gameService.getGame(id);
-      console.log("info==",info);
-      this.server.to(socket.id).emit('startGame', { match:info.match, score:info.score });
+      console.log('info==', info);
+      this.server
+        .to(socket.id)
+        .emit('startGame', { match: info.match, score: info.score });
     }
   }
 }

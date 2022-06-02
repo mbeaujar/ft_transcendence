@@ -85,7 +85,7 @@ export class Game {
       clearInterval(this.interval);
       this.endGame();
       // console.log('live ==> ', this.match.live);
-      return ;
+      return;
     }
 
     if (this.match.mode === GameMode.draw) {
@@ -172,6 +172,15 @@ export class Game {
     this.match.players[1].user.state = State.online;
     await this.usersService.saveUser(this.match.players[0].user);
     await this.usersService.saveUser(this.match.players[1].user);
+
+    const connectedSpectators = await this.connectedUserService.getAll(
+      Mode.game,
+    );
+    for (const connectedSpectator of connectedSpectators) {
+      this.server
+        .to(connectedSpectator.socketId)
+        .emit('removeGame', this.match);
+    }
   }
 
   setRank(points: number) {
@@ -216,7 +225,7 @@ export class Game {
   async addSpectatorToGame(user: User) {
     this.match.spectators.push(user);
     this.match = await this.matchService.save(this.match);
-    return ([this.player1.score,this.player2.score])
+    return [this.player1.score, this.player2.score];
   }
 
   async sendPlayersInformation(users: User[], emitMessage: string, info: any) {
@@ -266,9 +275,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player2.y + PADDLEH / 2 &&
       this.ball.x + this.ball.r + PADDLEW + 5 >= WIDTH
     ) {
-      this.ball.dx *= -1.00;
-      // this.ball.dy =
-        // 8.5 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
+      this.ball.dx *= -1.05;
+      this.ball.dy =
+        8.5 * ((this.ball.y - (this.player2.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 
@@ -278,9 +287,9 @@ export class Game {
       this.ball.y - this.ball.r <= this.player1.y + PADDLEH / 2 &&
       this.ball.x - this.ball.r - PADDLEW - 5 <= 0
     ) {
-      this.ball.dx *= -1.00;
-      // this.ball.dy =
-      //   8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
+      this.ball.dx *= -1.05;
+      this.ball.dy =
+        8.5 * ((this.ball.y - (this.player1.y + PADDLEH / 2)) / PADDLEH);
     }
   }
 

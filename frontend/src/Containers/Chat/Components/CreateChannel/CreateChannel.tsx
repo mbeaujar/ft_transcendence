@@ -76,7 +76,7 @@ const CreateChannel: React.FC<Props> = (props: Props): JSX.Element => {
         <div className={classes.ChannelPassword}>
           <h2>Password </h2>
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

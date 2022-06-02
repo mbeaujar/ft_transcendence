@@ -160,7 +160,6 @@ const Pong = (props: Props) => {
   const addListenerGame = (socketEffect: Socket, context: any) => {
     PADDLEW = props.width / 80;
     socketEffect.on('startGame', (data: any) => {
-      console.log("data====",data)
       setId(data?.match?.id);
       setMatch(data?.match);
       setScore(data?.score);

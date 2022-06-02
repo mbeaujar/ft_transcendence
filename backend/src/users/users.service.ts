@@ -79,7 +79,11 @@ export class UsersService {
   }
 
   async findUserByUsername(username: string): Promise<User> {
-    return this.usersRepository.findOne({ username });
+    // return this.usersRepository.findOne({ username });
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username })
+      .getOne();
   }
 
   async findUserALIKEWithUsername(username: string) {

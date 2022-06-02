@@ -42,8 +42,10 @@ export class ConnectedUserService {
   }
 
   async getAll(mode: Mode) {
-    return this.connetedUserRepository.createQueryBuilder('user')
-    .where('user.mode = :mode', { mode}).getMany();
+    return this.connetedUserRepository
+      .createQueryBuilder('user')
+      .where('user.mode = :mode', { mode })
+      .getMany();
   }
 
   async deleteByUser(user: IUser): Promise<DeleteResult> {

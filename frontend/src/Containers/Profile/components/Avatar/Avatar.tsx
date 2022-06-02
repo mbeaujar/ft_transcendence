@@ -9,21 +9,25 @@ interface Props {
 const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
   const [avatar, setAvatar] = useState<Blob | MediaSource>(); // Blob | string
 
-  {
-    useEffect(() => {
-      if (!props.user) return;
-      api
-        .get(`/users/avatar/${props.user.avatarId}`, {
-          responseType: 'blob',
-        })
-        .then((response) => setAvatar(response.data))
-        .catch((reject) => console.log(reject));
-    }, [props.user.avatarId]);
+  useEffect(() => {
+    if (!props.user) return;
 
-    return (
-      <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>
-    );
-  }
+    const controller = new AbortController();
+
+    api
+      .get(`/users/avatar/${props.user.avatarId}`, {
+        responseType: 'blob',
+        signal: controller.signal,
+      })
+      .then((response) => setAvatar(response.data))
+      .catch((reject) => console.log(reject));
+
+    return () => {
+      controller.abort();
+    };
+  }, [props.user.avatarId]);
+
+  return <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>;
 };
 
 export default Avatar;
