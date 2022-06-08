@@ -24,12 +24,21 @@ const Leaderboard: React.FC = (): JSX.Element => {
   const [leaderboard, setLeaderboard] = useState<IUser[]>([]);
 
   useEffect(() => {
+
+    const controller = new AbortController();
+
     api
-      .get('/users/leaderboard')
+      .get('/users/leaderboard', {
+        signal: controller.signal,
+      })
       .then((response) => {
         setLeaderboard(response.data);
       })
       .catch((reject) => console.error(reject));
+
+      return () => {
+        controller.abort();
+      };
   }, []);
 
   return (

@@ -21,17 +21,24 @@ function DoubleAuthSettings(props: Props) {
   const inputPlaceholder = 'Enter the 6 digit code';
 
   useEffect(() => {
+
+    const controller = new AbortController();
+    
     if (
       valueEnableDoubleAuth === 'Yes' &&
       props.user.isTwoFactorEnabled === false
     ) {
       api
-        .post('/auth/2fa/generate', {}, { responseType: 'blob' })
+        .post('/auth/2fa/generate', {}, { signal: controller.signal,responseType: 'blob' })
         .then((response) => setQrcode(response.data))
         .catch((reject) => console.log(reject));
     }
 
     props.setRefresh(props.refresh + 1);
+
+    return () => {
+      controller.abort();
+    };
   }, [refresh, valueEnableDoubleAuth]);
 
   //Google authenticator

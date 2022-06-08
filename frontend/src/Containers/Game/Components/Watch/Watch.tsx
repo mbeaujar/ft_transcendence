@@ -28,6 +28,7 @@ function WatchGame(props: Props) {
   const [hideButton, setHideButton] = useState<boolean>(false);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [refresh, setRefresh] = useState(0);
+  //const [refreshList, setRefreshList] = useState(0);
   const canvasRef = useRef<any>(null);
 
   useEffect(() => {
@@ -79,6 +80,15 @@ function WatchGame(props: Props) {
     return (percentage * max) / 100;
   };
 
+  useEffect(()=>{
+    socket && socket.on('listAllGame', (data: any) => {
+      console.log('listAllGame', data.matchs);
+      setListGame(data.matchs);
+    });
+
+
+  },[refresh])
+
   const addListenerGame = (socketEffect: Socket, context: any) => {
     PADDLEW = props.width / 80;
     socketEffect.on('infoGame', (data: IGame) => {
@@ -112,24 +122,28 @@ function WatchGame(props: Props) {
     });
 
     // problem maybe
-    socketEffect.emit('listGame');
+  //  socketEffect.emit('listGame');
 
     socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
     });
 
-    socketEffect.on('listAllGame', (data: any) => {
-      console.log('listAllGame', data.matchs);
-      setListGame(data.matchs);
-    });
+    // socketEffect.on('listAllGame', (data: any) => {
+    //   console.log('listAllGame', data.matchs);
+    //   setListGame(data.matchs);
+    // });
 
     socketEffect.on('newGame', (data: any) => {
-      setListGame([...listGame, data]);
+     // setListGame([...listGame, data]);
+      //setRefresh(refresh+1);
+      socketEffect.emit('listGame');
+      setRefresh(refresh + 1);
     });
 
     socketEffect.on('removeGame', (data: any) => {
       console.log('listgame remove', listGame);
-
+      socketEffect.emit('listGame');
+      setRefresh(refresh + 1);
       // console.log('data remove', data);
       // const index = listGame.findIndex((element) => element.id === data.id);
       // console.log('before remove', listGame);

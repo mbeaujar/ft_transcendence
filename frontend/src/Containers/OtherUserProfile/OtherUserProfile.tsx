@@ -10,7 +10,7 @@ function OtherUserProfile() {
   // const [friendsList, setFriendsList] = useState<IFriends>();
   const [user, setUser] = useState<IUser | null>(null);
 
-  function getUser() {
+  function getUser(controller:AbortController) {
     let path = window.location.pathname;
     let cutPath = path.split('/');
     if (cutPath.length !== 4) {
@@ -18,7 +18,9 @@ function OtherUserProfile() {
       return;
     }
     api
-      .get(`/users/username/${cutPath[3]}`)
+      .get(`/users/username/${cutPath[3]}`, {
+        signal: controller.signal,
+      })
       .then((response) => {
         setUser(response.data);
       })
@@ -28,11 +30,11 @@ function OtherUserProfile() {
   }
 
   useEffect(() => {
-    getUser();
-    // api
-    //   .get("/friends/list")
-    //   .then((response) => setFriendsList(response.data))
-    //   .catch((reject) => console.error(reject));
+    const controller = new AbortController();
+    getUser(controller);
+    return () => {
+      controller.abort();
+    };
   }, [window.location.pathname]);
 
   return (

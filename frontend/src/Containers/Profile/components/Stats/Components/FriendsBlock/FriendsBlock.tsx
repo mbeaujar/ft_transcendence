@@ -9,12 +9,20 @@ function FriendsBlock() {
   const [friendsList, setFriendsList] = useState<IFriends>();
 
   useEffect(() => {
+    const controller = new AbortController();
+    
     api
-      .get('/friends/list')
+      .get('/friends/list', {
+        signal: controller.signal,
+      })
       .then((response) => {
         setFriendsList(response.data);
       })
       .catch((reject) => console.error(reject));
+
+      return () => {
+        controller.abort();
+      };
   }, []);
 
   function stateClassName(state: number) {

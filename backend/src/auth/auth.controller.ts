@@ -7,6 +7,8 @@ import {
   Req,
   Res,
   UnauthorizedException,
+  Redirect,
+  UseGuards
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -16,9 +18,10 @@ import { Auth } from './decorators/auth.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Intra42 } from './decorators/intra42.decorator';
 import { TwoFactorAuthenticationDto } from './2fa.dto';
-import { JwtService } from '@nestjs/jwt';
+// imports { JwtService } from '@nestjs/jwt';
 import { AuthTwoFactor } from './decorators/auth-two-factor.decorator';
 import { IPayload } from './payload.interface';
+import { TestGuard } from './test.guard';
 
 export const mainPage = 'http://localhost:8080';
 
@@ -31,19 +34,17 @@ export class AuthController {
   @Intra42()
   @ApiOperation({ summary: 'Login using 42Api' })
   @Get('login')
-  login(): void {}
+  login() {}
 
   @Intra42()
+  @UseGuards(TestGuard)
   @ApiOperation({ summary: 'Redirect to main page' })
   @Get('redirect')
   redirect(
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request,
     @CurrentUser() user: User,
-  ): void {
-    // console.log('req', req);
-    // console.log(req);
-    // console.log('user', user);
+  ) {
     this.authService.getCookieWithJwtAcessToken(res, user);
     res.redirect(mainPage);
   }

@@ -14,12 +14,21 @@ function FriendsRequest(props: Props) {
   const [friendsRequest, setFriendsRequest] = useState<IFriendsRequest[]>([]);
 
   useEffect(() => {
+
+    const controller = new AbortController();
+
     api
-      .get('/friends/request')
+      .get('/friends/request', {
+        signal: controller.signal,
+      })
       .then((response) => setFriendsRequest(response.data))
       .catch((reject) => console.error(reject));
 
     if (refresh > 0) props.setRefreshMyFriends(props.refreshMyFriends + 1);
+
+    return () => {
+      controller.abort();
+    };
   }, [refresh]);
 
   const acceptRequest = (username: string) => {

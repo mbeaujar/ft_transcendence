@@ -18,31 +18,24 @@ interface Props {
   setTheme: (value: string) => void;
 }
 function Profile(props: Props) {
-  // const [activeMenu, setActiveMenu] = useState<string>('Stats');
   const [refresh, setRefresh] = useState<number>(0);
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-    /*props.setRefresh(props.refresh + 1);*/
+    const controller = new AbortController();
+
     api
-      .get('/auth/status')
+      .get('/auth/status', {
+        signal: controller.signal,
+      })
       .then((response) => setUser(response.data))
       .catch((reject) => console.error(reject));
+
+      return () => {
+        controller.abort();
+      };
   }, [refresh]);
 
-  // const ftIsActiveMenu = (menuName: string) => {
-  //   if (menuName === activeMenu) {
-  //     return classes.activeMenu;
-  //   }
-  //   return classes.disactiveMenu;
-  // };
-
-  // const ftIsActiveInfo = (infoName: string) => {
-  //   if (infoName === activeMenu) {
-  //     return classes.activeInfo;
-  //   }
-  //   return classes.disactiveInfo;
-  // };
 
   return (
     <Fragment>

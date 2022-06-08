@@ -7,8 +7,8 @@ interface Props {
 }
 
 function Ratio(props: Props) {
-  const [wins, setWins] = useState<number>(props.user.wins);
-  const [losses, setLosses] = useState<number>(props.user.losses);
+  const [wins] = useState<number>(props.user.wins);
+  const [losses] = useState<number>(props.user.losses);
 
   useEffect(() => {
     let progressBar = document.getElementById('circular_progress');

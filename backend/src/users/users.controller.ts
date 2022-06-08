@@ -34,8 +34,7 @@ import { FriendsService } from 'src/friends/friends.service';
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private readonly matchService: MatchService,
-    private readonly friendsService: FriendsService,
+    private readonly matchService: MatchService, // private readonly friendsService: FriendsService,
   ) {}
 
   /** --------------------------- AVATAR -------------------------------- */
@@ -217,7 +216,7 @@ export class UsersController {
   async findUserByUsername(
     @Param('username') username: string,
   ): Promise<IUser> {
-    console.log('username', username); 
+    console.log('username', username);
     if (username !== 'null') {
       const user = await this.usersService.findUserByUsername(username);
       if (!user) {

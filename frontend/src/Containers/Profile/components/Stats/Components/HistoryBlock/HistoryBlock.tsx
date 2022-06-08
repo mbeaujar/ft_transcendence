@@ -31,14 +31,23 @@ function HistoryBlock(props: Props) {
   const [historic, setHistoric] = useState<IGame[]>([]);
 
   useEffect(() => {
+
+    const controller = new AbortController();
+
     if (props.user) {
       api
-        .get(`/users/history/${props.user.id}`)
+        .get(`/users/history/${props.user.id}`, {
+          signal: controller.signal,
+        })
         .then((response) => {
           setHistoric(response.data);
         })
         .catch((reject) => console.error(reject));
     }
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   function divScore(score1: number, score2: number) {

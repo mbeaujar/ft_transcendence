@@ -9,10 +9,19 @@ function BlockedUsers() {
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
+
+    const controller = new AbortController();
+
     api
-      .get('/users/getBlockedUser')
+      .get('/users/getBlockedUser', {
+        signal: controller.signal,
+      })
       .then(({ data }) => setUsers(data.blockedUsers))
       .catch((rej) => console.error(rej));
+
+      return () => {
+        controller.abort();
+      };
   }, []);
 
   return (
