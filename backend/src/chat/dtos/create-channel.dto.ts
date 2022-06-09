@@ -1,4 +1,5 @@
 import {
+  IsAlpha,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -23,6 +24,7 @@ export class CreateChannelDto {
   password?: string;
 
   @IsString()
+  @IsAlpha()
   @IsNotEmpty()
   name: string;
 
