@@ -82,6 +82,7 @@ function WatchGame(props: Props) {
 
   useEffect(()=>{
     socket && socket.on('listAllGame', (data: any) => {
+      socket.emit('listGame');
       console.log('listAllGame', data.matchs);
       setListGame(data.matchs);
     });
@@ -122,16 +123,16 @@ function WatchGame(props: Props) {
     });
 
     // problem maybe
-  //  socketEffect.emit('listGame');
 
     socketEffect.on('scoreGame', (data: { score: Array<number> }) => {
       setScore(data.score);
     });
 
-    // socketEffect.on('listAllGame', (data: any) => {
-    //   console.log('listAllGame', data.matchs);
-    //   setListGame(data.matchs);
-    // });
+    socketEffect.on('listAllGame', (data: any) => {
+      console.log('listAllGame', data.matchs);
+      setListGame(data.matchs);
+    });
+    socketEffect.emit('listGame');
 
     socketEffect.on('newGame', (data: any) => {
      // setListGame([...listGame, data]);
