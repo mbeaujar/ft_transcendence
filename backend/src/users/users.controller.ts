@@ -26,7 +26,6 @@ import { Response } from 'express';
 import { MatchService } from 'src/game/services/match.service';
 import { Match } from 'src/game/model/match/match.entity';
 import { SensitivityUserDto } from './dtos/sensitivity-user.dto';
-import { FriendsService } from 'src/friends/friends.service';
 
 @ApiBasicAuth()
 @ApiTags('users')
@@ -86,6 +85,11 @@ export class UsersController {
     @Res({ passthrough: true }) response: Response,
   ) {
     if (id && id !== 'null') {
+      let reg = new RegExp('^[0-9]*$');
+
+      if (reg.test(id) === false) {
+        throw new BadRequestException('digit only');
+      }
       const file = await this.usersService.getFileById(parseInt(id));
       if (!file) {
         throw new NotFoundException('file not found');
@@ -184,6 +188,11 @@ export class UsersController {
   @Auth()
   @Get('/sensitivity/:id')
   async getSensitivity(@Param('id') id: string): Promise<number> {
+    let reg = new RegExp('^[0-9]*$');
+
+    if (reg.test(id) === false) {
+      throw new BadRequestException('digit only');
+    }
     if (id && id !== 'null') {
       return (await this.usersService.findUser(parseInt(id))).sensitivity;
     }
@@ -192,6 +201,11 @@ export class UsersController {
   @Auth()
   @Get('/history/:id')
   async getHistoryMatch(@Param('id') id: string): Promise<Match[]> {
+    let reg = new RegExp('^[0-9]*$');
+
+    if (reg.test(id) === false) {
+      throw new BadRequestException('digit only');
+    }
     if (id && id !== 'null') {
       return this.matchService.findMatchUser(parseInt(id));
     }
@@ -217,6 +231,11 @@ export class UsersController {
     @Param('username') username: string,
   ): Promise<IUser> {
     console.log('username', username);
+
+    if (/^[A-Za-z]*$/.test(username) === false) {
+      throw new BadRequestException('Alphabetic character only');
+    }
+
     if (username !== 'null') {
       const user = await this.usersService.findUserByUsername(username);
       if (!user) {
@@ -230,6 +249,12 @@ export class UsersController {
   @ApiOperation({ summary: 'Find a user in the database with the id' })
   @Get('/:id')
   async findUser(@Param('id') id: string): Promise<IUser> {
+    let reg = new RegExp('^[0-9]*$');
+
+    if (reg.test(id) === false) {
+      throw new BadRequestException('digit only');
+    }
+
     if (id && id !== 'null') {
       const user = await this.usersService.findUser(parseInt(id));
       if (!user) {

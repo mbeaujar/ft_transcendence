@@ -60,7 +60,7 @@ const App: React.FC = (): JSX.Element => {
         <>
           <Header show={1} />
           <div className="DoubleAuth">
-            <img src={googleAuthImg} />
+            <img src={googleAuthImg} alt="authentication" />
             <input
               type="text"
               value={twofaCode}

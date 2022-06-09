@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
@@ -54,6 +62,12 @@ export class FriendsController {
   @Auth()
   @Get('/:id')
   async getFriendsList(@Param('id') id: string) {
+    let reg = new RegExp('^[0-9]*$');
+
+    if (reg.test(id) === false) {
+      throw new BadRequestException('digit only');
+    }
+
     return this.friendsService.getFriendsList(parseInt(id));
   }
 
@@ -64,6 +78,12 @@ export class FriendsController {
     @Param('id') id: string,
     @CurrentUser() user: User,
   ): Promise<Friends> {
+    let reg = new RegExp('^[0-9]*$');
+
+    if (reg.test(id) === false) {
+      throw new BadRequestException('digit only');
+    }
+
     if (id && id !== 'null') {
       return this.friendsService.deleteFriendship(user, parseInt(id));
     }

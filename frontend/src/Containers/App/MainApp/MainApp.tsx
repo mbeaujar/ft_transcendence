@@ -67,7 +67,7 @@ function MainApp(props: IMainProps) {
 
   useEffect(() => {
     defineCanva();
-  }, [window.innerWidth, WindowSize]);
+  }, [WindowSize]);
 
   return (
     <Routes>

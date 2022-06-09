@@ -8,7 +8,7 @@ import {
   Res,
   UnauthorizedException,
   Redirect,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBasicAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
@@ -21,7 +21,6 @@ import { TwoFactorAuthenticationDto } from './2fa.dto';
 // imports { JwtService } from '@nestjs/jwt';
 import { AuthTwoFactor } from './decorators/auth-two-factor.decorator';
 import { IPayload } from './payload.interface';
-import { TestGuard } from './test.guard';
 
 export const mainPage = 'http://localhost:8080';
 
@@ -37,7 +36,6 @@ export class AuthController {
   login() {}
 
   @Intra42()
-  @UseGuards(TestGuard)
   @ApiOperation({ summary: 'Redirect to main page' })
   @Get('redirect')
   redirect(
