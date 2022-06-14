@@ -7,6 +7,8 @@ import classes from './Game.module.scss';
 import Pong from './Components/Pong/Pong';
 import useWindowSize from './Components/useWindow/useWindowSize';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import api from '../../apis/api';
+import { IUser } from '../../interface/user.interface';
 
 interface Props {
   width: number;
@@ -14,30 +16,49 @@ interface Props {
 }
 
 function Game(props: Props) {
-  // useEffect(() => {}, []);
+  const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    api
+      .get('/auth/status', {
+        signal: controller.signal,
+      })
+      .then((response) => setUser(response.data))
+      .catch((reject) => console.error(reject));
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
-    <div
-      className={clsx(classes.Game)}
-      style={{ width: props.width, height: props.height }}
-    >
-      <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
-        <Link
-          className={clsx(classes.Link, classes.LinkTop)}
-          style={{ fontSize: props.width / 40 }}
-          to="/game/play"
+    <>
+      {user ? (
+        <div
+          className={clsx(classes.Game)}
+          style={{ width: props.width, height: props.height }}
         >
-          Play game
-        </Link>
-        <Link
-          className={clsx(classes.Link, classes.LinkBottom)}
-          style={{ fontSize: props.width / 40 }}
-          to="/game/watch"
-        >
-          Watch other users play
-        </Link>
-      </div>
-    </div>
+          <div className={clsx(classes.playOrWatch, classes.showGameVue)}>
+            <Link
+              className={clsx(classes.Link, classes.LinkTop)}
+              style={{ fontSize: props.width / 40 }}
+              to="/game/play"
+            >
+              Play game
+            </Link>
+            <Link
+              className={clsx(classes.Link, classes.LinkBottom)}
+              style={{ fontSize: props.width / 40 }}
+              to="/game/watch"
+            >
+              Watch other users play
+            </Link>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
