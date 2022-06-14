@@ -42,6 +42,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     setNewChannelMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
+    console.log(props.channel);
   }, [props.channel, props.channels]);
 
   function ifShowAdminSettings() {
@@ -104,6 +105,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function handleSubmitFormBan(event: React.FormEvent<HTMLFormElement>) {
     let userToBan: IUser | null = null;
     let time = setBanTime();
+
     userToBan = findUser(banUser);
 
     if (userToBan !== null) {
@@ -170,8 +172,12 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   function findUser(username: string) {
     let i = 0;
     while (props.channel.users[i]) {
-      if (props.channel.users[i].user.username === username)
+      if (props.channel.users[i].user.username === username) {
+        if (props.channel.users[i].creator === true) {
+          return null;
+        }
         return props.channel.users[i].user;
+      }
       i++;
     }
     return null;
