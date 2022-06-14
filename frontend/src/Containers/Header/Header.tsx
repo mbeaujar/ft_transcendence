@@ -1,4 +1,4 @@
-import React, { ClassAttributes, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './Header.module.scss';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import api from '../../apis/api';

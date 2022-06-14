@@ -9,7 +9,6 @@ import Avatar from '../../../Profile/components/Avatar/Avatar';
 import { IUser } from '../../../../interface/user.interface';
 import api from '../../../../apis/api';
 import ReactLoading from 'react-loading';
-import { useParams } from 'react-router';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 

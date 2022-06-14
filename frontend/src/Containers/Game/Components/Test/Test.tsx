@@ -10,7 +10,7 @@ function Test(props: any) {
 
   useEffect(() => {
     if (from.from) console.log('from:::', from.from);
-  }, [handle]);
+  }, [from.from, handle]);
 
   return (
     <div>

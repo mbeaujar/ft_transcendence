@@ -35,7 +35,7 @@ function OtherUserProfile() {
     return () => {
       controller.abort();
     };
-  }, [window.location.pathname]);
+  }, []);
 
   return (
     <Fragment>

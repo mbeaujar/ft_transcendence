@@ -1,11 +1,8 @@
-import { useRef } from 'react';
 import { useEffect, useState } from 'react';
 // import api from "../../apis/api";
 import clsx from 'clsx';
 import classes from './Game.module.scss';
 // import styles from "./Game.module.scss";
-import Pong from './Components/Pong/Pong';
-import useWindowSize from './Components/useWindow/useWindowSize';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import api from '../../apis/api';
 import { IUser } from '../../interface/user.interface';

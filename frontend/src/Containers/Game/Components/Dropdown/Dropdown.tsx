@@ -1,7 +1,5 @@
 // import React from "react";
 import { useState, useEffect, useRef } from 'react';
-import api from '../../../../apis/api';
-import { IUser } from '../../../../interface/user.interface';
 import classes from './Dropdown.module.scss';
 
 interface Iitem {
@@ -41,15 +39,15 @@ function Dropdown(props: Props) {
     };
     document.addEventListener('click', onBodyClick, { capture: true });
 
-    if (props.id == 'GameMode') {
+    if (props.id === 'GameMode') {
       if (props.paramRouteMode === -1) setSelection(props.items[0].value);
       if (props.paramRouteMode && props.paramRouteMode !== -1) {
         setSelection(props.items[props.paramRouteMode].value);
         props.setState(props.items[props.paramRouteMode].id);
       }
-    } else if (props.id == 'PaddleSpeed')
+    } else if (props.id === 'PaddleSpeed')
       setSelection(props.items[props.index].value);
-    else if (props.id == 'Opponent') {
+    else if (props.id === 'Opponent') {
       if (props.paramRouteOpponent !== '')
         setSelection(props.paramRouteOpponent);
     }
@@ -57,7 +55,7 @@ function Dropdown(props: Props) {
     return () => {
       document.removeEventListener('click', onBodyClick, { capture: true });
     };
-  }, []);
+  }, [props]);
 
   function handleOnClick(item: Iitem, multiSelect: boolean) {
     setSelection(item.value);
@@ -68,9 +66,9 @@ function Dropdown(props: Props) {
     // if (props.id == 1) return props.WIDTH * -0.6;
     // else if (props.id == 2) return props.WIDTH*0;
     // else if (props.id == 3) return props.WIDTH*0.6;
-    if (props.id == 'GameMode') return props.WIDTH * 0.05;
-    else if (props.id == 'PaddleSpeed') return props.WIDTH * 0.36;
-    else if (props.id == 'Opponent') return props.WIDTH * 0.67;
+    if (props.id === 'GameMode') return props.WIDTH * 0.05;
+    else if (props.id === 'PaddleSpeed') return props.WIDTH * 0.36;
+    else if (props.id === 'Opponent') return props.WIDTH * 0.67;
   }
 
   function isItemInSelection(item: Iitem) {

@@ -9,7 +9,7 @@ interface Props {
 }
 
 function Play(props: Props) {
-  let object = { name: 'ali', surname: 'salam' };
+  //let object = { name: 'ali', surname: 'salam' };
   return (
     <div
       className={clsx(classes.Play)}
