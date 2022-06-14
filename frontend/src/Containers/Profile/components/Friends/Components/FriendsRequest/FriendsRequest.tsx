@@ -29,7 +29,7 @@ function FriendsRequest(props: Props) {
     return () => {
       controller.abort();
     };
-  }, [refresh]);
+  }, [props, refresh]);
 
   const acceptRequest = (username: string) => {
     api

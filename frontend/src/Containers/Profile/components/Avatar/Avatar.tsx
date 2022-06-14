@@ -25,9 +25,9 @@ const Avatar: React.FC<Props> = (props: Props): JSX.Element => {
     return () => {
       controller.abort();
     };
-  }, [props.user.avatarId]);
+  }, [props.user, props.user.avatarId]);
 
-  return <div>{avatar ? <img src={URL.createObjectURL(avatar)} /> : null}</div>;
+  return <div>{avatar ? <img alt="" src={URL.createObjectURL(avatar)} /> : null}</div>;
 };
 
 export default Avatar;

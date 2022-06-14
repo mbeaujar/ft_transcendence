@@ -7,7 +7,6 @@ import Leaderboard from './components/Leaderboard/Leaderboard';
 import Settings from './components/Settings/Settings';
 import classes from './Profile.module.scss';
 // import styles from "./Profile.module.scss";
-import Avatar from './components/Avatar/Avatar';
 import { IUser } from '../../interface/user.interface';
 import ProfileLeft from './components/ProfileLeft/ProfileLeft';
 // import { IFriends } from "../../interface/friends.interface";

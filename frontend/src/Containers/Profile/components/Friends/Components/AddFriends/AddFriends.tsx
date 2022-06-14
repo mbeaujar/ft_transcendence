@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import api from '../../../../../../apis/api';
 import { toast } from 'react-toastify';
 import './AddFriends.scss';
-import { IFriendsRequest } from '../../../../../../interface/friends-request.interface';
 import Input from '../../../Input/Input';
 
 function AddFriends() {
