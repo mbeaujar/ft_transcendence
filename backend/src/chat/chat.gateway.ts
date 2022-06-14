@@ -40,6 +40,7 @@ import { IUpdateAdmin } from './interface/update-admin.interface';
 import { IUpdateUser } from './interface/update-user.interface';
 import { CreateChannelDto } from './dtos/create-channel.dto';
 import * as cookieParser from 'cookie-parser';
+import { ChannelUser } from './model/channel-user/channel-user.entity';
 
 const scrypt = promisify(_scrypt);
 
@@ -632,7 +633,7 @@ export class ChatGateway
     channel: IChannel,
     target: IUser,
     user: IUser,
-  ) {
+  ): Promise<ChannelUser> {
     const [channelDB, userDB] = await this.getChannelAndUser(channel, user);
     if (!channelDB) {
       this.handleError(socket, 'channel not found');
@@ -664,8 +665,12 @@ export class ChatGateway
     );
     if (socket.data.user.id === banUser.user.id) {
       this.handleError(socket, 'impossible to ban yourself');
-    } else if (socket.data.user.ban === true) {
-      this.handleError(socket, 'user alredy banned');
+    }
+    if (socket.data.user.ban === true) {
+      this.handleError(socket, 'user already banned');
+    }
+    if (target.administrator === true) {
+      this.handleError(socket, 'impossible to ban an administrator');
     }
     const now = new Date();
     await this.channelUserService.updateUser(target, {
