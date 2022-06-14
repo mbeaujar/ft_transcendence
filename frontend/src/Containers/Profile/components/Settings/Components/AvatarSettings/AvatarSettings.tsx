@@ -38,7 +38,7 @@ function AvatarSettings(props: Props) {
     return () => {
       controller.abort();
     };
-  }, [refresh, uploadedFile]);
+  }, [props, refresh, refreshImg, uploadedFile]);
 
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
@@ -107,7 +107,7 @@ function AvatarSettings(props: Props) {
       </div>
       <div className={showAvatarBottomInChange()}>
         <div className="AvatarImg">
-          <img src={avatarImg} />
+          <img alt="avatar" src={avatarImg} />
         </div>
         <div className="AvatarBottomChange">
           <button className="buttonChooseFile" onClick={handleClick}>

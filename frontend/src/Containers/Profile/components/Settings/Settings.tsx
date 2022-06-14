@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../../../apis/api';
-import Avatar from '../Avatar/Avatar';
+import React from 'react';
 import './Settings.scss';
-import styles from './Profile.module.scss';
 import { IUser } from '../../../../interface/user.interface';
-import Dropdown from './Components/Dropdown/Dropdown.module';
 import Username from './Components/Username/Username';
 import AvatarSettings from './Components/AvatarSettings/AvatarSettings';
 import Theme from './Components/Theme/Theme';

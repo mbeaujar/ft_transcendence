@@ -21,15 +21,18 @@ function DoubleAuthSettings(props: Props) {
   const inputPlaceholder = 'Enter the 6 digit code';
 
   useEffect(() => {
-
     const controller = new AbortController();
-    
+
     if (
       valueEnableDoubleAuth === 'Yes' &&
       props.user.isTwoFactorEnabled === false
     ) {
       api
-        .post('/auth/2fa/generate', {}, { signal: controller.signal,responseType: 'blob' })
+        .post(
+          '/auth/2fa/generate',
+          {},
+          { signal: controller.signal, responseType: 'blob' },
+        )
         .then((response) => setQrcode(response.data))
         .catch((reject) => console.log(reject));
     }
@@ -39,7 +42,7 @@ function DoubleAuthSettings(props: Props) {
     return () => {
       controller.abort();
     };
-  }, [refresh, valueEnableDoubleAuth]);
+  }, [props, refresh, valueEnableDoubleAuth]);
 
   //Google authenticator
   const itemsGoogleAuth = [
@@ -131,7 +134,7 @@ function DoubleAuthSettings(props: Props) {
         />
       </div>
       <div className={showDoubleAuthBottom('DoubleAuthEnable2faInProgress')}>
-        {qrcode ? <img src={URL.createObjectURL(qrcode)} /> : null}
+        {qrcode ? <img alt="avatar" src={URL.createObjectURL(qrcode)} /> : null}
         <div className="Right">
           <input
             className="NewName"

@@ -19,7 +19,7 @@ function Username(props: Props) {
   useEffect(() => {
     props.setRefresh(props.refresh + 1);
     props.user.username = newName;
-  }, [refresh]);
+  }, [newName, props, refresh]);
 
   function isValidUsername() {
     let i = 0;
