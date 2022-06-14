@@ -14,7 +14,7 @@ function Ratio(props: Props) {
     let progressBar = document.getElementById('circular_progress');
     let progressValue = 0;
     let progressEndValue: number =
-      wins + losses == 0 ? 50 : (100 / (wins + losses)) * losses;
+      wins + losses === 0 ? 50 : (100 / (wins + losses)) * losses;
     let speed = 20;
 
     let progress = setInterval(() => {
@@ -39,7 +39,7 @@ function Ratio(props: Props) {
         clearInterval(progress);
       }
     }, speed);
-  }, []);
+  }, [losses, wins]);
 
   return (
     <div className="Ratio">

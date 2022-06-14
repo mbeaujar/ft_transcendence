@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styles from './HistoryBlock.module.scss';
 import classes from './HistoryBlock.module.scss';
 import clsx from 'clsx';
 import api from '../../../../../../apis/api';
@@ -48,7 +47,7 @@ function HistoryBlock(props: Props) {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [props.user]);
 
   function divScore(score1: number, score2: number) {
     if (score1 < score2) return classes.ScoreLoser;
@@ -87,6 +86,7 @@ function HistoryBlock(props: Props) {
                     <span>{match.players[0].user.username}</span>
                   </p>
                   <img
+                  alt=""
                     className={clsx(
                       classes.ImgLevelElement,
                       classes.ImgLevelElementLeft,
@@ -113,6 +113,7 @@ function HistoryBlock(props: Props) {
                     {match.players[1].score}
                   </p>
                   <img
+                  alt=""
                     className={clsx(
                       classes.ImgLevelElement,
                       classes.ImgLevelElementRight,

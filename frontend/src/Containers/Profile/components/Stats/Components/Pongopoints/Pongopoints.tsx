@@ -7,7 +7,8 @@ interface Props {
 }
 
 function Pongopoints(props: Props) {
-  const [elo, setElo] = useState(props.user.elo);
+  const [elo] = useState(props.user.elo);
+  
   useEffect(() => {
     let valuePongopoints = document.getElementById('valuePongopoints');
     let progressPongopoints = 0;
@@ -25,7 +26,7 @@ function Pongopoints(props: Props) {
         clearInterval(progress);
       }
     }, speed);
-  }, []);
+  }, [elo]);
 
   return (
     <div className="Pongopoints">

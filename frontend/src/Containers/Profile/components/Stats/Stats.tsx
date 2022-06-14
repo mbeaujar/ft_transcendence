@@ -1,11 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import api from '../../../../apis/api';
-import clsx from 'clsx';
+import React, { useEffect } from 'react';
 import './Stats.scss';
-import styles from './Stats.module.scss';
 import { IUser } from '../../../../interface/user.interface';
-import { IFriends } from '../../../../interface/friends.interface';
-import Avatar from '../Avatar/Avatar';
 import Pongopoints from './Components/Pongopoints/Pongopoints';
 import Ratio from './Components/Ratio/Ratio';
 import Rank from './Components/Rank/Rank';

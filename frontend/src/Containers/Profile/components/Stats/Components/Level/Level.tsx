@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../../../../../apis/api';
+import React, { useEffect } from 'react';
 import { IUser } from '../../../../../../interface/user.interface';
 import './Level.scss';
 import imgLevel from './imgLevel';
@@ -47,7 +46,7 @@ function Level(props: Props) {
   return (
     <div className="Level">
       <div className="Top">
-        <img id="imgLevelElement" src={imgLevel.get(actualLevel)}></img>
+        <img alt="" id="imgLevelElement" src={imgLevel.get(actualLevel)}></img>
       </div>
       <div className="Bottom">
         <p>{actualLevel}</p>
