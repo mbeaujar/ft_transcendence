@@ -13,9 +13,6 @@ import { IJoinChannel } from '../../interface/join-channel.interface';
 import ChannelSettings from './Components/ChannelSettings/ChannelSettings';
 import { Scope } from '../../interface/scope.enum';
 import getSocket from '../Socket';
-import RightClick from './Components/RightClick/RightClick';
-import { useContextMenu } from 'react-contexify';
-const MENU_ID = 'menu-id';
 
 interface Props {
   user: IUser;
@@ -119,16 +116,16 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     ));
   };
 
-  const { show } = useContextMenu({
-    id: MENU_ID,
-  });
+  // const { show } = useContextMenu({
+  //   id: MENU_ID,
+  // });
 
-  function displayMenu(
-    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
-    userToVisit: IUser,
-  ) {
-    if (userToVisit.username !== props.user.username) show(e);
-  }
+  // function displayMenu(
+  //   e: React.MouseEvent<HTMLHeadingElement, MouseEvent>,
+  //   userToVisit: IUser,
+  // ) {
+  //   if (userToVisit.username !== props.user.username) show(e);
+  // }
 
   const ftDisplayDM = () => {
     return discussion.map((channel: IChannel) => (

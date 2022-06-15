@@ -3,10 +3,7 @@ import classes from './RightClick.module.scss';
 import 'react-contexify/dist/ReactContexify.css';
 import {
   Menu,
-  Item,
-  Separator,
-  Submenu,
-  useContextMenu,
+  Item
 } from 'react-contexify';
 import { Link } from 'react-router-dom';
 import { IUser } from '../../../../interface/user.interface';

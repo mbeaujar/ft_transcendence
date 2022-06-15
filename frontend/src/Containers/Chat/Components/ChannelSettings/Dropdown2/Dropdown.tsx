@@ -34,7 +34,7 @@ function Dropdown(props: Props) {
     return () => {
       document.removeEventListener('click', onBodyClick, { capture: true });
     };
-  }, [props.refreshDropdown]);
+  }, [props.channelState, props.items, props.refreshDropdown]);
 
   function handleOnClick(item: Iitem, multiSelect: boolean) {
     if (selection !== item.value) {

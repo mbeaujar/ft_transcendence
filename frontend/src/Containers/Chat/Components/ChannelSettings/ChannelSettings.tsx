@@ -42,7 +42,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
   useEffect(() => {
     setNewChannelMode(initChangeChannelMode());
     setRefreshDropdown(refreshDropdown + 1);
-    console.log(props.channel);
+  //  console.log(props.channel);
   }, [props.channel, props.channels]);
 
   function ifShowAdminSettings() {
@@ -136,7 +136,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
 
   //Unban User
   function handleSubmitFormUnban(event: React.FormEvent<HTMLFormElement>) {
-    console.log('unbanuser', unbanUser);
+   // console.log('unbanuser', unbanUser);
     api
       .get(`/users/username/${unbanUser}`)
       .then((response) => {
@@ -237,7 +237,7 @@ const ChannelSettings: React.FC<Props> = (props: Props): JSX.Element => {
     let userToUnmute: IUser | null = null;
     userToUnmute = findUser(unmuteUser);
     if (userToUnmute !== null) {
-      console.log('res=', ifUserMute(unmuteUser));
+     // console.log('res=', ifUserMute(unmuteUser));
       if (ifUserMute(unmuteUser))
         toast.success(userToUnmute.username + ' is unmute');
       props.socket.emit('unmuteUser', {

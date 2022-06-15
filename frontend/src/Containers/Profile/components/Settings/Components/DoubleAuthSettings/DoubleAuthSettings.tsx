@@ -94,7 +94,7 @@ function DoubleAuthSettings(props: Props) {
     event: React.FormEvent<HTMLInputElement>,
   ) {
     if (twofaCode === 'Wrong code!') {
-      console.log(twofaCode);
+      //console.log(twofaCode);
       setTwofaCode('');
     }
     var value = event.currentTarget.value;

@@ -1,8 +1,6 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import {  useEffect } from 'react';
 import classes from './JoinChannel.module.scss';
-import clsx from 'clsx';
-import styles from './JoinChannel.module.scss';
 import { Scope } from '../../../../interface/scope.enum';
 import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';

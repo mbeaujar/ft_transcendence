@@ -5,23 +5,14 @@ import { IUser } from '../../../../interface/user.interface';
 import { IChannel } from '../../../../interface/channel.interface';
 import { IMessage } from '../../../../interface/message.interface';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import styles from './Discussion.module.scss';
-import { toast } from 'react-toastify';
 import Input from './Input';
-import styled from 'styled-components';
 
 import {
-  Menu,
-  Item,
-  Separator,
-  Submenu,
   useContextMenu,
 } from 'react-contexify';
 
 import 'react-contexify/dist/ReactContexify.css';
 import clsx from 'clsx';
-import api from '../../../../apis/api';
 import RightClick from '../RightClick/RightClick';
 
 const MENU_ID = 'menu-id';

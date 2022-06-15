@@ -1,8 +1,6 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './SearchUser.module.scss';
-import clsx from 'clsx';
-import styles from './SearchUser.module.scss';
 import { IUser } from '../../../../interface/user.interface';
 import api from '../../../../apis/api';
 import Avatar from '../../../Profile/components/Avatar/Avatar';
@@ -37,7 +35,7 @@ function SearchUser(props: Props) {
       .then((response) => setFriendsList(response.data))
       .catch((reject) => console.error(reject));
 
-    console.log('usestate');
+   // console.log('usestate');
   }, [userToFind, refresh]);
 
   useEffect(() => {}, []);
@@ -50,7 +48,7 @@ function SearchUser(props: Props) {
   }
 
   function handleSubmitFormSearchUser(event: React.FormEvent<HTMLFormElement>) {
-    console.log('userr=', searchUserInput);
+    //console.log('userr=', searchUserInput);
     if (searchUserInput === props.user.username) {
       toast.error("You can't search yourself");
       event.preventDefault();

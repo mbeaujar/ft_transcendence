@@ -262,20 +262,20 @@ const Pong = (props: Props) => {
 
   function ifInvite() {
     if (opponent === 0) {
-      console.log('invite=', 0);
+    //  console.log('invite=', 0);
       return 0;
     }
-    console.log('invite=', 1);
+    //console.log('invite=', 1);
     return 1;
   }
 
   function ifTarget() {
     if (opponent === 0) {
-      console.log('target=', 0);
+     // console.log('target=', 0);
       return 0;
     }
-    console.log('itemsopp=', itemsOpponent, ' opponent=', opponent);
-    console.log('target=', itemsOpponent[opponent].userId);
+   // console.log('itemsopp=', itemsOpponent, ' opponent=', opponent);
+   // console.log('target=', itemsOpponent[opponent].userId);
     return itemsOpponent[opponent].userId;
   }
 

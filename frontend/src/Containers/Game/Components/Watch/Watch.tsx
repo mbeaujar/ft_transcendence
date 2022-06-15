@@ -83,7 +83,7 @@ function WatchGame(props: Props) {
   useEffect(()=>{
     socket && socket.on('listAllGame', (data: any) => {
       socket.emit('listGame');
-      console.log('listAllGame', data.matchs);
+      //console.log('listAllGame', data.matchs);
       setListGame(data.matchs);
     });
 
@@ -129,7 +129,7 @@ function WatchGame(props: Props) {
     });
 
     socketEffect.on('listAllGame', (data: any) => {
-      console.log('listAllGame', data.matchs);
+    //  console.log('listAllGame', data.matchs);
       setListGame(data.matchs);
     });
     socketEffect.emit('listGame');

@@ -44,7 +44,7 @@ function Header(props: any) {
       .get('/auth/status')
       .then((response) => {
         setUser(response.data);
-        console.log("gameresponse=",response.data)
+        //console.log("gameresponse=",response.data)
       })
       .catch(() => setUser(null));
   }, []);
