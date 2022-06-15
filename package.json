@@ -1,0 +1,21 @@
+{
+  "name": "ft_transcendence",
+  "version": "1.0.0",
+  "description": "- nest -- 8.0.0\r \t- react -- 17.0.2 // https://en.wikipedia.org/wiki/React_(JavaScript_library)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbeaujar/ft_transcendence.git",
+    "start": "make"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mbeaujar/ft_transcendence/issues"
+  },
+  "homepage": "https://github.com/mbeaujar/ft_transcendence#readme"
+}
