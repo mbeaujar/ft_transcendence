@@ -4,12 +4,12 @@
   "description": "- nest -- 8.0.0\r \t- react -- 17.0.2 // https://en.wikipedia.org/wiki/React_(JavaScript_library)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "make"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mbeaujar/ft_transcendence.git",
-    "start": "make"
+    "url": "git+https://github.com/mbeaujar/ft_transcendence.git"
   },
   "keywords": [],
   "author": "",
