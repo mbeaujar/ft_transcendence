@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, Fragment } from 'react';
 import { toast } from 'react-toastify';
 import clsx from 'clsx';
@@ -84,9 +85,9 @@ const Chat: React.FC<Props> = (props: Props): JSX.Element => {
     let i = 0;
     setChannelsJoin([]);
     setChannelsNotJoin([]);
-    channels.map((channel: IChannel) => {
+    channels.forEach((channel: IChannel) => {
       i = 0;
-      channel.users.map((userList: IUser) => {
+      channel.users.forEach((userList: IUser) => {
         if (userList.user.username === props.user.username) {
           setChannelsJoin((prev) => [...prev, channel]);
           i = 1;

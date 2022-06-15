@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { useState, useEffect } from 'react';
 import classes from './SearchUser.module.scss';

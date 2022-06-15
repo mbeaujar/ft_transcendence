@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import classes from './Invite.module.scss';
 // import { IGame } from '../../../../interface/game.interface';

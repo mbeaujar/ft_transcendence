@@ -23,7 +23,6 @@ all: $(FILE)
 start: $(FILE)
 	$(CMD) start
 
-# FUCK ALI
 dbstart: 
 	@echo "${RED}Starting new fresh instance of $(NAME)${NC}"
 	@docker run --name $(NAME) \

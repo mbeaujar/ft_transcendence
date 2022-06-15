@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import classes from './Play.module.scss';
 import clsx from 'clsx';
