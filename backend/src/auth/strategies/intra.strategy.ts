@@ -30,6 +30,7 @@ export class IntraStrategy extends PassportStrategy(Strategy, '42') {
       losses: 0,
       blockedUsers: [],
     };
+    // console.log('profile', user);
     const newUser = await this.authService.validateUser(user);
     cb(null, newUser);
     // return this.authService.validateUser(user);
